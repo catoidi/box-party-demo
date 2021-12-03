@@ -1,0 +1,78 @@
+//zboxscript/player/circle.zsc
+
+CLASS PlayerCircle : BoxPlayerBase
+{
+	Default
+	{
+		Health 60;
+		Player.MaxHealth 120;
+		Player.StartItem "PlayerCircleToken";
+		Player.StartItem "BoxFakeArmor";
+		Player.DisplayName "Circle";
+		Player.Portrait "INFO_CIR";
+		Player.Face "CAC";
+	}
+
+	int degentimer;
+	
+	action void CountLooterNum (void)
+	{
+		if (self.Health > 60) {invoker.LooterNum = random(0, 1);}
+		else {invoker.LooterNum = (4 - (self.Health / 15)) * 2;}
+	}
+
+	override void Tick(void)
+	{
+		CountLooterNum();
+		
+		Super.Tick();
+		
+		if (self)
+		{
+			if (self.degentimer > (125 - self.Health)) //at 120 hp, timer is 5 tics, or 1/7 second 
+			{
+				if ((self.Health > (self.MaxHealth / 2)) && (self.Health > 0)) {A_SetHealth(self.Health - 1);}
+				self.degentimer = 0;
+			}
+			else {++self.degentimer;}
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			CBOX A 0 NoDelay A_BoxHatTime(true);
+			CBOX A -1;
+			Loop;
+		See:
+			CBOX AB 7;
+			Loop;
+		Missile:
+			"####" "#" 1;
+			"####" "#"  0 A_JumpIfInventory("GlowstickIsFiring", 1, "Melee");
+			CBOX D 4 BRIGHT;
+			CBOX E 8;
+			Goto Spawn;
+		Melee:
+			CBOX C 12;
+			Goto Spawn;
+		Pain:
+			CBOX L 4 A_Pain;
+			CBOX L 4;
+			Goto Spawn;
+		Death:
+			CBOX I 0 A_BoxHatTime(false);
+			CBOX I 10 A_PlayerScream;
+			CBOX J 10;
+			CBOX K 10 A_NoBlocking;
+			CBOX K -1;
+			Stop;
+		XDeath:
+			CBOX F 0 A_BoxHatTime(false);
+			CBOX F 10 A_XScream;
+			CBOX G 10;
+			CBOX H 10 A_NoBlocking;
+			CBOX H -1;
+			Stop;
+	}
+}

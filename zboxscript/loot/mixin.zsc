@@ -1,0 +1,89 @@
+//zboxscript/loot/mixin.zsc
+
+//all enemy loot drops use this.
+
+mixin class BoxLootBase
+{
+	//mixin BoxActorMixin; //mixins cant use mixins
+	
+	Default
+	{
+		+FLOATBOB;
+		+CASTSPRITESHADOW;
+	}
+	
+	//replaced by the base loot item.
+	string SpriteName;
+	string ParticleColor;
+	
+	//replaced by the loot item itself.
+	int SpriteNum;
+	
+	//not replaced, used internally.
+	int LoopNum;
+	int FadeNum;
+	
+	//copy/paste from BoxActor mixin
+	action void A_BoxParticle (string PColor = "ff ff ff", int PAmount = 1, int PSize = 5, int PTime = 16, float POffset = 0.0, float PSpeed = 4.0, bool PBright = false)
+	{
+		//simplifies making particle effects for stuff.
+	
+		let PTimer = 0;
+		while (PTimer < PAmount)
+		{
+			A_SpawnParticle(PColor, 0, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
+			PTimer++;
+		}
+	}
+	
+	action void A_BoxParticle2 (string PColor = "ff ff ff", int PAmount = 1, int PSize = 5, int PTime = 16, float POffset = 0.0, float POffsetZ = 0.0, float PSpeed = 4.0, bool PBright = false)
+	{
+		//like a_boxparticle, but the particle only goes up/down. (speed is somewhat random.)
+	
+		let PTimer = 0;
+		while (PTimer < PAmount)
+		{
+			A_SpawnParticle(PColor, 0, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), POffsetZ, 0, 0, frandom((PSpeed * 0.8), (PSpeed * 1.2)), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
+			PTimer++;
+		}
+	}
+	//end of copy/pasting
+	
+	States
+	{
+		//this is where i overcomplicate something for no good reason.
+		//jokes aside, the real reason for this is so i can add large varieties of health items with as little copy/paste code possible.
+		Spawn:
+			TNT1 A 30 BRIGHT NoDelay
+			{
+				sprite = GetSpriteIndex(SpriteName);
+				frame = (SpriteNum * 2) - 1;
+				A_BoxParticle2(ParticleColor, random(0, 2), 12, 24, POffset: 8.0, POffsetZ: frandom(0.0, 4.0), PSpeed: 2.0, PBright: true);
+			}
+			TNT1 A 29 BRIGHT
+			{
+				sprite = GetSpriteIndex(SpriteName);
+				frame = (SpriteNum * 2) - 2;
+			}
+			#### # 1 BRIGHT 
+			{	
+				if (LoopNum == 2) {SetStateLabel("Fader");}
+				else {++LoopNum;}
+			}
+			Loop;
+		Fader:
+			TNT1 A 1 BRIGHT
+			{
+				FadeNum += 1;
+				if (FadeNum == 3) {A_BoxParticle(ParticleColor, 8, 12, 24);}
+				sprite = GetSpriteIndex(SpriteName);
+				frame = (SpriteNum * 2) - 2;
+				A_FadeOut(0.34);
+				LoopNum = 0;
+			}
+			Goto Spawn;
+		Dummy:
+			TNT1 A 0; //change the #### to what sprite the base loot object is using.
+			Stop; //this is needed or "GetSpriteIndex" will mess up.
+	}
+}

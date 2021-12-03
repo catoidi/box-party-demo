@@ -1,0 +1,24 @@
+//zboxscript/lights/beam.zsc
+
+CLASS LightBeam : Actor //200
+{
+	Default
+	{
+		Radius 10;
+		Height 28;
+		-SOLID;
+		+NOGRAVITY;
+		//$Category "Box Party/Decor/Lights"
+		//$Title "Light Beam"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			BEAM A 0 BRIGHT NoDelay A_Jump(128, 2);
+			BEAM A 0 BRIGHT {bSPRITEFLIP = true;}
+			BEAM A -1 BRIGHT;
+			Stop;
+	}
+}

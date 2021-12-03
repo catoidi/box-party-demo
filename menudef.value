@@ -1,0 +1,47 @@
+//menudef.value
+
+OptionValue "crumbvalue"
+{
+	0, "$BOX_VALUE_ALL"
+	1, "$BOX_VALUE_REDUCED"
+	2, "$BOX_VALUE_MINIMAL"
+	3, "$BOX_VALUE_NONE"
+}
+
+OptionValue "npcvalue"
+{
+	0, "$BOX_VALUE_NPCYES"
+	1, "$BOX_VALUE_NPCNO"
+}
+
+OptionValue "regenvalue"
+{
+	0, "$BOX_VALUE_NOTHANKS"
+	1, "$BOX_VALUE_ON_DEFAULT"
+	2, "$BOX_VALUE_FULL"
+}
+
+OptionValue "onbydefault"
+{
+	0, "$BOX_VALUE_NOTHANKS"
+	1, "$BOX_VALUE_ON_DEFAULT"
+}
+
+OptionValue "offbydefault"
+{
+	0, "$BOX_VALUE_OFF_DEFAULT"
+	1, "$BOX_VALUE_ON"
+}
+
+OptionValue "skyvalue"
+{
+	0, "$BOX_VALUE_OFF_DEFAULT"
+	1, "$BOX_VALUE_ON"
+}
+
+OptionValue "boxinfight"
+{
+	-1, "$BOX_VALUE_INFIGHT_OFF"
+	0, "$BOX_VALUE_DEFAULT"
+	1, "$BOX_VALUE_INFIGHT_TOTAL"
+}

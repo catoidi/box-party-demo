@@ -1,0 +1,15 @@
+//menudef.game
+
+OptionMenu "BoxGameplay" protected
+{
+	Title "$BOX_TITLE_GAMEPLAY"
+	StaticText "$BOX_INFO_GAMEPLAY"
+	StaticText "$BOX_INFO_GAMEPLAY2"
+	StaticText " "
+	ScrollTop 3
+	//Option "$BOX_OPTION_SAVE",			"box_autosave",		"onbydefault"
+	Option "$BOX_OPTION_RESETHP", 		"box_resethp",		"onbydefault"
+	Option "$BOX_OPTION_BADCVAR", 		"box_checkbadcvar", 	"onbydefault"
+	StaticText " "
+	SafeCommand "$BOX_OPTION_RESETHAT", "pukename RESETALLHATS"
+}

@@ -1,0 +1,45 @@
+//zboxscript/npc/plotbox.zsc
+
+//"unique" npcs that are NOT random and have "plot-relevant" things to say.
+
+mixin class PlotBox
+{
+	//mixin should only be used on "NPCBox" actors
+
+	Default
+	{
+		-NODAMAGE;
+		+DORMANT;
+		+FRIENDLY;
+		+INVULNERABLE;
+		+NPCBox.HasHat;
+		//$Sprite "PBOXB0"
+	}
+}
+
+mixin class UniqueBox
+{
+	//mixin should only be used on "NPCBox" actors
+
+	Default
+	{
+		-NODAMAGE;
+		+DORMANT;
+		+FRIENDLY;
+		+INVULNERABLE;
+		//+NPCBox.HasHat;
+		//$Sprite "PBOXB0"
+	}
+}
+
+CLASS PlotBoxA : TalkingBoxA {mixin PlotBox;}
+CLASS PlotBoxB : TalkingBoxB {mixin PlotBox;}
+CLASS PlotBoxC : TalkingBoxC {mixin PlotBox;}
+CLASS PlotBoxD : TalkingBoxD {mixin PlotBox;}
+CLASS PlotBoxE : TalkingBoxE {mixin PlotBox;}
+CLASS PlotBoxF : TalkingBoxF {mixin PlotBox;}
+CLASS PlotBoxG : TalkingBoxG {mixin PlotBox;}
+CLASS PlotBoxH : TalkingBoxH {mixin PlotBox;}
+CLASS PlotBoxI : TalkingBoxI {mixin PlotBox;}
+CLASS PlotBoxJ : TalkingBoxJ {mixin PlotBox;}
+CLASS PlotBoxK : TalkingBoxK {mixin PlotBox;}

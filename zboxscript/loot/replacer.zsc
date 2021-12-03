@@ -1,0 +1,29 @@
+//zboxscript/loot/replacer.zsc
+
+//loot drop placeholders with the sole purpose of being replaced by real loot.
+
+//ANY ACTOR STARTING WITH THE PREFIX "BoxLooter_" WILL BE REPLACED BY THE LOOT SYSTEM. YOU HAVE BEEN WARNED.
+
+class BoxLootDropper : SorryNothing 
+{}
+
+class BoxLooter_Pure : BoxLootDropper {}
+class BoxLooter_Melon : BoxLootDropper {}
+class BoxLooter_Pizza : BoxLootDropper {}
+class BoxLooter_Onion : BoxLootDropper {}
+class BoxLooter_RedOnion : BoxLootDropper {}
+class BoxLooter_Lemon : BoxLootDropper {}
+class BoxLooter_Hammer : BoxLootDropper {}
+class BoxLooter_Pepper : BoxLootDropper {}
+
+class BoxLooter_Pure_Forced : BoxLootDropper {}
+class BoxLooter_Melon_Forced : BoxLootDropper {}
+class BoxLooter_Pizza_Forced : BoxLootDropper {}
+class BoxLooter_Onion_Forced : BoxLootDropper {}
+class BoxLooter_RedOnion_Forced : BoxLootDropper {}
+class BoxLooter_Lemon_Forced : BoxLootDropper {}
+class BoxLooter_Hammer_Forced : BoxLootDropper {}
+class BoxLooter_Pepper_Forced : BoxLootDropper {}
+
+class BoxFakeAmmoDrop : SorryNothing {}
+class BoxFakeAmmoDropForced : BoxFakeAmmoDrop {}

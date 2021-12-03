@@ -1,0 +1,149 @@
+//zboxscript/key items/key.zsc
+
+CLASS WhiteKey : Key
+{
+	Default
+	{
+		Radius 20;
+		Height 24;
+		Inventory.PickupMessage "$BOX_KEY_WHITE";
+		Inventory.Icon "AKEYA0";
+		
+		+FLOATBOB;
+		+ROLLSPRITE;
+		+ROLLCENTER;
+		+INTERPOLATEANGLES;
+		//$Category "Box Party/Key Items/"
+		//$Title "Key (White)"
+		//$Color 8
+	}
+
+	States
+	{
+		Spawn:
+			AKEY A 1 BRIGHT;
+			Goto Spinner;
+		Spinner:
+			AKEY "#" 3 BRIGHT A_SetRoll(roll - 1);
+			Loop;
+	}
+}
+
+CLASS RedKey : WhiteKey
+{
+	Default
+	{
+		Inventory.PickupMessage "$BOX_KEY_RED";
+		Inventory.Icon "AKEYB0";
+		//$Title "Key (Red)"
+	}
+
+	States
+	{
+		Spawn:
+			AKEY B 1 BRIGHT;
+			Goto Spinner;
+	}
+}
+
+CLASS GreenKey : WhiteKey
+{
+	Default
+	{
+		Inventory.PickupMessage "$BOX_KEY_GREEN";
+		Inventory.Icon "AKEYC0";
+		//$Title "Key (Green)"
+	}
+
+	States
+	{
+		Spawn:
+			AKEY C 1 BRIGHT;
+			Goto Spinner;
+	}
+}
+
+CLASS BlueKey : WhiteKey
+{
+	Default
+	{
+		Inventory.PickupMessage "$BOX_KEY_BLUE";
+		Inventory.Icon "AKEYD0";
+		//$Title "Key (Blue)"
+	}
+
+	States
+	{
+		Spawn:
+			AKEY D 1 BRIGHT;
+			Goto Spinner;
+	}
+}
+
+CLASS YellowKey : WhiteKey
+{
+	Default
+	{
+		Inventory.PickupMessage "$BOX_KEY_YELLOW";
+		Inventory.Icon "AKEYE0";
+		//$Title "Key (Yellow)"
+	}
+
+	States
+	{
+		Spawn:
+			AKEY E 1 BRIGHT;
+			Goto Spinner;
+	}
+}
+
+CLASS PurpleKey : WhiteKey
+{
+	Default
+	{
+		Inventory.PickupMessage "$BOX_KEY_PURPLE";
+		Inventory.Icon "AKEYF0";
+		//$Title "Key (Purple)"
+	}
+
+	States
+	{
+		Spawn:
+			AKEY F 1 BRIGHT;
+			Goto Spinner;
+	}
+}
+
+CLASS CyanKey : WhiteKey
+{
+	Default
+	{
+		Inventory.PickupMessage "$BOX_KEY_CYAN";
+		Inventory.Icon "AKEYG0";
+		//$Title "Key (Cyan)"
+	}
+
+	States
+	{
+		Spawn:
+			AKEY G 1 BRIGHT;
+			Goto Spinner;
+	}
+}
+
+CLASS BlackKey : WhiteKey
+{
+	Default
+	{
+		Inventory.PickupMessage "$BOX_KEY_Black";
+		Inventory.Icon "AKEYH0";
+		//$Title "Key (Black)"
+	}
+
+	States
+	{
+		Spawn:
+			AKEY H 1 BRIGHT;
+			Goto Spinner;
+	}
+}

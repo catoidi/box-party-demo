@@ -1,0 +1,23 @@
+//zboxscript/city/fakewindow.zsc
+
+CLASS FakeWindow : BoxActor
+{
+	Default
+	{
+		Height 64;
+		Radius 16;
+		-SOLID;
+		+NOINTERACTION;
+		+WALLSPRITE;
+		//$Category "Box Party/Decor/City/"
+		//$Title "Fake Window"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			WNDW A -1;
+			Stop;
+	}
+}

@@ -1,0 +1,24 @@
+//zboxscript/cave/banana.zsc
+
+//potassium
+
+CLASS Banana : Inventory
+{
+	Default
+	{
+		Height 24;
+		Radius 16;
+		Inventory.PickupMessage "$BANANA";
+		+FLOATBOB;
+		+BRIGHT;
+		+INVENTORY.AUTOACTIVATE;
+		+INVENTORY.ALWAYSPICKUP;
+	}
+	
+	States
+	{
+		Spawn:
+			BANA A -1;
+			Loop;
+	}
+}

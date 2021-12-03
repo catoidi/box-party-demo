@@ -1,0 +1,23 @@
+//zboxscript/cave/bug.zsc
+
+CLASS Bug : BoxDecor //20028
+{
+	Default
+	{
+		Radius 6;
+		Height 10;
+		-SOLID;
+		//$Category "Box Party/Decor/Cave/"
+		//$Title "Bug"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			BUGD A 0 NoDelay A_BoxDecor(true, 0.75, 1.4, 0);
+		Looper:
+			BUGD AB 20;
+			Loop;
+	}
+}

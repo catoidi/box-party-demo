@@ -1,0 +1,30 @@
+//zboxscript/house/trash.zsc
+
+CLASS Trash : BoxDecor
+{
+	Default
+	{
+		Radius 12;
+		Height 8;
+		+FLATSPRITE;
+		+NOINTERACTION;
+		+ROLLSPRITE;
+		+ROLLCENTER;
+		+MOVEWITHSECTOR;
+		//$Category "Box Party/Decor/House/"
+		//$Title "Trash"
+		//$Sprite "TRSHD0"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_Jump(224, "Null"); //very very rare
+			TNT1 A 0 A_SetRoll(random(0, 359));
+			TNT1 A 0 A_BoxDecor(true, 0.9, 1.2, 0.0);
+			TRSH A 0 {frame = random(0, 13);}
+			#### # -1;
+			Stop;
+	}
+}

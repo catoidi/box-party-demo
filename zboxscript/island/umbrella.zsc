@@ -1,0 +1,23 @@
+//zboxscript/island/umbrella.zsc
+
+CLASS Umbrella : BoxDecor
+{
+	Default
+	{
+		Radius 20;
+		Height 108;
+		Scale 0.75;
+		+SOLID;
+		//$Category "Box Party/Decor/Island/"
+		//$Title "Umbrella"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			UMBR A 0 NoDelay A_BoxDecor(true, 0.70, 0.80, 0);
+			UMBR A -1;
+			Stop;
+	}
+}

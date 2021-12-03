@@ -1,0 +1,145 @@
+//zscript.zsc
+version "4.7"
+
+//to avoid potential conflicts with any mods that use zscript,
+//i renamed the zscript folder to zboxscript.
+
+//make sure zforms loads first
+#include "zboxscript/ZForms/Include.zsc"
+
+//lazy points should also load first
+#include "zboxscript/lazypoints/include.zs"
+
+#include "zboxscript/mixin.zsc"
+#include "zboxscript/parent.zsc"
+#include "zboxscript/boxhandler.zsc"
+#include "zboxscript/hathandler.zsc"
+//make sure this is always ran first, as other files inherit from this one.
+
+//player
+#include "zboxscript/player/token.zsc"
+#include "zboxscript/player/base.zsc"
+#include "zboxscript/player/box.zsc"
+#include "zboxscript/player/circle.zsc"
+#include "zboxscript/player/triangle.zsc"
+
+//loot
+#include "zboxscript/loot/mixin.zsc" //all loot drops inherit from this
+#include "zboxscript/loot/replacer.zsc" //fake loot spawned by enemies that get replaced by real loot
+#include "zboxscript/loot/health.zsc" //for everyone except glass
+#include "zboxscript/loot/armor.zsc" //for triangle
+
+//quest (anything related to side quests.)
+#include "zboxscript/quest/score.zsc" //inventory items that give score to the player.
+#include "zboxscript/quest/trashbag.zsc"
+
+//ui
+#include "zboxscript/ui/hud.zsc"
+#include "zboxscript/ui/hatmenu.zsc"
+
+//weapons
+#include "zboxscript/weapons/partyshotty.zsc"
+#include "zboxscript/weapons/glowstick.zsc"
+#include "zboxscript/weapons/laserpointer.zsc"
+#include "zboxscript/weapons/popcorngun.zsc"
+#include "zboxscript/weapons/stupidweapon.zsc" //joke weapon
+#include "zboxscript/weapons/fishingrod.zsc" //meant for side quest in level 3
+
+//npc
+#include "zboxscript/npc/npcbox.zsc"
+#include "zboxscript/npc/talkingbox.zsc"
+#include "zboxscript/npc/plotbox.zsc"
+#include "zboxscript/npc/uniquebox.zsc"
+#include "zboxscript/npc/egg.zsc"
+
+//effects
+#include "zboxscript/effects/splashes.zsc"
+#include "zboxscript/effects/boom.zsc"
+#include "zboxscript/effects/puff.zsc"
+#include "zboxscript/effects/shadow.zsc"
+#include "zboxscript/effects/stars.zsc"
+#include "zboxscript/effects/hat.zsc"
+#include "zboxscript/effects/teleport.zsc"
+#include "zboxscript/effects/slam.zsc"
+
+//enemies
+#include "zboxscript/enemies/fruitpuncher.zsc"
+#include "zboxscript/enemies/pizzaulter.zsc"
+#include "zboxscript/enemies/onion.zsc"
+#include "zboxscript/enemies/redonion.zsc"
+#include "zboxscript/enemies/lemon.zsc"
+#include "zboxscript/enemies/hammer.zsc"
+#include "zboxscript/enemies/bossonion.zsc"
+#include "zboxscript/enemies/pepper.zsc"
+#include "zboxscript/enemies/bossmelon.zsc"
+#include "zboxscript/enemies/bosspepper1.zsc"
+#include "zboxscript/enemies/bosspepper2.zsc"
+
+//key items
+#include "zboxscript/key items/key.zsc"
+#include "zboxscript/key items/tnt.zsc"
+
+//city
+#include "zboxscript/city/building.zsc"
+#include "zboxscript/city/fakewindow.zsc"
+
+//island
+#include "zboxscript/island/mountain.zsc"
+#include "zboxscript/island/campfire.zsc"
+#include "zboxscript/island/smoker.zsc"
+#include "zboxscript/island/umbrella.zsc"
+#include "zboxscript/island/towel.zsc"
+#include "zboxscript/island/ball.zsc"
+
+//house
+#include "zboxscript/house/chair.zsc"
+#include "zboxscript/house/game.zsc"
+#include "zboxscript/house/ceilingfan.zsc"
+#include "zboxscript/house/painting.zsc"
+#include "zboxscript/house/trash.zsc"
+#include "zboxscript/house/clock.zsc"
+#include "zboxscript/house/curtain.zsc"
+
+//foliage
+#include "zboxscript/foliage/tree.zsc"
+#include "zboxscript/foliage/bush.zsc"
+#include "zboxscript/foliage/grass.zsc"
+
+//cave
+#include "zboxscript/cave/rock.zsc"
+#include "zboxscript/cave/root.zsc"
+#include "zboxscript/cave/mushroom.zsc"
+#include "zboxscript/cave/bug.zsc"
+#include "zboxscript/cave/banana.zsc"
+
+//ocean
+#include "zboxscript/ocean/coral.zsc"
+
+//party
+#include "zboxscript/party/microphone.zsc"
+
+//signs
+#include "zboxscript/signs/basicsigns.zsc"
+#include "zboxscript/signs/kindasigns.zsc"
+
+//lights
+#include "zboxscript/lights/lantern.zsc"
+#include "zboxscript/lights/beam.zsc"
+#include "zboxscript/lights/stagelight.zsc"
+
+//traps
+#include "zboxscript/traps/piebomb.zsc"
+#include "zboxscript/traps/platespawner.zsc"
+
+//compatibility
+#include "zboxscript/compat/legendoom.zsc"
+
+//nashhpbar
+#include "zboxscript/NashHPBar/NashHPBarOptionMenu/NashHPBarOptionMenu.zc"
+#include "zboxscript/NashHPBar/NashHPBarPlugin/NashHPBarPlugin.zc"
+#include "zboxscript/NashHPBar/NashHPBarHandler/NashHPBarHandler.zc"
+
+//stupid achievements
+#include "zboxscript/achievements/StupidAchievements.zs"
+#include "zboxscript/achievements/hatunlocks.zsc"
+#include "zboxscript/achievements/scriptedevents.zsc"

@@ -1,0 +1,52 @@
+//zboxscript/ocean/coral.zsc
+
+CLASS Coral : BoxDecor
+{
+	Default
+	{
+		Radius 20;
+		Height 80;
+		+SOLID;
+		//$Category "Box Party/Decor/Ocean/"
+		//$Title "Coral"
+		//$Sprite "CORLA0"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_BoxDecor(true, 0.95, 1.05, 0);
+			CORL A 0 {frame = random(0, 5);}
+			#### # -1;
+			Stop;
+	}
+}
+
+CLASS CoralSkybox : BoxDecor
+{
+	Default
+	{
+		Scale 2;
+		Radius 20;
+		Height 80;
+		+SOLID;
+		//+BRIGHT;
+		+WALLSPRITE;
+		//$Category "Box Party/Decor/Ocean/"
+		//$Title "Coral (Skybox)"
+		//$Sprite "CORLA0"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_JumpIf((CallACS("skycheck") == 1), "Null");
+			TNT1 A 0 A_Jump(192, "Null");
+			TNT1 A 0 A_BoxDecor(true, 0.95, 1.05, 0);
+			CORL A 0 {frame = random(0, 5);}
+			#### # -1;
+			Stop;
+	}
+}

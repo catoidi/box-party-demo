@@ -1,0 +1,56 @@
+//terrain.txt
+
+//water
+splash 	boxwater
+{
+	smallclass 	WaterSplooshSmall
+	smallclip		4
+	smallsound	effects/lsplash
+
+	baseclass		WaterSploosh
+	chunkxvelshift	8
+	chunkyvelshift	8
+	chunkzvelshift	8
+	chunkbasezvel	2
+	sound		effects/bsplash
+	NoAlert
+}
+
+terrain	boxwater
+{
+	splash 	boxwater
+	footclip	 6
+	liquid
+}
+
+floor WATER boxwater
+
+//lava
+splash 	boxlava
+{
+	smallclass 	LavaSplooshSmall
+	smallclip		4
+	smallsound	effects/lsplash
+
+	baseclass		LavaSploosh
+	chunkxvelshift	8
+	chunkyvelshift	8
+	chunkzvelshift	8
+	chunkbasezvel	2
+	sound		effects/bsplash
+	NoAlert
+}
+
+terrain	boxlava
+{
+	damagetype Lava
+	damageamount 	3
+	damagetimemask 	14
+	allowprotection
+	friction 		0.7
+	splash 	boxlava
+	footclip	 	6
+	liquid
+}
+
+floor LAVA boxlava

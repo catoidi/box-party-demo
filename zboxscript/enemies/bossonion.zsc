@@ -1,0 +1,691 @@
+//zboxscript/enemies/bossonion.zsc
+
+CLASS BossOnion : OnionTurret
+{
+	Default
+	{
+		Health 7000;
+		Radius 96;
+		Height 180;
+		PainChance 1;
+		PainChance "Melee", 192;
+		PainChance "Lightning", 48;
+		PainChance "PartyShot", 4;
+		PainChance "Prism", 256;
+		DamageFactor "Melee", 2.5;
+		DamageFactor "PartyShot", 1.15;
+		DamageFactor "Prism", 2.0;
+		BloodType "BigOnionBlood";
+		Tag "* Geoff *";
+		Obituary "$BOX_DIE_BIGONION";
+		+BOSS;
+		//$Category "Box Party/Enemies/"
+		//$Title "Onion (BOSS)"
+		//$Color 4
+	}
+	
+	bool isAngery;
+	bool flashyTime;
+	string currentBullet;
+	int startingHealth;
+	int Exhaustion;
+	int ExhaustMeter;
+	
+	action void A_BigOnionAttack1 (int Angled, int Offseted)
+	{
+		//Shoots 8 water projectiles in a circle around the calling actor.
+		A_SpawnProjectile(invoker.currentBullet, 48, 0, Angled, CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile(invoker.currentBullet, 48, 0, (Angled + 45), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile(invoker.currentBullet, 48, 0, (Angled + 90), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile(invoker.currentBullet, 48, 0, (Angled + 135), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile(invoker.currentBullet, 48, 0, (Angled + 180), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile(invoker.currentBullet, 48, 0, (Angled + 225), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile(invoker.currentBullet, 48, 0, (Angled + 270), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile(invoker.currentBullet, 48, 0, (Angled + 315), CMF_OFFSETPITCH, Offseted);
+		A_SpawnItemEX("BoxSlamBig", -0.1, 0, 4, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+		A_QuakeEX(3, 3, 3, 10, 0, 1280, 0);
+	}
+	
+	action void A_BoxExhaust (int Amount)
+	{
+		if (invoker)
+		{
+			if (Amount == 0) {invoker.Exhaustion = 0;} //reset exhaust if amount is 0
+			else
+			{
+				invoker.Exhaustion += Amount; //add exhaustion
+				if (invoker.Exhaustion >= 100 + invoker.ExhaustMeter) //onion = exhausted
+				{
+					invoker.ExhaustMeter += 25; //harder to get exhausted now
+					SetStateLabel("Exhausted"); //switch to exhaust state
+				}
+			}
+		}
+	}
+
+	override void Tick(void)
+	{
+		Super.Tick();
+		
+		if (self)
+		{
+			if (startingHealth == 0) {startingHealth = self.Health;}
+		
+			if (isAngery == false) 
+			{
+				currentBullet = "BigOnionBullet";
+				A_RemoveLight("flashyred");
+			}
+			else 
+			{
+				currentBullet = "BigOnionBullet2";
+				if (random(0, 15) == 15) {A_SpawnItemEX("PlateSpawnerSpark", frandom(-32, 32), frandom(-32, 32), frandom(0, 64), frandom(-12, 12), frandom(-12, 12), frandom(0, 8), 0, SXF_NOCHECKPOSITION);}
+			}
+			
+			if ((isAngery == true) && (flashyTime == false))
+			{
+				for (int countey = 1; countey < 16; countey++)
+				{
+					A_SpawnItemEX("PlateSpawnerSpark", frandom(-32, 32), frandom(-32, 32), frandom(0, 64), frandom(-12, 12), frandom(-12, 12), frandom(0, 8), 0, SXF_NOCHECKPOSITION);
+				}
+				A_AttachLightDef("flashyred", "GLOWREDGIANT");
+				flashyTime = true;
+				A_QuakeEX(4, 4, 4, 35, 0, 1280, 0);
+				//bBRIGHT = true;
+			}
+			
+			if ((self.Health <= (startingHealth / 2)) && (self.Health > 0)) {isAngery = true;}
+			else {isAngery = false;}
+		}
+	}
+
+	States
+	{
+		Spawn:
+			ONI2 A 10 A_Look;
+			Loop;
+		JustOneSec:
+			#### # 0 A_ResetScale();
+			ONI2 A 0
+			{
+				if (isAngery == true) {SetStateLabel("See");}
+			}
+			ONI2 A 0 A_BoxScaleXY(0.1, -0.1);
+			ONI2 AB 25 Fast;
+			ONI2 B 0 A_BoxScaleXY(-0.1, 0.1);
+			Goto See;
+		See:
+			#### # 0 A_ResetScale();
+			ONI2 AB 15 Fast A_Chase;
+			Loop;
+		Pain.Lightning:
+			ONI2 G 0 A_BoxShockedBig();
+		Pain.Melee:
+			ONI2 G 0 ThrustThingZ(0, 3, 0, 1);
+			ONI2 G 0 A_Pain;
+			ONI2 G 1 A_BoxStars();
+			ONI2 G 0 
+			{
+				if (IsPrism) {A_BoxDropLoot("Pure", -4, IsPrism);}
+				else A_BoxDropLoot("Pure", -2);
+			}
+			#### # 0 {IsPrism = false;}
+			ONI2 G 1 Slow A_SpawnItemEx("OnionChunk2", random(-6, 6), random(-6, 6), random(26, 38), random(-12, 12), random(-12, 12), random(0, 12), random(0, 359), 0, 128);
+			ONI2 G 8 Slow A_FaceTarget;
+			ONI2 G 0 A_BoxExhaust(25);
+			Goto See;
+		Pain:
+			ONI2 G 4 A_Pain;
+			ONI2 G 0 A_BoxExhaust(10);
+			Goto Missile;
+		Missile:
+			#### # 0 A_Jump(256, "BIGSlam", "RapidFire");
+			Goto BIGSlam;
+		BIGSlam:
+			#### # 0 {if (isAngery == true) {SetStateLabel("BIGSlamEVIL");}}
+			ONI2 C 0 A_RemoveLight("Shocking");
+			ONI2 C 0 {bNOPAIN = true;}
+			#### ##### 3 Slow A_BoxScaleXY(-0.05, 0.05);
+			TNT1 A 0 A_BoxParticle("00 ef ff", 16, 50, 60, POffset: 16.0, PSpeed: 16.0, PBright: true);
+			ONI2 C 0 A_FaceTarget;
+			#### # 0 A_StartSound("enemies/slamA", attenuation: ATTN_NONE);
+			ONI2 D 0 A_BigOnionAttack1(23, 0);
+			ONI2 D 0 A_BigOnionAttack1(0, 0);
+			#### ##### 2 A_BoxScaleXY(0.1, -0.1);
+			ONI2 B 15 Fast;
+			ONI2 B 0 A_BoxScaleXY(-0.25, 0.25); //reset scale
+			ONI2 B 0 {bNOPAIN = false;}
+			ONI2 B 0 A_BoxExhaust(6);
+			Goto JustOneSec;
+		BIGSlamEVIL:
+			ONI2 C 0 A_RemoveLight("Shocking");
+			ONI2 C 0 {bNOPAIN = true;}
+			#### ##### 2 Slow A_BoxScaleXY(-0.05, 0.05);
+			TNT1 A 0 A_BoxParticle("00 ef ff", 16, 50, 60, POffset: 16.0, PSpeed: 16.0, PBright: true);
+			ONI2 C 0 A_FaceTarget;
+			#### # 0 A_StartSound("enemies/slamA", attenuation: ATTN_NONE);
+			ONI2 D 0 A_BigOnionAttack1(23, 0);
+			ONI2 D 0 A_BigOnionAttack1(0, 0);
+			ONI2 D 0 A_BigOnionAttack1(45, -10);
+			#### ##### 1 A_BoxScaleXY(0.1, -0.1);
+			ONI2 B 15 Fast;
+			ONI2 B 0 A_BoxScaleXY(-0.25, 0.25); //reset scale
+			ONI2 B 0 {bNOPAIN = false;}
+			ONI2 B 0 A_BoxExhaust(12);
+			#### # 0 {if ((isAngery == true) && (random(0, 4) == 4)) {SetStateLabel("BIGSlamEVIL");}}
+			Goto JustOneSec;
+		RapidFire:
+			#### # 0 {if (isAngery == true) {SetStateLabel("RapidFireEVIL");}}
+			ONI2 E 0 A_RemoveLight("Shocking");
+			ONI2 E 0 {bNOPAIN = true;}
+			ONI2 E 5 Slow A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 6 A_SpawnProjectile(invoker.currentBullet, 48, 0, 0);
+			ONI2 E 3 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 F 6 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 E 3 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -30);
+			ONI2 F 6 A_SpawnProjectile(invoker.currentBullet, 48, 0, 0);
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, 30);
+			ONI2 E 3 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -45);
+			ONI2 F 6 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, 15);
+			ONI2 F 6 A_SpawnProjectile(invoker.currentBullet, 48, 0, 45);
+			ONI2 EEEE 7 Fast A_BoxScaleXY(-0.025, 0.025);
+			ONI2 E 0 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 6 A_SpawnProjectile(invoker.currentBullet, 48, 0, 0);
+			ONI2 E 3 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 F 6 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 E 3 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -30);
+			ONI2 F 6 A_SpawnProjectile(invoker.currentBullet, 48, 0, 0);
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, 30);
+			ONI2 E 3 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -45);
+			ONI2 F 6 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, 15);
+			ONI2 F 6 A_SpawnProjectile(invoker.currentBullet, 48, 0, 45);
+			ONI2 EEEE 7 Fast A_BoxScaleXY(-0.075, 0.075);
+			ONI2 E 0 {bNOPAIN = false;}
+			ONI2 E 0 A_BoxExhaust(4);
+			Goto JustOneSec;
+		RapidFireEVIL:
+			ONI2 E 0 A_RemoveLight("Shocking");
+			ONI2 E 0 {bNOPAIN = true;}
+			ONI2 E 3 Slow A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 4 A_SpawnProjectile(invoker.currentBullet, 48, 0, 0);
+			ONI2 E 2 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 F 4 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 E 2 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -30);
+			ONI2 F 4 A_SpawnProjectile(invoker.currentBullet, 48, 0, 0);
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, 30);
+			ONI2 E 2 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -45);
+			ONI2 F 4 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, 15);
+			ONI2 F 4 A_SpawnProjectile(invoker.currentBullet, 48, 0, 45);
+			ONI2 EEEE 4 Fast A_BoxScaleXY(-0.025, 0.025);
+			ONI2 E 0 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 4 A_SpawnProjectile(invoker.currentBullet, 48, 0, 0);
+			ONI2 E 2 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 F 4 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 E 2 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -30);
+			ONI2 F 4 A_SpawnProjectile(invoker.currentBullet, 48, 0, 0);
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, 30);
+			ONI2 E 2 A_FaceTarget;
+			#### # 0 A_BoxScaleXY(0.05, -0.05);
+			#### # 0 A_StartSound("enemies/peppowA");
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, -45);
+			ONI2 F 4 A_SpawnProjectile(invoker.currentBullet, 48, 0, -15);
+			ONI2 F 0 A_SpawnProjectile(invoker.currentBullet, 48, 0, 15);
+			ONI2 F 3 A_SpawnProjectile(invoker.currentBullet, 48, 0, 45);
+			ONI2 EEEE 4 Fast A_BoxScaleXY(-0.075, 0.075);
+			ONI2 E 0 {bNOPAIN = false;}
+			ONI2 E 0 A_BoxExhaust(8);
+			Goto JustOneSec;
+		Exhausted:
+			ONI2 A 0 A_BoxDropLoot("Pure", -4, IsPrism);
+			ONI2 A 0 A_BoxDropAmmo(4);
+			ONI2 A 0 {bNOPAIN = true;}
+			ONI2 KK 8 A_BoxScaleXY(-0.015, 0.015);
+			ONI2 LL 8 A_BoxScaleXY(0.015, -0.015);
+			ONI2 KK 8 A_BoxScaleXY(-0.015, 0.015);
+			ONI2 LL 8 A_BoxScaleXY(0.015, -0.015);
+			ONI2 KK 8 A_BoxScaleXY(-0.015, 0.015);
+			ONI2 LL 8 A_BoxScaleXY(0.015, -0.015); //breathe in, breathe out
+			ONI2 A 0 {bNOPAIN = false;}
+			ONI2 C 0 A_BoxExhaust(0);
+			Goto See;
+		Death.Melee:
+		Death.Massacre:
+		Death:
+			#### # 0 A_ResetScale();
+			ONI2 M 0 A_RemoveLight("Shocking");
+			ONI2 M 0 A_FaceTarget;
+			ONI2 M 0 A_BoxScream;
+			ONI2 MMMMMMMM 10 A_SpawnItemEX("SafeBoom", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
+			ONI2 N 0 A_SpawnItemEX("GIANTBOOM", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
+			#### # 0 A_SpawnItemEX("BigOnionGib1", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
+			#### # 0 A_SpawnItemEX("BigOnionGib2", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
+			#### # 0 A_SpawnItemEX("BigOnionGib3", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
+			#### ######## 0 A_SpawnItemEx("BigOnionChunk2", 0, 0, 0, random(-24, 24), random(-24, 24), random(0, 18), random(0, 359), SXF_NOCHECKPOSITION);
+			#### ############ 0 A_SpawnItemEX("BoomSmokeBig", random(-64, 64), random(-64, 64), random(32, 96), frandom(-2, 2), frandom(-2, 2), frandom(-2, 2), 0, SXF_NOCHECKPOSITION);
+			#### # 0 A_BoxDropLoot("Pure", -2);
+			#### # 0 A_QuakeEX(3, 3, 3, 35, 0, 1280, 0);
+			ONI2 # 30 A_BoxScaleXY(0.1, -0.1);
+			ONI2 # 30 A_BoxScaleXY(0.05, -0.05);
+			ONI2 # 30 A_BoxScaleXY(0.05, -0.05);
+			ONI2 O 0 A_SpawnItemEX("GIANTBOOM", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
+			#### # 0 A_SpawnItemEX("BigOnionGib4", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
+			#### # 0 A_SpawnItemEX("BigOnionGib5", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
+			#### # 0 A_SpawnItemEX("BigOnionGib6", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
+			#### ############ 0 A_SpawnItemEx("BigOnionChunk2", 0, 0, 0, random(-24, 24), random(-24, 24), random(0, 18), random(0, 359), SXF_NOCHECKPOSITION);
+			#### ############ 0 A_SpawnItemEX("BoomSmokeBig", random(-64, 64), random(-64, 64), random(32, 96), frandom(-2, 2), frandom(-2, 2), frandom(-2, 2), 0, SXF_NOCHECKPOSITION);
+			#### # 0 A_BoxDropLoot("Pure", -2);
+			#### # 0 A_QuakeEX(3, 3, 3, 35, 0, 1280, 0);
+			ONI2 # 30 A_BoxScaleXY(0.1, -0.1);
+			ONI2 # 30 A_BoxScaleXY(0.05, -0.05);
+			ONI2 # 30 A_BoxScaleXY(0.05, -0.05);
+			ONI2 P 0 A_SpawnItemEX("GIANTBOOM", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
+			#### # 0 A_SpawnItemEX("BigOnionGib7", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
+			#### # 0 A_SpawnItemEX("BigOnionGib8", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
+			#### # 0 A_SpawnItemEX("BigOnionGib9", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
+			#### # 0 A_SpawnItemEX("BigOnionGib10", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
+			#### ################ 0 A_SpawnItemEx("BigOnionChunk2", 0, 0, 0, random(-24, 24), random(-24, 24), random(0, 18), random(0, 359), SXF_NOCHECKPOSITION);
+			#### ############ 0 A_SpawnItemEX("BoomSmokeBig", random(-64, 64), random(-64, 64), random(32, 96), frandom(-2, 2), frandom(-2, 2), frandom(-2, 2), 0, SXF_NOCHECKPOSITION);
+			#### # 0 A_BoxDropLoot("Pure", -4);
+			#### # 0 A_QuakeEX(3, 3, 3, 35, 0, 1280, 0);
+			ONI2 # 30 A_BoxScaleXY(0.1, -0.1);
+			ONI2 # 30 A_BoxScaleXY(0.05, -0.05);
+			ONI2 # 30 A_BoxScaleXY(0.05, -0.05);
+			ONI2 # 0 A_BoxScaleXY(0.2, -0.2);
+			ONI2 P 0 A_NoBlocking;
+			ONI2 P -1;
+			Stop;
+		//Prism Effect Start
+		Pain.Prism:
+			"####" "#" 0 {IsPrism = true;}
+			Goto Pain.Melee;
+		Death.Prism:
+			"####" "#" 0 {IsPrism = true;}
+			Goto Death.Melee;
+		//Prism Effect End
+	}
+}
+
+//blood
+
+CLASS BigOnionChunk : BoxChunk
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 I 0 A_Jump(128, 2);
+			ONI2 I 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BigOnionChunk2 : BoxGib
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 H 0 A_Jump(128, 2);
+			ONI2 H 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BigOnionBlood : BoxBlood
+{
+	States
+	{
+		Firsty: 
+			TNT1 AAA 0 A_SpawnItemEx("BigOnionChunk", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION, 208);
+			TNT1 A 0 A_SpawnItemEx("BigOnionChunk2", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION, 224);
+			Goto Super::Firsty;
+		Secondy: 
+			TNT1 AA 0 A_SpawnItemEx("BigOnionChunk", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION, 192);
+			Goto Super::Secondy;
+		Thirdy: 
+			TNT1 A 0 A_SpawnItemEx("BigOnionChunk", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION, 192);
+			Goto Super::Thirdy;
+	}
+}
+
+//bullets
+
+CLASS BigOnionBullet : OnionBullet
+{
+	Default
+	{
+		Radius 15;
+		Height 24;
+		DamageFunction (15);
+		Speed 16;
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		+BRIGHT;
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay;
+			ONI2 J 0 A_Jump(256, "SpeenLeft", "SpeenRight");
+			Goto SpeenLeft;
+		SpeenLeft:
+			#### ###### 1 A_SetRoll(roll - 8);
+			Loop;
+		SpeenRight:
+			#### ###### 1 A_SetRoll(roll + 8);
+			Loop;
+		Death.Sky:
+		Death:
+			TNT1 A 0 A_BoxParticle("00 ef ff", 3, 20, 50, PSpeed: 6.0, PBright: true);
+			TNT1 A 1 A_SpawnItemEx("DangerBoomOnion", 0, 0, 0, 0, 0, 0);
+			Stop;
+	}
+}
+
+CLASS BigOnionBullet2 : BigOnionBullet
+{
+	int DoTinyBullets;
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay;
+			TNT1 A 0 {if (invoker) {invoker.DoTinyBullets = random(0, 8);}}
+			ONI2 J 0 
+			{
+				if (invoker.DoTinyBullets == 8) 
+				{
+					A_AttachLightDef("Spitter", "GLOWREDBIG");
+					sprite = GetSpriteIndex("ONI3");
+					frame = 0;
+					self.Alpha = 1.0;
+					self.Speed = 24;
+				}
+				else 
+				{
+					A_AttachLightDef("Spitter", "GLOWAQUA");
+				}
+			}
+			#### # 0 A_Jump(256, "SpeenLeft", "SpeenRight");
+			Goto SpeenLeft;
+		SpeenLeft:
+			#### #### 1 A_SetRoll(roll - 8);
+			#### # 0 {if (invoker.DoTinyBullets == 8) {A_SpawnProjectile("OnionBullet2", 0, 0, 0, CMF_OFFSETPITCH, 90);}}
+			Loop;
+		SpeenRight:
+			#### #### 1 A_SetRoll(roll + 8);
+			#### # 0 {if (invoker.DoTinyBullets == 8) {A_SpawnProjectile("OnionBullet2", 0, 0, 0, CMF_OFFSETPITCH, 90);}}
+			Loop;
+		Death.Sky:
+		Death:
+			TNT1 A 0 
+			{
+				if (invoker.DoTinyBullets == 3) {A_BoxParticle("b3 09 01", 3, 20, 50, PSpeed: 6.0, PBright: true);}
+				else {A_BoxParticle("00 ef ff", 3, 20, 50, PSpeed: 6.0, PBright: true);}
+			}
+			TNT1 A 1 A_SpawnItemEx("DangerBoomOnion", 0, 0, 0, 0, 0, 0);
+			Stop;
+		Dummy:
+			ONI2 J 0;
+			ONI3 A 0;
+			Stop;
+	}
+}
+
+CLASS OnionBullet2 : OnionBullet 
+{
+	Default 
+	{
+		Scale 0.75;
+		Radius 3;
+		Height 6;
+		Speed 0;
+		DamageFunction (3);
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 1 NoDelay A_Jump(32, "Null");
+			ONI3 B 0 BRIGHT A_Jump(256, "SpeenLeft", "SpeenRight");
+			Goto SpeenLeft;
+		SpeenLeft:
+			"####" "#" 1 BRIGHT A_SetRoll(roll - self.vel.z);
+			"####" "#" 0 BRIGHT {self.vel.z += -0.075;}
+			Loop;
+		SpeenRight:
+			"####" "#" 1 BRIGHT A_SetRoll(roll + self.vel.z);
+			"####" "#" 0 BRIGHT {self.vel.z += -0.075;}
+			Loop;
+		Death.Sky:
+		Death:
+			TNT1 A 1 A_SpawnItemEx("ProjectilePuffSmall", 0, 0, 0, 0, 0, 0);
+			Stop;
+	}
+}
+
+//gibs
+
+CLASS DangerBoomOnion : SafeBoom
+{
+	Default
+	{
+		DamageType "Water";
+		Obituary "$BOX_DIE_BIGONION";
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			BOOM A 0 BRIGHT A_AttachLightDef("Boomer", "BIGBOOM");
+			BOOM A 0 BRIGHT A_Explode(10, 48);
+			BOOM A 0 BRIGHT A_StartSound("effects/boxboom", 0, CHANF_OVERLAP, 0.5);
+			BOOM AAA 0 BRIGHT A_SpawnItemEX("SafeBoomExtra", frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), 0, SXF_NOCHECKPOSITION);
+			Goto Expander;
+	}
+}
+
+CLASS BigOnionGib1 : BoxGib
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 Q 0 A_Jump(128, 2);
+			ONI2 Q 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+		Death.Sky:
+		Death:
+			"####" "#" 0 A_JumpIf((ACS_ScriptCall("CrumbCheck") >= 3), "Null");
+			"####" "#" 0 {if (self.Pos.Z ~== self.FloorZ) {bFLATSPRITE = true;} else {bFLATSPRITE = false;}}
+			"####" "#" -1;
+			Stop;
+	}
+}
+
+CLASS BigOnionGib2 : BigOnionGib1
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 R 0 A_Jump(128, 2);
+			ONI2 R 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BigOnionGib3 : BigOnionGib1
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 S 0 A_Jump(128, 2);
+			ONI2 S 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BigOnionGib4 : BigOnionGib1
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 T 0 A_Jump(128, 2);
+			ONI2 T 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BigOnionGib5 : BigOnionGib1
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 U 0 A_Jump(128, 2);
+			ONI2 U 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BigOnionGib6 : BigOnionGib1
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 V 0 A_Jump(128, 2);
+			ONI2 V 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BigOnionGib7 : BigOnionGib1
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 W 0 A_Jump(128, 2);
+			ONI2 W 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BigOnionGib8 : BigOnionGib1
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 X 0 A_Jump(128, 2);
+			ONI2 X 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BigOnionGib9 : BigOnionGib1
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 Y 0 A_Jump(128, 2);
+			ONI2 Y 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BigOnionGib10 : BigOnionGib1
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONI2 Z 0 A_Jump(128, 2);
+			ONI2 Z 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS BossSpark : PlateSpawnerSpark
+{
+	Default 
+	{
+		Scale 4.0; 
+		+BRIGHT;
+	}
+}

@@ -1,0 +1,34 @@
+//credits.txt
+
+Box Party Demo created by: idiotbitz (thats me)
+
+Box Party Demo's code is licensed under the GPLv3 License. Please read LICENSE.txt for more information.
+
+All Box Party Demo assets, which includes levels, sounds, and artwork, not including anything specified below, were created by me and are licensed under Creative Commons Zero v1.0 Universal (CC0).
+
+-most graphics in the game were created using Photopea
+-'simple' hp bar graphics were created by Nash Muhandes
+	
+all levels in box party were created in Ultimate Doom Builder
+
+code:
+	-ZForms code is by Gutawer and phantombeta
+	-NashHPBar code is originally by Nash Muhandes, with a couple small edits from me.
+	-lazypoints code is originally by mmaulwurff, with a couple small edits from me.
+	-most of my coding was done within SLADE3
+
+audio:
+	-retro sound effects generated using: sfxr
+	-popcorn gun's pop sound "sounds/weapons/popcorn/poppop.flac" was originally by: Blender Foundation
+	-pepper's gunfire sound "sounds/enemies/peppow" is a modified chaingun sound by: Michel Baradari
+	
+special thanks:
+	-id software for creating that one 1993 game i spend way too much time playing
+	-gzdoom and everyone who worked on zdoom for making box party possible
+	-the creator of SLADE3 for making the editor that most of box party's code was made in
+	-the creators of GZDoom Builder and Ultimate Doom Builder for building a builder that builds levels very well
+	-everyone who has created their own games in gzdoom for inspiring me to create a standalone gzdoom title of my own
+	-all my friends who helped playtest Box Party with me
+	
+also be sure to take a look at LICENSES.txt if you wish to use any code from Box Party.
+	

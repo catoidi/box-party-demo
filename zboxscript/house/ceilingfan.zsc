@@ -1,0 +1,73 @@
+//zboxscript/house/ceilingfan.zsc
+
+CLASS CeilingFan : BoxDecor
+{
+	Default
+	{
+		Radius 40;
+		Height 8;
+		+FLATSPRITE;
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+		+ROLLSPRITE;
+		//$Category "Box Party/Decor/House/"
+		//$Title "Ceiling Fan"
+		//$Color 2
+	}
+	
+	int RNG;
+	int RollAmount;
+	
+	States
+	{
+		Spawn:
+			CFAN A 0 NoDelay
+			{
+				if (self) 
+				{
+					self.RNG = random(1, 10);
+					self.RollAmount = RandomPick(self.RNG, -self.RNG);
+					A_SpawnItemEX("CeilingFanLight", 0, 0, -0.1, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+				}
+			}
+			Goto Spinner;
+		Spinner:
+			CFAN A 1 A_SetRoll(roll + self.RollAmount, SPF_INTERPOLATE);
+			Loop;
+	}
+}
+
+CLASS CeilingFanLight : BoxDecor
+{
+	Default
+	{
+		Radius 4;
+		Height 4;
+		+FLATSPRITE;
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+		+ROLLSPRITE;
+	}
+	
+	States
+	{
+		Spawn:
+			CFAN B -1 BRIGHT;
+			Stop;
+	}
+}
+
+CLASS CeilingFanString : CeilingFanLight
+{
+	Default
+	{
+		-FLATSPRITE;
+	}
+	
+	States
+	{
+		Spawn:
+			CFAN C -1;
+			Stop;
+	}
+}

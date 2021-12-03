@@ -1,0 +1,28 @@
+class boxparty_Handler ui {
+	virtual void buttonClickCommand(boxparty_Button caller, string command) {
+	}
+	
+	virtual void buttonHeldCommand(boxparty_Button caller, string command) {
+	}
+
+	virtual void radioButtonChanged(boxparty_RadioButton caller, string command, boxparty_RadioController variable) {
+	}
+
+	virtual void toggleButtonChanged(boxparty_ToggleButton caller, string command, bool on) {
+	}
+
+	virtual void textInputExit(boxparty_TextInput caller, string command) {
+	}
+
+	virtual void textInputChanged(boxparty_TextInput caller, string command) {
+	}
+
+	virtual void sliderChanged(boxparty_Slider caller, string command) {
+	}
+
+	virtual void dropdownChanged(boxparty_DropdownList caller, string command) {
+	}
+
+	virtual void elementHoverChanged(boxparty_Element caller, string command, bool unhovered) {
+	}
+}

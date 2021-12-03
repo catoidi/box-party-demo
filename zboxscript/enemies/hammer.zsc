@@ -1,0 +1,265 @@
+//zboxscript/enemies/hammer.zsc
+
+CLASS THEHAMMER : BoxMonster //200
+{
+	Default
+	{
+		Speed 16;
+		Health 400;
+		Radius 36;
+		Height 48;
+		Mass 2000;
+		MeleeRange 72;
+		MeleeThreshold 200;
+		DamageFactor "Hammer", 0.0;
+		DamageFactor "Lightning", 1.6;
+		DamageFactor "PartyShot", 1.25;
+		DamageFactor "Popcorn", 1.35;
+		PainChance 32;
+		PainChance "Hammer", 0;
+		PainChance "Melee", 64;
+		PainChance "Lightning", 128;
+		PainChance "PartyShot", 40;
+		PainChance "Popcorn", 64;
+		BloodType "HammerBlood";
+		Tag "THE HAMMER";
+		Obituary "$BOX_DIE_HAMMER";
+		+FLOORCLIP;
+		+NOBLOODDECALS;
+		+MISSILEMORE;
+		+MISSILEEVENMORE;
+		//$Category "Box Party/Enemies/"
+		//$Title "THE HAMMER"
+		//$Color 4
+	}
+	
+	States
+	{
+		Spawn:
+			HAMM A 10 A_Look;
+			Loop;
+		See:
+			HAMM AABB 8 Fast A_Chase;
+			Loop;
+		Melee:
+			HAMM A 0;
+			HAMM A 0 A_JumpIfTargetInLOS("Melee2", 0, 0, 60); //prevents player from dodging attacks by standing on hammer's head.
+			HAMM C 0 A_FaceTarget;
+			HAMM CC 5 A_BoxScaleXY(-0.1, 0.1);
+			HAMM D 0 A_Recoil(3);
+			HAMM D 0 ThrustThingZ(0, 15, 0, 1);
+			HAMM D 0 A_StartSound("enemies/slam2");
+			HAMM D 0 A_CustomMeleeAttack(1, " ", " ", "Melee", false);
+			HAMM DDDDDDDDDDDDDDDD 0 A_SpawnItemEX("BoomSmoke", frandom(-8, 8), frandom(-8, 8), frandom(0, 8), frandom(-8, 8), frandom(-8, 8), frandom(4, 8), 0, SXF_NOCHECKPOSITION, 64);
+			HAMM D 0 {
+				A_SpawnItemEX("HammerSlam", 48, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEVELOCITY | SXF_NOCHECKPOSITION);
+				A_SpawnItemEX("HammerSlamPuff", 48, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEVELOCITY | SXF_NOCHECKPOSITION);
+				A_BoxScaleXY(0.4, -0.4);
+			}
+			HAMM DDDD 6 A_BoxScaleXY(-0.05, 0.05);
+			Goto See;
+		Melee2:
+			HAMM F 0 A_FaceTarget;
+			HAMM FF 5 Slow A_BoxScaleXY(-0.025, 0.05);
+			HAMM G 0 A_Recoil(-16);
+			HAMM G 0 A_CustomMeleeAttack(random(30, 50), "enemies/slam", "enemies/whiff2", "Melee", false);
+			HAMM G 10 A_BoxScaleXY(0.05, -0.1);
+			Goto See;
+		Missile:
+			HAMM A 10 Slow A_FaceTarget;
+			HAMM B 0 A_SpawnItemEX("BoxSlamWall", 0, 0, 28, -4, 0, 0, 0, SXF_NOCHECKPOSITION);
+			HAMM B 0 A_Recoil(-20);
+			HAMM B 0 ThrustThingZ(0, 15, 0, 1);
+			HAMM B 16;
+			Goto See;
+		Pain.Melee:
+			#### # 0 A_ResetScale();
+			HAMM E 0 A_RemoveLight("Shocking");
+			HAMM E 0 A_Pain;
+			HAMM E 1 A_BoxStars();
+			HAMM E 0 A_BoxDropLoot("Hammer", -1, IsPrism);
+			#### # 0 {IsPrism = false;}
+			HAMM E 0 A_Recoil(3);
+			HAMM E 7 ThrustThingZ(0, 15, 0, 1);
+			HAMM E 8;
+			Goto See;
+		Pain:
+			#### # 0 A_ResetScale();
+			HAMM E 0 A_RemoveLight("Shocking");
+			HAMM E 0 A_Pain;
+			HAMM E 4;
+			HAMM E 4;
+			Goto See;
+		Death.Massacre:
+			#### # 0 A_ResetScale();
+			HAMM L 1 A_BoxSuperDie();
+			#### # -1;
+			Stop;
+		Death.Melee:
+			"####" "#" 0 {IsMelee = 1;}
+			Goto Death;
+		Death:
+			#### # 0 A_ResetScale();
+			HAMM H 0 A_RemoveLight("Shocking");
+			HAMM H 1 A_FaceTarget;
+			HAMM H 1 A_Recoil(3);
+			HAMM H 4 ThrustThingZ(0, 15, 0, 1);
+			HAMM I 0 A_SpawnItemEX("HammerHammer", 0, 0, 24, 0, 0, 4, 0, SXF_NOCHECKPOSITION);
+			HAMM IIIIIIIIIIII 0 A_SpawnItemEx("HammerChunk", random(-6, 6), random(-6, 6), random(26, 38), random(-12, 12), random(-12, 12), random(4, 10), random(0, 359), 0, 128);
+			HAMM I 0 A_SpawnItemEX("HammerGibLeft", random(0, 8), random(0, 8), random(24, 40), random(-4, 4), random(-4, 4), random(0, 4), random(0, 359), SXF_ORIGINATOR);
+			HAMM I 0 A_SpawnItemEX("HammerGibMiddle", random(0, 8), random(0, 8), random(24, 40), random(-4, 4), random(-4, 4), random(0, 4), random(0, 359), SXF_ORIGINATOR);
+			HAMM I 0 A_SpawnItemEX("HammerGibRight", random(0, 8), random(0, 8), random(24, 40), random(-4, 4), random(-4, 4), random(0, 4), random(0, 359), SXF_ORIGINATOR);
+			HAMM I 0 A_SpawnItemEX("HammerGibBone", random(0, 8), random(0, 8), random(24, 40), random(-4, 4), random(-4, 4), random(0, 4), random(0, 359), SXF_ORIGINATOR);
+			HAMM IIII 0 A_SpawnItemEX("SafeBoom", random(-2, 2), random(-2, 2), random(22, 26), random(-2, 2), random(-2, 2), random(-2, 2));
+			HAMM I 10 A_BoxScream;
+			HAMM I 0 A_BoxDropLoot("Hammer", 1, IsPrism);
+			HAMM J 0 A_NoBlocking;
+			HAMM JKJKJKJKJKJK 10;
+			HAMM L -1;
+			Stop;
+			
+		//Stun Effect Start
+		Pain.Lightning:
+			#### # 0 A_ResetScale();
+			HAMM E 4 BRIGHT {bNOPAIN = true;}
+			HAMM E 0 BRIGHT A_AttachLightDef("Shocking", "SHOCKER");
+			Goto ShockGo;
+		ShockGo:
+			#### ### 10 BRIGHT A_BoxShocked();
+			#### # 0 BRIGHT {bNOPAIN = false;}
+			#### # 0 A_RemoveLight("Shocking");
+			Goto See;
+		//Stun Effect End
+		//Prism Effect Start
+		Pain.Prism:
+			"####" "#" 0 {IsPrism = true;}
+			Goto Pain.Melee;
+		Death.Prism:
+			"####" "#" 0 {IsPrism = true;}
+			Goto Death.Melee;
+		//Prism Effect End
+	}
+}
+
+CLASS HammerHammer : BoxActor //dropped when the hammer dies.
+{
+	Default
+	{
+		Height 8;
+		Radius 8;
+		Gravity 0.25;
+		
+		Projectile;
+		-NOGRAVITY;
+		-SOLID;
+		-BLOCKEDBYSOLIDACTORS;
+		+THRUACTORS;
+		+INTERPOLATEANGLES;
+		+ROLLSPRITE;
+		+SPRITEANGLE;
+		+FORCEXYBILLBOARD;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			HAMM Q 0 A_StartSound("enemies/whiff2", 10, CHANF_LOOP);
+			HAMM Q 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+		SpeenRight:
+			#### # 1 A_SetRoll(roll - 12);
+			Loop;
+		SpeenLeft:
+			#### # 1 A_SetRoll(roll + 12);
+			Loop;
+		Death:
+			HAMM Q 0 
+			{
+				A_StartSound("enemies/slam", 10);
+				A_SpawnItemEX("HammerSlam", 48, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEVELOCITY | SXF_NOCHECKPOSITION);
+				A_SpawnItemEX("HammerSlamPuff", 48, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEVELOCITY | SXF_NOCHECKPOSITION);
+				if (self.Pos.Z ~== self.FloorZ) {bFLATSPRITE = true;} else {bFLATSPRITE = false;}
+			}
+			HAMM QQQQQQQQQQQQQQQQ 0 A_SpawnItemEX("BoomSmoke", frandom(-8, 8), frandom(-8, 8), frandom(0, 8), frandom(-8, 8), frandom(-8, 8), frandom(4, 8), 0, SXF_NOCHECKPOSITION, 64);
+			HAMM Q -1;
+	}
+}
+
+CLASS HammerChunk : BoxChunk
+{
+	States
+	{	
+		Spawn:
+			HAMM P 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			HAMM P 0 A_Jump(128, 2);
+			HAMM P 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS HammerBlood : BoxBlood
+{
+	States
+	{
+		Firsty: 
+			TNT1 AAA 0 A_SpawnItemEx("HammerChunk", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION);
+			Goto Super::Firsty;
+		Secondy: 
+			TNT1 AA 0 A_SpawnItemEx("HammerChunk", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION);
+			Goto Super::Secondy;
+		Thirdy: 
+			TNT1 A 0 A_SpawnItemEx("HammerChunk", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION);
+			Goto Super::Thirdy;
+	}
+}
+
+CLASS HammerGibLeft : BoxGib
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			HAMM M 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS HammerGibMiddle : BoxGib
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			HAMM N 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS HammerGibRight : BoxGib
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			HAMM O 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS HammerGibBone : BoxGib
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			HAMM R 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}

@@ -1,0 +1,152 @@
+//zboxscript/loot/health.zsc
+
+//where all the health items are.
+
+//stronger enemies drop better health items.
+
+CLASS BoxHealth : Health abstract
+{
+	mixin BoxLootBase;
+
+	Default
+	{
+		Height 24;
+		Radius 20;
+		Inventory.ForbiddenTo "PlayerTriangle";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteName = "HEAL";
+		ParticleColor = "00 ff fd";
+	}
+	
+	States
+	{
+		Dummy:
+			HEAL A 0; //this is needed or "GetSpriteIndex" will mess up.
+			Stop; //this state is never called by the health actor.
+	}
+}
+
+CLASS PureHealth : BoxHealth
+{
+	Default
+	{
+		Inventory.Amount 10;
+		Inventory.PickupMessage "$BOX_HEALTH_PURE";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 13;
+	}
+}
+
+CLASS MelonHealth : BoxHealth
+{
+	Default
+	{
+		Inventory.Amount 3;
+		Inventory.PickupMessage "$BOX_HEALTH_MELON";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 1;
+	}
+}
+
+CLASS PizzaHealth : BoxHealth
+{
+	Default
+	{
+		Inventory.Amount 1;
+		Inventory.PickupMessage "$BOX_HEALTH_PIZZA";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 2;
+	}
+}
+
+CLASS OnionHealth : BoxHealth
+{
+	Default
+	{
+		Inventory.Amount 4;
+		Inventory.PickupMessage "$BOX_HEALTH_ONION";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 3;
+	}
+}
+
+CLASS RedOnionHealth : BoxHealth
+{
+	Default
+	{
+		Scale 0.5;
+		Inventory.Amount 2;
+		Inventory.PickupMessage "$BOX_HEALTH_REDONION";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 3;
+	}
+}
+
+CLASS LemonHealth : BoxHealth
+{
+	Default
+	{
+		Inventory.Amount 4;
+		Inventory.PickupMessage "$BOX_HEALTH_LEMON";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 4;
+	}
+}
+
+CLASS HammerHealth : BoxHealth
+{
+	Default
+	{
+		Inventory.Amount 5;
+		Inventory.PickupMessage "$BOX_HEALTH_HAMMER";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 5;
+	}
+}
+
+CLASS PepperHealth : BoxHealth
+{
+	Default
+	{
+		Inventory.Amount 5;
+		Inventory.PickupMessage "$BOX_HEALTH_PEPPER";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 6;
+	}
+}

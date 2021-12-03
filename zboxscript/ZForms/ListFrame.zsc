@@ -1,0 +1,34 @@
+class boxparty_ListFrame : boxparty_Frame {
+	double padding;
+
+	void setElementBoxes() {
+		let pos = 0.0;
+		for (int i = 0; i < elements.size(); i++) {
+			elements[i].box.pos = (0.0, pos);
+			elements[i].box.size.x = box.size.x;
+			pos += elements[i].box.size.y + padding;
+		}
+	}
+
+	static boxparty_ListFrame create(
+		Vector2 pos, Vector2 size, double padding
+	) {
+		let ret = new('boxparty_ListFrame');
+
+		ret.setBox(pos, size);
+		ret.padding = padding;
+		ret.alpha = 1.0;
+		ret.needsMouseMove = true;
+
+		return ret;
+	}
+
+	override void ticker() {
+		setElementBoxes();
+		Super.ticker();
+	}
+
+	override void onPack(boxparty_Element elem) {
+		setElementBoxes();
+	}
+}

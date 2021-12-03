@@ -1,0 +1,48 @@
+//zboxscript/weapons/fishingrod.zsc
+
+CLASS FishingRod : Weapon //20010
+{
+	Default
+	{
+		Radius 20;
+		Height 24;
+		Weapon.SelectionOrder 9999;
+		Inventory.PickupMessage "$BOX_FISHINGROD";
+		//Inventory.Icon "AMMOH0";
+		//Inventory.AltHUDIcon "AMMOA0";
+		//Obituary "$BOX_DIE_GLOW";
+		//Tag "$BOX_TAG_GLOW";
+		//DamageType "Melee";
+		
+		+WEAPON.WIMPY_WEAPON;
+		+WEAPON.AMMO_OPTIONAL;
+		+WEAPON.ALT_AMMO_OPTIONAL;
+		+WEAPON.NOALERT;
+		+INVENTORY.UNDROPPABLE;
+		+CASTSPRITESHADOW;
+		//$Category "Box Party/Weapons"
+		//$Title "Fishing Rod"
+		//$Color 9
+	}
+	
+	States
+	{
+		Ready:
+			FROD A 1 A_WeaponReady;
+			Loop;
+		Deselect:
+			FROD AA 0 A_Lower;
+			FROD A 1 A_Lower;
+			Loop;
+		Select:
+			FROD AA 0 A_Raise;
+			FROD A 1 A_Raise;
+			Loop;
+		Fire:
+			FROD BCDEFG 20;
+			Goto Ready;
+		Spawn:
+			FROD J -1;
+			Stop;
+	}
+}

@@ -1,0 +1,37 @@
+//zboxscript/npc/talkingbox.zsc
+
+//just random generic npcs in every level that have 1 line of dialogue.
+
+CLASS TalkingBoxSpawner : RandomSpawner //20999
+{
+	Default
+	{
+		DropItem "TalkingBoxA";
+		DropItem "TalkingBoxB";
+		DropItem "TalkingBoxC";
+		DropItem "TalkingBoxD";
+		DropItem "TalkingBoxE";
+		DropItem "TalkingBoxF";
+		DropItem "TalkingBoxG";
+		DropItem "TalkingBoxH";
+		DropItem "TalkingBoxI";
+		DropItem "TalkingBoxJ";
+		DropItem "TalkingBoxK";
+		//$Category "Box Party/NPCs"
+		//$Title "Talking Box Spawner"
+		//$Sprite "PBOXB0"
+		//$Color 16
+	}
+}
+
+CLASS TalkingBoxA : NPCBox {Default {Translation "15:15=15:15";}}
+CLASS TalkingBoxB : NPCBox {Default {Translation "15:15=27:27";}}
+CLASS TalkingBoxC : NPCBox {Default {Translation "15:15=42:42";}}
+CLASS TalkingBoxD : NPCBox {Default {Translation "15:15=63:63";}}
+CLASS TalkingBoxE : NPCBox {Default {Translation "15:15=79:79";}}
+CLASS TalkingBoxF : NPCBox {Default {Translation "15:15=143:143";}}
+CLASS TalkingBoxG : NPCBox {Default {Translation "15:15=165:165";}}
+CLASS TalkingBoxH : NPCBox {Default {Translation "15:15=187:187";}}
+CLASS TalkingBoxI : NPCBox {Default {Translation "15:15=223:223";}}
+CLASS TalkingBoxJ : NPCBox {Default {Translation "15:15=229:229";}}
+CLASS TalkingBoxK : NPCBox {Default {Translation "15:15=32:32";}}

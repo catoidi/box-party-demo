@@ -1,0 +1,291 @@
+//zboxscript/weapons/laserpointer.zsc
+
+//zscript code for the laser pointer. (and later the laser pointer upgrade.)
+
+CLASS LaserPointerAmmo : Ammo //20019
+{
+	//its a battery.
+	Default
+	{
+		Radius 20;
+		Height 24;
+		Inventory.PickupMessage "$BOX_AMMO_LASER";
+		Inventory.Amount 10;
+		Inventory.MaxAmount 40;
+		Inventory.Icon "LAZRD0";
+		Ammo.BackpackAmount 10;
+		Ammo.BackpackMaxAmount 60;
+		+CASTSPRITESHADOW;
+		//$Category "Box Party/Ammo"
+		//$Title "Laser Ammo"
+		//$Color 19
+	}
+	
+	States
+	{
+		Spawn:
+			LAZR D -1;
+			Stop;
+	}
+}
+
+CLASS LaserPointerAmmoDrop : LaserPointerAmmo
+{
+	mixin BoxActorMixin;
+
+	Default
+	{
+		+FLOATBOB;
+	}
+	
+	int FadeNum;
+
+	States
+	{
+		Spawn:
+			LOOT CCCDDDCCCDDDCCCDDD 10 BRIGHT A_BoxParticle2("ff ec 42", random(1, 2), 12, 24, POffset: 8.0, POffsetZ: frandom(0.0, 4.0), PSpeed: 2.0, PBright: true);
+			#### # 0
+			{
+				FadeNum += 1;
+				if (FadeNum == 2) {A_BoxParticle("ff ec 42", 8, 12, 24);}
+			}
+			LOOT C 0 A_FadeOut(0.5);
+			Loop;
+	}
+}
+
+CLASS LaserPointer : Weapon //20020
+{
+	//pew pew laser
+	//it kinda sucks rn, might change it later.
+	Default
+	{
+		Radius 20;
+		Height 24;
+		Weapon.SelectionOrder 5000;
+		Weapon.Kickback 0;
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 10;
+		Weapon.AmmoType "LaserPointerAmmo";
+		Inventory.PickupMessage "$BOX_WEAPON_LASER";
+		Inventory.Icon "AMMOJ0";
+		Inventory.AltHUDIcon "AMMOC0";
+		Obituary "$BOX_DIE_LASER";
+		Tag "$BOX_TAG_LASER";
+		
+		+WEAPON.ALT_USES_BOTH
+		+CASTSPRITESHADOW;
+		//$Category "Box Party/Weapons"
+		//$Title "Laser Pointer"
+		//$Color 9
+	}
+	
+	States
+	{
+		Ready:
+			LAZR A 1 A_WeaponReady;
+			Loop;
+		Fire:
+			LAZR B 0 BRIGHT A_FireProjectile("LaserPointerBullet", 0, 1, -4, 4, FPF_AIMATANGLE, 0);
+			LAZR B 0 BRIGHT A_StartSound("weapons/laser/lasrpew");
+			LAZR B 1 BRIGHT A_WeaponOffset(-2, 30, WOF_INTERPOLATE);
+			LAZR BBB 1 BRIGHT A_WeaponOffset(-2, 3, WOF_ADD | WOF_INTERPOLATE);
+			LAZR B 1;
+			LAZR A 3;
+			LAZR A 2 A_Refire;
+			Goto Ready;
+		AltFire:
+			LAZR A 0;
+			LAZR A 0 A_JumpIfInventory("LaserPointerAmmo", 5, 3);
+			LAZR A 0 ACS_NamedExecute("noammo", 0, 0, 0, 0);
+			LAZR A 0 A_Jump(256, "Ready");
+			LAZR A 0 {invoker.bNOALERT = true;} //dont alert enemies when charging
+			LAZR FGFG 8 A_WeaponOffset(random(-1, 1), random(19, 21), WOF_INTERPOLATE);
+		AltFire2:
+			LAZR HI 2 A_WeaponOffset(random(-3, 3), random(17, 23), WOF_INTERPOLATE);
+			LAZR H 0 A_Refire("AltFire2");
+			LAZR H 0 {invoker.bNOALERT = false;} //alert enemies now
+			LAZR H 0 A_AlertMonsters();
+			LAZR H 0 A_StartSound("weapons/laser/lasrpew2");
+			LAZR H 0 BRIGHT A_FireProjectile("LaserPointerBullet2", 0, 0, -4, 4, FPF_AIMATANGLE, 0);
+			LAZR H 0 BRIGHT A_TakeInventory("LaserPointerAmmo", 5);
+			LAZR H 1 BRIGHT A_WeaponOffset(-6, 60, WOF_INTERPOLATE);
+			LAZR HHH 1 BRIGHT A_WeaponOffset(-3, 4, WOF_ADD | WOF_INTERPOLATE);
+			LAZR A 6;
+			LAZR A 0 A_Refire("AltFire");
+			LAZR AAA 2 A_WeaponOffset(6, 6, WOF_ADD | WOF_INTERPOLATE);
+			Goto Ready;
+		Deselect:
+			LAZR AAA 0 A_Lower;
+			LAZR A 1 A_Lower;
+			Loop;
+		Select:
+			LAZR AAA 0 A_Raise;
+			LAZR A 1 A_Raise;
+			Loop;
+		Spawn:
+			LAZR E -1;
+			Stop;
+	}
+}
+
+CLASS LaserPointerBullet : BoxActor
+{
+	//the projectile that can shock enemies
+	Default
+	{
+		Mass 0;
+		Gravity 0;
+		Radius 3;
+		Height 6;
+		Speed 20;
+		DamageFunction (24);
+		DamageType "Lightning";
+		Projectile;
+		+BLOODSPLATTER;
+		+INTERPOLATEANGLES;
+		+ROLLSPRITE;
+		+SPRITEANGLE;
+		+FORCEXYBILLBOARD;
+	}
+	
+	States
+	{
+		Spawn:
+			LAZR C 1 BRIGHT A_SetRoll(random(0, 359));
+		Zoomin:
+			LAZR C 2 BRIGHT;
+			LAZR C 1 BRIGHT A_SpawnItemEx("LaserPointerBulletTrail", 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
+			Loop;
+		XDeath:
+		Crash:
+			LAZR C 0 BRIGHT A_StartSound("weapons/laser/lasrhit");
+		Death.Sky:
+		Death:
+			LAZR C 1 BRIGHT 
+			{
+				A_BoxScale(0.3);
+				A_FadeOut(0.2);
+			}
+			LAZR CCCCCC 0 BRIGHT A_SpawnItemEx("LaserPointerBulletCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359));
+			LAZR CCCC 1 BRIGHT
+			{
+				A_BoxScale(0.3);
+				A_FadeOut(0.2);
+			}
+			Stop;
+	}
+}
+
+CLASS LaserPointerBullet2 : LaserPointerBullet
+{
+	Default
+	{
+		Radius 6;
+		Height 12;
+		Speed 40;
+		DamageFunction (120);
+	}
+	
+	States
+	{
+		Spawn:
+			LAZR J 1 BRIGHT A_SetRoll(random(0, 359));
+		Zoomin:
+			LAZR # 3 BRIGHT;
+			LAZR ## 0 BRIGHT A_SpawnItemEx("LaserPointerBulletTrail2", 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
+			Loop;
+		XDeath:
+		Crash:
+			LAZR J 0 BRIGHT A_StartSound("weapons/laser/lasrhit");
+		Death.Sky:
+		Death:
+			LAZR # 1 BRIGHT 
+			{
+				A_StartSound("weapons/laser/lasrboom");
+				A_BoxScale(0.15);
+				A_FadeOut(0.1);
+			}
+			LAZR # 1 BRIGHT A_Explode(48, 40);
+			LAZR # 0 BRIGHT A_QuakeEX(1, 1, 1, 35, 0, 60);
+			LAZR ############ 0 BRIGHT A_SpawnItemEx("LaserPointerBulletCrumb2", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359));
+			LAZR ######## 1 BRIGHT
+			{
+				A_BoxScale(0.35);
+				A_FadeOut(0.1);
+			}
+			Stop;
+	}
+}
+
+CLASS LaserPointerBulletCrumb : BoxCrumb
+{
+	Default
+	{
+		Gravity 0;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			Goto Death;
+		Death:
+			LAZR C 1 BRIGHT A_FadeOut(0.1);
+			Loop;
+	}
+}
+
+CLASS LaserPointerBulletCrumb2 : LaserPointerBulletCrumb
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			Goto Death;
+		Death:
+			LAZR J 1 BRIGHT A_FadeOut(0.05);
+			Loop;
+	}
+}
+
+CLASS LaserPointerBulletTrail : BoxActor
+{
+	Default
+	{
+		Mass 0;
+		Gravity 0;
+		Radius 0;
+		Height 0;
+		RenderStyle "Translucent";
+		Alpha 0.25;
+		
+		+INTERPOLATEANGLES;
+		+ROLLSPRITE;
+		+SPRITEANGLE;
+		+FORCEXYBILLBOARD;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			Goto Death;
+		Death:
+			LAZR CCCCCCCCCC 1 BRIGHT A_BoxScale(-0.1);
+			Stop;
+	}
+}
+
+CLASS LaserPOinterBulletTrail2: LaserPointerBulletTrail
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			Goto Death;
+		Death:
+			LAZR JJJJJJJJJJJJJJJJJJJJ 1 BRIGHT A_BoxScale(-0.05);
+			Stop;
+	}
+}

@@ -1,0 +1,268 @@
+//gldefs.txt
+
+//booms
+pulselight SMALLBOOM
+{
+	color 1.0 0.5 0.0
+	size 12
+	offset 0 12 0
+	secondarysize 24
+	interval 0.15
+	attenuate 1
+	dontlightself 1
+}
+
+pulselight BIGBOOM
+{
+	color 1.0 0.5 0.0
+	size 24
+	offset 0 24 0
+	secondarysize 48
+	interval 0.15
+	attenuate 1
+	dontlightself 1
+}
+
+pulselight TELEPORT
+{
+	color 0.0 0.5 1.0
+	size 24
+	offset 0 24 0
+	secondarysize 48
+	interval 0.15
+	attenuate 1
+	dontlightself 1
+}
+
+//Lantern
+pointlight LANTERN
+{
+    color 1.0 1.0 0.6
+    size 28
+    offset 0 16 0
+	attenuate 1
+}
+
+//Lantern
+pointlight TALLLANTERN
+{
+    color 1.0 1.0 0.6
+    size 120
+    offset 0 112 0
+	attenuate 1
+}
+
+pointlight STAGE
+{
+    color 1.0 1.0 0.6
+    size 28
+    offset 0 -48 0
+	attenuate 1
+}
+
+object StageLamp
+{
+    frame LAMP { light STAGE }
+}
+
+object Lantern
+{
+    frame LAMP { light LANTERN }
+}
+
+object HangingLantern
+{
+    frame LAMP { light LANTERN }
+}
+
+object TallLantern
+{
+	frame LAMP { light TALLLANTERN }
+}
+
+//Glowsticks
+pointlight GLOWGREEN
+{
+    color 0.0 1.0 0.0
+    size 20
+    offset 0 4 0
+	attenuate 1
+}
+
+//this one specific light is for red onion armor
+pointlight GLOWGREENSMALL
+{
+	color 0.0 1.0 0.0
+	size 8
+	offset 0 4 0
+	attenuate 1
+}
+
+//this one is used for the in-hand glowstick.
+pointlight GLOWGREENBIG
+{
+    color 0.0 0.4 0.0
+    size 100
+    offset 0 32 0
+	attenuate 1
+}
+
+pointlight GLOWBLUE
+{
+    color 0.0 0.0 1.0
+    size 20
+    offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWRED
+{
+    color 1.0 0.0 0.0
+    size 20
+    offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWREDBIG
+{
+    color 1.0 0.0 0.0
+    size 40
+    offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWREDGIANT
+{
+	color 1.0 0.0 0.0
+	size 100
+	offset 0 32 0
+	attenuate 1
+}
+
+pointlight GLOWYELLOW
+{
+    color 1.0 1.0 0.0
+    size 20
+    offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWPINK
+{
+    color 1.0 0.0 1.0
+    size 20
+    offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWAQUA
+{
+    color 0.0 1.0 1.0
+    size 20
+    offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWAQUABIG
+{
+    color 0.0 1.0 1.0
+    size 40
+    offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWAQUASMALL
+{
+	color 0.0 1.0 1.0
+	size 8
+	offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWWHITE
+{
+    color 1.0 1.0 1.0
+    size 20
+    offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWBLACK
+{
+	color 1.0 1.0 1.0
+	size 20
+	offset 0 4 0
+	subtractive 1
+	attenuate 1
+}
+
+//weapon glows
+object GlowstickAmmo {frame GLOWK {light GLOWWHITE}}
+object LaserPointerAmmo {frame LAZRD {light GLOWWHITE}}
+object PartyShottyAmmo {frame SHOTY {light GLOWWHITE}}
+object PopcornGunAmmo {frame POPGZ {light GLOWWHITE}}
+object GlowstickAmmoDrop {frame LOOTA {light GLOWYELLOW} frame LOOTB {light GLOWYELLOW}}
+object LaserPointerAmmoDrop {frame LOOTC {light GLOWYELLOW} frame LOOTD {light GLOWYELLOW}}
+object PartyShottyAmmoDrop {frame LOOTE {light GLOWYELLOW} frame LOOTF {light GLOWYELLOW}}
+object GlowstickAmmoDrop {frame LOOTG {light GLOWYELLOW} frame LOOTH {light GLOWYELLOW}}
+object LaserPointer {frame LAZRE {light GLOWWHITE}}
+object PartyShotty {frame SHOTZ {light GLOWWHITE}}
+object PopcornGun {frame POPGM {light GLOWWHITE}}
+
+object GlowstickThrow
+{
+	frame GLOWD { light GLOWGREEN }
+	frame GLOWE { light GLOWBLUE }
+	frame GLOWF { light GLOWRED }
+	frame GLOWG { light GLOWYELLOW }
+	frame GLOWH { light GLOWPINK }
+	frame GLOWI { light GLOWAQUA }
+	frame GLOWJ { light GLOWWHITE }
+}
+
+object Glowstick {frame GLOWA { light GLOWGREEN }}
+
+object LaserPointerBullet {frame LAZRC { light GLOWGREEN }}
+
+object LaserPointerBullet2 {frame LAZRJ { light GLOWREDBIG }}
+
+object HeyLook {frame LOOKA { light GLOWWHITE }}
+
+object LemonBullet {frame LEMNO { light GLOWRED }}
+
+object WhiteKey {frame AKEYA {light GLOWWHITE}}
+object RedKey {frame AKEYB {light GLOWRED}}
+object GreenKey {frame AKEYC {light GLOWGREEN}}
+object BlueKey {frame AKEYD {light GLOWBLUE}}
+object YellowKey {frame AKEYE {light GLOWYELLOW}}
+object PurpleKey {frame AKEYF {light GLOWPINK}}
+object CyanKey {frame AKEYG {light GLOWAQUA}}
+object BlackKey {frame AKEYH {light GLOWBLACK}}
+
+object PieBomb {frame PIEBB {light GLOWRED}}
+
+flickerlight SHOCKER
+{
+	color 1.0 1.0 0.0
+	size 16
+	offset 0 32 0
+	attenuate 1
+	secondarysize 48
+	chance 0.1
+}
+
+flickerlight CAMPFIRE
+{
+	color 1.0 0.5 0.0
+	size 24
+	offset 0 16 0
+	attenuate 1
+	secondarysize 36
+	chance 0.1
+}
+
+object Campfire {frame CAMP {light CAMPFIRE}}
+
+object BoxTeleport {frame TELE {light TELEPORT}}
+
+object PepperBullet {frame PEPR {light GLOWYELLOW}}

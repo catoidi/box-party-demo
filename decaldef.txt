@@ -1,0 +1,74 @@
+//althudcf.txt
+
+//this here will "de-doomify" the blood splatters, so that they fit within the "feel" of box party better.
+Decal FruitGusher1
+{
+	pic GUSHA
+	shade "FF 00 00"
+	randomflipx
+	randomflipy
+}
+
+Decal FruitGusher2
+{
+	pic GUSHB
+	shade "FF 00 00"
+	randomflipx
+	randomflipy
+}
+
+Decal FruitGusher3
+{
+	pic GUSHC
+	shade "FF 00 00"
+	randomflipx
+	randomflipy
+}
+
+Decal FruitGusher4
+{
+	pic GUSHD
+	shade "FF 00 00"
+	randomflipx
+	randomflipy
+}
+
+Decal FruitGusher5
+{
+	pic GUSHE
+	shade "FF 00 00"
+	randomflipx
+	randomflipy
+}
+
+DecalGroup BloodSplat
+{
+	FruitGusher1 1
+	FruitGusher2 1
+	FruitGusher3 1
+	FruitGusher4 1
+	FruitGusher5 1
+}
+
+DecalGroup BloodSmear
+{
+	FruitGusher1 1
+	FruitGusher2 1
+	FruitGusher3 1
+	FruitGusher4 1
+	FruitGusher5 1
+}
+
+Fader LaserFade
+{
+	DecayStart 0
+	DecayTime 2
+}
+
+Decal LaserPointed
+{
+	pic LAZRC
+	fullbright
+	animator LaserFade
+}
+generator LaserPointerBullet LaserPointed

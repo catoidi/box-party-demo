@@ -1,0 +1,34 @@
+//menudef.hud
+
+OptionMenu "BoxHudOptions" protected
+{
+	Title "$BOX_HUDOPTIONS"
+	Submenu "$OPTMNU_NASHHPBAR", "NashHPBarOptionMenu"
+	Submenu "$BOX_MENU_TITLE", "box_AchieveOptions"
+	StaticText ""
+	Option "$BOX_SHOWSCORE",		"box_showscore",	"onbydefault"
+	Option "$BOX_SCOREFADE",		"box_scorefade",	"offbydefault"
+	Option "$BOX_OPTION_RESERVE",	"box_reserve",		"onbydefault"
+	Slider "$BOX_OPTION_HUD",		"box_hudshake",		0, 5, 1, 0	
+	StaticText ""
+	Option "$BOX_TUTORIAL",			"box_tutorial",		"onbydefault"
+	Option "$BOX_LEVELNAME",		"box_levelname",	"onbydefault"
+	StaticText ""
+	Option "$HUDMNU_CROSSHAIRON",			"crosshairon", "OnOff"
+	Option "$HUDMNU_CROSSHAIR",				"crosshair", "Crosshairs"
+}
+
+AddOptionMenu "HUDOptions" after "FontOptions"
+{
+	StaticText ""
+	Submenu "$OPTMNU_NASHHPBAR", "NashHPBarOptionMenu"
+	Submenu "$BOX_MENU_TITLE", "box_AchieveOptions"
+	StaticText ""
+	Option "$BOX_SHOWSCORE",		"box_showscore",	"onbydefault"
+	Option "$BOX_SCOREFADE",		"box_scorefade",	"offbydefault"
+	Option "$BOX_OPTION_RESERVE",	"box_reserve",		"onbydefault"
+	Slider "$BOX_OPTION_HUD",		"box_hudshake",		0, 5, 1, 0	
+	StaticText ""
+	Option "$BOX_TUTORIAL",			"box_tutorial",		"onbydefault"
+	Option "$BOX_LEVELNAME",		"box_levelname",	"onbydefault"
+}

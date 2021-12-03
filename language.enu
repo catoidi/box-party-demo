@@ -1,0 +1,242 @@
+//language.enu
+
+//english
+//i've got the games text setup like this just in case someone ever wants to translate it,
+//which in itself would be a very difficult task due to how the dialogue system is made.
+//also it makes it easier for me to make changes to dialogue.
+
+[enu default]
+
+BOX_VERSION = "DEMO v1.0";
+
+//Sorry Nothing
+SORRY_NOTHING = "Sorry Nothing"; //sorry nothing
+NOAMMO = "outta ammo!";
+SECRETMESSAGE = "you found a secret!";
+
+/////////////////////////////////
+////////Warnings/////////////////
+/////////////////////////////////
+
+BOX_WARNING_FREELOOK = "u should turn freelook back on. box party kinda sorta requires you to look up and down.";
+BOX_WARNING_CROUCH = "u should not disable crouching. i mean, unless you like having some areas of the game be inaccessible.";
+BOX_WARNING_JUMP = "uuuhhhhhh yea so jumping is kinda a big part of this game so you should probably leave that on.";
+BOX_WARNING_DEGENERATION = "ya uhhhh no need to turn this setting on cuz box party has it's own version of this already";
+BOX_WARNING_FALLINGDAMAGE = "um yea boxes don't have legs dummy, u should turn off fall damage cuz that will make some sections in the game unplayable :)";
+BOX_WARNING_COMPATMODE = "yea uh compatibility mode was meant for games made in like the stone age and this game was made in at least the bronze age so you should go disable the compatibility stuff.";
+BOX_WARNING_FASTWEAPONS = "hey so uhhh im bad at coding and thus the fast weapons cheat doesn't really work that well on some weapons. sorry :(";
+
+/////////////////////////////////
+////////Death Messages///////////
+/////////////////////////////////
+
+//Keep in mind that any place with '%o' refers to the player who died.
+BOX_DIE_FRUIT = "%o got fruit punched.";
+BOX_DIE_SHOT = "%o ate too much trail mix from %k.";
+BOX_DIE_GLOW = "%k made %o go lights out.";
+BOX_DIE_LASER = "%o stared directly into %k 's laser pointer.";
+BOX_DIE_POPCORN = "%o was popped by %k 's popcorn gun.";
+BOX_DIE_FALL = "%o messed up the parkour.";
+BOX_DIE_PIZZA_BIG = "%o was pepperoni-ed.";
+BOX_DIE_PIZZA_SMALL = "%o got pizza sliced.";
+BOX_DIE_ONION = "%o was washed away.";
+BOX_DIE_REDONION = "%o was water-gunned.";
+BOX_DIE_BIGONION = "%o was swept away.";
+BOX_DIE_BOX = "%o shouldn't have messed with a fellow partygoer.";
+BOX_DIE_LEMON = "%o wasn't a fan of sour candy.";
+BOX_DIE_PEPPER = "%o got too spicy to handle.";
+BOX_DIE_PRISM = "%o was ult-ed by a Prism Shard.";
+BOX_DIE_STUPID = "%o was super murdered by the actual real pistol.";
+
+/////////////////////////////////
+////////Actor Tags///////////////
+/////////////////////////////////
+
+BOX_TAG_SHOT = "Snack Shotgun";
+BOX_TAG_GLOW = "Glowstick";
+BOX_TAG_LASER = "Laser Pointer";
+BOX_TAG_POPCORN = "Kernel Popper";
+BOX_TAG_PRISM = "Superb Hexagon";
+BOX_TAG_STUPID = "actual real pistol";
+
+/////////////////////////////////
+/////////Locked Doors////////////
+/////////////////////////////////
+BOX_KEY_WHITE_DOOR = "\cxYou need the \cjWhite Key \cxto use this door.";
+BOX_KEY_WHITE_OBJECT = "\cxYou need the \cjWhite Key \cxto use this object.";
+BOX_KEY_RED_DOOR = "\cxYou need the \cgRed Key \cxto use this door.";
+BOX_KEY_RED_OBJECT = "\cxYou need the \cgRed Key \cxto use this object.";
+BOX_KEY_GREEN_DOOR = "\cxYou need the \cdGreen Key \cxto use this door.";
+BOX_KEY_GREEN_OBJECT = "\cxYou need the \cdGreen Key \cxto use this object.";
+BOX_KEY_BLUE_DOOR = "\cxYou need the \chBlue Key \cxto use this door.";
+BOX_KEY_BLUE_OBJECT = "\cxYou need the \chBlue Key \cxto use this object.";
+BOX_KEY_YELLOW_DOOR = "\cxYou need the \ckYellow Key \cxto use this door.";
+BOX_KEY_YELLOW_OBJECT = "\cxYou need the \ckYellow Key \cxto use this object.";
+BOX_KEY_PURPLE_DOOR = "\cxYou need the \ctPurple Key \cxto use this door.";
+BOX_KEY_PURPLE_OBJECT = "\cxYou need the \ctPurple Key \cxto use this object.";
+BOX_KEY_CYAN_DOOR = "\cxYou need the \cnCyan Key \cxto use this door.";
+BOX_KEY_CYAN_OBJECT = "\cxYou need the \cnCyan Key \cxto use this object.";
+BOX_KEY_BLACK_DOOR = "\cxYou need the \cmBlack Key \cxto use this door.";
+BOX_KEY_BLACK_OBJECT = "\cxYou need the \cmBlack Key \cxto use this object.";
+
+/////////////////////////////////
+////////////Items////////////////
+/////////////////////////////////
+
+BOX_WEAPON_SHOT = "\cjAcquired the 'Snack Shotgun'! \nFor entertainment purposes only."; //Picked up the PartyShotty.
+BOX_WEAPON_GLOW = "\cjFound your glowstick! \nNow the party can begin."; //weapon pickup for glowstick.
+BOX_WEAPON_LASER = "\cjPicked up a laser pointer! \nAvoid pointing at eyes."; //Picked up the Laser Pointer.
+BOX_WEAPON_POPCORN = "\cjFound the 'Colonel Popper' PMG! \nThe 'P' stands for popcorn.";
+BOX_WEAPON_STUPID = "\cgyou've acquired the real actual pistol.";
+BOX_AMMO_SHOT = "\ck(+4 \ctTrail Mix\ck)"; //Ammo pickup for the PartyShotty.
+BOX_AMMO_GLOW = "\ck(+1 \cdGlowstick\ck)"; //ammo pickup for glowstick.
+BOX_AMMO_LASER = "\ck(+10 \crBattery\ck)"; //ammo pickup for laser pointer.
+BOX_AMMO_POPCORN = "\ck(+20 \cbPopcorn\ck)"; //popcorn ammo
+BOX_AMMO_STUPID = "\cgyou have acquired extra ammo for your actual real pistol that you have for some reason. actually, you just found an extra real pistol on the ground, and you just took the ammo out of that one. that's quite a waste if you think about it. why not take both pistols with you? that'd be double the firepower.";
+BOX_HEALTH_PURE = "\ca(\cn+10 \caHealth) \cg<3";
+BOX_HEALTH_MELON = "\ca(\cc+3 \caHealth)";
+BOX_HEALTH_PIZZA = "\ca(\c++1 \caHealth)";
+BOX_HEALTH_ONION = "\ca(\cf+4 \caHealth)";
+BOX_HEALTH_REDONION = "\ca(\cb+2 \caHealth)";
+BOX_HEALTH_LEMON = "\ca(\cf+4 \caHealth)";
+BOX_HEALTH_HAMMER = "\ca(\ci+5 \caHealth)";
+BOX_HEALTH_PEPPER = "\ca(\ci+5 \caHealth)";
+BOX_ARMOR_PURE = "\cq(\cn+10 \cqArmor)";
+BOX_ARMOR_MELON = "\cq(\cc+3 \cqArmor)";
+BOX_ARMOR_PIZZA = "\cq(\c++1 \cqArmor)";
+BOX_ARMOR_ONION = "\cq(\cf+4 \cqArmor)";
+BOX_ARMOR_REDONION = "\cq(\cb+2 \cqArmor)";
+BOX_ARMOR_LEMON = "\cq(\cf+4 \cqArmor)";
+BOX_ARMOR_HAMMER = "\cq(\ci+5 \cqArmor)";
+BOX_ARMOR_PEPPER = "\cq(\ci+5 \cqArmor)";
+BOX_ENERGY_PURE = "\ct(\cn+10 \ctEnergy)";
+BOX_ENERGY_MELON = "\ct(\cc+3 \ctEnergy)";
+BOX_ENERGY_PIZZA = "\ct(\c++1 \ctEnergy)";
+BOX_ENERGY_ONION = "\ct(\cf+4 \ctEnergy)";
+BOX_ENERGY_REDONION = "\ct(\cb+2 \ctEnergy)";
+BOX_ENERGY_LEMON = "\ct(\cf+4 \ctEnergy)";
+BOX_ENERGY_HAMMER = "\ct(\ci+5 \ctEnergy)";
+BOX_ENERGY_PEPPER = "\ct(\ci+5 \ctEnergy)";
+BOX_POWER_PURE = "\cc(\cn+10 \ccPower)";
+BOX_POWER_MELON = "\cc(\cc+3 \ccPower)";
+BOX_POWER_PIZZA = "\cc(\c++1 \ccPower)";
+BOX_POWER_ONION = "\cc(\cf+4 \ccPower)";
+BOX_POWER_REDONION = "\cc(\cb+2 \ccPower)";
+BOX_POWER_LEMON = "\cc(\cf+4 \ccPower)";
+BOX_POWER_HAMMER = "\cc(\ci+5 \ccPower)";
+BOX_POWER_PEPPER = "\cc(\ci+5 \ccPower)";
+BOX_KEY_WHITE = "\cnObtained the \cbWhite \cnKey.";
+BOX_KEY_RED = "\cnObtained the \cgRed \cnKey.";
+BOX_KEY_GREEN = "\cnObtained the \cdGreen \cnKey.";
+BOX_KEY_BLUE = "\cnObtained the \chBlue \cnKey.";
+BOX_KEY_YELLOW = "\cnObtained the \cfYellow \cnKey.";
+BOX_KEY_PURPLE = "\cnObtained the \ctPurple \cnKey.";
+BOX_KEY_CYAN = "\cnObtained the \cvCyan \cnKey.";
+BOX_KEY_BLACK = "\cnObtained the \cmBlack \cnKey.";
+BANANA = "\n\n\n\cxbanana";
+YOUGOTTRASH = "You got trash!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+
+/////////////////////////////////
+////////////Menu Text////////////
+/////////////////////////////////
+
+//New Menu Stuff
+BOX_OPTIONS = "Box Options";
+BOX_OPTIONS_INFO = "options related to Box Party.";
+GZDOOM_OPTIONS = "GZDOOM Options";
+GZDOOM_OPTIONS_INFO = "engine related options.";
+GZDOOM_OPTIONS_INFO2 = "careful not to break anything.";
+NO_SUPPORT = "Not all options are supported in Box Party.";
+NO_AUTOAIM = "Autoaim and Skins are not supported in Box Party.";
+SIZE_IS_ELEVEN = "Recommended Screen Size is 11.";
+BOX_SUBMENU_PLAYER = "Player Customization";
+BOX_SUBMENU_OPTIONS = "Advanced Box Options";
+BOX_HAT_NUM = "Hat";
+BOX_HAT_MENU = "Open Hat Menu";
+HAT_RESET_WARN = "WARNING: Resetting your settings WILL delete your hats!";
+BOX_HUDOPTIONS = "HUD Options";
+BOX_SHOWSCORE = "Show Player Score";
+BOX_SCOREFADE = "Score Bar Fade";
+BOX_TUTORIAL = "Show Tutorials";
+BOX_LEVELNAME = "Show Level Names";
+HIGHSCORE = "Level High Scores";
+NOMUSICYET = "Sorry, there's no music in Box Party yet.";
+
+//BoxGameplay Menu
+BOX_TITLE_GAMEPLAY = "Advanced Box Party Options";
+BOX_INFO_GAMEPLAY = "\cvIt is recommended you playthrough the game at least";
+BOX_INFO_GAMEPLAY2 = "\cvone time before changing anything here.";
+BOX_OPTION_RESETHP = "Reset HP on Level Start";
+BOX_OPTION_BADCVAR = "Check for 'bad' GZDoom settings";
+BOX_OPTION_RESETHAT = "RESET HATS TO DEFAULT SETTINGS";
+
+//BoxGraphics Menu
+BOX_TITLE_GRAPHICS = "Graphics Options";
+BOX_OPTION_CRUMB = "Particle Effects";
+BOX_OPTION_PICKUP = "Fancy Pickups";
+BOX_OPTION_SKY = "Simpler Skyboxes";
+BOX_OPTION_RESERVE = "Show Reserve Ammo";
+BOX_OPTION_HUD = "HUD Shake Effect";
+
+//Option Values
+BOX_VALUE_ALL = "All of em \cf[Default]";
+BOX_VALUE_FULL = "Full";
+BOX_VALUE_ON = "On";
+BOX_VALUE_OFF = "Off";
+BOX_VALUE_ON_DEFAULT = "On \cf[Default]";
+BOX_VALUE_OFF_DEFAULT = "Off \cf[Default]";
+BOX_VALUE_REDUCED = "Reduced";
+BOX_VALUE_MINIMAL = "Minimal";
+BOX_VALUE_NONE = "None whatsoever";
+BOX_VALUE_NPCYES = "Keep em. \cf[Default]";
+BOX_VALUE_NPCNO = "Get rid of em.";
+BOX_VALUE_NOTHANKS = "No thanks.";
+BOX_VALUE_INFIGHT_OFF = "No Infighting";
+BOX_VALUE_DEFAULT = "\cfDefault";
+BOX_VALUE_INFIGHT_TOTAL = "Total Infighting";
+
+//NashHPBar Menu
+//same as the default BoxHPBar files, but with references to Nash specifically removed.
+OPTMNU_NASHHPBAR = "Customize HP Bar";
+NASHHPBARMNU_TITLE = "HP Bar Options";
+NASHHPBARMNU_ENABLE = "Enable";
+NASHHPBARMNU_HELPTEXT_ENABLE = "Enables HP bar.";
+NASHHPBARMNU_BOSSONLY = "Boss Only";
+NASHHPBARMNU_HELPTEXT_BOSSONLY = "Only shows HP bar for Bosses (and Players).";
+NASHHPBARMNU_STYLE = "Style";
+NASHHPBARMNU_HELPTEXT_STYLE = "Changes the appearance of the HP bar.";
+
+//Stupid Achievements
+// Default values //////////////////////////////////////////////////////////////
+
+BOX_TITLE       = "NEW HAT UNLOCKED:";
+BOX_NAME        = "You did something.";
+BOX_DESCRIPTION = "Explained something!";
+BOX_PROGRESS    = "Hat Progress: ";
+
+// Achievement Options menu ////////////////////////////////////////////////////////////////
+
+BOX_MENU_TITLE = "Customize Unlock Popups";
+BOX_POPUP_SUBTITLE = "This controls the popups for unlocking new hats.";
+BOX_HORIZONTAL = "Horizontal position";
+BOX_VERTICAL   = "Vertical position";
+BOX_ANIMATION  = "Animation type";
+BOX_LEFT       = "Left";
+BOX_RIGHT      = "Right";
+BOX_TOP        = "Top";
+BOX_BOTTOM     = "Bottom";
+BOX_CLEAR      = "Clear hat unlock data";
+BOX_TEST       = "Show test popup";
+
+BOX_NOTIFY           = "Notifications";
+BOX_SLIDE_VERTICAL   = "Slide vertically";
+BOX_SLIDE_HORIZONTAL = "Slide horizontally";
+BOX_FADE_IN_OUT      = "Fade in/fade out";
+BOX_DISABLED         = "Disabled";
+
+BOX_ACHIEVEMENTS   = "Hat Unlocks";
+BOX_LOCKED         = "Locked";
+BOX_UNLOCKED       = "Unlocked";
+BOX_LOCKED_TITLE   = "Locked Hats";
+BOX_UNLOCKED_TITLE = "Unlocked Hats";
+

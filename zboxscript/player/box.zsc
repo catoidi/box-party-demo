@@ -1,0 +1,64 @@
+//zboxscript/player/box.zsc
+
+CLASS PlayerBox : BoxPlayerBase replaces DoomPlayer
+{
+	Default
+	{
+		Health 100;
+		Player.MaxHealth 100;
+		Player.StartItem "PlayerBoxToken";
+		Player.StartItem "BoxFakeArmor";
+		Player.DisplayName "Box";
+		Player.Face "FAC";
+		Player.Portrait "INFO_BOX";
+	}
+	
+	action void CountLooterNum (void)
+	{
+		invoker.LooterNum = 4 - (self.Health / 25);
+	}
+	
+	override void Tick(void)
+	{
+		CountLooterNum();
+		Super.Tick();
+	}
+	
+	States
+	{
+		Spawn:
+			PBOX A 0 NoDelay A_BoxHatTime(true);
+			PBOX A -1;
+			Loop;
+		See:
+			PBOX AB 7;
+			Loop;
+		Missile:
+			"####" "#" 1;
+			"####" "#"  0 A_JumpIfInventory("GlowstickIsFiring", 1, "Melee");
+			PBOX D 4 BRIGHT;
+			PBOX E 8;
+			Goto Spawn;
+		Melee:
+			PBOX C 12;
+			Goto Spawn;
+		Pain:
+			PBOX L 4 A_Pain;
+			PBOX L 4;
+			Goto Spawn;
+		Death:
+			PBOX I 0 A_BoxHatTime(false);
+			PBOX I 10 A_PlayerScream;
+			PBOX J 10;
+			PBOX K 10 A_NoBlocking;
+			PBOX K -1;
+			Stop;
+		XDeath:
+			PBOX F 0 A_BoxHatTime(false);
+			PBOX F 10 A_XScream;
+			PBOX G 10;
+			PBOX H 10 A_NoBlocking;
+			PBOX H -1;
+			Stop;
+	}
+}

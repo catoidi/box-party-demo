@@ -1,0 +1,33 @@
+//zboxscript/effects/stars.zsc
+
+CLASS MeleeStars : BoxActor
+{
+	Default
+	{
+		Height 4;
+		Radius 2;
+		Scale 0.5;
+		Renderstyle "Translucent";
+
+		-SOLID;
+		-BLOCKEDBYSOLIDACTORS;
+		+ROLLSPRITE;
+		+SPRITEANGLE;
+		+FORCEXYBILLBOARD;
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 BRIGHT NoDelay A_SetRoll(random(0, 359));
+			STAR A 2 BRIGHT A_FadeOut(0.2);
+			"####" "#" 0 BRIGHT A_SetScale(0.4);
+			"####" "#" 2 BRIGHT A_FadeOut(0.2);
+			"####" "#" 0 BRIGHT A_SetScale(0.3);
+			"####" "#" 2 BRIGHT A_FadeOut(0.2);
+			"####" "#" 0 BRIGHT A_SetScale(0.2);
+			"####" "#" 2 BRIGHT A_FadeOut(0.2);
+			"####" "#" 0 BRIGHT A_SetScale(0.1);
+			Stop;
+	}
+}

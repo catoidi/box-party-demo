@@ -1,0 +1,41 @@
+//zboxscript/house/game.zsc
+
+CLASS GameController : Actor //20029
+{
+	Default
+	{
+		Radius 6;
+		Height 8;
+		-SOLID;
+		//$Category "Box Party/Decor/House/"
+		//$Title "Game Controller"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			GAME A -1;
+			Stop;
+	}
+}
+
+CLASS GameConsole : Actor //20030
+{
+	Default
+	{
+		Radius 12;
+		Height 12;
+		+SOLID;
+		//$Category "Box Party/Decor/House/"
+		//$Title "Game Console"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			GAME B -1;
+			Stop;
+	}
+}

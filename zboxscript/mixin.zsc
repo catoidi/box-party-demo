@@ -1,0 +1,270 @@
+//zboxscript/mixin.zsc
+
+//mixin was getting super large so it's now moved into a separate file.
+
+mixin class BoxActorMixin
+{
+	int IsMelee;
+	bool IsPrism;
+	float FakeFade;
+	float BoxScale_AmountX;
+	float BoxScale_AmountY; //just giving these 2 a long convoluted name to make sure it doesn't get used/confused for anything else cuz they're kinda important maybe idk 
+	
+	actor shocktarget;
+	
+	action void A_BoxFade (float FadeNum = 0.1)
+	{
+		//name's a little misleading, actor does not start fading until FakeFade reaches 0.75 or higher.
+		if (invoker)
+		{
+			let NewFade = invoker.FakeFade + FadeNum;
+			let ActualFade = (NewFade - 0.75) * 4;
+			if (ActualFade >= 1.0) {A_FadeTo(0.0, flags: FTF_REMOVE);}
+			else if (ActualFade > 0.0)
+			{
+				A_Fadeto(ActualFade, flags: FTF_REMOVE);
+				invoker.Scale.X = invoker.Scale.X * (1.0 - ActualFade);
+				invoker.Scale.Y = invoker.Scale.Y * (1.0 - ActualFade);
+				invoker.FakeFade = NewFade;
+			}
+			else {invoker.FakeFade = NewFade;}
+		}
+	}
+	
+	action void A_BoxParticle (string PColor = "ff ff ff", int PAmount = 1, int PSize = 5, int PTime = 16, float POffset = 0.0, float PSpeed = 4.0, bool PBright = false)
+	{
+		//simplifies making particle effects for stuff.
+	
+		let PTimer = 0;
+		while (PTimer < PAmount)
+		{
+			A_SpawnParticle(PColor, 0, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
+			PTimer++;
+		}
+	}
+	
+	action void A_BoxParticle2 (string PColor = "ff ff ff", int PAmount = 1, int PSize = 5, int PTime = 16, float POffset = 0.0, float POffsetZ = 0.0, float PSpeed = 4.0, bool PBright = false)
+	{
+		//like a_boxparticle, but the particle only goes up/down. (speed is somewhat random.)
+	
+		let PTimer = 0;
+		while (PTimer < PAmount)
+		{
+			A_SpawnParticle(PColor, 0, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), POffsetZ, 0, 0, frandom((PSpeed * 0.8), (PSpeed * 1.2)), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
+			PTimer++;
+		}
+	}
+
+	action void A_BoxScale (double ScaleAmount, bool IsMultiply = false)
+	{
+		if (invoker)
+		{
+			if (IsMultiply == false)
+			{
+				//dont ask.
+				invoker.Scale.X += ScaleAmount;
+				invoker.Scale.Y += ScaleAmount;
+				invoker.BoxScale_AmountX += ScaleAmount;
+				invoker.BoxScale_AmountY += ScaleAmount;
+			}
+			else
+			{
+				invoker.Scale.X = invoker.Scale.X * ScaleAmount;
+				invoker.Scale.Y = invoker.Scale.Y * ScaleAmount;
+				invoker.BoxScale_AmountX = invoker.BoxScale_AmountX * ScaleAmount;
+				invoker.BoxScale_AmountY = invoker.BoxScale_AmountY * ScaleAmount;
+			}
+		}
+	}
+
+	action void A_BoxScaleXY (double ScaleAmountX, double ScaleAmountY, bool IsMultiply = false)
+	{
+		if (invoker)
+		{
+			if (IsMultiply == false)
+			{
+				//read above.
+				invoker.Scale.X += ScaleAmountX;
+				invoker.Scale.Y += ScaleAmountY;
+				invoker.BoxScale_AmountX += ScaleAmountX;
+				invoker.BoxScale_AmountY += ScaleAmountY;
+			}
+			else
+			{
+				invoker.Scale.X = invoker.Scale.X * ScaleAmountX;
+				invoker.Scale.Y = invoker.Scale.Y * ScaleAmountY;
+				invoker.BoxScale_AmountX = invoker.BoxScale_AmountX * ScaleAmountX;
+				invoker.BoxScale_AmountY = invoker.BoxScale_AmountY * ScaleAmountY;
+			}
+		}
+	}
+	
+	action void A_ResetScale (void)
+	{
+		if (invoker)
+		{
+			//read above.
+			invoker.Scale.X += -invoker.BoxScale_AmountX;
+			invoker.Scale.Y += -invoker.BoxScale_AmountY;
+			invoker.BoxScale_AmountX = 0.0;
+			invoker.BoxScale_AmountY = 0.0;
+		}
+	}
+	
+	action void A_BoxSpawnLoot (string SpawnItem, int FailChance) 
+	{
+		//helps to reduce duplicate code.
+		//tries to spawn loot drops outside the radius of actor so player has room to pick em up.
+		if (invoker)
+		{
+			double BoxHeight = invoker.Height / 2;
+			double BoxSpeed = invoker.Radius / 10;
+			A_SpawnItemEX(SpawnItem, 0, 0, BoxHeight, BoxSpeed, 0, frandom(6, 10), random(0, 359), SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS, FailChance);
+		}
+	}
+	
+	action void A_BoxShocked (void)
+	{
+		//This is the effect that plays when the enemy is stunned by a shock attack.
+		if (invoker)
+		{
+			double BoxHeight = invoker.Height * 0.75;
+			double BoxRadius = invoker.Radius / 4;
+			double BoxSpeed = (BoxRadius / 24) + 2;
+			
+			if (self.target != null)	{invoker.shocktarget = self.target;}
+			
+			A_SpawnItemEX("ShockEffect", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			A_SpawnItemEX("ShockEffect", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			A_SpawnItemEX("ShockEffect", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			A_SpawnItemEX("ShockEffect", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			//A_DamageSelf(3);
+			if (self.health > 3) {self.health -= 3;}
+			else if (self.health <= 3) {A_Die("Lightning");}
+			A_Pain();
+			if (invoker.shocktarget != null) {self.target = invoker.shocktarget;}
+		}
+	}
+	
+	action void A_BoxShockedBig (void)
+	{
+		//This is the effect that plays when the enemy is stunned by a shock attack.
+		if (invoker)
+		{
+			double BoxHeight = invoker.Height * 0.4;
+			double BoxRadius = invoker.Radius / 4;
+			double BoxSpeed = (BoxRadius / 24) + 2;
+			
+			A_SpawnItemEX("ShockEffectBig", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			A_SpawnItemEX("ShockEffectBig", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			A_SpawnItemEX("ShockEffectBig", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			A_SpawnItemEX("ShockEffectBig", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			A_SpawnItemEX("ShockEffectBig", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			A_SpawnItemEX("ShockEffectBig", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			A_SpawnItemEX("ShockEffectBig", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			A_SpawnItemEX("ShockEffectBig", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
+			//A_DamageSelf(150);
+			if (self.health > 150) {self.health -= 150;}
+			else if (self.health <= 150) {A_Die("Lightning");}
+			A_Pain();
+		}
+	}
+	
+	action void A_BoxDecor (bool Flipping, double MinScale, double MaxScale, double MaxFade)
+	{
+		//reduces the amount of copy/paste code for decoration items by performing 3 basic functions in one.
+		if (invoker)
+		{
+			int RandomFlip = random(0, 1);
+			if ((Flipping == true) && (RandomFlip == 1)) {bSPRITEFLIP = true;}
+			if ((MinScale != 1.0) && (MaxScale != 1.0)) {A_BoxScale(frandom(MinScale, MaxScale), true);}
+			if (MaxFade != 0) {A_FadeOut(frandom(0, MaxFade));}
+		}
+	}
+
+	
+	action void A_BoxStars (void)
+	{
+		//Creates a star affect above the enemy's head to specify when they've been stunned by a melee attack.
+		//That's it.
+		if (invoker)
+		{
+			double BoxHeight = invoker.Height * 0.75;
+			double BoxRadius = invoker.Radius / 4;
+			double BoxSpeed = BoxRadius / 16;
+	
+			A_SpawnItemEX("MeleeStars", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(3, 8), 0, SXF_NOCHECKPOSITION);
+			A_SpawnItemEX("MeleeStars", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(3, 8), 0, SXF_NOCHECKPOSITION);
+			A_SpawnItemEX("MeleeStars", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(3, 8), 0, SXF_NOCHECKPOSITION);
+		}
+	}
+
+	action void A_BoxDropLoot (string ItemSuffix, int ItemDrops, bool ForceHealth = false)
+	{
+		//the point of this is to simplify the process of making enemies drop health items when they die.
+		//WARNING: Don't use this on the first tic of the enemy's pain or death state!
+		//This depends on the enemy targetting the player, so if this is called on the first tic, the enemy won't have time to target the player before the function is called.
+		
+		//Intended Use:
+		//1: Place action on frame where monster is supposed to drop it's loot.
+		//2: Type the prefix of the loot item in "ItemPrefix". So, if the prefix was "Melon", this will generate items like "MelonHealth" and "MelonArmor".
+		//3: Type the absolute minimum amount of items the monster can drop here (that's not zero), before being affected by health multipliers and melee bonuses. Most monsters have this set to one.
+		//4: Lastly, all box party monsters use an integer called "IsMelee" that is either 0 or 1, depending on whether or not the monster was killed with a melee attack.
+		//5: If killed via the Prism Weapon Blast, the enemy will be forced to drop health items instead of the usual drops.
+
+		//Alternate Mode:
+		//-If you want to spawn a very specific amount of an item, set the number for ItemDrops to a negative number.
+		//-This mode will ignore whatever is set for MeleeBonus, and will ignore the Target's HP.
+		//-This is great if you want a certain action to have a guaranteed chance to drop a specific amount of drops.
+		
+		let DropAmount = 0;
+		let TargetHP = 0;
+		string ItemPrefix = "BoxLooter_";
+		string ItemDropping = string.Format("%s%s", ItemPrefix, ItemSuffix);
+
+		if ((target != null) && (target is "PlayerPawn")) {TargetHP = target.CountInv("LootHPNum");}
+		
+		//Failsafe.
+		if (TargetHP < 0) {TargetHP = 0;}
+		
+		if (invoker)
+		{
+			//Loot drop amount calculations.
+			int LootAmount = (ItemDrops + invoker.IsMelee) * TargetHP;
+		
+			//Alternate mode calculations.
+			if (ItemDrops < 0) {LootAmount = -ItemDrops;} 
+			
+			if (ForceHealth == true)
+			{
+				ItemDropping.AppendFormat("%s", "_Forced");
+			}
+			
+			while (DropAmount < LootAmount)
+			{
+				A_BoxSpawnLoot(ItemDropping, 0);
+				DropAmount += 1;
+			}
+
+			if ((target) && (ItemDrops >= 0)) {A_BoxSpawnLoot("BoxFakeAmmoDrop", 0);}
+		}		
+	}
+
+	action void A_BoxDropAmmo (int ItemDrops)
+	{
+		//guaranteed drops of any ammo type
+		//replaces ammo for missing weapons with glowstick ammo
+		//for use during stuff like boss fights
+		
+		if (invoker)
+		{
+			int CurrentDrop = 0;
+			while (CurrentDrop < ItemDrops)
+			{
+				A_BoxSpawnLoot("BoxFakeAmmoDropForced", 0);
+				
+				CurrentDrop += 1;
+			}
+		}
+	}
+}

@@ -1,0 +1,41 @@
+>>This is a comment. Any line starting with ">>" will be ignored by Box Party.
+>>If you're making custom hats for Box Party, simply follow the instructions below to get everything setup right.
+>>
+>>First off, any and all "graphics" referenced in this file MUST be placed inside of "graphics/hat/".
+>>Second off, same with the graphics, all the actual "hat" sprites MUST be placed in "sprites/hats/".
+>>Not only does this help with organizing, but it is also implied by the hat system that the sprites and graphics will be inside the specified folders.
+>>Make sure you also include the file extension in the sprite/graphic names, like ".png" or ".lmp".
+>>
+>>All lines defining a hat starts with "Hat = ".
+>>1st parameter is the name of the line in "language.hat" or any other language file that appears when picking it in the menu. This is cosmetic only. (Example: BOX_HAT_SELECT_01)
+>>2nd parameter is the same as the 1st one, but for the message that appears when the hat is locked.
+>>3rd parameter is the CVAR that controls whether it is unlocked or not. Also make sure this CVAR is a BOOL.
+>>4th parameter is the filename for the "SPRITE" associated with the hat. (Example: HATAA0.png)
+>>5th parameter is the filename for the "GRAPHIC" displayed in the menu if the hat is UNLOCKED. (Example: HATBUTTONA.png)
+>>6th parameter is the filename for the "GRAPHIC" displayed in the menu if the hat is LOCKED.  (Example: HATLOCK1.png)
+>>All above parameters are required for every hat listed.
+>>Also end each line with a ";". :)
+>>
+>>PRO TIP: You can cut down on usage of sprite names by assigning multiple hats to specific angles for a singular frame.
+>>
+>>Page 1:
+Hat = HAT_SELECT_01, HAT_LOCKED_01, box_hat_unlock_01, HATAA1.png, HATBUTTONA.png, HATLOCK.png;
+Hat = HAT_SELECT_08, HAT_LOCKED_08, box_hat_unlock_08, HATAA8.png, HATBUTTONH.png, HATLOCK.png;
+Hat = HAT_SELECT_09, HAT_LOCKED_09, box_hat_unlock_09, HATAA9.png, HATBUTTONI.png, HATLOCK.png;
+Hat = HAT_SELECT_02, HAT_LOCKED_02, box_hat_unlock_02, HATAA2.png, HATBUTTONB.png, HATLOCK.png;
+Hat = HAT_SELECT_03, HAT_LOCKED_03, box_hat_unlock_03, HATAA3.png, HATBUTTONC.png, HATLOCK.png;
+Hat = HAT_SELECT_04, HAT_LOCKED_04, box_hat_unlock_04, HATAA4.png, HATBUTTOND.png, HATLOCK.png;
+Hat = HAT_SELECT_06, HAT_LOCKED_06, box_hat_unlock_06, HATAA6.png, HATBUTTONF.png, HATLOCK.png;
+Hat = HAT_SELECT_05, HAT_LOCKED_05, box_hat_unlock_05, HATAA5.png, HATBUTTONE.png, HATLOCK.png;
+Hat = HAT_SELECT_07, HAT_LOCKED_07, box_hat_unlock_07, HATAA7.png, HATBUTTONG.png, HATLOCK.png;
+Hat = HAT_SELECT_10, HAT_LOCKED_10, box_hat_unlock_10, HATAAA.png, HATBUTTONJ.png, HATLOCKA.png;
+Hat = HAT_SELECT_11, HAT_LOCKED_11, box_hat_unlock_11, HATAAB.png, HATBUTTONK.png, HATLOCKA.png;
+Hat = HAT_SELECT_12, HAT_LOCKED_12, box_hat_unlock_12, HATAAC.png, HATBUTTONL.png, HATLOCKA.png;
+Hat = HAT_SELECT_13, HAT_LOCKED_13, box_hat_unlock_13, HATAAD.png, HATBUTTONM.png, HATLOCK.png;
+Hat = HAT_SELECT_14, HAT_LOCKED_14, box_hat_unlock_14, HATAAE.png, HATBUTTONN.png, HATLOCK.png;
+Hat = HAT_SELECT_15, HAT_LOCKED_15, box_hat_unlock_15, HATAAF.png, HATBUTTONO.png, HATLOCKA.png;
+>>Page 2:
+Hat = HAT_SELECT_16, HAT_LOCKED_16, box_hat_unlock_16, HATAB1.png, HATBUTTON2A.png, HATLOCK2.png;
+>>rest of the hats are in full version :)
+>>Yes, I know these hats are out of order. I messed up during the process of coding the hats and I'm just gonna leave it like this.
+>>END OF FILE

@@ -1,0 +1,83 @@
+//zboxscript/npc/uniquebox.zsc
+
+//actual unique and/or reoccurring characters.
+
+CLASS RichBox : NPCBox
+{
+	mixin UniqueBox;
+	
+	Default
+	{
+		//$Category "Box Party/NPCs/Special/"
+		//$Sprite "RICHA0"
+	}
+
+	States
+	{
+		Spawn:
+			RICH A 0;
+			Goto SpawnLooper;
+	}
+}
+
+CLASS CubeBox : NPCBox
+{
+	mixin UniqueBox;
+	
+	Default 
+	{
+		Radius 32; //beeg cuube
+		//$Category "Box Party/NPCs/Special/"
+		//$Sprite "CUBEA0"
+	}
+
+	States
+	{
+		Spawn:
+			CUBE A 0;
+			Goto SpawnLooper;
+	}
+}
+
+CLASS Dumb : NPCBox
+{
+	mixin UniqueBox;
+	
+	//i just wanted an excuse to add a cat npc to the game
+	Default
+	{
+		Radius 12;
+		Height 24;
+		+NPCBox.HasHat;
+		//$Category "Box Party/NPCs/Special/"
+		//$Sprite "DUMBA0"
+	}
+	
+	States
+	{
+		Spawn:
+			DUMB A 0;
+			Goto SpawnLooper;
+	}
+}
+
+CLASS TrashCan : BoxActor //not a regular NPC
+{
+	//mixin PlotBox;
+	
+	Default
+	{
+		Radius 20;
+		Height 40;
+		+SOLID;
+		//$Category "Box Party/NPCs/Special/"
+	}
+	
+	States
+	{
+		Spawn:
+			TRCN B 1;
+			//TRCN B -1;
+			Stop;
+	}
+}

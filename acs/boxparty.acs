@@ -1,0 +1,449 @@
+//boxparty.acs
+//this file is called in every level of the game.
+#library "BOXPARTY"
+#include "zcommon.acs"
+
+int glowkill;
+int glowmax = 250;
+int glowremain = 0;
+
+SCRIPT "playerscript" ENTER
+{
+	SetAirControl(1.0);
+	
+	if (GetCVAR("box_checkbadcvar") == 1) { ACS_NamedExecute("CheckBadCVar", 0, 0, 0, 0); }
+	
+	if (CheckInventory("PlayerGlassToken")) {GiveInventory("GlassProtection", 1);}
+	
+	if (ActivatorTID() < 7500) {Thing_ChangeTID(0, 7500 + PlayerNumber());}
+	
+	TakeInventory("AllEnemiesCleared", 9999);
+	TakeInventory("Armor", 9999);
+	
+	bool noenemies = false;
+	
+	int mtotal = GetLevelInfo (LEVELINFO_TOTAL_MONSTERS),
+        mkilled = GetLevelInfo (LEVELINFO_KILLED_MONSTERS);
+	while (noenemies == false)
+	{
+		mtotal = GetLevelInfo (LEVELINFO_TOTAL_MONSTERS);
+        mkilled = GetLevelInfo (LEVELINFO_KILLED_MONSTERS);
+	
+		if ((mtotal <= mkilled) && (mtotal > 0))
+		{
+			switch (random(0, 3))
+			{
+				case 0: HudMessage(l:"NOENEMIES1"; HUDMSG_PLAIN, 0, CR_YELLOW, 0.5, 0.25, 4.0); break;
+				case 1: HudMessage(l:"NOENEMIES2"; HUDMSG_PLAIN, 0, CR_YELLOW, 0.5, 0.25, 4.0); break;
+				case 2: HudMessage(l:"NOENEMIES3"; HUDMSG_PLAIN, 0, CR_YELLOW, 0.5, 0.25, 4.0); break;
+				case 3: HudMessage(l:"NOENEMIES4"; HUDMSG_PLAIN, 0, CR_YELLOW, 0.5, 0.25, 4.0); break;
+			}
+			GiveInventory("AllEnemiesCleared", 1);
+			noenemies = true;
+			ACS_NamedExecute("nomoreenemies", 0, 0, 0, 0);
+		}
+		
+		Delay(5);
+	}
+	
+	//:)
+}
+
+function void box_gethat (str hatcvar, str hatachieve)
+{
+	if (GetCVAR(hatcvar) == false)
+	{
+		SetCVAR(hatcvar, true);
+		ScriptCall("box_Achiever", "achieve", hatachieve);
+	}
+}
+
+SCRIPT "FunChecker" OPEN
+{
+	//checks for fun.
+	if (GetCVAR("box_fun") == 0) {SetCVAR("box_fun", random(1, 100));}
+}
+
+SCRIPT "doboxability" (void) net
+{
+	if (CheckInventory("PlayerGlassToken"))
+	{
+		if (CheckInventory("BoxPower") >= 20)
+		{
+			if (GetActorProperty(0, APROP_Health) > 0)
+			{
+				GiveInventory("GlassDasher", 1);
+				TakeInventory("BoxPower", 20);
+			}
+		}
+	}
+}
+
+SCRIPT "playerpartime" (void)
+{
+	//this handles distributing speedrunning hats in the main story.
+
+	int whatsthepar = GetLevelInfo(LEVELINFO_PAR_TIME);
+	int whatsthenum = GetLevelInfo(LEVELINFO_LEVELNUM);
+	int whatsthecluster = GetLevelInfo(LEVELINFO_CLUSTERNUM);
+
+	if (whatsthecluster == 1)
+	{
+		if (Timer() <= (whatsthepar * 35)) 
+		{
+			switch (whatsthenum)
+			{
+				default:
+				case 0: break;
+				case 1: 
+					box_gethat("box_hat_unlock_06", "box_unlockhat_06");
+					break;
+				case 2: 
+					box_gethat("box_hat_unlock_05", "box_unlockhat_05");
+					break;
+				case 3: 
+					box_gethat("box_hat_unlock_07", "box_unlockhat_07");
+					break;
+			}
+		}
+	}
+}
+
+//use this in every level that isn't difficulty select or level 1.
+SCRIPT "giveglowstick" (void) {if (CheckInventory("Glowstick") == 0) {GiveInventory("Glowstick", 1);}}
+
+SCRIPT "PlateSpawnScript" (int PlateSpawned) 
+{
+	if (SetActorPosition(PlateSpawned, GetActorX(0), GetActorY(0), GetActorZ(0), false))
+	{
+		SetActorPosition(PlateSpawned, GetActorX(0), GetActorY(0), GetActorZ(0), false);
+		SetActorAngle(PlateSpawned, GetActorAngle(0));
+	}
+	else
+	{
+		Thing_Damage(PlateSpawned, 999999, MOD_UNKNOWN);
+		Spawn("SafeBoom", GetActorX(0), GetActorY(0), GetActorZ(0), 0, 0);
+		PlaySound(0, "wilhelm", CHAN_BODY, 1.0, false, ATTN_NORM, false);
+	}
+}
+
+SCRIPT "CheckBadCVar" (void)
+{
+	//This might be annoying to non-newbies, so there's an option to disable this in "Advanced Box Options".
+	if (GetCVAR("sv_freelook") == 1) { HudMessage(l:"BOX_WARNING_FREELOOK"; HUDMSG_PLAIN | HUDMSG_LOG, 400, CR_Brick, 0.5, 0.2, 5.0); }
+	if (GetCVAR("sv_crouch") == 1) { HudMessage(l:"BOX_WARNING_CROUCH"; HUDMSG_PLAIN | HUDMSG_LOG, 401, CR_Brick, 0.5, 0.2, 5.0); }
+	if (GetCVAR("sv_jump") == 1) { HudMessage(l:"BOX_WARNING_JUMP"; HUDMSG_PLAIN | HUDMSG_LOG, 402, CR_Brick, 0.5, 0.2, 5.0); }
+	if (GetCVAR("sv_degeneration") == 1) { HudMessage(l:"BOX_WARNING_DEGENERATION"; HUDMSG_PLAIN | HUDMSG_LOG, 403, CR_Brick, 0.5, 0.2, 5.0); }
+	if (GetCVAR("sv_fallingdamage") != 0) { HudMessage(l:"BOX_WARNING_FALLINGDAMAGE"; HUDMSG_PLAIN | HUDMSG_LOG, 404, CR_Brick, 0.5, 0.2, 5.0); }
+	if (GetCVAR("compatmode") != 0) { HudMessage(l:"BOX_WARNING_COMPATMODE"; HUDMSG_PLAIN | HUDMSG_LOG, 405, CR_Brick, 0.5, 0.2, 5.0); }
+	if (GetCVAR("sv_fastweapons") == 1) { HudMessage(l:"BOX_WARNING_FASTWEAPONS"; HUDMSG_PLAIN | HUDMSG_LOG, 406, CR_Brick, 0.5, 0.2, 5.0); }
+}
+
+SCRIPT "npccheck" (void) {SetResultValue(GetCVAR("box_nonpcs"));}
+SCRIPT "crumbcheck" (void) {SetResultValue(GetCVAR("box_nocrumbs"));}
+SCRIPT "skycheck" (void) {SetResultValue(GetCVAR("box_simplesky"));}
+
+SCRIPT "BoxHatSwitcher" (int HatNumber)
+{
+	TakeInventory("playerhatnumber", 9999);
+	GiveInventory("playerhatnumber", HatNumber);
+}
+
+script "noammo" (void)
+{
+	if (GetCVAR("box_noammo") == true)
+	{
+		SetHudSize(160, 100, false);
+		HudMessage(l:"NOAMMO"; HUDMSG_PLAIN, -100, CR_RED, 50.0, 25.0, 0.25);
+		Delay(5);
+		HudMessage(l:"NOAMMO"; HUDMSG_PLAIN, -100, CR_BRICK, 50.0, 25.0, 0.25);
+		Delay(5);
+		HudMessage(l:"NOAMMO"; HUDMSG_PLAIN, -100, CR_RED, 50.0, 25.0, 0.25);
+		Delay(5);
+		HudMessage(l:"NOAMMO"; HUDMSG_PLAIN, -100, CR_BRICK, 50.0, 25.0, 0.25);
+	}
+}
+
+script "exitscreen" (void)
+{
+	ChangeCamera(7575, 1, 0);
+	Thing_Move(7500, 7600, true);
+	Thing_Move(7501, 7601, true);
+	Thing_Move(7502, 7602, true);
+	Thing_Move(7503, 7603, true);
+	Thing_Move(7504, 7604, true);
+	Thing_Move(7505, 7605, true);
+	Thing_Move(7506, 7606, true);
+	Thing_Move(7507, 7607, true);
+	SetHudSize(160, 100, false);
+	HudMessageBold(l:"LEVEL_COMPLETE"; HUDMSG_PLAIN, 0, CR_CYAN, 80.0, 50.0, 4.0);
+	Delay(140);
+	ACS_NamedExecuteAlways("exitnow", 0, 0, 0, 0);
+}
+
+script "exitnow" (void) {Exit_Normal(0);}
+
+script "beatthegame" (void)
+{
+	for (int p = 7500; p < 7508; p++)
+	{
+		if (PlayerInGame(p - 7500))
+		{
+			if (CheckActorInventory(p, "PlayerBoxToken"))
+			{
+				box_gethat("box_hat_unlock_02", "box_unlockhat_02");
+			}
+			else if (CheckActorInventory(p, "PlayerCircleToken"))
+			{	
+				box_gethat("box_hat_unlock_03", "box_unlockhat_03");
+			}
+			else if (CheckActorInventory(p, "PlayerTriangleToken"))
+			{
+				box_gethat("box_hat_unlock_04", "box_unlockhat_04");
+			}
+			else if (CheckActorInventory(p, "PlayerTrioToken"))
+			{
+				box_gethat("box_hat_unlock_17", "box_unlockhat_17");
+			}
+			else if (CheckActorInventory(p, "PlayerPrismToken"))
+			{
+				box_gethat("box_hat_unlock_18", "box_unlockhat_18");
+			}
+			else if (CheckActorInventory(p, "PlayerGlassToken"))
+			{
+				box_gethat("box_hat_unlock_19", "box_unlockhat_19");
+			}
+		}
+	}
+}
+
+script "PepperUnlock" (void) {box_gethat("box_hat_unlock_14", "box_unlockhat_14");}
+
+script "glowcounter" (void)
+{
+	if (GetWeapon() == "Glowstick") //not compatible with custom stuff but whatev's.
+	{
+		if (glowkill == 0) {glowkill = GetCVAR("box_hat_glowstick");}
+		glowremain = glowmax - glowkill - 1;
+	
+		++glowkill;
+		SetCVAR("box_hat_glowstick", glowkill);
+
+		if (glowkill >= glowmax)
+		{
+			box_gethat("box_hat_unlock_13", "box_unlockhat_13");
+		}
+		else
+		{
+			if (random(1, 25) == 25) {Log(d:glowremain, l:"HAT_GLOWREMAIN");}
+		}
+	}
+}
+
+script "RESETALLHATS" (void)
+{
+	//this will reset every single hat back to default values. use with caution.
+	SetCVAR("box_hat_unlock_01", true);
+	SetCVAR("box_hat_unlock_02", false);
+	SetCVAR("box_hat_unlock_03", false);
+	SetCVAR("box_hat_unlock_04", false);
+	SetCVAR("box_hat_unlock_05", false);
+	SetCVAR("box_hat_unlock_06", false);
+	SetCVAR("box_hat_unlock_07", false);
+	SetCVAR("box_hat_unlock_08", false);
+	SetCVAR("box_hat_unlock_09", false);
+	SetCVAR("box_hat_unlock_10", false);
+	SetCVAR("box_hat_unlock_11", false);
+	SetCVAR("box_hat_unlock_12", false);
+	SetCVAR("box_hat_unlock_13", false);
+	SetCVAR("box_hat_unlock_14", false);
+	SetCVAR("box_hat_unlock_15", false);
+	SetCVAR("box_hat_unlock_16", false);
+	SetCVAR("box_hat_unlock_17", false);
+	SetCVAR("box_hat_unlock_18", false);
+	SetCVAR("box_hat_unlock_19", false);
+	SetCVAR("box_hat_unlock_20", false);
+	SetCVAR("box_hat_unlock_21", false);
+	SetCVAR("box_hat_unlock_22", false);
+	SetCVAR("box_hat_unlock_23", false);
+	SetCVAR("box_hat_unlock_24", false);
+	SetCVAR("box_hat_unlock_25", false);
+	SetCVAR("box_hat_unlock_26", false);
+	SetCVAR("box_hat_unlock_27", false);
+	SetCVAR("box_hat_unlock_28", false);
+	SetCVAR("box_hat_unlock_29", false);
+	SetCVAR("box_hat_unlock_30", false);
+	SetCVAR("box_hat_unlock_31", false);
+	SetCVAR("box_hat_unlock_32", false);
+	SetCVAR("box_hat_unlock_33", false);
+	SetCVAR("box_hat_unlock_34", false);
+	SetCVAR("box_hat_unlock_35", false);
+	SetCVAR("box_hat_unlock_36", false);
+	SetCVAR("box_hat_unlock_37", false);
+	SetCVAR("box_hat_unlock_38", false);
+	SetCVAR("box_hat_unlock_39", false);
+	SetCVAR("box_hat_unlock_40", false);
+	SetCVAR("box_hat_unlock_41", false);
+	SetCVAR("box_hat_unlock_42", false);
+	SetCVAR("box_hat_unlock_43", false);
+	SetCVAR("box_hat_unlock_44", false);
+	SetCVAR("box_hat_unlock_45", false);
+	SetCVAR("box_hat_unlock_46", false);
+	SetCVAR("box_hat_unlock_47", false);
+	SetCVAR("box_hat_unlock_48", false);
+	SetCVAR("box_hat_unlock_49", false);
+	SetCVAR("box_hat_unlock_50", false);
+	SetCVAR("box_hat_unlock_51", false);
+	SetCVAR("box_hat_unlock_52", false);
+	SetCVAR("box_hat_unlock_53", false);
+	SetCVAR("box_hat_unlock_54", false);
+	SetCVAR("box_hat_unlock_55", false);
+	SetCVAR("box_hat_unlock_56", false);
+	SetCVAR("box_hat_unlock_57", false);
+	SetCVAR("box_hat_unlock_58", false);
+	SetCVAR("box_hat_unlock_59", false);
+	SetCVAR("box_hat_unlock_60", false);
+	SetCVAR("box_hat_lucky", 0);
+	SetCVAR("box_hat_glowstick", 0);
+	SetCVARString("box_achievements", "");
+}
+
+SCRIPT "BoxJumpPad" (int jumpamount)
+{
+	if (CheckFlag(0, "SOLID") == true)
+	{
+		int x = GetActorX(0);
+		int y = GetActorY(0);
+		int z = GetActorZ(0);
+		SpawnForced("BoxSlam", x, y, z);
+		ThrustThingZ(0, jumpamount, false, true);
+		//Delay(18);
+	}
+}
+
+script "watcher" (void)
+{
+	//just a fun little popup that appears in level 3 if you're fun enough.
+	if (GetCVAR("box_fun") == 1)
+	{
+		ScriptCall("box_Achiever", "achieve", "youarebeingwatched");
+	}
+}
+
+script "healplayer" (void) //simple and clean player healer. used just before boss fights.
+{
+	int maxhp = GetActorProperty(0, APROP_SpawnHealth);
+	if (maxhp != 0) {SetActorProperty(0, APROP_Health, maxhp);}
+}
+
+////////////
+///QUESTS///
+////////////
+
+//temporarily disabled this stuff until i have more time to work on it.
+
+bool togglesidequests = false;
+str quest1_name = "QUEST_NONE";
+str quest1_progress = "QUEST_NONE";
+str quest2_name = "QUEST_NONE";
+str quest2_progress = "QUEST_NONE";
+str quest3_name = "QUEST_NONE";
+str quest3_progress = "QUEST_NONE";
+bool quest1done = false;
+bool quest2done = false;
+bool quest3done = false;
+
+script "ShowSideQuests" (int QuestEnabled)
+{
+	//Explanation: Player calls a script named "CheckSideQuests" via keybind. This script is defined on a per-level basis.
+	//The level script will then call this script, and give it all of the variables that need to be displayed.
+	
+	/*
+	if (QuestEnabled != 0)
+	{
+		if (togglesidequests == false) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
+		else {ACS_NamedExecuteAlways("ForceHideQuests", 0, 0, 0, 0);}
+	}
+	*/
+}
+
+script "UpdateSideQuests" (void)
+{
+	/*
+	SetHudSize(640, 480, false);
+	int questx = 16.1;
+	int questy = 396.0;
+	HudMessage(l:quest1_name; HUDMSG_PLAIN, -123456781, CR_UNTRANSLATED, questx, questy, 0, 1.0);
+	HudMessage(l:quest1_progress; HUDMSG_PLAIN, -123456782, CR_UNTRANSLATED, questx + 4.0, questy + 10.0, 0, 1.0);
+	HudMessage(l:quest2_name; HUDMSG_PLAIN, -123456783, CR_UNTRANSLATED, questx, questy + 26.0, 0, 1.0);
+	HudMessage(l:quest2_progress; HUDMSG_PLAIN, -123456784, CR_UNTRANSLATED, questx + 4.0, questy + 36.0, 0, 1.0);
+	HudMessage(l:quest3_name; HUDMSG_PLAIN, -123456785, CR_UNTRANSLATED, questx, questy + 52.0, 0, 1.0);
+	HudMessage(l:quest3_progress; HUDMSG_PLAIN, -123456786, CR_UNTRANSLATED, questx + 4.0, questy + 62.0, 0, 1.0);
+			
+	SetHudSize(320, 240, false);
+	SetFont("QUESTBOX");
+	HudMessage(s:"A"; HUDMSG_PLAIN, -123456780, CR_UNTRANSLATED, 84.0, 214.0, 0, 1.0);
+			
+	togglesidequests = true;
+	*/
+}
+
+script "ForceHideQuests" (void)
+{
+	/*
+	HudMessage(s:""; HUDMSG_PLAIN, -123456780, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456781, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456782, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456783, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456784, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456785, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456786, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+			
+	togglesidequests = false;
+	*/
+}
+
+script "FailUnfinishedQuests" (void)
+{
+	//sets all quests marked as unfinished to failed.
+	/*
+	if (quest1done == false) {quest1_progress = "QUEST_FAILED";}
+	if (quest2done == false) {quest2_progress = "QUEST_FAILED";}
+	if (quest3done == false) {quest3_progress = "QUEST_FAILED";}
+	QuestUpdated(false);
+	*/
+}
+
+function void QuestProgressed (int QNum, str QMsg, bool DoReward)
+{
+	//quick and easy to use function to update progress for a quest.
+	
+	//note: quest names and progression can be updated without this function.
+	//this just automates the process for most normal quests.
+	
+	/*
+	switch (QNum)
+	{
+		case 0: quest1_progress = QMsg; break;
+		case 1: quest2_progress = QMsg; break;
+		case 2: quest3_progress = QMsg; break;
+	}
+	
+	
+	if (DoReward == true) {GiveInventory("BoxQuestReward", 1500);}
+	
+	QuestUpdated(true);
+	*/
+}
+
+function void QuestUpdated (bool QuestLog)
+{
+	//displays a "side quest updated" message, and updates the Quest UI if it is open.
+	//useful if you are changing quests without the use of the above function.
+	
+	/*
+	if (QuestLog == true) {Log(l:"QUESTUPDATED");}
+	if (togglesidequests == true) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
+	else {ACS_NamedExecuteAlways("ForceHideQuests", 0, 0, 0, 0);}
+	*/
+}

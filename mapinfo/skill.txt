@@ -1,0 +1,75 @@
+//mapinfo/skill.txt
+
+clearskills
+
+skill rarebox
+{
+	SpawnFilter = Easy
+	Name = "Line Party (Easy)"
+	MustConfirm = "$BOX_DIFFICULTY_EASY"
+	DamageFactor = 0.5
+	Aggressiveness = 0.35
+	MonsterHealth = 0.75
+	FastMonsters
+	EasyKey
+	DisableCheats
+	TotalInfighting
+	TextColor = "Green"
+	NoMenu
+}
+
+skill mediumbox
+{
+	SpawnFilter = Normal
+	Name = "Angle Party (Medium)"
+	MustConfirm = "$BOX_DIFFICULTY_MEDIUM"
+	DamageFactor = 1
+	Aggressiveness = 0.5
+	MonsterHealth = 0.9
+	FastMonsters
+	DisableCheats
+	DefaultSkill
+	TextColor = "Gold"
+	NoMenu
+}
+
+skill welldonebox
+{
+	SpawnFilter = Hard
+	Name = "Box Party (Hard)"
+	//MustConfirm = "$BOX_DIFFICULTY_HARD"
+	DamageFactor = 1.5
+	Aggressiveness = 0.7
+	FastMonsters
+	DisableCheats
+	TextColor = "Brick"
+}
+
+skill crispybox
+{
+	SpawnFilter = Nightmare
+	Name = "Mosh Pit (Unfair)"
+	MustConfirm = "$BOX_DIFFICULTY_UNFAIR"
+	DamageFactor = 3.0
+	Aggressiveness = 1.0
+	MonsterHealth = 0.75
+	FastMonsters
+	DisableCheats
+	RespawnTime = 15
+	RespawnLimit = 10
+	TextColor = "Black"
+	NoMenu
+}
+
+skill onehitbox
+{
+	SpawnFilter = Hard
+	Name = " "
+	MustConfirm = "$BOX_DIFFICULTY_ONEHIT"
+	DamageFactor = 10000
+	Aggressiveness = 0.5
+	FastMonsters
+	DisableCheats
+	TextColor = "White"
+	NoMenu
+}

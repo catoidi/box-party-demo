@@ -1,0 +1,102 @@
+class boxparty_ScrollContainer : boxparty_Element {
+	boxparty_Element scrollArea;
+	protected boxparty_Scrollbar bar;
+
+	protected double scrollWidth;
+	protected double scrollAreaHeight;
+	protected double scrollNotchJump;
+	protected double contentBarGap;
+
+	void config(
+		double scrollWidth, double scrollAreaHeight, double scrollNotchJump,
+		boxparty_BoxTextures scrollBarNormal, boxparty_BoxTextures scrollBarHover = NULL,
+		boxparty_BoxTextures scrollBarClick = NULL, boxparty_BoxTextures scrollBg = NULL,
+		double contentBarGap = 0.0
+	) {
+		self.scrollAreaHeight = max(scrollAreaHeight, box.size.y);
+		self.scrollNotchJump = scrollNotchJump;
+		self.contentBarGap = contentBarGap;
+		self.scrollWidth = scrollWidth;
+
+		scrollArea.setBox((0, 0), (box.size.x - scrollWidth - contentBarGap, scrollAreaHeight));
+		bar.setBox((box.size.x - scrollWidth, 0.0), (scrollWidth, box.size.y));
+		bar.config(scrollBarNormal, scrollBarHover, scrollBarClick, scrollBg);
+
+		self.alpha = 1.0;
+	}
+
+	static boxparty_ScrollContainer create(
+		Vector2 pos, Vector2 size,
+		double scrollWidth, double scrollAreaHeight, double scrollNotchJump,
+		boxparty_BoxTextures scrollBarNormal, boxparty_BoxTextures scrollBarHover = NULL,
+		boxparty_BoxTextures scrollBarClick = NULL, boxparty_BoxTextures scrollBg = NULL,
+		boxparty_Element scrollArea = NULL, double contentBarGap = 0.0
+	) {
+		let ret = new('boxparty_ScrollContainer');
+
+		ret.setBox(pos, size);
+
+		if (scrollArea == NULL) {
+			ret.scrollArea = boxparty_Frame.create((0, 0), (0, 0));
+		}
+		else {
+			ret.scrollArea = scrollArea;
+		}
+		ret.bar = boxparty_Scrollbar.create((0, 0), (0, 0), NULL, NULL);
+
+		ret.config(scrollWidth, scrollAreaHeight, scrollNotchJump, scrollBarNormal, scrollBarHover, scrollBarClick, scrollBg, contentBarGap);
+		ret.bar.master = ret;
+		ret.scrollArea.master = ret;
+
+		ret.needsMouseMove = true;
+
+		return ret;
+	}
+
+	override bool onUIEventPriority(boxparty_UiEvent ev) {
+		mousePos = master.mousePos;
+		return scrollArea.onUIEventPriority(ev);
+	}
+
+	override bool onUIEvent(boxparty_UiEvent ev) {
+		let barRes = bar.onUIEvent(ev);
+		let scrollAreaRes = scrollArea.onUIEvent(ev);
+		bar.mouseBlock = ev.mouseBlock;
+		ev.mouseBlock |= bar.blocksMouse(mousePos);
+		if (ev.type == UiEvent.Type_WheelDown || ev.type == UiEvent.Type_WheelUp) {
+			if (!(barRes || scrollAreaRes)) {
+				boxparty_AABB screenBox; boxToScreen(screenBox);
+				if (isEnabled() && screenBox.pointCollides(master.mousePos)) {
+					let dir = ev.type == UiEvent.Type_WheelDown ? 1.0 : -1.0;
+					let oldPos = bar.position;
+					bar.position += (dir * scrollNotchJump) / scrollAreaHeight;
+					bar.clampBarPos();
+					return oldPos != bar.position;
+				}
+			}
+			return false;
+		}
+		else {
+			return barRes || scrollAreaRes;
+		}
+	}
+
+	override void ticker() {
+		scrollArea.ticker();
+	}
+
+	override void topDrawer() {
+		scrollArea.setBox((0, 0), (box.size.x - scrollWidth - contentBarGap, scrollAreaHeight));
+		bar.setBox((box.size.x - scrollWidth, 0.0), (scrollWidth, box.size.y));
+		mousePos = master.mousePos;
+		bar.size = box.size.y / scrollAreaHeight;
+		bar.size = min(bar.size, 1.0);
+		scrollArea.box.pos.y = -bar.position * scrollAreaHeight;
+		scrollArea.topDrawer();
+	}
+
+	override void drawer() {
+		bar.drawer();
+		scrollArea.drawer();
+	}
+}

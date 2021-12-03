@@ -1,0 +1,47 @@
+//zboxscript/lights/stagelight.zsc
+
+CLASS StageLamp : BoxActor //20003
+{
+	Default
+	{
+		Radius 10;
+		Height 28;
+		-SOLID;
+		+NOINTERACTION;
+		+BRIGHT;
+		+NOGRAVITY;
+		+ROLLSPRITE;
+		+INTERPOLATEANGLES;
+		//$Category "Box Party/Decor/Lights"
+		//$Title "Stage Lamp (Ceiling)"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			LAMP D 0 NoDelay A_Jump(128, 2);
+			LAMP D 0 {bSPRITEFLIP = true;}
+			//LAMP D 0 A_Jump(256, "Righty", "Lefty");
+			LAMP D -1;
+			Stop;
+		Righty:
+			LAMP D 1 A_SetRoll(330);
+			LAMP D 1 A_SetRoll(roll + 1);
+			LAMP D 1 A_SetRoll(roll + 2);
+			LAMP D 1 A_SetRoll(roll + 3);
+			LAMP D 1 A_SetRoll(roll + 4);
+			LAMP DDDDDDDDDD 1 A_SetRoll(roll + 5);
+			LAMP D 16;
+			Goto Lefty;
+		Lefty:
+			LAMP D 1 A_SetRoll(30);
+			LAMP D 1 A_SetRoll(roll - 1);
+			LAMP D 1 A_SetRoll(roll - 2);
+			LAMP D 1 A_SetRoll(roll - 3);
+			LAMP D 1 A_SetRoll(roll - 4);
+			LAMP DDDDDDDDDD 1 A_SetRoll(roll - 5);
+			LAMP D 16;
+			Goto Righty;
+	}
+}

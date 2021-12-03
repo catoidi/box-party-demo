@@ -1,0 +1,251 @@
+//zboxscript/enemies/onion.zsc
+
+//onion
+
+CLASS OnionTurret : BoxMonster
+{
+	Default
+	{
+		Speed 0;
+		Health 360;
+		Radius 30;
+		Height 56;
+		Mass 0x7FFFFFFF; //immovable object
+		PainChance 64;
+		DamageFactor "Melee", 1.5;
+		DamageFactor "PartyShot", 1.35;
+		DamageFactor "Lemon", 0.0;
+		PainChance "Melee", 256;
+		PainChance "Lightning", 128;
+		PainChance "PartyShot", 96;
+		BloodType "OnionBlood";
+		MinMissileChance 1;
+		Tag "Henry";
+		Obituary "$BOX_DIE_ONION";
+		BoxMonster.CanSwim false;
+		-PUSHABLE;
+		+MISSILEMORE;
+		+MISSILEEVENMORE;
+		+MOVEWITHSECTOR;
+		+NOINFIGHTING;
+		+NOBLOODDECALS;
+		+DONTHARMSPECIES;
+		//$Category "Box Party/Enemies/"
+		//$Title "Onion (Big)"
+		//$Color 4
+	}
+	
+	action void A_OnionAttack (int Angled, int Offseted)
+	{
+		//Shoots 8 water projectiles in a circle around the calling actor.
+		A_StartSound("enemies/onion2");
+		A_SpawnProjectile("OnionBullet", 32, 0, Angled, CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile("OnionBullet", 32, 0, (Angled + 45), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile("OnionBullet", 32, 0, (Angled + 90), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile("OnionBullet", 32, 0, (Angled + 135), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile("OnionBullet", 32, 0, (Angled + 180), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile("OnionBullet", 32, 0, (Angled + 225), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile("OnionBullet", 32, 0, (Angled + 270), CMF_OFFSETPITCH, Offseted);
+		A_SpawnProjectile("OnionBullet", 32, 0, (Angled + 315), CMF_OFFSETPITCH, Offseted);
+		A_BoxParticle("00 ef ff", 12, 24, 60, PBright: true);
+	}
+	
+	States
+	{
+		Spawn:
+			ONIO A 10 A_Look;
+			Loop;
+		See:
+			ONIO A 0 A_Jump(128, "Chill");
+			Goto See2;
+		See2:
+			ONIO AB 15 Fast A_Chase;
+			Loop;
+		Chill:
+			ONIO AB 15 Fast;
+			Goto See2;
+		Pain.Melee:
+			#### # 0 A_ResetScale();
+			ONIO C 0 ThrustThingZ(0, 3, 0, 1);
+			ONIO C 0 A_Pain;
+			ONIO C 1 A_BoxStars();
+			ONIO C 0 A_BoxDropLoot("Onion", -1, IsPrism);
+			#### # 0 {IsPrism = false;}
+			ONIO C 1 Slow A_SpawnItemEx("OnionChunk2", random(-6, 6), random(-6, 6), random(26, 38), random(-12, 12), random(-12, 12), random(0, 12), random(0, 359), 0, 128);
+			ONIO C 8 Slow A_FaceTarget;
+			Goto See;
+		Pain:
+			#### # 0 A_ResetScale();
+			ONIO C 0 A_Pain;
+			Goto Missile;
+		Missile:
+			ONIO C 0 A_RemoveLight("Shocking");
+			ONIO C 0 A_FaceTarget;
+			ONIO CCC 5 Slow A_BoxScaleXY(-0.05, 0.05);
+			ONIO D 0 A_OnionAttack(0, 0);
+			ONIO DDD 3 A_BoxScaleXY(0.1, -0.1);
+			ONIO D 1 A_Jump(96, "Missile2");
+			ONIO BBB 5 Fast A_BoxScaleXY(-0.05, 0.05);
+			Goto See;
+		Missile2:
+			ONIO C 0 A_FaceTarget;
+			ONIO CCCC 5 Slow A_BoxScaleXY(-0.05, 0.05);
+			ONIO D 0 A_OnionAttack(0, 0);
+			ONIO DDD 3 A_BoxScaleXY(0.1, -0.1);
+			ONIO D 1 A_Jump(64, "Missile3");
+			ONIO BBBB 5 Fast A_BoxScaleXY(-0.0625, 0.0625);
+			Goto See;
+		Missile3:
+			ONIO C 0 A_FaceTarget;
+			ONIO CCCCC 5 Slow A_BoxScaleXY(-0.05, 0.05);
+			ONIO D 0 A_OnionAttack(0, 0);
+			ONIO DDD 3 A_BoxScaleXY(0.1, -0.1);
+			ONIO D 1 A_Jump(32, "Missile4");
+			ONIO BBBBB 5 Fast A_BoxScaleXY(-0.06, 0.06);
+			Goto See;
+		Missile4:
+			ONIO C 0 A_FaceTarget;
+			ONIO CCCCCC 5 Slow A_BoxScaleXY(-0.05, 0.05);
+			ONIO D 0 A_OnionAttack(0, 0);
+			ONIO DDD 3 A_BoxScaleXY(0.15, -0.15);
+			ONIO BBBBBB 5 Fast A_BoxScaleXY(-0.075, 0.075);
+			Goto See;
+		Death.Massacre:
+			#### # 0 A_ResetScale();
+			ONIO G 1 A_BoxSuperDie();
+			#### # -1;
+			Stop;
+		Death.Melee:
+			#### # 0 A_ResetScale();
+			ONIO L 0 A_RemoveLight("Shocking");
+			ONIO L 0 A_FaceTarget;
+			"####" "#" 0 {IsMelee = 1;}
+			ONIO LLLLLLLLLL 1 A_SpawnItemEX("BoomSmoke", 0, 0, 32, 0, 0, 4, 0, 0, 216); 
+			ONIO MMMMMMMMMM 1 A_SpawnItemEX("BoomSmoke", 0, 0, 32, 0, 0, 4, 0, 0, 216); 
+			ONIO NNNNNNNNNN 1 BRIGHT A_SpawnItemEX("BoomSmoke", 0, 0, 32, 0, 0, 4, 0, 0, 216); 
+			Goto Death+1;
+		Death:
+			#### # 0 A_ResetScale();
+			ONIO E 0 A_RemoveLight("Shocking");
+			ONIO E 10 A_FaceTarget;
+			ONIO F 1 A_BoxScream;
+			ONIO F 0 {
+				A_OnionAttack(0, 0);
+				A_OnionAttack(15, -10);
+				A_OnionAttack(30, -20);
+				A_BoxDropLoot("Onion", 1, IsPrism);
+			}
+			ONIO F 0 A_SpawnItemEX("SafeBoom", random(-2, 2), random(-2, 2), random(26, 38), random(-2, 2), random(-2, 2), random(-2, 2));
+			ONIO FFFFFFFFFFFF 0 A_SpawnItemEx("OnionChunk", random(-6, 6), random(-6, 6), random(26, 38), random(-12, 12), random(-12, 12), random(0, 12), random(0, 359), 0, 128);
+			ONIO FFFF 0 A_SpawnItemEx("OnionChunk2", random(-6, 6), random(-6, 6), random(26, 38), random(-12, 12), random(-12, 12), random(0, 12), random(0, 359), 0, 128);
+			ONIO F 9;
+			ONIO G 10 A_NoBlocking;
+			ONIO G -1;
+			Stop;
+		//Stun Effect Start
+		Pain.Lightning:
+			#### # 0 A_ResetScale();
+			ONIO C 2 BRIGHT {bNOPAIN = true;}
+			ONIO C 0 BRIGHT A_AttachLightDef("Shocking", "SHOCKER");
+			Goto ShockGo;
+		ShockGo:
+			#### ##### 10 BRIGHT A_BoxShocked();
+			#### # 0 BRIGHT {bNOPAIN = false;}
+			#### # 0 A_RemoveLight("Shocking");
+			Goto See;
+		//Stun Effect End
+		//Prism Effect Start
+		Pain.Prism:
+			"####" "#" 0 {IsPrism = true;}
+			Goto Pain.Melee;
+		Death.Prism:
+			"####" "#" 0 {IsPrism = true;}
+			Goto Death.Melee;
+		//Prism Effect End
+	}
+}
+
+CLASS OnionChunk : BoxChunk
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONIO I 0 A_Jump(128, 2);
+			ONIO I 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS OnionChunk2 : BoxGib
+{
+	States
+	{	
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			"####" "#" 0 A_QueueCorpse;
+			ONIO H 0 A_Jump(128, 2);
+			ONIO H 0 {bSPRITEFLIP = true;}
+			"####" "#" 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+	}
+}
+
+CLASS OnionBlood : BoxBlood
+{
+	States
+	{
+		Firsty: 
+			TNT1 AAA 0 A_SpawnItemEx("OnionChunk", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION, 64);
+			TNT1 A 0 A_SpawnItemEx("OnionChunk2", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION, 128);
+			TNT1 A 0 A_BoxParticle("00 ef ff", 1, 8, 20, PBright: true);
+			Goto Super::Firsty;
+		Secondy: 
+			TNT1 AA 0 A_SpawnItemEx("OnionChunk", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION);
+			Goto Super::Secondy;
+		Thirdy: 
+			TNT1 A 0 A_SpawnItemEx("OnionChunk", 0, 0, 0, random(-6, 6), random(-6, 6), random(0, 6), random(0, 359), SXF_NOCHECKPOSITION);
+			Goto Super::Thirdy;
+	}
+}
+
+CLASS OnionBullet : BoxActor
+{
+	Default
+	{
+		Mass 0;
+		Gravity 0;
+		Radius 4;
+		Height 8;
+		Speed 10;
+		DamageFunction (random(8, 16));
+		DamageType "Water";
+		Projectile;
+		+BLOODSPLATTER;
+		+INTERPOLATEANGLES;
+		+ROLLSPRITE;
+		+SPRITEANGLE;
+		+FORCEXYBILLBOARD;
+	}
+	
+	States
+	{
+		Spawn:
+			ONIO J 0 BRIGHT A_Jump(256, "SpeenLeft", "SpeenRight");
+		SpeenLeft:
+			"####" "#" 1 BRIGHT A_SetRoll(roll - 8);
+			Loop;
+		SpeenRight:
+			"####" "#" 1 BRIGHT A_SetRoll(roll + 8);
+			Loop;
+		Death.Sky:
+		Death:
+			TNT1 A 1 {
+				A_SpawnItemEx("ProjectilePuffSmall", 0, 0, 0, 0, 0, 0);
+				A_BoxParticle("00 ef ff", 4, 12, 30, PBright: true);
+			}
+			Stop;
+	}
+}

@@ -1,0 +1,132 @@
+//sndinfo.txt
+
+//Menu
+switches/normbutn		key01
+switches/exitbutn		key01
+
+menu/activate			key01		// Activate a new menu
+menu/backup				key02		// Backup to previous menu
+menu/prompt				key01		// Activate a prompt "menu"
+menu/cursor				key03		// Move cursor up/down
+menu/change				key03		// Select new value for option
+menu/invalid			key02		// Menu not available
+menu/dismiss			key02		// Dismiss a prompt message
+menu/choose				key03		// Choose a menu item
+menu/clear				key02		// Close top menu
+
+$volume key01 0.1
+$volume key02 0.1
+$volume key03 0.1
+
+//Weapons
+weapons/partyshotty/shotfire shotfire
+weapons/partyshotty/shotload shotload
+weapons/partyshotty/shotfir2 shotfir2
+weapons/partyshotty/shotloa1 shotloa1
+weapons/partyshotty/shotloa2 shotloa2
+
+weapons/glowstick/glowbonk glowbonk
+weapons/glowstick/glowswsh glowswsh
+weapons/glowstick/glowwack glowwack
+
+weapons/laser/lasrpew lasrpew
+weapons/laser/lasrpew2 lasrpew2
+weapons/laser/lasrhit lasrhit
+weapons/laser/lasrboom lasrboom
+
+weapons/popcorn/poppop poppop
+weapons/popcorn/popcorn popcorn
+weapons/popcorn/pophit pophit
+
+$pitchshift popcorn 3
+
+weapons/stupidweapon/pistpow pistpow
+
+//enemies
+enemies/melee melee
+enemies/slam slam
+enemies/slam2 slam2
+enemies/whiff whiff
+enemies/whiff2 whiff2
+enemies/pwoosh pwoosh
+enemies/pepload1 pepload1
+enemies/pepload2 pepload2
+enemies/peppow peppow
+enemies/onion1 onion1
+enemies/onion2 onion2
+
+//bosses
+enemies/peploa1A peploa1A
+enemies/peploa2A peploa2A
+enemies/peppowA peppowA
+enemies/peploa1B peploa1B
+enemies/peploa2B peploa2B
+enemies/peppowB peppowB
+enemies/whiffA whiffA
+enemies/whiff2A whiff2A
+enemies/pwooshA pwooshA
+enemies/slamA slamA
+
+
+wilhelm wilhelm
+
+//Effects
+effects/boxdie boxdie
+effects/boxboom boxboom
+effects/boxboom2 boxboom2
+effects/boxpain boxpain
+$volume boxpain 0.5
+effects/boxpain2 boxpain2
+$volume boxpain2 0.5
+effects/boxpain3 boxpain3
+$volume effects/boxpain3 0.5
+effects/boxpoof boxpoof
+$volume effects/boxpoof 0.4
+effects/playdie playdie
+effects/bsplash bsplash
+$volume effects/bsplash 0.1
+effects/lsplash lsplash
+$volume effects/lsplash 0.1
+effects/tnt tnt
+$volume effects/tnt 1.0
+
+//Traps
+traps/piebomb piebomb
+$volume traps/piebomb 0.1
+traps/plateA plateA
+traps/plateB plateB
+
+//Player
+thump thump
+$volume thump 0.1
+$playersound player male *grunt thump
+$playersound player male *land thump
+$playersound player female *grunt thump
+$playersound player female *land thump
+$playersound player other *grunt thump
+$playersound player other *land thump
+
+player/noway noway
+$playersound player male *usefail noway
+$playersound player female *usefail noway
+$playersound player other *usefail noway
+
+$playersound player	male *pain100 boxpain
+$playersound player	male *pain75 boxpain
+$playersound player	male *pain50 boxpain
+$playersound player	male *pain25 boxpain2
+$playersound player	female *pain100 boxpain
+$playersound player	female *pain75 boxpain
+$playersound player	female *pain50 boxpain
+$playersound player	female *pain25 boxpain2
+$playersound player	other *pain100 boxpain
+$playersound player	other *pain75 boxpain
+$playersound player	other *pain50 boxpain
+$playersound player	other *pain25 boxpain2
+
+$playersound player male *death playdie
+$playersound player male *xdeath playdie
+$playersound player female *death playdie
+$playersound player female *xdeath playdie
+$playersound player other *death playdie
+$playersound player other *xdeath playdie

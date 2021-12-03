@@ -1,0 +1,114 @@
+class boxparty_Tabs : boxparty_Element {
+	protected Array<boxparty_RadioButton> tabLabels;
+	protected Array<boxparty_Frame> tabFrames;
+	protected boxparty_RadioController curTab;
+
+	double tabHeight;
+	double tabLabelMargin;
+	Font tabFont;
+	double tabTextScale;
+	boxparty_BoxTextures tabNormal;
+	boxparty_BoxTextures tabHover;
+	boxparty_BoxTextures tabActive;
+
+	void setTabLabelBoxes() {
+		double curX = 0.0;
+		for (int i = 0; i < tabLabels.size(); i++) {
+			let l = tabLabels[i];
+			l.setBox((curX, 0.0), (tabFont.stringWidth(l.text) * tabTextScale + 2.0 * tabLabelMargin, tabHeight));
+			l.config(curTab, i, tabNormal, tabHover, tabActive, NULL, l.text, tabFont, tabTextScale);
+			curX += l.box.size.x;
+		}
+	}
+	
+	void config(
+		double tabHeight, double tabLabelMargin, Font tabFont = NULL, double tabTextScale = 1.0,
+		boxparty_BoxTextures tabNormal = NULL, boxparty_BoxTextures tabHover = NULL, boxparty_BoxTextures tabActive = NULL
+	) {
+		self.tabHeight = tabHeight;
+		self.tabLabelMargin = tabLabelMargin;
+		if (tabFont == NULL) {
+			self.tabFont = smallfont;
+		}
+		else {
+			self.tabFont = tabFont;
+		}
+		self.tabTextScale = tabTextScale;
+		self.tabNormal = tabNormal;
+		self.tabHover = tabHover;
+		self.tabActive = tabActive;
+		self.alpha = 1.0;
+
+		setTabLabelBoxes();
+	}
+
+	static boxparty_Tabs create(
+		Vector2 pos, Vector2 size,
+		double tabHeight, double tabLabelMargin, Font tabFont = NULL, double tabTextScale = 1.0,
+		boxparty_BoxTextures tabNormal = NULL, boxparty_BoxTextures tabHover = NULL, boxparty_BoxTextures tabActive = NULL
+	) {
+		let ret = new("boxparty_Tabs");
+
+		ret.setBox(pos, size);
+		ret.curTab = new("boxparty_RadioController");
+		ret.config(tabHeight, tabLabelMargin, tabFont, tabTextScale, tabNormal, tabHover, tabActive);
+		ret.needsMouseMove = true;
+
+		return ret;
+	}
+
+	void addTab(string label) {
+		let button = boxparty_RadioButton.create((0, 0), (0, 0), curTab, 0, text: label);
+		let frame = boxparty_Frame.create((0.0, tabHeight), (box.size.x, box.size.y - tabHeight));
+
+		button.master = self;
+		frame.master = self;
+
+		tabLabels.push(button);
+		tabFrames.push(frame);
+
+		setTabLabelBoxes();
+	}
+
+	boxparty_Frame getTabFrame(int index) {
+		return tabFrames[index];
+	}
+
+	override bool onUIEventPriority(boxparty_UiEvent ev) {
+		mousePos = master.mousePos;
+		return tabFrames[curTab.curVal].onUIEventPriority(ev);
+	}
+
+	override void ticker() {
+		for (int i = 0; i < tabLabels.size(); i++) {
+			let l = tabLabels[i];
+			l.ticker();
+		}
+		tabFrames[curTab.curVal].ticker();
+	}
+
+	override bool onUIEvent(boxparty_UiEvent ev) {
+		mousePos = master.mousePos;
+		for (int i = 0; i < tabLabels.size(); i++) {
+			let l = tabLabels[i];
+			l.onUIEvent(ev);
+			l.mouseBlock = ev.mouseBlock;
+			ev.mouseBlock |= l.blocksMouse(mousePos);
+		}
+		return tabFrames[curTab.curVal].onUIEvent(ev);
+	}
+
+	override void topDrawer() {
+		tabFrames[curTab.curVal].topDrawer();
+	}
+
+	override void drawer() {
+		for (int i = 0; i < tabLabels.size(); i++) {
+			let l = tabLabels[i];
+			l.drawer();
+		}
+		int x, y, w, h;
+		[x, y, w, h] = Screen.getClipRect();
+		tabFrames[curTab.curVal].drawer();
+	}
+}

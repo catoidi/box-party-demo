@@ -1,0 +1,22 @@
+//zboxscript/cave/rock.zsc
+
+CLASS Rocks : BoxDecor //20025
+{
+	Default
+	{
+		Radius 10;
+		Height 12;
+		+SOLID;
+		//$Category "Box Party/Decor/Cave/"
+		//$Title "Rocks"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			ROCK C 0 NoDelay A_BoxDecor(true, 0.75, 1.4, 0);
+			ROCK C -1;
+			Stop;
+	}
+}

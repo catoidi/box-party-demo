@@ -1,0 +1,53 @@
+//zboxscript/foliage/bush.zsc
+
+//small tree-like plant.
+
+CLASS Bush : BoxDecor //20002
+{
+	Default
+	{
+		Radius 20;
+		Height 32;
+		+SOLID;
+		//$Category "Box Party/Decor/Foliage/"
+		//$Title "Bush (Default)"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			BUSH A 0 NoDelay A_Jump(256, "Finish", "Secondy", "Thirdy");
+		Secondy:
+			BUSH B 0;
+			Goto Finish;
+		Thirdy:
+			BUSH C 0;
+			Goto Finish;
+		Finish:
+			BUSH # 1 A_BoxDecor(true, 0.95, 1.05, 0);
+			BUSH # -1;
+			Stop;
+	}
+}
+
+CLASS TropicalBush : BoxDecor
+{
+	Default
+	{
+		Radius 20;
+		Height 32;
+		+SOLID;
+		//$Category "Box Party/Decor/Foliage/"
+		//$Title "Bush (Tropical)"
+		//$Color 2
+	}
+
+	States
+	{
+		Spawn:
+			BUSH D 1 NoDelay A_BoxDecor(true, 0.95, 1.05, 0);
+			BUSH D -1;
+			Stop;
+	}
+}

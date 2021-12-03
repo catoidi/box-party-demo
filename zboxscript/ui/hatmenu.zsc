@@ -1,0 +1,668 @@
+//zboxscript/ui/hatmenu.zsc
+
+//this uses code from the ZForms directory.
+
+//also the classes here use the "boxparty_" prefix instead of the usual "box" prefix to help mitigate confusion with certain ZForm elements.
+
+//also lemme preface this by saying i messed up the placement for the first 9 hats, so they're a bit wonky.
+
+//can't add controller support right now; ZForms currently doesn't support it.
+
+//and lastly this menu is a horrible mess and im sorry to any poor soul looking to understand it.
+
+//position of hat slots: (just for reference)
+// 01 02 06 10 13
+// 08 03 05 11 14
+// 09 04 07 12 15
+
+CLASS boxparty_HatMenu : boxparty_GenericMenu
+{
+	Font smallFont;
+	
+	boxparty_HatMenuHandler handler;
+	
+	boxparty_Image background;
+	boxparty_Button aButton;
+	boxparty_Label aLabel;
+	boxparty_Label pageLabel;
+	boxparty_Label unlockLabel;
+	boxparty_Label unlockLabel2;
+	
+	boxparty_BoxTextures hatTexture;
+	boxparty_BoxImage ChosenHat;
+	cvar hatpreview;
+	string hatimage;
+	vector2 hatSize;
+	
+	string playerSprite;
+
+	string hatText;
+	string pageText;
+	int hatPage;
+	int maxPage;
+	
+	string unlockstring;
+	int unlockedhats;
+	int lockedhats;
+	int unlockfail;
+	
+	boxparty_BoxImage ColorOnOff;
+	cvar ColorCVAR;
+	
+	boxparty_BoxImage ButtonImage, ButtonImage0, ButtonImage1, ButtonImage2, ButtonImage3, ButtonImage4, ButtonImage5, ButtonImage6, ButtonImage7, ButtonImage8, ButtonImage9, ButtonImage10, ButtonImage11, ButtonImage12, ButtonImage13, ButtonImage14, ButtonImage15;
+	
+	Array<String> BOXHAT_line, BOXHAT_name, BOXHAT_namelock, BOXHAT_cvar, BOXHAT_sprite, BOXHAT_menu, BOXHAT_locked;
+	int BOXHAT_size;
+	
+	static const string alphabet[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "]"};
+	static const string rotations[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G"}; //all characters you can use for sprite rotations.
+	
+	virtual void LoadHatWad (void) //clear the data in all dynamic arrays, if any, then process the data from all BOXHAT files
+	{
+		BOXHAT_size = 0;
+		BOXHAT_line.Clear(); //the full lines of code, excluding "comments".
+		BOXHAT_name.Clear(); //the 1st parameter. text that appears when selecting hat in menu.
+		BOXHAT_namelock.Clear(); //2nd parameter. text that appears if selecting a locked hat.
+		BOXHAT_cvar.Clear(); //3rd parameter. cvar that controls whether hat is locked or not.
+		BOXHAT_sprite.Clear(); //4th parameter. sprite name of hat.
+		BOXHAT_menu.Clear(); //5th parameter. how the hat appears in the menu when unlocked.
+		BOXHAT_locked.Clear(); //6th parameter. icon that appears in the menu if hat is locked.
+		
+		int ThisLump = Wads.FindLump("BOXHAT", 0, Wads.ANYNAMESPACE);
+		int NextLump = Wads.FindLump("BOXHAT", ThisLump + 1, Wads.ANYNAMESPACE);
+		
+		while (ThisLump != -1)
+		{
+			Wads.ReadLump(ThisLump).Split(BOXHAT_line, "\n", TOK_SKIPEMPTY);
+			ThisLump = NextLump;
+			NextLump = Wads.FindLump("BOXHAT", ThisLump + 1, 1);
+		}
+		
+		for (int i = 0; i < BOXHAT_line.Size(); i++)
+		{
+			string currentline = BOXHAT_line[i];
+			int currentlength = currentline.Length();
+			array<string> fixedline;
+			array<string> splitline;
+			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			
+			if (currentline.Left(6) == "Hat = ")
+			{
+				currentlength += -1;
+				currentline = currentline.Mid(6, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				BOXHAT_name.Push(splitline[0]);
+				BOXHAT_namelock.Push(splitline[1]);
+				BOXHAT_cvar.Push(splitline[2]);
+				BOXHAT_sprite.Push(splitline[3]);
+				BOXHAT_menu.Push(splitline[4]);
+				BOXHAT_locked.Push(splitline[5]);
+			}
+			else
+			{
+				console.printf("\cgERROR - Line #%d, AKA \cc'%s' \cgis invalid.", i + 1, currentline);
+			}
+		}
+		
+		BOXHAT_size = BOXHAT_name.Size(); //this is the amount of loaded hats - 1. it is implied that all 5 arrays share the same Size().
+	}
+	
+	virtual void updateHat (void)
+	{
+		if (ChosenHat) {ChosenHat.Destroy();} //remove old hat preview, if it exists.
+
+		//hat preview
+		//so that u dont have to close the menu to see ur currently selected hat
+		hatpreview = cvar.FindCVAR('box_hat_current');
+		hatimage = "graphics/hat/HATIDLE.png";
+		string hatname = "sprites/Hats/";
+		string hatnamesprite = hatpreview.GetString();
+		
+		for (int i = 0; i < BOXHAT_size; ++i)
+		{
+			if (hatnamesprite == BOXHAT_sprite[i].Left(6))
+			{
+				hatname.AppendFormat("%s", BOXHAT_sprite[i]);
+				hatimage = hatname;
+			}
+		}
+		
+		hatTexture = hatTexture.CreateTexturePixels(hatimage, (4, 6), (12, 18), true, true);
+		hatSize = (16, 24);
+		ChosenHat = boxparty_BoxImage.Create((274, 8), hatSize, hatTexture, (1.0, 1.0));
+		ChosenHat.Pack (mainFrame);
+	}
+
+	virtual void updateLabel (bool NotLocked, string switchname)
+	{
+		if (NotLocked == true)
+		{
+			hatText = Stringtable.Localize(switchname);
+			
+			aLabel.text = hatText;
+			aLabel.textcolor = Font.CR_WHITE;
+		}
+		else
+		{
+			hatText = Stringtable.Localize(switchname);
+			
+			aLabel.text = hatText;
+			aLabel.textcolor = Font.CR_BRICK;
+		}
+	}
+	
+	virtual void updateUnlockLabel (void)
+	{
+		//adds another hat to unlocked hats, then updates the text to match it.
+		++unlockedhats;
+		--lockedhats;
+		
+		let unlockcolor2 = Font.CR_WHITE;
+		if (unlockedhats == (unlockedhats + lockedhats)) {unlockcolor2 = Font.CR_GREEN;}
+		
+		unlockLabel.text = string.Format("    %d/%d", unlockedhats, unlockedhats + lockedhats);
+		unlockLabel.textColor = unlockcolor2;
+	}
+	
+	virtual void updatePage (int PageNum)
+	{
+		string gettex;
+		string texprefix;
+		string texlock;
+
+		cvar ischeat = cvar.FindCVAR('box_hat_cheat');
+		cvar grabhatcvar;
+		string gethatstring;
+
+		if (1 == 1)
+		{
+			texprefix = "graphics/hat/";
+			pageText = string.Format("Page: %d/%d", PageNum, maxPage);
+
+			for (int SlotNum = 1; SlotNum < 16; SlotNum++)
+			{
+				let NewImage = ButtonImage;
+
+				switch (SlotNum)
+				{
+					case 1: NewImage = ButtonImage1; break;
+					case 2: NewImage = ButtonImage2; break;
+					case 3: NewImage = ButtonImage3; break;
+					case 4: NewImage = ButtonImage4; break;
+					case 5: NewImage = ButtonImage5; break;
+					case 6: NewImage = ButtonImage6; break;
+					case 7: NewImage = ButtonImage7; break;
+					case 8: NewImage = ButtonImage8; break;
+					case 9: NewImage = ButtonImage9; break;
+					case 10: NewImage = ButtonImage10; break;
+					case 11: NewImage = ButtonImage11; break;
+					case 12: NewImage = ButtonImage12; break;
+					case 13: NewImage = ButtonImage13; break;
+					case 14: NewImage = ButtonImage14; break;
+					case 15: NewImage = ButtonImage15; break;
+					default: break;
+				}
+
+				let gethatnumber = SlotNum + ((PageNum - 1) * 15);
+				if ((gethatnumber - 1) < BOXHAT_size) 
+				{
+					let gethatimage = BOXHAT_menu[gethatnumber - 1];
+					let gethatlock = BOXHAT_locked[gethatnumber - 1];
+					gettex = string.Format("%s%s", texprefix, gethatimage);
+					texlock = string.Format("%s%s", texprefix, gethatlock);
+					gethatstring = BOXHAT_cvar[gethatnumber - 1];
+				}
+				else {gethatstring = "box_hat_unlock_00"; gettex = "graphics/hat/HATMISSING.png"; texlock = "graphics/hat/HATMISSING.png";}
+				
+				grabhatcvar = cvar.FindCVAR(gethatstring);
+
+				if ((ischeat.GetBool() == false) && (grabhatcvar.GetBool() == false)) {gettex = texlock;}
+
+				let newtex = boxparty_BoxTextures.CreateSingleTexture(gettex, true);
+				NewImage.Config(newtex);
+				HatPage = PageNum;
+			}
+		}
+		
+		pageLabel.text = pageText;
+	}
+	
+	virtual void createHatButton (int HatSlot)
+	{
+		cvar hatcvar;
+		int pageadder = (hatPage - 1) * 15;
+		string hatreplace = string.Format("%d", HatSlot);
+		string lockname = "FailXX";
+		cvar ischeat = cvar.FindCVAR('box_hat_cheat');
+		string docommand = string.Format("DoHat");
+		string dotexture;
+		vector2 getposition;
+		
+		if (HatSlot <= 9) {docommand.AppendFormat("0%d", HatSlot);}
+		else {docommand.AppendFormat("%d", HatSlot);}
+
+		switch (HatSlot)
+		{
+			case 0: getposition = (264, 144); break; //remove hat button
+			case 1: getposition = (12, 56); break;
+			case 2: getposition = (12, 102); break;
+			case 3: getposition = (12, 148); break;
+			case 4: getposition = (58, 56); break;
+			case 5: getposition = (58, 102); break;
+			case 6: getposition = (58, 148); break;
+			case 7: getposition = (104, 56); break;
+			case 8: getposition = (104, 102); break;
+			case 9: getposition = (104, 148); break;
+			case 10: getposition = (150, 56); break;
+			case 11: getposition = (150, 102); break;
+			case 12: getposition = (150, 148); break;
+			case 13: getposition = (196, 56); break;
+			case 14: getposition = (196, 102); break;
+			case 15: getposition = (196, 148); break;
+		}
+
+		string hatname, hatcvarname;
+		if ((HatSlot != 0) && (HatSlot <= BOXHAT_size))
+		{
+			hatname = string.Format("graphics/hat/%s", BOXHAT_menu[HatSlot - 1]);
+			hatcvarname = BOXHAT_cvar[HatSlot - 1];
+			hatcvar = cvar.FindCVAR(hatcvarname);
+			dotexture = hatname;
+		}
+		else if (HatSlot == 0)
+		{
+			hatcvar = cvar.FindCVAR('box_hat_unlock_00'); 
+			dotexture = "graphics/hat/HATBUTTONOFF.png";
+		}
+		else
+		{
+			hatcvar = cvar.FindCVAR('box_hat_unlock_00'); 
+			dotexture = "graphics/hat/HATMISSING.png";
+		}
+		
+		if ((ischeat.GetBool() == false) && (hatcvar.GetBool() == false)) 
+		{
+			hatname = string.Format("graphics/hat/%s", BOXHAT_locked[HatSlot - 1]);
+			dotexture = hatname;
+		}
+		
+		let boxTexture = boxparty_BoxTextures.CreateSingleTexture(dotexture, false);
+		let boxSize = (44, 44);
+		ButtonImage = boxparty_BoxImage.Create
+        (
+            // Position
+            getposition - (2, 2),
+            // Size
+            boxSize,
+            // Texture
+            boxTexture,
+            // Scale
+            (1.0, 1.0)
+        );
+        // Add the box image element into the main frame.
+		switch (HatSlot)
+		{
+			case 0: ButtonImage0 = ButtonImage; ButtonImage0.Pack (mainFrame); break;
+			case 1: ButtonImage1 = ButtonImage; ButtonImage1.Pack (mainFrame); break;
+			case 2: ButtonImage2 = ButtonImage; ButtonImage2.Pack (mainFrame); break;
+			case 3: ButtonImage3 = ButtonImage; ButtonImage3.Pack (mainFrame); break;
+			case 4: ButtonImage4 = ButtonImage; ButtonImage4.Pack (mainFrame); break;
+			case 5: ButtonImage5 = ButtonImage; ButtonImage5.Pack (mainFrame); break;
+			case 6: ButtonImage6 = ButtonImage; ButtonImage6.Pack (mainFrame); break;
+			case 7: ButtonImage7 = ButtonImage; ButtonImage7.Pack (mainFrame); break;
+			case 8: ButtonImage8 = ButtonImage; ButtonImage8.Pack (mainFrame); break;
+			case 9: ButtonImage9 = ButtonImage; ButtonImage9.Pack (mainFrame); break;
+			case 10: ButtonImage10 = ButtonImage; ButtonImage10.Pack (mainFrame); break;
+			case 11: ButtonImage11 = ButtonImage; ButtonImage11.Pack (mainFrame); break;
+			case 12: ButtonImage12 = ButtonImage; ButtonImage12.Pack (mainFrame); break;
+			case 13: ButtonImage13 = ButtonImage; ButtonImage13.Pack (mainFrame); break;
+			case 14: ButtonImage14 = ButtonImage; ButtonImage14.Pack (mainFrame); break;
+			case 15: ButtonImage15 = ButtonImage; ButtonImage15.Pack (mainFrame); break;
+		}
+
+		// Create the button's textures.
+        let buttonIdle = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATIDLE.png", true);
+        let buttonHover = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATHOVER.png", false);
+        let buttonClick = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATSELECT.png", false);
+        // Add a button.
+        aButton = boxparty_Button.Create
+        (
+            // Position
+            getposition,
+            // Size
+            (40, 40),
+            // Our command handler
+            cmdHandler: handler,
+            // A command string for the button
+            command: docommand,
+            // The button's textures
+            inactive: buttonIdle,
+            hover: buttonHover,
+            click: buttonClick
+        );
+        // Add the button element into the main frame.
+        aButton.Pack (mainFrame);
+	}
+	
+	virtual void createPageButton (bool isRight, vector2 HatPos)
+	{
+		string docommand;
+		string dotexture;
+		
+		if (isRight == true) 
+		{
+			docommand = "GoRight";
+			dotexture = "graphics/hat/HATPAGER.png";
+		}
+		else 
+		{
+			docommand = "GoLeft";
+			dotexture = "graphics/hat/HATPAGEL.png";
+		}
+	
+		let boxTexture = boxparty_BoxTextures.CreateTexturePixels(dotexture, (0, 0), (24, 24), false, false);
+		let boxSize = (24, 24);
+		let aBoxImage = boxparty_BoxImage.Create
+        (
+            // Position
+            HatPos,
+            // Size
+            boxSize,
+            // Texture
+            boxTexture,
+            // Scale
+            (1.0, 1.0)
+        );
+        // Add the box image element into the main frame.
+        aBoxImage.Pack (mainFrame);
+		
+		// Create the button's textures.
+        let buttonIdle = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATIDLE.png", true);
+        let buttonHover = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATPAGEHOVER.png", false);
+        let buttonClick = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATPAGESELECT.png", false);
+        // Add a button.
+        aButton = boxparty_Button.Create
+        (
+            // Position
+            HatPos,
+            // Size
+            (24, 24),
+            // Our command handler
+            cmdHandler: handler,
+            // A command string for the button
+            command: docommand,
+            // The button's textures
+            inactive: buttonIdle,
+            hover: buttonHover,
+            click: buttonClick
+        );
+        // Add the button element into the main frame.
+        aButton.Pack (mainFrame);
+	}
+	
+	virtual void createColorButton (void) //(bool isRight, vector2 HatPos)
+	{
+		string docommand;
+		string dotexture;
+		vector2 ColorPos = (246, 84);
+		
+		docommand = "ChangeColor";
+		dotexture = "graphics/hat/HATCOLOR.png";
+	
+		let boxTexture = boxparty_BoxTextures.CreateTexturePixels(dotexture, (0, 0), (24, 24), false, false);
+		let boxSize = (16, 14);
+		let aBoxImage = boxparty_BoxImage.Create
+        (
+            // Position
+            ColorPos,
+            // Size
+            boxSize,
+            // Texture
+            boxTexture,
+            // Scale
+            (1.0, 1.0)
+        );
+        // Add the box image element into the main frame.
+        aBoxImage.Pack (mainFrame);
+		
+		// Create the button's textures.
+        let buttonIdle = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATIDLE.png", true);
+        let buttonHover = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATCOLORHOVER.png", false);
+        let buttonClick = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATCOLORSELECT.png", false);
+        // Add a button.
+        aButton = boxparty_Button.Create
+        (
+            // Position
+            ColorPos,
+            // Size
+            (16, 14),
+            // Our command handler
+            cmdHandler: handler,
+            // A command string for the button
+            command: docommand,
+            // The button's textures
+            inactive: buttonIdle,
+            hover: buttonHover,
+            click: buttonClick
+        );
+        // Add the button element into the main frame.
+        aButton.Pack (mainFrame);
+		
+		updateColor();
+	}
+	
+	virtual void updateColor (void)
+	{
+		if (ColorOnOff) {ColorOnOff.Destroy();}
+		vector2 ColorPos = (246, 84);
+
+		//hat preview
+		//so that u dont have to close the menu to see ur currently selected hat
+		ColorCVAR = cvar.FindCVAR('box_hat_color');
+		string OnImage = "graphics/hat/HATCOLORON.png";
+		string OffImage = "graphics/hat/HATCOLOROFF.png";
+		string ChosenImage = "graphics/hat/HATIDLE.png";
+		
+		if (ColorCVAR.GetBool() == true) {ChosenImage = OnImage;}
+		else {ChosenImage = OffImage;}
+		
+		let boxTexture = boxparty_BoxTextures.CreateTexturePixels(ChosenImage, (0, 0), (16, 14), true, true);
+		let boxSize = (16, 14);
+		ColorOnOff = boxparty_BoxImage.Create(ColorPos, boxSize, boxTexture, (1.0, 1.0));
+		ColorOnOff.Pack (mainFrame);
+	}
+	
+	override void Init (Menu parent)
+	{
+		Vector2 baseRes = (320, 200);
+		hatPage = 1;
+	
+		Super.Init(parent);
+		SetBaseResolution(baseRes);
+		smallFont = OptionFont(); //keep font consistent with other menus
+		background = boxparty_Image.Create((0, 0), baseRes, "graphics/hat/HATBACK.png", boxparty_Image.AlignType_TopLeft);
+		background.Pack(mainFrame);
+		
+		handler = new('boxparty_HatMenuHandler');
+		handler.link = self;
+		
+		LoadHatWad();
+		
+		updateHat();
+
+		// Add a label.
+        aLabel = boxparty_Label.Create
+        (
+            // Position
+            (20, 44),
+            // Size.
+            (0, smallFont.GetHeight()),
+            // The label's text
+            text: hatText,
+            // The font to use
+            fnt: smallFont,
+            // Whether to automatically wrap the text or not
+            wrap: false,
+            // Whether to automatically resize the element based on the text width
+            autoSize: true,
+			//make the text smaller :)
+			textScale: 0.5,
+            // The text's colour
+            textColor: Font.CR_WHITE
+        );
+		
+		int pagecounter = 0;
+		int fakehatsize = BOXHAT_size;
+		while (fakehatsize > 0)
+		{
+			pagecounter += 1;
+			fakehatsize += -15;
+		}
+		maxPage = pagecounter;
+		pageText = string.Format("Page: 1/%d", maxPage); //menu always starts on page 1
+		
+		pageLabel = boxparty_Label.Create
+		(
+			(264, 108),
+			(0, smallFont.GetHeight()),
+			text: pageText,
+			fnt: smallFont,
+			wrap: false,
+			autoSize: true,
+			textScale: 0.5,
+			textColor: Font.CR_WHITE
+		);
+        
+		string timemonth;
+		string timeday;
+		cvar isbirthday = cvar.FindCVAR("box_hat_unlock_09");
+		
+		timemonth = SystemTime.Format("%B", SystemTime.Now());
+		timeday = SystemTime.Format("%d", SystemTime.Now());
+		
+		if ((timemonth == "November") && (timeday == "03"))
+		{
+			if (isbirthday.GetBool() == false) 
+			{
+				aLabel.text = string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_09"));
+				aLabel.textColor = Font.CR_GREEN;
+			}
+			isbirthday.SetBool(true);
+		}
+		
+		cvar getlucky = cvar.FindCVAR("box_hat_unlock_08");
+		cvar luckyhat = cvar.FindCVAR("box_hat_lucky");
+		cvar unluckyhat = cvar.FindCVAR("box_hat_current");
+		cvar luckycheat = cvar.FindCVAR("box_hat_cheat");
+		
+		string luckycvarstring = luckyhat.GetString();
+		
+		if (luckycvarstring.Left(5) != "HATAA")
+		{
+			int luckynum = random(2, 14);
+		
+			switch (luckynum)
+			{
+				//default: luckyhat.SetInt(luckynum); break;
+				//case 8: luckyhat.SetInt(luckynum - (random(1, 3))); break;
+				default: break;
+				case 8: luckynum += random(-1, -3); break;
+			}
+			
+			string luckystring = string.Format("%s%s", "HATAA", rotations[luckynum]);
+			luckyhat.SetString(luckystring);
+		}
+		
+		
+		if ((luckyhat.GetString() == unluckyhat.GetString()) && (luckycheat.GetBool() == false))
+		{
+			if (getlucky.GetBool() == false) 
+			{
+				aLabel.text = string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_08"));
+				aLabel.textColor = Font.CR_GREEN;
+			}
+			getlucky.SetBool(true);
+		}
+		
+		let signTexture = boxparty_BoxTextures.CreateTexturePixels("graphics/hat/CHOOSEHAT.png", (0, 0), (160, 40), true, true);
+		let signSize = (160, 40);
+		let signImage = boxparty_BoxImage.Create((8, 8), signSize, signTexture, (1.0, 1.0));
+		signImage.Pack (mainFrame);
+		
+		switch (random(0, 5))
+		{
+			case 0: playerSprite = "sprites/Characters/PlayerBox/PBOXA0.lmp"; break;
+			case 1: playerSprite = "sprites/Characters/PlayerBox/CBOXA0.lmp"; break;
+			case 2: playerSprite = "sprites/Characters/PlayerBox/TBOXA0.lmp"; break;
+			case 3: playerSprite = "sprites/Characters/PlayerBox/PBOXB0.lmp"; break;
+			case 4: playerSprite = "sprites/Characters/PlayerBox/CBOXB0.lmp"; break;
+			case 5: playerSprite = "sprites/Characters/PlayerBox/TBOXB0.lmp"; break;
+		}
+		
+		let playerTexture = boxparty_BoxTextures.CreateTexturePixels(playerSprite, (0, 0), (32, 64), true, true);
+		let playerSize = (32, 64);
+		let playerImage = boxparty_BoxImage.Create((266, 30), playerSize, playerTexture, (1.0, 1.0));
+		playerImage.Pack (mainFrame);
+		
+		for (int countey = 0; countey < 16; countey++) {createHatButton(countey);}
+
+		createPageButton(true, (286, 116));
+		createPageButton(false, (258, 116));
+		
+		for (int lockcount = 0; lockcount < BOXHAT_size; lockcount++)
+		{
+			unlockstring = BOXHAT_cvar[lockcount];
+			
+			cvar unlockcvar = cvar.FindCVAR(unlockstring);
+			
+			if (unlockcvar) 
+			{
+				if (unlockcvar.GetBool() == true) {unlockedhats += 1;} 
+				else {lockedhats += 1;}
+			}
+			else {unlockfail += 1;}
+		}
+		
+		if (unlockfail > 0) {console.printf("%d failed hats.", unlockfail);}
+		
+		string unlocktext = string.Format("    %d/%d", unlockedhats, unlockedhats + lockedhats);
+		
+		let unlockcolor = Font.CR_WHITE;
+		if (unlockedhats == (unlockedhats + lockedhats)) {unlockcolor = Font.CR_GREEN;}
+		
+		unlockLabel = boxparty_Label.Create
+		(
+			(200, 32),
+			(0, smallFont.GetHeight()),
+			text: unlocktext,
+			fnt: smallFont,
+			wrap: false,
+			autoSize: true,
+			textScale: 0.5,
+			textColor: unlockcolor
+		);
+		
+		unlockLabel2 = boxparty_Label.Create
+		(
+			(200, 24),
+			(0, smallFont.GetHeight()),
+			text: "Unlocked:",
+			fnt: smallFont,
+			wrap: false,
+			autoSize: true,
+			textScale: 0.5,
+			textColor: Font.CR_GOLD
+		);
+
+		// Add the label element to the main frame.
+        aLabel.Pack (mainFrame);
+		pageLabel.Pack (mainFrame);
+		unlockLabel.Pack (mainFrame);
+		unlockLabel2.Pack (mainFrame);
+		
+		createColorButton();
+	}
+}

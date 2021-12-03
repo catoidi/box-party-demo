@@ -1,0 +1,476 @@
+//zboxscript/ui/hud.zsc
+
+//warning: this code is bad.
+//also another warning: in the full version of Box Party, this StatusBar will a be replaced by a child class.
+//all functions that get overridden are at the bottom.
+
+class BoxPartyStatusBar : BaseStatusBar
+{
+	HUDFont NumberFont; //used for all the number stuff on the HUD.
+	HUDFont SmallFont; //default smallfont font for anything else.
+	//insert inventorybarstate thing here later.
+	
+	int secondtimer;
+	
+	//stuff
+	bool HasAmmo1;
+	bool HasAmmo2;
+	const ArmorMax = 60;
+	const EnergyMax = 100;
+	
+	//score
+	double ScoreFadeTime;
+	double ComboFade;
+	int PrevScore;
+	int PrevMurder;
+	int MurderTimer;
+	int MurderCombo;
+	bool ScoreRespawn;
+
+	//the interpolators interpolate the numbers.
+	DynamicValueInterpolator BoxHealthInterpolator;
+	DynamicValueInterpolator BoxArmorInterpolator;
+	DynamicValueInterpolator BoxAmmoInterpolator;
+	DynamicValueInterpolator BoxAmmo2Interpolator;
+	DynamicValueInterpolator BoxEnergyInterpolator;
+	DynamicValueInterpolator BoxPowerInterpolator;
+	DynamicValueInterpolator BoxScoreInterpolator;
+	
+	//water stuff
+	bool IsUnderwater; //bruh
+	int OxygenLevel; //how much oxygen u got
+	int MaxOxygen; //maximum oxygen
+	int OxygenNumber; //number displayed on HUD
+	int OxygenColor;
+	const AirAmount = 20; //i dont see any reason why someone would change how many seconds u can breathe underwater, but whatever
+	
+	//screen shake
+	vector2 CustomOffset; //offset for modded stuff
+	vector2 ShakeOffset; //offset for hud shake
+	vector2 GlobalOffset; //offset of all hud elements
+	int OffsetHealth; //used to calculate hud shake effect
+	cvar shakecvar; //used to control hud shake effect
+	
+	//more offset
+	vector2 ArmorOffset; //move hud elements up if armor is active
+	vector2 Ammo1Offset; //move hud elements up if ammo1 is active
+	vector2 Ammo2Offset;
+	vector2 PrismOffset; //move hp bar so that larger hp bar will show up right
+	
+	//yea
+	Array<String> LumpLines;
+	
+	//player arrays
+	Array<string> WhichClass;
+	Array<string> MugShotSkin;
+	Array<int> HPOffset; //will get converted to armoroffset.
+	Array<string> HPBar1;
+	Array<string> HPBar2;
+	
+	int CurrentPlayer; //saves which player in the arrays you're currently playing as.
+	
+	//ammo arrays
+	Array<int> reserveammo; //the array size is the number of ammo types used in box party.
+	Array<int> reservemax; //used for storing max ammo amounts.
+	Array<string> reservename; //graphic name for ammo icon.
+	Array<string> reservetype; //ammo type to put in reserve list.
+	Array<string> reserveweapon; //weapon associated with corresponding ammo.
+	
+	bool HideAmmo1;
+
+	override void Init()
+	{
+		Super.Init();
+		SetSize(0, 320, 240);
+		
+		//smallbox is used for health/ammo bar numbers, smallfont is for everything else
+		SmallFont = HUDFont.Create("SmallFont");
+		NumberFont = HUDFont.Create("SMALLBOX");
+		
+		//set max air capacity
+		MaxOxygen = AirAmount * 35;
+		
+		BoxHealthInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 8);
+		BoxArmorInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 50);
+		BoxAmmoInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 8);
+		BoxAmmo2Interpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 8);
+		BoxEnergyInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 50);
+		BoxPowerInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 8);
+		BoxScoreInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 9999999);
+		
+		shakecvar = cvar.findcvar("box_hudshake");
+		
+		LoadBOXHUD();
+	}
+	
+	void LoadBOXHUD()
+	{
+		//clear arrays in case function is loaded more than once.
+		LumpLines.Clear();
+		
+		WhichClass.Clear();
+		MugShotSkin.Clear();
+		HPOffset.Clear();
+		HPBar1.Clear();
+		HPBar2.Clear();
+		
+		reserveammo.Clear();
+		reservemax.Clear();
+		reservename.Clear();
+		reservetype.Clear();
+		reserveweapon.Clear();
+		
+		CurrentPlayer = 0;
+		
+		//copy/pasted lump loading code.
+		int DropMode = 0; //if 1, add to player list. if 2, add to ammo list.
+		
+		int ThisLump = Wads.FindLump("BOXHUD", 0, Wads.ANYNAMESPACE);
+		int NextLump = Wads.FindLump("BOXHUD", ThisLump + 1, Wads.ANYNAMESPACE);
+		
+		while (ThisLump != -1)
+		{
+			Wads.ReadLump(ThisLump).Split(LumpLines, "\n", TOK_SKIPEMPTY);
+			ThisLump = NextLump;
+			NextLump = Wads.FindLump("BOXHUD", ThisLump + 1, 1);
+		}
+		
+		for (int i = 0; i < LumpLines.Size(); i++)
+		{
+			string currentline = LumpLines[i];
+			int currentlength = currentline.Length();
+			array<string> fixedline;
+			array<string> splitline;
+			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			
+			if (currentline.Left(9) == "Player = ")
+			{
+				currentline = currentline.Mid(9, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				WhichClass.Push(splitline[0]);
+				MugShotSkin.Push(splitline[1]);
+				HPOffset.Push(splitline[2].ToInt(10));
+				HPBar1.Push(string.Format("graphics/%s", splitline[3]));
+				HPBar2.Push(string.Format("graphics/%s", splitline[4]));
+			}
+			else if (currentline.Left(9) == "Weapon = ")
+			{
+				currentline = currentline.Mid(9, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				reserveweapon.Push(splitline[0]);
+				reservetype.Push(splitline[1]);
+				reservename.Push(splitline[2]);
+				reserveammo.Push(0); //will get filled in later.
+				reservemax.Push(0); //will get filled in later.
+			}
+			else
+			{
+				console.printf("\cgERROR - THIS LINE SHOULD NOT BE HERE:\n%s", currentline);
+			}
+		}
+	}
+
+	override void NewGame()
+	{
+		Super.NewGame();
+
+		//reset numbers back to 0 on new game
+		BoxHealthInterpolator.Reset(0);
+		BoxArmorInterpolator.Reset(0);
+		BoxAmmoInterpolator.Reset(0);
+		BoxAmmo2Interpolator.Reset(0);
+		BoxEnergyInterpolator.Reset(0);
+		BoxPowerInterpolator.Reset(0);
+		BoxScoreInterpolator.Reset(0);
+		
+		ScoreFadeTime = 2.75;
+	}
+	
+	override void Tick()
+	{
+		Super.Tick();
+		
+		//update interpolated numbers
+		BoxInterpolate();
+		
+		Ammo ammo1, ammo2;
+		int ammomax;
+		int ammocount1, ammocount2;
+		[ammo1, ammo2, ammocount1, ammocount2] = GetCurrentAmmo();
+		if (BoxAmmoInterpolator.GetValue() > ammocount1) {BoxAmmoInterpolator.Reset(ammocount1);} else {BoxAmmoInterpolator.Update(ammocount1);}
+		if (BoxAmmo2Interpolator.GetValue() > ammocount2) {BoxAmmo2Interpolator.Reset(ammocount2);} else {BoxAmmo2Interpolator.Update(ammocount2);}
+		
+		//screen shake effect
+		int OffsetAmount = 0;
+		if (cplayer.health > 0) //only shake if alive
+		{
+			if (!OffsetHealth > 0) {OffsetHealth = cplayer.health;} //offsethealth should never reach 0 after start
+			else if (OffsetHealth > cplayer.health) //health lowered, start shaking
+			{
+				if (OffsetHealth > 200) {OffsetHealth = 200;}
+				if (WhichClass[CurrentPlayer] == "PlayerTriangleToken") {OffsetAmount = (((OffsetHealth - cplayer.health) * (shakecvar.GetInt())) / 8);} //shakes 1 pixel per 4 damage for triangle
+				else {OffsetAmount = (((OffsetHealth - cplayer.health) * (shakecvar.GetInt())) / 20);} //shakes 1 pixel per 10 damage for non-triangles
+				if (OffsetAmount > (4 + shakecvar.GetInt())) {OffsetAmount = (4 + shakecvar.GetInt());} //cap shake amount
+				ShakeOffset = (randompick(-OffsetAmount, OffsetAmount), randompick(-OffsetAmount, OffsetAmount));
+				OffsetHealth += -1;
+			}
+			else //health raised/stagnated, stop shaking
+			{
+				OffsetHealth = cplayer.health;
+				ShakeOffset = (0, 0);
+			}
+		}
+		else {ShakeOffset = (0, 0);} //reset position if dead
+		
+		//update oxygenlevel
+		if ((cplayer.mo.waterlevel == 3) && !(cplayer.cheats & CF_GODMODE) && !(cplayer.cheats & CF_GODMODE2) && (WhichClass[CurrentPlayer] != "PlayerGlassToken"))
+		{
+			if (IsUnderwater == true) {OxygenLevel += -1;}
+			if (IsUnderwater == false)
+			{
+				OxygenLevel = MaxOxygen;
+				IsUnderwater = true;
+			}
+			OxygenNumber = OxygenLevel / 7;
+			if (OxygenNumber <= 25) {OxygenColor = Font.CR_DARKRED;} else {OxygenColor = Font.CR_DARKGRAY;}
+		}
+		else {IsUnderwater = false;}
+		
+		//update score
+		if (ScoreRespawn == true)
+		{
+		if (MurderTimer > 0) {MurderTimer += -1;}
+		if (GetAmount("MurderCount") > PrevMurder) 
+		{
+			MurderTimer = 175;
+			MurderCombo += GetAmount("MurderCount") - PrevMurder;
+		}
+		if (MurderTimer <= 0) {MurderCombo = 0;}
+		if (ScoreFadeTime > 0.0) {ScoreFadeTime += -0.01;}
+		if (CPlayer.mo.score > PrevScore) {ScoreFadeTime = 2.75;}
+		ComboFade = MurderTimer / 175.0;
+		}
+		PrevMurder = GetAmount("MurderCount");
+		PrevScore = CPlayer.mo.score;
+		
+		//only run once a second (35 tics)
+		if (secondtimer == 0) 
+		{
+			CheckPlayerClass();
+			shakecvar = cvar.findcvar("box_hudshake");
+		}
+		if (secondtimer == 35) {secondtimer = 0;}
+		secondtimer++;
+		
+		ScoreRespawn = true;
+		GlobalOffset = ShakeOffset + CustomOffset;
+	}
+	
+	override void Draw(int state, double TicFrac)
+	{
+		Super.Draw(state, TicFrac);
+		
+		if (state == HUD_Fullscreen) //render HUD in fullscreen mode
+		{
+			BeginHUD();
+			DrawBoxHUD(TicFrac);
+		}
+	}
+	
+	override void DrawAutomapHUD(double TicFrac)
+	{
+		Super.DrawAutomapHUD(TicFrac);
+		
+		BeginHUD();
+		DrawBoxHUD(TicFrac);
+	}
+	
+	void DrawBoxHUD(double TicFrac)
+	{
+		if (WhichClass[CurrentPlayer] == "PlayerPrismToken") {PrismOffset = (-32, 0);} //prism only
+		else {PrismOffset = (0, 0);}
+		
+		//HEALTH + CLASS BARS
+		if (WhichClass[CurrentPlayer] == "PlayerTrioToken") //trio needs 2 extra health bars
+		{
+			DrawTrioBar();
+		}
+		else if (WhichClass[CurrentPlayer] == "PlayerGlassToken") //glass has power bar instead of health bar
+		{
+			DrawGlassBar();
+		}
+		else //draw health bar like normal
+		{
+			DrawBar(HPBar1[CurrentPlayer], HPBar2[CurrentPlayer], BoxHealthInterpolator.GetValue(), cplayer.mo.GetMaxHealth(false), GlobalOffset + PrismOffset + (-168, -32), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+		}
+		if (WhichClass[CurrentPlayer] != "PlayerGlassToken") {DrawString(NumberFont, FormatNumber(cplayer.health, 0), GlobalOffset + (-48, -24), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_BLACK);} //draw hp number only if player isn't glass
+		DrawTexture(GetMugShot(1, MugShot.DISABLEOUCH|MugShot.DISABLERAMPAGE|MugShot.CUSTOM, MugShotSkin[CurrentPlayer]), GlobalOffset + (-32, -32), DI_ITEM_OFFSETS);
+		if (WhichClass[CurrentPlayer] == "PlayerTriangleToken") //add armor bar for triangle
+		{
+			DrawBar("graphics/HUDBARH.png", "graphics/HUDBARG.png", BoxArmorInterpolator.GetValue(), ArmorMax, GlobalOffset + (-142, -56), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+			DrawString(NumberFont, FormatNumber(GetArmorAmount(), 0), GlobalOffset + (-48, -50), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_GREEN);
+			DrawImage("sprites/loot/armor/ARMOB0.png", GlobalOffset + (-24, -36), DI_ITEM_OFFSETS);
+		}
+		if (WhichClass[CurrentPlayer] == "PlayerPrismToken") //add energy bar for prism
+		{
+			DrawPrismBar();
+		}
+		
+		//AMMO BARS
+		Ammo ammo1, ammo2;
+		int ammo1max, ammo2max, ammocount1, ammocount2;
+		[ammo1, ammo2, ammocount1, ammocount2] = GetCurrentAmmo();
+		textureid ammo1icon, ammo2icon;
+		
+		if ((WhichClass[CurrentPlayer] == "PlayerPrismToken") || (WhichClass[CurrentPlayer] == "PlayerTriangleToken")) {ArmorOffset = (0, -24);} //do armor offset if triangle or prism
+		else {ArmorOffset = (0, 0);}
+		Ammo1Offset = (0, -20 * HasAmmo1);
+		Ammo2Offset = (0, -20 * HasAmmo2);
+		
+		bool noammo1, noammo2;
+		if (ammocount1 == 0) {noammo1 = true;} else {noammo1 = false;}
+		if ((ammocount2 == 0) || ((ammocount2 < 20) && (CheckWeaponSelected("PopcornGun")))) {noammo2 = true;} else {noammo2 = false;}
+		
+		if ((ammo1 != null) && (HideAmmo1 != true))
+		{
+			ammo1max = CPlayer.ReadyWeapon.Ammo1.MaxAmount;
+			ammo1icon = GetIcon(cplayer.readyweapon, 0);
+			DrawBar("graphics/HUDBARF.png", "graphics/HUDBARE.png", BoxAmmoInterpolator.GetValue(), ammo1max, GlobalOffset + ArmorOffset + (-136, -52), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+			DrawString(NumberFont, FormatNumber(ammocount1, 1), GlobalOffset + ArmorOffset + (-48, -49), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_BLACK);
+			DrawImage("graphics/AMMOZ0.png", GlobalOffset + ArmorOffset + (-32, -52), DI_ITEM_OFFSETS);
+			if (noammo1 == true) {DrawImage("graphics/AMMOX0.png", GlobalOffset + ArmorOffset + (-32, -52), DI_ITEM_OFFSETS);}
+			DrawTexture(ammo1icon, GlobalOffset + ArmorOffset + (-32, -52), DI_ITEM_OFFSETS);
+			HasAmmo1 = true;
+		}
+		else {HasAmmo1 = false;}
+		if (ammo2 != null)
+		{
+			ammo2max = cplayer.readyweapon.ammo2.maxamount;
+			ammo2icon = GetIcon(cplayer.readyweapon.ammo2, 0);
+			DrawBar("graphics/HUDBARF.png", "graphics/HUDBARE.png", BoxAmmo2Interpolator.GetValue(), ammo2max, GlobalOffset + ArmorOffset + Ammo1Offset + (-136, -52), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+			DrawString(NumberFont, FormatNumber(ammocount2, 1), GlobalOffset + ArmorOffset + Ammo1Offset + (-48, -49), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_BLACK);
+			DrawImage("graphics/AMMOZ0.png", GlobalOffset + ArmorOffset + Ammo1Offset + (-32, -52), DI_ITEM_OFFSETS);
+			if (noammo2 == true) {DrawImage("graphics/AMMOX0.png", GlobalOffset + ArmorOffset + Ammo1Offset + (-32, -52), DI_ITEM_OFFSETS);}
+			DrawTexture(ammo2icon, GlobalOffset + ArmorOffset + Ammo1Offset + (-32, -52), DI_ITEM_OFFSETS);
+			HasAmmo2 = true;
+		}
+		else {HasAmmo2 = false;}
+		
+		//RESERVE AMMO
+		int missingreserve; //used for offseting.
+		vector2 reserveoffset = (-18, 0);
+		cvar togglereserve = cvar.FindCVAR('box_reserve');
+		
+		if (togglereserve.GetBool() == true)
+		{
+		for (int i = 0; i < reservetype.Size(); i++)
+		{
+			if (i == 0) {missingreserve = 0;}
+			
+			reserveammo[i] = GetAmount(reservetype[i]);
+			reservemax[i] = GetMaxAmount(reservetype[i]);
+			
+			if ((CheckWeaponSelected(reserveweapon[i]) == false) && (GetAmount(reserveweapon[i]) != 0))
+			{
+				DrawImage("graphics/AMMOZ0.png", GlobalOffset + ArmorOffset + Ammo1Offset + Ammo2Offset + (reserveoffset * (i - missingreserve)) + (-32, -52), DI_ITEM_OFFSETS);
+				DrawBar("graphics/AMMOY0.png", "graphics/AMMOZ0.png", reserveammo[i], reservemax[i], GlobalOffset + ArmorOffset + Ammo1Offset + Ammo2Offset + (reserveoffset * (i - missingreserve)) + (-32, -52), 1, SHADER_VERT, DI_ITEM_OFFSETS);
+				if ((reserveammo[i] == 0) || ((reserveammo[i] <= 19) && (reservetype[i] == "PopcornGunAmmo2"))) {DrawImage("graphics/AMMOX0.png", GlobalOffset + ArmorOffset + Ammo1Offset + Ammo2Offset + (reserveoffset * (i - missingreserve)) + (-32, -52), DI_ITEM_OFFSETS);}
+				let wpnimg = string.Format("graphics/%s", reservename[i]);
+				DrawImage(wpnimg, GlobalOffset + ArmorOffset + Ammo1Offset + Ammo2Offset + (reserveoffset * (i - missingreserve)) + (-32, -52), DI_ITEM_OFFSETS);
+			}
+			else
+			{
+				missingreserve += 1;
+			}
+		}
+		}
+		
+		//KEYS
+		bool locks[8];
+		String keyimage;
+		int missingkey;
+		for(int i = 0; i < 8; i++) 
+		{
+			if (i == 0) {missingkey = 0;}
+			
+			locks[i] = CPlayer.mo.CheckKeys(i + 1, false, true);
+			
+			if (locks[i] == true)
+			{
+				switch(i)
+				{
+					case 0: keyimage = "sprites/Key Items/AKEYA0.png"; break;
+					case 1: keyimage = "sprites/Key Items/AKEYB0.png"; break;
+					case 2: keyimage = "sprites/Key Items/AKEYC0.png"; break;
+					case 3: keyimage = "sprites/Key Items/AKEYD0.png"; break;
+					case 4: keyimage = "sprites/Key Items/AKEYE0.png"; break;
+					case 5: keyimage = "sprites/Key Items/AKEYF0.png"; break;
+					case 6: keyimage = "sprites/Key Items/AKEYG0.png"; break;
+					case 7: keyimage = "sprites/Key Items/AKEYH0.png"; break;
+					default: keyimage = ""; missingkey += 1; break;
+				}
+			}
+			else {keyimage = ""; missingkey += 1;}
+			
+			int keyoffset = i - missingkey;
+			
+			DrawImage(keyimage, GlobalOffset + (12 + (16 * keyoffset), -8), DI_ITEM_OFFSETS);
+		}
+	
+		//oxygen meter
+		if (IsUnderwater == true)
+		{
+			DrawBar("graphics/HUDBARJ.png", "graphics/HUDBARI.png", OxygenLevel, MaxOxygen, GlobalOffset + (-142, 32), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+			DrawImage("graphics/AIRICON.png", GlobalOffset + (-32, 32), DI_ITEM_OFFSETS);
+			DrawString(NumberFont, FormatNumber(OxygenNumber), GlobalOffset + (-48, 36), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, OxygenColor);
+		}
+		
+		//score
+		cvar togglescore = cvar.FindCVAR('box_showscore');
+		cvar togglescorefade = cvar.FindCVAR('box_scorefade');
+		
+		double ScoreAlpha = ScoreFadeTime;
+		if (togglescorefade.GetBool() == false)	{ScoreAlpha = 1.0;}
+		
+		if (togglescore.GetBool() == true)
+		{
+			DrawImage("graphics/SCOREBAR.png", GlobalOffset + (-46, 28), 0, ScoreAlpha);
+			if (ScoreFadeTime >= 1.0) {DrawBar("graphics/SCOREBAA.png", "graphics/SCOREBAR.png", MurderTimer, 175, GlobalOffset + (-84, 12), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);}
+			if (MurderCombo >= 5) {DrawImage("graphics/SCOREBAB.png", GlobalOffset + (-46, 28), 0, ComboFade);}
+			DrawString(SmallFont, FormatNumber(BoxScoreInterpolator.GetValue()), GlobalOffset + (-12, 16), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, ScoreAlpha);
+		}
+	}
+	
+	void CheckPlayerClass()
+	{
+		for (int i = 0; i < WhichClass.Size(); i++)
+		{
+			let tkn = string.Format("%s", WhichClass[i]);
+			if (cplayer.mo.FindInventory(tkn))
+			{
+				CurrentPlayer = i;
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////
+	//THESE FUNCTIONS HAVE EXTRA FUNCTIONALITY IN THE FULL VERSION.
+	///////////////////////////////////////////////////////////////
+	virtual void BoxInterpolate() 
+	{
+		BoxHealthInterpolator.Update(CPlayer.health);
+		BoxArmorInterpolator.Update(GetArmorAmount());
+		BoxScoreInterpolator.Update(CPlayer.mo.score);
+	}
+	virtual void DrawTrioBar() {}
+	virtual void DrawPrismBar() {}
+	virtual void DrawGlassBar() {}
+}
+
+

@@ -1,0 +1,32 @@
+//zboxscript/key items/tnt.zsc
+
+CLASS BoxTNT : BoxActor
+{
+	Default
+	{
+		Health 1;
+		Radius 12;
+		Height 32;
+		Mass 0x7FFFFFFF; //immovable object
+		+SOLID;
+		+SHOOTABLE;
+		+NORADIUSDMG;
+		+NOICEDEATH;
+		+NOBLOOD;
+		+CASTSPRITESHADOW;
+		//$Category "Box Party/Key Items/"
+		//$Title "TNT Detonator"
+		//$Color 8
+	}
+
+	States
+	{
+		Spawn:
+			ATNT A -1;
+			Loop;
+		Death:
+			ATNT B 0 A_StartSound("effects/tnt");
+			ATNT B -1; //will activate thing special here, if it has one defined in the level.
+			Stop;
+	}
+}

@@ -1,0 +1,115 @@
+//zboxscript/effects/slam.zsc
+
+CLASS HammerSlam : BoxActor
+{
+	//horizontal ring shockwave effect summoned by THE HAMMER's sledgehammer attack.
+	Default
+	{
+		FloatBobPhase 0;
+		RenderStyle "Translucent";
+		Alpha 0.7;
+		+NOGRAVITY;
+		+FLATSPRITE;
+		+NOBLOCKMAP;
+		+NOINTERACTION;
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			SLAM B 0 { 
+				A_QuakeEX(3, 3, 3, 35, 0, 128, 0);
+				A_Explode(random(30, 50), 32, XF_NOTMISSILE | XF_THRUSTZ, true, 16, 0, 0, "BulletPuff", "Hammer");
+			}
+			Goto Looper;
+		Looper:
+			#### # 1 {
+				A_BoxScale(0.05);
+				A_FadeOut(0.05);
+			}
+			Loop;
+	}	
+}
+
+CLASS BoxSlam : HammerSlam //non-damaging version of hammerslam. used for certain visual effects.
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			SLAM B 0;
+			Goto Looper;
+	}
+}
+
+CLASS BoxSlamWall : BoxSlam
+{
+	Default
+	{
+		-FLATSPRITE;
+		+WALLSPRITE;
+	}
+}
+
+CLASS BoxSlamWallBIG : BoxSlamWall
+{
+	Default {Scale 2.0;}
+}
+
+CLASS BoxSlamBig : BoxSlam
+{
+	Default
+	{
+		Scale 3;
+	}
+	
+	States
+	{
+		Looper:
+			SLAM B 1 {
+				A_BoxScale(0.15);
+				A_FadeOut(0.05);
+			}
+			Loop;
+	}
+}
+
+CLASS BoxSlamSUPER : BoxSlam
+{
+	Default {Scale 10;}
+	
+	States
+	{
+		Looper:
+			SLAM B 1 {
+				A_BoxScale(1.5, true);
+				A_FadeOut(0.02);
+			}
+			Loop;
+	}
+}
+
+CLASS HammerSlamPuff : BoxActor
+{
+	Default
+	{
+		FloatBobPhase 0;
+		RenderStyle "Translucent";
+		Alpha 0.7;
+		Scale 0.5;
+		+NOGRAVITY;
+		+NOBLOCKMAP;
+		+NOINTERACTION;
+	}
+
+	States
+	{
+		Spawn:
+			SLAM A 1 {
+				A_BoxScaleXY(0.01, 0.05);
+				A_FadeOut(0.05);
+			}
+			Loop;
+	}
+}

@@ -1,0 +1,98 @@
+//zboxscript/npc/punchingbox.zsc
+
+//box npc that does nothing but stand around.
+
+CLASS NPCBox : Actor //20006
+{
+	Default
+	{
+		Gravity 0.5;
+		Speed 8;
+		Health 500;
+		Radius 16;
+		Height 56;
+		Mass 1000;
+		DamageFactor 0;
+		PainChance 256;
+		Species "Box";
+		+SOLID;
+		+SHOOTABLE;
+		+CANPASS;
+		+NOBLOODDECALS;
+		+CANNOTPUSH;
+		+FRIGHTENING;
+		+NOINFIGHTING;
+		+NODAMAGE;
+		-CANPUSHWALLS;
+		-CANUSEWALLS;
+		+CASTSPRITESHADOW;
+		Obituary "$BOX_DIE_BOX";
+		//$Category "Box Party/NPCs/"
+		//$Sprite "PBOXA0"
+		//$Color 16
+	}
+	
+	int IsRandomed;
+	int SomeRandomNumber;
+	
+	private int HatFlag;
+	flagdef HasHat: HatFlag, 0;
+	
+	override void PostBeginPlay(void)
+	{
+		Super.PostBeginPlay();
+		
+		if (bHasHat == true) {A_SpawnItemEX("BoxHatNPC", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER | SXF_NOCHECKPOSITION);}
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			"####" "#" 0 
+			{
+				if (IsRandomed != 1)
+				{
+					SomeRandomNumber = random(1, 12);
+					if (SomeRandomNumber >= 11)
+					{
+						if (SomeRandomNumber == 11) {sprite = GetSpriteIndex("CBOX");}
+						if (SomeRandomNumber == 12) {sprite = GetSpriteIndex("TBOX");}
+					}
+					else {sprite = GetSpriteIndex("PBOX");}
+					IsRandomed = 1;
+				}
+			}
+			Goto SpawnLooper;
+		SpawnLooper:
+			"####" AB 10 A_LookEx(LOF_NOSOUNDCHECK, 0, 1000, 0, 360, "Wandering");
+			Loop;
+		Wandering:
+			"####" AB 10 A_Wander;
+			Loop;
+		See:
+			"####" AB 3 Fast A_Chase;
+			Loop;
+		Melee:
+			"####" C 12 A_CustomMeleeAttack(20, " ", " ", "Melee", false);
+			Goto See;
+		Pain:
+			//"####" L 4;
+			//"####" L 4 A_Pain;
+			"####" ABABAB 10 {bSOLID = false; A_FadeTo(0.5, 1.0, 0);}
+			"####" B 0 {bSOLID = true; A_FadeTo(1.0, 1.0, 0);}
+			Goto SpawnLooper;
+		Death:
+			"####" I 10;
+			"####" J 10 A_PlayerScream;
+			"####" K 10 A_NoBlocking;
+			"####" K -1;
+			Stop;
+		XDeath:
+			"####" F 10;
+			"####" G 10 A_XScream;
+			"####" H 10 A_NoBlocking;
+			"####" H -1;
+			Stop;
+	}
+}

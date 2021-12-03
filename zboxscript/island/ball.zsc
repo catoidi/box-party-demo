@@ -1,0 +1,100 @@
+//zboxscript/island/ball.zsc
+
+CLASS Ball : BoxActor
+{
+	Default
+	{
+		Health 9999;
+		Height 32;
+		Radius 16;
+		Mass 1000;
+		PainChance 256;
+		Gravity 0.2;
+		BounceType "Hexen";
+		BounceFactor 0.75;
+		WallBounceFactor 0.9;
+		PushFactor 0.85;
+		DamageFunction (16);
+		DamageType "Melee";
+		+SOLID;
+		+SHOOTABLE;
+		+PUSHABLE;
+		+NODAMAGE;
+		+NOTELEPORT;
+		+ROLLSPRITE;
+		+ROLLCENTER;
+		+INTERPOLATEANGLES;
+		+NOBLOODDECALS;
+		+BOUNCEONACTORS;
+		+EXPLODEONWATER;
+		+SKYEXPLODE;
+		//$Category "Box Party/Decor/Island/"
+		//$Title "Beach Ball"
+		//$Color 2
+	}
+	
+	double newvelx;
+	double newvely;
+	
+	States
+	{
+		Spawn:
+			BBAL A 1 A_Look;
+			BBAL A 0 
+			{
+				if (self.waterlevel >= 1) 
+				{
+					bNOGRAVITY = true;
+					self.vel.z += 0.5;
+				}
+				else {bNOGRAVITY = false;}
+			}
+			Loop;
+		See:
+			BBAL A 1;
+			BBAL A 0 
+			{
+				if (self.waterlevel >= 1) 
+				{
+					bNOGRAVITY = true;
+					self.vel.z += 0.5;
+				}
+				else {bNOGRAVITY = false;}
+			}
+			Loop;
+		Pain:
+			BBAL A 0 A_FaceTarget;
+			BBAL A 0 A_Pain;
+			BBAL A 0 {bMISSILE = true;}
+			BBAL A 0 A_Recoil(random(8, 16));
+			BBAL A 1 ThrustThingZ(0, random(12, 24), 0, 1);
+			Goto Spinner;
+		Spinner:
+			BBAL A 1
+			{
+				A_SetRoll(roll + (self.vel.x + self.vel.y + self.vel.z)); //roll sprite based on velocity
+				if (self.vel.x > 25) {self.vel.x = 25;} else if (self.vel.x < -25) {self.vel.x = -25;} //cap velocities
+				if (self.vel.y > 25) {self.vel.y = 25;} else if (self.vel.y < -25) {self.vel.y = -25;}
+				if (self.vel.z > 25) {self.vel.z = 25;} else if (self.vel.z < -25) {self.vel.z = -25;}
+				if (self.vel.x < 0) {self.newvelx = -self.vel.x;} else {self.newvelx = self.vel.x;} //make newvel always positive
+				if (self.vel.y < 0) {self.newvely = -self.vel.y;} else {self.newvely = self.vel.y;}
+				if (self.newvelx + self.newvely < 1) {SetStateLabel("Death");} //stop moving if going too slow
+				if (self.waterlevel >= 1) //float if submerged in water
+				{
+					bNOGRAVITY = true;
+					self.vel.z += 0.5;
+				}
+				else {bNOGRAVITY = false;} //not in water anymore
+			}
+			Loop;
+		Death:
+		Raise:
+			BBAL A 1 
+			{
+				bMISSILE = false;
+				bSHOOTABLE = true;
+				bCORPSE = false;
+			}
+			Goto Spawn;
+	}
+}

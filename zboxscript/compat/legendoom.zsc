@@ -1,0 +1,64 @@
+//zboxscript/compat/legendoom.zsc
+
+//native compatibility for LegenDoomLite version 4.0.
+//replaces legendary monster drops for Box Party drops.
+
+//DRLA, Guncaster, and Hideous Destructor checks are removed cuz they don't work in Box Party. :)
+
+//You can download LegenDoomLite here:
+//https://forum.zdoom.org/viewtopic.php?f=43&t=51035
+
+CLASS BoxLDAmmoDrop : RandomSpawner
+{
+	Default
+	{
+		DropItem "GlowstickAmmoDrop";
+		DropItem "PartyShottyAmmoDrop";
+		DropItem "LaserPointerAmmoDrop";
+		DropItem "PopcornGunAmmoDrop";
+	}
+}
+
+CLASS BoxLDDropper : BoxActor
+{
+	int LDDropNumber;
+	property LDDrops: LDDropNumber;
+	
+	Default
+	{
+		+NOGRAVITY;
+		+THRUACTORS;
+		+NOTONAUTOMAP;
+		+NOTIMEFREEZE;
+		+NOCLIP;
+		
+		BoxLDDropper.LDDrops 0;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 0 A_JumpIf(CallACS("LD_DropType") == 0, "SpawnNothing"); // Check to see if it should drop stuff at all
+			TNT1 A 0 A_BoxDropLoot("Pure", -LDDropNumber); //Drops class-specific items for Box Party
+			TNT1 A 0 A_SpawnItemEX("BoxLDAmmoDrop", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+			Goto SpawnNothing;
+		SpawnNothing:
+			TNT1 A 2;
+			Stop;
+	}
+}
+
+CLASS LDLiteTier0Item : SorryNothing {} //Spawns Nothing, Does Nothing.
+
+CLASS LDLiteTier1Item : BoxLDDropper {Default {BoxLDDropper.LDDrops 1;}}
+CLASS LDLiteTier2Item : BoxLDDropper {Default {BoxLDDropper.LDDrops 2;}}
+CLASS LDLiteTier3Item : BoxLDDropper {Default {BoxLDDropper.LDDrops 3;}}
+CLASS LDLiteTier4Item : BoxLDDropper {Default {BoxLDDropper.LDDrops 4;}}
+CLASS LDLiteTier5Item : BoxLDDropper {Default {BoxLDDropper.LDDrops 5;}}
+
+CLASS LDLiteBossTier1Item : BoxLDDropper {Default {BoxLDDropper.LDDrops 6;}}
+CLASS LDLiteBossTier2Item : BoxLDDropper {Default {BoxLDDropper.LDDrops 7;}}
+CLASS LDLiteBossTier3Item : BoxLDDropper {Default {BoxLDDropper.LDDrops 8;}}
+CLASS LDLiteBossTier4Item : BoxLDDropper {Default {BoxLDDropper.LDDrops 9;}}
+CLASS LDLiteBossTier5Item : BoxLDDropper {Default {BoxLDDropper.LDDrops 10;}}

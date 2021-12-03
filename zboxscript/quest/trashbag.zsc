@@ -1,0 +1,23 @@
+//zboxscript/quest/trashcan.zsc
+
+//not to be confused with "trash".
+//this item should be deposited into "Trash Can".
+
+CLASS TrashBag : Inventory
+{
+	Default
+	{
+		Height 32;
+		Radius 16;
+		Inventory.PickupMessage "$YOUGOTTRASH";
+		+INVENTORY.ALWAYSPICKUP;
+	}
+	
+	States
+	{
+		Spawn:
+			TRCN A 1;
+			//TRCN A -1;
+			Stop;
+	}
+}

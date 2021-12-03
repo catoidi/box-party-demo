@@ -1,0 +1,63 @@
+// Entry point /////////////////////////////////////////////////////////////////
+
+//AddOptionMenu OptionsMenu
+//{
+  //Submenu "$BOX_MENU_TITLE", box_AchieveOptions
+//}
+
+// Option menus ////////////////////////////////////////////////////////////////
+
+OptionMenu box_AchieveOptions
+{
+  Title "$BOX_MENU_TITLE"
+
+  StaticText "$BOX_POPUP_SUBTITLE", "Gold"
+  //Submenu "$BOX_UNLOCKED", box_UnlockedAchievements
+  //Submenu "$BOX_LOCKED"  , box_LockedAchievements
+
+  StaticText ""
+  Option "$BOX_NOTIFY"    , box_notification_enabled, OnOff
+  Option "$BOX_HORIZONTAL", box_horizontal_position, box_HorizontalPositionValues
+  Option "$BOX_VERTICAL"  , box_vertical_position,   box_VerticalPositionValues
+  Option "$BOX_ANIMATION" , box_animation_type,      box_AnimationValues
+
+  StaticText ""
+  Command "$BOX_TEST", box_test
+
+  //StaticText ""
+  //SafeCommand "$BOX_CLEAR", box_clear_achievements
+}
+
+OptionMenu box_LockedAchievements
+{
+  Class "box_LockedAchievements"
+  Title "$BOX_LOCKED_TITLE"
+}
+
+OptionMenu box_UnlockedAchievements
+{
+  Class "box_UnlockedAchievements"
+  Title "$BOX_UNLOCKED_TITLE"
+}
+
+// Option values ///////////////////////////////////////////////////////////////
+
+OptionValue box_HorizontalPositionValues
+{
+  0, "$BOX_LEFT"
+  1, "$BOX_RIGHT"
+}
+
+OptionValue box_VerticalPositionValues
+{
+  0, "$BOX_TOP"
+  1, "$BOX_BOTTOM"
+}
+
+OptionValue box_AnimationValues
+{
+  0, "$BOX_SLIDE_VERTICAL"
+  1, "$BOX_SLIDE_HORIZONTAL"
+  2, "$BOX_FADE_IN_OUT"
+  3, "$BOX_DISABLED"
+}

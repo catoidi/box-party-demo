@@ -1,0 +1,31 @@
+>>This is a comment. Any line starting with ">>" will be ignored by Box Party.
+>>If you're making custom stuff for Box Party, simply follow the instructions below to get everything setup right.
+>>
+>>PLAYER DROPS:
+>>This is used for the character-specific health pickups that enemies can drop.
+>>First parameter should be the name of the player class.
+>>Second parameter should be the "Suffix" of your Loot item. Example: "MelonHealth", "MelonArmor", "MelonEnergy"
+>>If a player is not listed here, that player will not have any drops.
+>>If the drop does not exist, the player will not have any drops. This is used to prevent Glass from having any drops.
+Player = PlayerBox, Health;
+Player = PlayerCircle, Health;
+Player = PlayerTriangle, Armor;
+Player = PlayerTrio, Health;
+Player = PlayerPrism, Energy;
+Player = PlayerGlass, Nothing;
+>>
+>>AMMO DROPS:
+>>This is used for the ammo pickups that enemies can drop.
+>>Set the first parameter to "false" if you do not want this weapon to drop ammo.
+>>The second parameter should be the name of the weapon class.
+>>The third parameter is the ammo type that is checked, and is also used for loot drops.
+>>Ammo drops for weapons use the same name as the main ammo class, but with "Drop" added as a suffix. Example: "PartyShottyAmmo" = "PartyShottyAmmoDrop"
+>>By default, if the ammo is at 0, the weapon is marked as able to drop ammo. However, you can change this by making the fourth parameter higher than 0.
+>>If a weapon is not listed here, that weapon will not have any drops.
+Weapon = true, Glowstick, GlowstickAmmo, 0;
+Weapon = true, LaserPointer, LaserPointerAmmo, 0;
+Weapon = true, PartyShotty, PartyShottyAmmo, 0;
+Weapon = true, PopcornGun, PopcornGunAmmo, 0;
+Weapon = false, PopcornGun, PopcornGunAmmo2, 19;
+>>this weapon sucks btw
+Weapon = true, StupidPistol, StupidPistolClip, 1;

@@ -1,0 +1,85 @@
+//zboxscript/foliage/tree.zsc
+
+//tree.
+
+CLASS Tree : BoxDecor //20001
+{
+	Default
+	{
+		Radius 20;
+		Height 108;
+		+SOLID;
+		//$Category "Box Party/Decor/Foliage/"
+		//$Title "Tree (Default)"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			TREE A 0 NoDelay A_Jump(256, "Finish", "Secondy", "Thirdy");
+		Secondy:
+			TREE B 0;
+			Goto Finish;
+		Thirdy:
+			TREE C 0;
+			Goto Finish;
+		Finish:
+			TREE # 1 A_BoxDecor(true, 0.95, 1.05, 0);
+			TREE # -1;
+			Stop;
+	}
+}
+
+CLASS DeadTree : Tree
+{
+	Default
+	{
+		//$Category "Box Party/Decor/Foliage/"
+		//$Title "Tree (Dead)"
+		//$Color 2
+	}
+
+	States
+	{
+		Spawn:
+			TREE D 0 NoDelay A_Jump(256, "Finish", "Finish", "Secondy", "Thirdy", "Thirdy", "Fourthy", "Fifthy", "Fifthy", "Sixthy");
+		Secondy:
+			TREE E 0;
+			Goto Finish;
+		Thirdy:
+			TREE F 0;
+			Goto Finish;
+		Fourthy:
+			TREE G 0;
+			Goto Finish;
+		Fifthy:
+			TREE H 0;
+			Goto Finish;
+		Sixthy:
+			TREE I 0;
+			Goto Finish;
+		Finish:
+			TREE # 1 A_BoxDecor(true, 0.95, 1.05, 0);
+			TREE # -1;
+			Stop;
+	}
+}
+
+CLASS TropicalTree : Tree
+{
+	Default
+	{
+		//$Category "Box Party/Decor/Foliage/"
+		//$Title "Tree (Tropical)"
+		//$Color 2
+	}
+
+	States
+	{
+		Spawn:
+			TREE J 1 NoDelay A_BoxDecor(true, 0.95, 1.05, 0);
+			TREE J -1;
+			Stop;
+	}
+}

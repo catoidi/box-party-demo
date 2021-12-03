@@ -1,0 +1,308 @@
+[enu default]
+
+/////////////////////////////////
+////////Lvl Names////////////////
+/////////////////////////////////
+PARTY = "Party"; //shows up when it shows the level name at the start.
+PARTY01 = "Fashionably Late"; //You're late to the party.
+PARTY02 = "Boxsterpiece"; //its a reference to my old map, "mapsterpiece", which it's name was just a mashup of map and masterpiece.
+PARTY03 = "Not Invited"; //The 'lore' in this level involves you getting lured into a trap, hence the name.
+
+/////////////////////////////////
+////////Scripts//////////////////
+/////////////////////////////////
+THISISEASY = "\cfParty Mode: \cnBeginner";
+THISISNORMAL = "\cfParty Mode: \cdMedium";
+THISISHARD = "\cfParty Mode: \crHard";
+LEVEL_COMPLETE = "Level Complete!";
+TOOMANYMELON = "Action Failed: Too many melons detected.";
+MELONGONE = "Melon presence at acceptable levels.";
+MELONOVERRIDE = "Overriding melon lockdown...";
+DOORBROKE = "door broke";
+OBJECTBROKE = "switch broke";
+PEPPERKILL = "Defeat the Jalapeños to escape the volcano.";
+PEPPERGONE = "Jalapeño presence at acceptable levels.\n\nExit teleporter opened.";
+PEPPEROVERRIDE = "Overriding pepper lockdown...\n\nExit teleporter opened.";
+BOX_TUTORIAL1 = "Press 'Primary Fire' \ct(";
+BOX_TUTORIAL1A = ")\cf to do a melee attack.\nPress 'Secondary Fire' \ct(";
+BOX_TUTORIAL1B = ")\cf to use a ranged attack.";
+BOX_TUTORIAL2 = "Press 'Open Hat Menu' \ct(";
+BOX_TUTORIAL2A = ")\cf to choose your own party hat.";
+BOX_TUTORIAL3 = "Use the 'Hexagon' weapon next to enemies\nwhen you reach maximum energy.";
+BOX_TUTORIAL4 = "Use your 'Dash' ability by pressing \ct(";
+BOX_TUTORIAL4A = ")\cf.";
+BOX_TUTORIAL5 = "Check your current side quests by pressing \ct(";
+BOX_TUTORIAL5A = ")\cf.";
+BOX_ENDTEXT = "Thank you for beating the Box Party Demo!!!!\n"
+			"The Full Version will release sometime in 2022.\n"
+			" \n"
+			":)      -idiotbitz";
+NOENEMIES1 = "all bad food has been defeated now.";
+NOENEMIES2 = "and so, the party continued...";
+NOENEMIES3 = "it is now safe to party again.";
+NOENEMIES4 = "the boxes have returned to party once more.";
+NICETRY = "haha nice try";
+
+/////////////////////////////////
+////////////Dialogue/////////////
+/////////////////////////////////
+
+/////////////////////////////////LEVEL 0
+TXT_PARTY00_SIGN_1 = "i am the helpful sign. ask me some stuff.";
+TXT_PARTY00_SIGN_1A = "Explain 'Beginner' Difficulty";
+TXT_PARTY00_SIGN_1B = "Explain 'Medium' Difficulty";
+TXT_PARTY00_SIGN_1C = "Explain 'Hard' Difficulty";
+TXT_PARTY00_SIGN_1D = "What is the guide book";
+TXT_PARTY00_SIGN_2 = "In Beginner, you take half damage, enemies have 25% less health, and all the enemies can hurt each other.";
+TXT_PARTY00_SIGN_3 = "In Medium, you take normal damage, enemies have 10% less health, and only some enemies can hurt each other.";
+TXT_PARTY00_SIGN_4 = "Hard is like Medium, but you take 50% more damage, and enemies have full health.";
+TXT_PARTY00_SIGN_5 = "The Guide Book will give you the rundown of Box Party's game mechanics and stuff. Either press (F1) or pick the 'READ THIS!' option in the main menu to read it.";
+
+/////////////////////////////////LEVEL 1
+CUBE = "\ctCube";
+PARTYGOER = "\cjPartygoer";
+KEEPSHOTGUN = "can i keep the snack shotgun";
+OKCOOL = "ok cool";
+H = "h";
+TRASHCAN = "Trash Can";
+TXT_RANDOMGOODBYE_1 = "ok bye";
+TXT_RANDOMGOODBYE_2 = "see ya";
+TXT_RANDOMGOODBYE_3 = "l8r";
+TXT_NAME_SECRET = "\cfSecret Box";
+TXT_NAME_WARN = "\ckWarning Box";
+TXT_NAME_ROOMMATE = "\ctRoommate Box";
+TXT_NAME_BLOCKER = "\crArbitrary Path Blocking Box";
+TXT_NAME_EXPARTYGOER = "\ccex-Partygoer";
+TXT_NAME_BOX_PARTYER = "\ccBox Party-er";
+TXT_NAME_FOODHATER = "\crFood Hating Box";
+TXT_NAME_PARTYENJOYER = "\ccParty Enjoyer";
+TXT_NAME_TABLECRITIC = "\coTable Box";
+TXT_NAME_BACKTRACKER = "\ccBacktracker Box";
+TXT_NAME_PARKOURBOX = "\ckParkour Box";
+TXT_PARTY01_CUBE_1 = "\cti swear, the food wasn't this hostile when i first bought it.";
+TXT_PARTY01_CUBE_1A = "need help with stuff?";
+TXT_PARTY01_CUBE_2 = "\cthopefully the party quality isn't diminished with the lack of food.";
+TXT_PARTY01_CUBE_3 = "\ctok";
+TXT_PARTY01_CUBE_4 = "\ctwell, i DID lose my Red Key somewhere inside the house.\nif you could go bring that to me that'd be cool.";
+TXT_PARTY01_CUBE_4A = "(give Red Key to Cube.)";
+TXT_PARTY01_CUBE_5 = "\ctthanks you for your cooperation. your reward is: a Red Key.";
+TXT_PARTY01_TRASH_1 = "(the trash can is empty.)";
+TXT_PARTY01_TRASH_1A = "(place trash bag into trash can.)";
+TXT_PARTY01_TRASH_2 = "(you have fulfilled your civic duty. you feel accomplished.)";
+TXT_PARTY01_PLOTA_1 = "\ccwatch out, that's a pretty large fall.";
+TXT_PARTY01_PLOTA_2 = "\ccoops i forgot, there's no fall damage.";
+TXT_PARTY01_PLOTB_1 = "\ccwelcome to my hidey-hole";
+TXT_PARTY01_PLOTB_2 = "\ccsay hi to my friends";
+TXT_PARTY01_PLOTC_1 = "\cchey it's 8:30 now, you're like super late to the party.";
+TXT_PARTY01_PLOTC_2 = "\ccmake sure u get all that foodstuff off of u before you go to work tomorrow.";
+TXT_PARTY01_PLOTD_1 = "\cryo go get ur \cqglowstick \crand ill let ya pass.";
+TXT_PARTY01_PLOTD_2 = "\ccu already got ur \cqglowstick\cc, ive fulfilled my contractual obligation.";
+TXT_PARTY01_PLOTE_1 = "\ccyo the food at this party sucks";
+TXT_PARTY01_PLOTE_2 = "\ccthis party's pretty cool";
+TXT_PARTY01_PLOTF_1 = "\ccthis level is very difficult";
+TXT_PARTY01_PLOTF_2 = "\ccthat level was easy";
+TXT_PARTY01_PLOTG_1 = "\cci always hated food";
+TXT_PARTY01_PLOTH_1 = "\ccpartying is cooler when im not fearing for my life";
+TXT_PARTY01_PLOTI_1 = "\ccthis is my favorite table";
+TXT_PARTY01_PLOTJ_1 = "\cci heard that island has some really epic parties";
+TXT_PARTY01_PLOTK_1 = "\cchow in the world did i get up here";
+//random npcs
+TXT_PARTY01_TALKA_1 = "\ccyou're a bit late to the party";
+TXT_PARTY01_TALKA_2 = "\cci guess you were 'fashionably late' to the party";
+TXT_PARTY01_TALKB_1 = "\cci don't like caves";
+TXT_PARTY01_TALKB_2 = "\cccaves are kinda chilly";
+TXT_PARTY01_TALKC_1 = "\ccit's too dark outside";
+TXT_PARTY01_TALKC_2 = "\cci left my glowstick at home";
+TXT_PARTY01_TALKD_1 = "\cci should've brought my coat";
+TXT_PARTY01_TALKD_2 = "\cci am freezing to death (figuratively)";
+TXT_PARTY01_TALKE_1 = "\cchey i heard your rooftop blew up or something";
+TXT_PARTY01_TALKE_2 = "\ccyou seem to have a knack for destroying private property";
+TXT_PARTY01_TALKF_1 = "\cci heard dj box was gonna make an appearance";
+TXT_PARTY01_TALKF_2 = "\ccdj box ended up cancelling at the last second :(";
+TXT_PARTY01_TALKG_1 = "\ccyou should follow me on ubox";
+TXT_PARTY01_TALKG_2 = "\cccan i follow you on ubox";
+TXT_PARTY01_TALKH_1 = "h";
+TXT_PARTY01_TALKI_1 = "\cchey do you know where the trail mix is";
+TXT_PARTY01_TALKI_2 = "\ccactually i don't like the taste of trail mix";
+TXT_PARTY01_TALKJ_1 = "\cci heard this party's got 4 star reviews on metabox";
+TXT_PARTY01_TALKJ_2 = "\cci'm giving this party a 2 star review on metabox";
+TXT_PARTY01_TALKK_1 = "\cci'm getting hungry";
+TXT_PARTY01_TALKK_2 = "\cci'm full";
+
+
+/////////////////////////////////LEVEL 2
+TXT_NAME_BIGBOX = "\ccBig Box";
+TXT_NAME_TINYBOX = "\ccTiny Box";
+TXT_NAME_JUMPYBOX = "\ccJumpy Box";
+TXT_NAME_SIGN = "helpful sign";
+TXT_NAME_SIGN2 = "super helpful sign";
+WHEREEXIT = "where is the exit";
+TXT_PARTY02_CUBE_1 = "\cti cannot find my 'Colonel Popper' PMG. i know i left it here somewhere...";
+TXT_PARTY02_CUBE_2 = "\cti sure am glad that nobody has taken my handy dandy popcorn gun.";
+TXT_PARTY02_SIGNA = "lava is dangeryos";
+TXT_PARTY02_SIGNB = "walk into the funny looking screen";
+TXT_PARTY02_PLOTA_1 = "\cci need a bigger house";
+TXT_PARTY02_PLOTA_2 = "\ccuhhhhhh i think it's in my backyard maybe idk";
+TXT_PARTY02_PLOTA_3 = "\ccthis house ain't big enough for me";
+TXT_PARTY02_PLOTF_1 = "\ccthis boss is unfair";
+TXT_PARTY02_PLOTF_2 = "\ccthat boss was easy";
+TXT_PARTY02_PLOTH_1 = "\cci cant find the front door";
+TXT_PARTY02_PLOTH_2 = "\ccim too lazy to go to the front door";
+TXT_PARTY02_PLOTK_1 = "\ccjump pads are cool and epic";
+TXT_PARTY02_PLOTK_2 = "\ccim going to be sick";
+//random npcs
+TXT_PARTY02_TALKA_1 = "\ccit's pretty warm here";
+TXT_PARTY02_TALKA_2 = "\ccit's way too hot here";
+TXT_PARTY02_TALKB_1 = "\ccwhere's the beach ball";
+TXT_PARTY02_TALKB_2 = "\ccwhere's dj box";
+TXT_PARTY02_TALKC_1 = "\cci want some ice cream";
+TXT_PARTY02_TALKC_2 = "\cci need some ice cream";
+TXT_PARTY02_TALKD_1 = "\cci visit this place once a week";
+TXT_PARTY02_TALKD_2 = "\cci'm waiting til winter before coming here again";
+TXT_PARTY02_TALKE_1 = "\cci'm afraid of food";
+TXT_PARTY02_TALKE_2 = "\cci'm never eating again";
+TXT_PARTY02_TALKF_1 = "\ccyo i heard there's like an active volcano here";
+TXT_PARTY02_TALKF_2 = "\ccdid you actually blow up that volcano??????";
+TXT_PARTY02_TALKG_1 = "\ccwhere did i put my batteries";
+TXT_PARTY02_TALKG_2 = "\cci need to charge my phone";
+TXT_PARTY02_TALKH_1 = "\cci have a high score in this game";
+TXT_PARTY02_TALKH_2 = "\cci just got a new world record";
+TXT_PARTY02_TALKI_1 = "\ccother boxes here have cool hats and i don't";
+TXT_PARTY02_TALKI_2 = "\cci wish i had a hat";
+TXT_PARTY02_TALKJ_1 = "\ccfood is a myth";
+TXT_PARTY02_TALKJ_2 = "\ccwhat does food look like";
+TXT_PARTY02_TALKK_1 = "\ccyou're covered in sand";
+TXT_PARTY02_TALKK_2 = "\ccyou're covered in food";
+//cat
+CAT = "??????";
+CAT_00 = "(go back)";
+CAT_01 = "who are you";
+CAT_01A = "where am i";
+CAT_01B = "who are you";
+CAT_01C = "give me a hat";
+CAT_02 = "i literally have no clue";
+CAT_03 = "good question";
+CAT_04 = "to get hat, you must get these questions right or you die or something";
+CAT_04A = "the task at hand is worth the risk.";
+CAT_04B = "i value my life over material wealth.";
+CAT_05 = "(the entity refuses to speak to you.)";
+CAT_06 = "Question 1: what is my name?";
+CAT_06A = "i literally have no clue";
+CAT_06B = "you never told me";
+CAT_06C = "it's '??????'.";
+CAT_06D = "this question is good";
+CAT_06E = "what does this have to do with hats";
+CAT_07 = "Question 2: what is this realm?";
+CAT_07A = "Boxland";
+CAT_07B = "Earth";
+CAT_07C = "Eggland (not to be confused with New Eggland)";
+CAT_07D = "this answer is incorrect";
+CAT_07E = "(Pick a random answer.)";
+CAT_08 = "FINAL QUESTION: What number am I thinking of?";
+CAT_08A = "how am i supposed to know that";
+CAT_08B = "uhhhmmm 3";
+CAT_08C = "8. Final Answer.";
+CAT_08D = "hmmmm 14 i guess";
+CAT_08E = "[PERSUASION] numbers aren't real";
+CAT_09 = "[PERSUASION FAILED] yes they are i counted them";
+CAT_10 = "sorry i don't give hats to people who can't read minds";
+CAT_11 = "(says nothing.)";
+CAT_12 = "congrats you have hat now i guess";
+CAT_12A = "(claim your prize)";
+CAT_13 = "i would've given you this hat but you already got it somehow";
+CAT_14 = "...";
+CAT_15 = "ok now go away";
+//egg
+EGG1 = "egg";
+EGG2 = "what is the parameters here";
+EGG3 = "i have a doctorate";
+EGG4 = "eggcelent";
+EGG5 = "hi mom";
+EGG6 = "scrambled eggs";
+EGG7 = "egg bagel";
+EGG8 = "egg ball";
+EGG9 = "you have unlocked egg ending";
+EGG10 = "egg pun";
+EGG1EVIL = "(the egg looks away in horror.)";
+EGG2EVIL = "(the egg pretends not to see you.)";
+EGG3EVIL = "(the egg is fearing for it's life.)";
+EGG4EVIL = "(the egg is thinking of egg puns.)";
+EGG5EVIL = "(the egg is saying goodbye to it's parents.)";
+EGG6EVIL = "(the egg refuses to speak to you.)";
+EGG7EVIL = "(the egg knows what you've done.)";
+EGG8EVIL = " ";
+EGG9EVIL = "(you feel as if you've lost something very important.)";
+EGG10EVIL = "eggs do not have tear ducts";
+
+
+/////////////////////////////////LEVEL 3
+REMAINING = " remaining.";
+SEQUENCE_COMPLETE = "Sequence Complete.";
+TXT_NAME_SIGN3 = "boring regular sign";
+TXT_PARTY03_SIGNA = "this is the Food Storage room";
+TXT_PARTY03_SIGNB = "this is the Party Supplies floor";
+TXT_PARTY03_SIGNC = "this is the Escape building";
+YOUFEELLIKEYOU = "You feel like you";
+AREBEINGWATCHED = "are being watched...";
+WAVE1BYPASS = "Wave 1 Bypassed...";
+WAVE2BYPASS = "Wave 2 Bypassed...";
+WAVE3BYPASS = "Wave 3 Bypassed...\nSequence Complete.";
+THINBOX = "\ccNarrow Box";
+DJBOX = "\cvDJ BOX";
+BACKUPBOX = "\ccBackup Singer Box";
+TXT_PARTY03_PLOTF_1 = "\cvoh hey whats up";
+TXT_PARTY03_PLOTF_1A = "wheres the food";
+TXT_PARTY03_PLOTF_1B = "i need supplies";
+TXT_PARTY03_PLOTF_1C = "where's the yellow key";
+TXT_PARTY03_PLOTF_1D = "i liked your first album better";
+TXT_PARTY03_PLOTF_2 = "\cvwe locked em in the food storage room. beware if you go in there.";
+TXT_PARTY03_PLOTF_3 = "\cvthere should be some stuff you can use in the party supplies floor";
+TXT_PARTY03_PLOTF_4 = "\cvi lost it when we were lockin' up the food";
+TXT_PARTY03_PLOTF_5 = "(DJ BOX refuses to speak to you.)";
+TXT_PARTY03_PLOTF_6 = "\cvi don't know how the food got out of the storage, but thanks for taking care of them.";
+TXT_PARTY03_PLOTF_6A = "i think your newest album is the best one";
+TXT_PARTY03_PLOTF_7 = "\cvthat's not what you said on metabox";
+TXT_PARTY03_PLOTG_1 = "\cci need to get back to performing";
+TXT_PARTY03_PLOTG_2 = "\cci don't have time to talk to DJ BOX fans.";
+TXT_PARTY03_PLOTH_1 = "\ccdon't look at me, kid. im just a backup singer.";
+TXT_PARTY03_PLOTH_2 = "\cci wanna try recording a solo album at some point.";
+TXT_PARTY03_PLOTI_1 = "\cc.-- .... . -.   - .... .   -... --- -..-   .. ...   .--. .- .-. - -.--";
+//random npcs
+TXT_PARTY03_TALKA_1 = "\ccyou've arrived just in time";
+TXT_PARTY03_TALKA_2 = "\cclooks like the party is over now";
+TXT_PARTY03_TALKB_1 = "\cci don't like water";
+TXT_PARTY03_TALKB_2 = "\ccthe water seems safer than here";
+TXT_PARTY03_TALKC_1 = "\ccthis is my favorite song";
+TXT_PARTY03_TALKC_2 = "\cci recorded the concert on my phone";
+TXT_PARTY03_TALKD_1 = "\cci liked their first album more";
+TXT_PARTY03_TALKD_2 = "\cci bet the food wouldn't have attacked if they played good music.";
+TXT_PARTY03_TALKE_1 = "\cchey i heard you blew up a volcano or something";
+TXT_PARTY03_TALKE_2 = "\cchey i heard you stopped the food or something";
+TXT_PARTY03_TALKF_1 = "\cci can't believe dj box is here";
+TXT_PARTY03_TALKF_2 = "\cci can't believe i saw a dj box concert";
+TXT_PARTY03_TALKG_1 = "\cchey whats ur profile on ubox";
+TXT_PARTY03_TALKG_2 = "\cchey i follow you on ubox";
+TXT_PARTY03_TALKH_1 = "\ccwe're fish in a barrel";
+TXT_PARTY03_TALKH_2 = "\ccit's a food frenzy";
+TXT_PARTY03_TALKI_1 = "\cci already ate all my popcorn";
+TXT_PARTY03_TALKI_2 = "\cci found some popcorn on the ground";
+TXT_PARTY03_TALKJ_1 = "\cci didn't know boxes could sing";
+TXT_PARTY03_TALKJ_2 = "\cci didn't know food was that hostile";
+TXT_PARTY03_TALKK_1 = "\cci'm thirsty";
+TXT_PARTY03_TALKK_2 = "\cci'm quenched";
+
+/////////////////////////////////
+////////////Quests///////////////
+/////////////////////////////////
+QUESTUPDATED = "A side quest has been updated.";
+QUEST_NONE = "";
+QUEST_UNFINISHED = "Progress: \cfincomplete.";
+QUEST_COMPLETE = "Progress: \cdDONE!";
+QUEST_FAILED = "Progress: \caFailed.";
+QUEST_TEST1 = "\cv#1: Go do some stuff, i guess."; //quest descriptions can be a max of 41 characters long.
+QUEST_TEST2 = "\cv#2: While you're at it, go do this too.";
+QUEST_TEST3 = "\cv#3: Also do this, please. :)";
+QUEST_LVL1_1 = "\cv#1: Check out the party.";
+QUEST_LVL1_2 = "\cv#2: Go take out the trash.";
+QUEST_LVL1_3 = "\ct#3: ???";
+QUEST_LVL1_3A = "\cv#3: Return the Red Key to Cube.";

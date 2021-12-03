@@ -1,0 +1,38 @@
+//zboxscript/island/mountain.zsc
+
+//random mountains for volcano level.
+
+CLASS Mountains : Buildings //200
+{	
+	Default 
+	{
+		-BRIGHT;
+		//$Category "Box Party/Decor/Island/"
+		//$Title "Mountains"
+		//$Sprite "MOUNA0"
+		//$Color 2
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_JumpIf((CallACS("skycheck") == 1), "Null");
+			TNT1 A 0 A_Jump(220, "Null");
+			TNT1 A 0 A_Jump(256, "Firsty", "Firsty", "Firsty", "Firsty", "Firsty", "Firsty", "Secondy", "Secondy", "Secondy", "Secondy", "Secondy", "Thirdy");
+			PBOX A -1;
+			Stop;
+		Firsty:
+			MOUN A 0;
+			Goto Flipper;
+		Secondy:
+			MOUN B 0;
+			Goto Flipper;
+		Thirdy:
+			MOUN C 0;
+			Goto Flipper;
+		Flipper:
+			"####" "#" 0 A_BoxDecor(true, 1.5, 2.0, 0);
+			"####" "#" -1;
+			Stop;
+	}
+}

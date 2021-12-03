@@ -1,0 +1,170 @@
+//zboxscript/loot/armor.zsc
+
+//where all the armor items are.
+
+//ONLY triangle can use these!!!
+
+CLASS BoxFakeArmor : BasicArmorBonus //used by all classes that dont use armor.
+{
+	Default
+	{
+		Armor.SaveAmount 60;
+		Armor.SavePercent 0;
+		Armor.MaxSaveAmount 60;
+	}
+}
+
+CLASS BoxArmor : BasicArmorBonus abstract
+{
+	mixin BoxLootBase;
+
+	Default
+	{
+		+SPRITEFLIP;
+		+INVENTORY.AUTOACTIVATE;
+		-INVENTORY.ALWAYSPICKUP;
+		Height 24;
+		Radius 20;
+		Armor.SaveAmount 1;
+		Armor.SavePercent 40;
+		Armor.MaxSaveAmount 60;
+		Inventory.RestrictedTo "PlayerTriangle";
+		//Inventory.InterHubAmount 0;
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteName = "ARMO";
+		ParticleColor = "00 ff 25";
+		if (random(0, 2) == 2) {SetState(ResolveState(null));}
+	}
+	
+	States
+	{
+		Dummy:
+			ARMO A 0; //this is needed or "GetSpriteIndex" will mess up.
+			Stop; //this state is never called by the health actor.
+	}
+}
+
+CLASS PureArmor : BoxArmor
+{
+	Default
+	{
+		Armor.SaveAmount 10;
+		Inventory.PickupMessage "$BOX_ARMOR_PURE";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 13;
+	}
+}
+
+CLASS MelonArmor : BoxArmor
+{
+	Default
+	{
+		Armor.SaveAmount 3;
+		Inventory.PickupMessage "$BOX_ARMOR_MELON";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 1;
+	}
+}
+
+CLASS PizzaArmor : BoxArmor
+{
+	Default
+	{
+		Armor.SaveAmount 1;
+		Inventory.PickupMessage "$BOX_ARMOR_PIZZA";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 2;
+	}
+}
+
+CLASS OnionArmor : BoxArmor
+{
+	Default
+	{
+		Armor.SaveAmount 4;
+		Inventory.PickupMessage "$BOX_ARMOR_ONION";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 3;
+	}
+}
+
+CLASS RedOnionArmor : BoxArmor
+{
+	Default
+	{
+		Scale 0.5;
+		Armor.SaveAmount 2;
+		Inventory.PickupMessage "$BOX_ARMOR_REDONION";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 3;
+	}
+}
+
+CLASS LemonArmor : BoxArmor
+{
+	Default
+	{
+		Armor.SaveAmount 4;
+		Inventory.PickupMessage "$BOX_ARMOR_LEMON";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 4;
+	}
+}
+
+CLASS HammerArmor : BoxArmor
+{
+	Default
+	{
+		Armor.SaveAmount 5;
+		Inventory.PickupMessage "$BOX_ARMOR_HAMMER";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 5;
+	}
+}
+
+CLASS PepperArmor : BoxArmor
+{
+	Default
+	{
+		Armor.SaveAmount 5;
+		Inventory.PickupMessage "$BOX_ARMOR_PEPPER";
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		SpriteNum = 6;
+	}
+}

@@ -1,0 +1,63 @@
+//animdefs.txt
+
+//the wavy effect put on water + lava
+WARP2 texture WATER
+WARP2 texture WATERA
+WARP2 texture WATERB
+WARP2 texture WATERC
+WARP2 texture WATERD
+WARP2 texture LAVA
+
+
+//button mashing
+switch BUTTON1 on sound Switch1 pic BUTTON2 tics 0
+switch BUTTON2 off sound Switch2 pic BUTTON1 tics 0
+
+//that tv texture with the party ad on it
+texture tva1
+	allowdecals
+	pic tva1 rand 5 12
+	pic tva2 rand 5 12
+	pic tva3 rand 5 12
+
+//these 4 textures are for waterfalls
+texture watera
+	pic watera rand 5 12
+	pic waterb rand 5 12
+	pic waterc rand 5 12
+	pic waterd rand 5 12
+
+texture waterb
+	pic waterb rand 5 12
+	pic waterc rand 5 12
+	pic waterd rand 5 12
+	pic watera rand 5 12
+
+texture waterc
+	pic waterc rand 5 12
+	pic waterd rand 5 12
+	pic watera rand 5 12
+	pic waterb rand 5 12
+
+texture waterd
+	pic waterd rand 5 12
+	pic watera rand 5 12
+	pic waterb rand 5 12
+	pic waterc rand 5 12
+
+//animated bounce pad texture
+texture jumpa
+	pic jumpa rand 10 12
+	pic jumpb rand 10 12
+
+texture jumpb
+	pic jumpb rand 10 12
+	pic jumpa rand 10 12
+	
+texture jumpe
+	pic jumpe rand 10 12
+	pic jumpf rand 10 12
+	
+texture jumpf
+	pic jumpf rand 10 12
+	pic jumpe rand 10 12

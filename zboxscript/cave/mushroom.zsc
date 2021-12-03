@@ -1,0 +1,22 @@
+//zboxscript/cave/mushroom.zsc
+
+CLASS Mushroom : BoxDecor //20027
+{
+	Default
+	{
+		Radius 6;
+		Height 12;
+		+SOLID;
+		//$Category "Box Party/Decor/Cave/"
+		//$Title "Mushroom"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			MUSH A 0 NoDelay A_BoxDecor(true, 0.75, 1.4, 0);
+			MUSH A -1;
+			Stop;
+	}
+}

@@ -1,0 +1,4 @@
+//althudcf.txt
+
+Health HEALB0
+Armor ARMOB0

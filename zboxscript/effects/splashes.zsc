@@ -1,0 +1,123 @@
+//zboxscript/effects/splashes.zsc
+
+//water make sploosh when hit water.
+
+CLASS WaterSploosh : BoxActor
+{
+	Default
+	{
+		Radius 2;
+		Height 4;
+		Mass 0;
+		RenderStyle "Translucent";
+		Alpha 0.6;
+		
+		+NOGRAVITY;
+		-SOLID;
+		-BLOCKEDBYSOLIDACTORS;
+		+RANDOMIZE;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_Jump(128, 2);
+			#### # 0 A_BoxParticle("02 6e f5", 3, 8, 20);
+			TNT1 A 0 {bSPRITEFLIP = true;}
+			SPLA BBBBBBBBBB 1 {
+				A_BoxScale(0.06);
+				A_FadeOut(0.03);
+			}
+			SPLA AAAAAAAAAA 1 {
+				A_BoxScale(0.06);
+				A_FadeOut(0.03);
+			}
+			Stop;
+	}
+}
+
+CLASS LavaSploosh : WaterSploosh
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_Jump(128, 2);
+			#### # 0 A_BoxParticle("f2 3f 00", 3, 8, 20);
+			TNT1 A 0 {bSPRITEFLIP = true;}
+			SPLA FFFFFFFFFF 1 BRIGHT {
+				A_BoxScale(0.06);
+				A_FadeOut(0.03);
+			}
+			SPLA EEEEEEEEEE 1 BRIGHT {
+				A_BoxScale(0.06);
+				A_FadeOut(0.03);
+			}
+			Stop;
+	}
+}
+
+CLASS WaterSplooshSmall : WaterSploosh
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_Jump(128, 2);
+			#### # 0 A_BoxParticle("02 6e f5", 1, 8, 20);
+			TNT1 A 0 {bSPRITEFLIP = true;}
+			SPLA DDDDD 1 {
+				A_BoxScale(0.03);
+				A_FadeOut(0.06);
+			}
+			SPLA CCCCC 1 {
+				A_BoxScale(0.03);
+				A_FadeOut(0.06);
+			}
+			Stop;
+	}
+}
+
+CLASS LavaSplooshSmall : WaterSplooshSmall
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_Jump(128, 2);
+			#### # 0 A_BoxParticle("f2 3f 00", 1, 8, 20);
+			TNT1 A 0 {bSPRITEFLIP = true;}
+			SPLA HHHHH 1 BRIGHT {
+				A_BoxScale(0.03);
+				A_FadeOut(0.06);
+			}
+			SPLA GGGGG 1 BRIGHT {
+				A_BoxScale(0.03);
+				A_FadeOut(0.06);
+			}
+			Stop;
+	}
+}
+
+CLASS WaterfallButt : Actor //20039
+{
+	Default
+	{
+		Radius 8;
+		Height 4;
+		
+		-SOLID;
+		-BLOCKEDBYSOLIDACTORS;
+		+NOGRAVITY;
+		+RANDOMIZE;
+		//$Category "Box Party/Effects/"
+		//$Title "Waterfall Butt"
+		//$Sprite "SPLAB0"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 5 A_SpawnItemEX("WaterSploosh", frandom(-6, 6), frandom(-6, 6), 0, frandom(-0.5, 0.5), frandom(-0.5, 0.5), 0, 0, 0, 96);
+			TNT1 A 1;
+			Loop;
+	}
+}

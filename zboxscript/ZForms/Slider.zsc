@@ -1,0 +1,134 @@
+class boxparty_Slider : boxparty_Element {
+	double low, high, step;
+	double value;
+
+	boxparty_BoxTextures background;
+	boxparty_BoxDrawer backgroundDrawer;
+	boxparty_BoxTextures handle[3];
+	boxparty_BoxDrawer handleDrawer[3];
+	double handleWidth;
+
+	protected bool clicking;
+	protected bool hover;
+
+	double getDrawHandleWidth() {
+		if (handleWidth <= 0.0) {
+			if (step == 0.0) {
+				return self.box.size.y;
+			}
+			else {
+				let ratio = (high - low) / step + 1;
+				return 1.0 / ratio * self.box.size.x;
+			}
+		}
+		else {
+			return handleWidth;
+		}
+	}
+
+	void config(
+		double low, double high, double value, double step, double handleWidth,
+		boxparty_BoxTextures handle, boxparty_BoxTextures handleHover, boxparty_BoxTextures handleClick = NULL,
+		boxparty_BoxTextures background = NULL, boxparty_Handler cmdHandler = NULL, string command = ""
+	) {
+		if (low > high) {
+			let tmp = low;
+			low = high;
+			high = tmp;
+		}
+		self.low = low;
+		self.high = high;
+		self.step = step;
+		self.value = value;
+		self.handleWidth = handleWidth;
+		self.background = background;
+		self.handle[0] = handle;
+		self.handle[1] = (handleHover != NULL) ? handleHover : handle;
+		self.handle[2] = (handleClick != NULL) ? handleClick : handle;
+		self.cmdHandler = cmdHandler;
+		self.command = command;
+		self.alpha = 1.0;
+	}
+
+	static boxparty_Slider create(
+		Vector2 pos, Vector2 size,
+		double low, double high, double value, double step, double handleWidth,
+		boxparty_BoxTextures handle, boxparty_BoxTextures handleHover, boxparty_BoxTextures handleClick = NULL,
+		boxparty_BoxTextures background = NULL, boxparty_Handler cmdHandler = NULL, string command = ""
+	) {
+		let ret = new("boxparty_Slider");
+
+		ret.setBox(pos, size);
+		ret.config(low, high, value, step, handleWidth, handle, handleHover, handleClick, background, cmdHandler, command);
+
+		return ret;
+	}
+
+	override bool blocksMouse(Vector2 mousePos) {
+		boxparty_AABB screenBox; boxToScreen(screenBox);
+		return screenBox.pointCollides(mousePos);
+	}
+
+	override void drawer() {
+		boxparty_AABB screenBox; boxToScreen(screenBox);
+		if (!mouseBlock && !getHoverBlock() && isEnabled() && screenBox.pointCollides(master.mousePos)) {
+			hover = true;
+		}
+		else {
+			hover = false;
+		}
+
+		double oldVal = value;
+		if (clicking) {
+			boxparty_AABB screenBox; boxToScreen(screenBox);
+			let diff = master.mousePos - screenBox.pos;
+			diff /= getScale();
+			diff.x -= getDrawHandleWidth() / 2;
+			let t = diff.x / (box.size.x - getDrawHandleWidth());
+			t = clamp(t, 0.0, 1.0);
+			let newVal = (high - low) * t;
+			if (step != 0.0) {
+				newVal /= step;
+				newVal = round(newVal);
+				newVal *= step;
+			}
+			value = low + newVal;
+		}
+		value = clamp(value, low, high);
+		if (cmdHandler != NULL && oldVal != value) {
+			cmdHandler.sliderChanged(self, command);
+		}
+
+		boxparty_AABB beforeClip, clipRect;
+		screenClip(beforeClip, clipRect);
+		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
+		
+		if (background) {
+			backgroundDrawer.draw(self, (0, 0), box.size, background, true);
+		}
+		let t = (high == low) ? 0.0 : ((value - low) / (high - low));
+		let i = clicking ? 2 : hover ? 1 : 0;
+		handleDrawer[i].draw(
+			self,
+			(t * (box.size.x - getDrawHandleWidth()), 0), (getDrawHandleWidth(), box.size.y),
+			handle[i], true
+		);
+
+		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
+	}
+
+	override bool onUIEvent(boxparty_UiEvent ev) {
+		if (ev.type == UIEvent.Type_LButtonDown) {
+			boxparty_AABB screenBox; boxToScreen(screenBox);
+			if (!ev.mouseBlock && isEnabled() && screenBox.pointCollides(master.mousePos)) {
+				clicking = true;
+				setHoverBlock(self);
+			}
+		}
+		else if (ev.type == UIEvent.Type_LButtonUp) {
+			clicking = false;
+			setHoverBlock(NULL);
+		}
+		return false;
+	}
+}

@@ -1,0 +1,77 @@
+//zboxscript/player/triangle.zsc
+
+CLASS PlayerTriangle : BoxPlayerBase
+{
+	Default
+	{
+		Health 40;
+		Player.MaxHealth 40;
+		Player.StartItem "PlayerTriangleToken";
+		Player.DisplayName "Triangle";
+		Player.Portrait "INFO_TRI";
+		Player.Face "TAC";
+	}
+	
+	int healingtimer;
+	
+	action void CountLooterNum (void)
+	{
+		if (self.CountInv("BasicArmor") >= 30) {invoker.LooterNum = 0;}
+		else {invoker.LooterNum = 1;}
+	}
+	
+	override void Tick(void)
+	{
+		CountLooterNum();
+		
+		Super.Tick();
+		
+		if (self)
+		{
+			if ((self.healingtimer > (self.Health * 1.5)) || (self.healingtimer > 30)) 
+			{
+				if ((self.Health < self.MaxHealth) && (self.Health > 0)) {A_SetHealth(self.Health + 1);}
+				self.healingtimer = 0;
+			}
+			else {++self.healingtimer;}
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			TBOX A 0 NoDelay A_BoxHatTime(true);
+			TBOX A -1;
+			Loop;
+		See:
+			TBOX AB 7;
+			Loop;
+		Missile:
+			"####" "#" 1;
+			"####" "#"  0 A_JumpIfInventory("GlowstickIsFiring", 1, "Melee");
+			TBOX D 4 BRIGHT;
+			TBOX E 8;
+			Goto Spawn;
+		Melee:
+			TBOX C 12;
+			Goto Spawn;
+		Pain:
+			TBOX L 4 A_Pain;
+			TBOX L 4;
+			Goto Spawn;
+		Death:
+			TBOX I 0 A_BoxHatTime(false);
+			TBOX I 10 A_PlayerScream;
+			TBOX J 10;
+			TBOX K 10 A_NoBlocking;
+			TBOX K -1;
+			Stop;
+		XDeath:
+			TBOX F 0 A_BoxHatTime(false);
+			TBOX F 10 A_XScream;
+			TBOX G 10;
+			TBOX H 10 A_NoBlocking;
+			TBOX H -1;
+			Stop;
+	}
+}

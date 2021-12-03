@@ -1,0 +1,252 @@
+CLASS BoxHatDummy : Actor
+{
+	States
+	{
+		Spawn:
+			//these frames are to make sure the associated sprites are loaded into GZDOOM.
+			//any mods making custom hats need to make sure they make a dummy actor that loads their associated sprites as well.
+			//otherwise, you run the risk of crashing GZDOOM.
+			//this actor never actually appears ingame.
+			TNT1 A 1;
+			HATA A 0;
+			HATB A 0;
+			HATC A 0;
+			HATD A 0;
+			HATE A 0;
+			HATF A 0;
+			HATG A 0;
+			HATH A 0;
+			HATI A 0;
+			HATJ A 0;
+			HATK A 0;
+			HATL A 0;
+			HATM A 0;
+			HATM A 0;
+			HATO A 0;
+			HATP A 0;
+			HATQ A 0;
+			HATR A 0;
+			HATS A 0;
+			HATT A 0;
+			HATU A 0;
+			HATV A 0;
+			HATW A 0;
+			HATX A 0;
+			HATY A 0;
+			HATZ A 0;
+			Stop;
+	}
+}
+
+CLASS BoxHat : Actor abstract
+{
+	Default
+	{
+		FloatBobPhase 0;
+		RenderStyle "Translucent";
+		SpriteAngle 180;
+		+NOTONAUTOMAP;
+		+NOBLOCKMAP;
+		+NOINTERACTION;
+		+SPRITEANGLE;
+	}
+	
+	abstract bool DoColor();
+	double NewZSpot;
+	
+	override void Tick(void)
+	{
+		Super.Tick();
+		
+		if (master)
+		{
+			let ZSpotA = master.Pos.Z + (master.Height * master.Scale.Y * 1.10);
+			let ZSpotB = self.Pos.Z;
+			
+			if (ZSpotB <= ZSpotA) {NewZSpot = ZSpotA;}
+			else {NewZSpot = (ZSpotA + (ZSpotB * 4)) / 5;}
+			
+			let ZSpeedy = ZSpotB - ZSpotA;
+			if (ZSpeedy < -24) {Alpha = master.Alpha / 10;}
+			else {Alpha = master.Alpha;}
+			
+			Vector3 sPos = (
+				master.Pos.X,
+				master.Pos.Y,
+				NewZSpot
+			); 
+			SetOrigin(sPos, true);
+			//Angle = master.Angle;
+			Scale = master.Scale;
+		}
+		else {Destroy();}
+
+		A_SetSize(1, 1);
+	}
+}
+
+CLASS BoxHatPlayer : BoxHat
+{
+	Default
+	{
+		//+DONTTRANSLATE;
+	}
+
+	override bool DoColor() {return true;}
+	//separated this code from the main BoxHat entity so that NPC hats don't need to load code they don't even use.
+	int HatNumber;
+	int HatRotation;
+	string spritename;
+	string spriteframe;
+	string spriteangle;
+	static const string alphabet[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "]"}; //all characters you can use sprite frames for, excluding \.
+	static const string rotations[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G"}; //all characters you can use for sprite rotations.
+	
+	action void UpdateHatSprite(void)
+	{
+		if (master.health > 0)
+		{
+			cvar currenthat = cvar.GetCVAR("box_hat_current", master.player);
+			string fullsprite = currenthat.GetString();
+			invoker.spritename = fullsprite.Left(4);
+			invoker.spriteframe = fullsprite.Mid(4, 1);
+			invoker.spriteangle = fullsprite.Mid(5, 1);
+		
+			bool usingcolor = invoker.DoColor();
+		
+			UpdateHatColor(usingcolor);
+		
+			for (int i = 0; i < invoker.alphabet.Size(); i++) 
+			{
+				if (invoker.spriteframe == invoker.alphabet[i]) {invoker.HatNumber = i;}
+			}
+			
+			for (int i = 0; i < invoker.rotations.Size(); i++) 
+			{			
+				if (invoker.spriteangle == invoker.rotations[i]) 
+				{
+					switch (i)
+					{
+						case 0: self.SpriteAngle = 180; break;
+						case 1: self.SpriteAngle = 180; break;
+						case 2: self.SpriteAngle = 225; break;
+						case 3: self.SpriteAngle = 270; break;
+						case 4: self.SpriteAngle = 315; break;
+						case 5: self.SpriteAngle = 0; break;
+						case 6: self.SpriteAngle = 45; break;
+						case 7: self.SpriteAngle = 90; break;
+						case 8: self.SpriteAngle = 135; break;
+						case 9: self.SpriteAngle = 202.5; break;
+						case 10: self.SpriteAngle = 247.5; break;
+						case 11: self.SpriteAngle = 292.5; break;
+						case 12: self.SpriteAngle = 337.5; break;
+						case 13: self.SpriteAngle = 22.5; break;
+						case 14: self.SpriteAngle = 67.5; break;
+						case 15: self.SpriteAngle = 112.5; break;
+						case 16: self.SpriteAngle = 157.5; break;
+					}
+					
+					//console.printf("i is %d, angle is %f.", i, self.Angle);
+				}
+				//else console.printf("%s", "failed lmao");
+			}
+		}
+	}
+	
+	action void UpdateHatColor(bool getcolor)
+	{
+		cvar enablecolor = cvar.GetCVAR("box_hat_color", master.player);
+		
+		if (enablecolor.GetBool() != getcolor)
+		{
+			invoker.spritename = "TNT1";
+			invoker.HatNumber = "0";
+		}
+	}
+
+	override void Tick(void)
+	{
+		Super.Tick();
+		
+		if (master)
+		{
+			if (master.player) //this isn't working for some reason.
+			{
+				if (players[consoleplayer].camera == players[consoleplayer].mo && !(master.player.cheats & CF_CHASECAM) && (GetCvar("box_hat_pov") == false))
+				{bInvisible = true;} else{bInvisible = false;}
+			}
+			if (master.health <= 0)
+			{
+				bInvisible = true;
+			}
+		}
+		else {Destroy();}
+	}
+	
+	States
+	{
+		Spawn:
+			HATA A 10;
+			Goto Looper;
+		Looper:
+			#### # 0 A_JumpIf(GetCVAR("box_hat") == 0, "SpawnHide");
+			#### # 0 UpdateHatSprite();
+			PBOX A 10 {sprite = GetSpriteIndex(spritename); frame = HatNumber;}
+			Loop;
+		SpawnHide:
+			TNT1 A 10 A_JumpIf(GetCVAR("box_hat") >= 1, "Looper");
+			Loop;
+	}
+}
+
+CLASS BoxHatPlayer2 : BoxHatPlayer
+{
+	Default
+	{
+		//each player has 2 hat actors attached to them. one is visible when hat colors are on, and vice versa.
+		+DONTTRANSLATE;
+	}
+	
+	override bool DoColor() {return false;}
+}
+
+CLASS BoxHatNPC : BoxHat
+{
+	override bool DoColor() 
+	{
+		if (random(1, 100) == 100) {return true;}
+		return false;
+	}
+
+	States
+	{
+		Spawn:
+			HATA A 5 NoDelay 
+			{
+				switch (random(1, 24))
+				{
+					default: self.SpriteAngle = 180; break;
+					case 11: self.SpriteAngle = 180; break;
+					//case 12: self.SpriteAngle = 225; break;
+					//case 13: self.SpriteAngle = 270; break;
+					//case 14: self.SpriteAngle = 315; break;
+					case 15: self.SpriteAngle = 0; break;
+					case 16: self.SpriteAngle = 45; break;
+					case 17: self.SpriteAngle = 90; break;
+					//case 18: self.SpriteAngle = 135; break;
+					case 19: self.SpriteAngle = 202.5; break;
+					case 20: self.SpriteAngle = 247.5; break;
+					case 21: self.SpriteAngle = 292.5; break;
+					//case 22: self.SpriteAngle = 337.5; break;
+					case 23: self.SpriteAngle = 22.5; break;
+					case 24: self.SpriteAngle = 67.5; break;
+					//case 15: self.SpriteAngle = 112.5; break;
+					//case 16: self.SpriteAngle = 157.5; break;
+				}
+			}
+			Goto Looper;
+		Looper:
+			#### # -1;
+			Stop;
+	}
+}

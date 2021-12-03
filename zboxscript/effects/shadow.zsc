@@ -1,0 +1,52 @@
+//What this does:
+//This creates a square shadow at every player's feet that follows the player's X and Y coords.
+//Then it gets where the Z axis is supposed to be using FloorZ.
+
+//Known Issues:
+//Whenever standing on a 3d floor, for some reason the alpha of the shadow is doubled????? Still don't 100% understand this one.
+
+CLASS BoxShadow : Actor
+{
+	Default
+	{
+		FloatBobPhase 0;
+		RenderStyle "Translucent";
+		+MOVEWITHSECTOR;
+		+FLATSPRITE;
+		+NOTONAUTOMAP;
+		+NOBLOCKMAP;
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+	}
+
+	override void Tick(void)
+	{
+		Super.Tick();
+		
+		if (master)
+		{
+			//Thank Nash's old SpriteShadow mod for this crazy math stuff here.
+			Vector3 sPos = (
+				master.Pos.X + cos(players[consoleplayer].camera.Angle) * 0.01, 
+				master.Pos.Y + sin(players[consoleplayer].camera.Angle) * 0.01, 
+				master.FloorZ
+			); 
+			SetOrigin(sPos, true);
+			Angle = master.Angle;
+			Alpha = master.Alpha * 0.2;
+		}
+		else {Destroy();}
+
+		A_SetSize(1, 1);
+	}
+	
+	States
+	{
+		Spawn:
+			SHAD A 5 A_JumpIf(GetCVAR("box_shadow") == 0, "SpawnHide");
+			Loop;
+		SpawnHide:
+			TNT1 A 5 A_JumpIf(GetCVAR("box_shadow") >= 1, "Spawn");
+			Loop;
+	}
+}

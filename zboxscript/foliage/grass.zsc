@@ -1,0 +1,43 @@
+//zboxscript/foliage/grass.zsc
+
+//tall grass
+
+CLASS TallGrass : BoxDecor //20005
+{
+	Default
+	{
+		Radius 20;
+		Height 20;
+		-SOLID;
+		+NOGRAVITY;
+		//$Category "Box Party/Decor/Foliage/"
+		//$Title "Tall Grass"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			GRAS A 0 NoDelay A_BoxDecor(true, 0.9, 1.25, 0);
+			GRAS A -1;
+			Stop;
+	}
+}
+
+CLASS TallGrass2 : TallGrass
+{
+	Default
+	{
+		//$Category "Box Party/Decor/Foliage/"
+		//$Title "Tall Grass (Dead)"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			GRAS D 0 NoDelay A_BoxDecor(true, 0.9, 1.25, 0);
+			GRAS D -1;
+			Stop;
+	}
+}

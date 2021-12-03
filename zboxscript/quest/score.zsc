@@ -1,0 +1,10 @@
+//zboxscript/quest/score.zsc
+
+class BoxQuestReward : ScoreItem
+{
+	Default 
+	{
+		Inventory.Amount 1;
+		-COUNTITEM;
+	}
+}

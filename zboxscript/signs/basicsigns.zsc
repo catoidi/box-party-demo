@@ -1,0 +1,101 @@
+//zboxscript/signs/basicsigns.zsc
+
+//read this!
+
+CLASS Sign : Actor //20011
+{
+	Default
+	{
+		Radius 20;
+		Height 40;
+		+SOLID;
+		//$Category "Box Party/Signs/"
+		//$Color 14
+	}
+	
+	States
+	{
+		Spawn:
+			SIGN A -1;
+			Stop;
+	}
+}
+
+CLASS SignA : Sign {} //20031
+CLASS SignB : Sign {} //20032
+CLASS SignC : Sign {} //20033
+CLASS SignD : Sign {} //20034
+CLASS SignE : Sign {} //20035
+CLASS SignF : Sign {} //20036
+CLASS SignG : Sign {} //20037
+CLASS SignH : Sign {} //20038
+
+CLASS SignExit : Sign //20012
+{
+	States
+	{
+		Spawn:
+			SIGN B -1;
+			Stop;
+	}
+}
+
+CLASS SignStart : Sign //20013
+{
+	States
+	{
+		Spawn:
+			SIGN C -1;
+			Stop;
+	}
+}
+
+CLASS SignDanger : Sign //20014
+{
+	States
+	{
+		Spawn:
+			SIGN D -1;
+			Stop;
+	}
+}
+
+CLASS SignBlank : Sign //20015
+{
+	States
+	{
+		Spawn:
+			SIGN Z -1;
+			Stop;
+	}
+}
+
+CLASS SignDown : Sign
+{
+	States
+	{
+		Spawn:
+			SIGN E -1;
+			Stop;
+	}
+}
+
+CLASS SignUp : Sign
+{
+	States
+	{
+		Spawn:
+			SIGN F -1;
+			Stop;
+	}
+}
+
+CLASS SignBoss : Sign
+{
+	States
+	{
+		Spawn:
+			SIGN G -1;
+			Stop;
+	}
+}

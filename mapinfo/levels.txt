@@ -1,0 +1,120 @@
+//mapinfo/levels.txt
+
+clearepisodes 
+
+//default settings for box party levels, can be overwritten by individual levels.
+GameDefaults
+{
+	//doom's default pixelratio is 1.2, making the world look 20% taller.
+	PixelRatio = 1
+	NoIntermission
+	sky1 = "CITYSKY3"
+	ResetHealth
+}
+
+//this is the map that appears when you boot into box party.
+Map titlemap "this is the title screen for the game"
+{
+	sky1 = "SKY1"
+}
+
+//////////
+//EPISODES
+//////////
+
+Episode "party00"
+{
+	name = "Box Party"
+	key = "B"
+}
+
+//Episode "arena00"
+//{
+//	name = "Endless Mode"
+//	key = "E"
+//}
+
+//episode "sail01"
+//{
+	//name = "Boat Episode"
+	//key = "B"
+//}
+
+//////////
+//CLUSTERS
+//////////
+
+Cluster 1 //yeah basically just every level in main story should be in this
+{
+	flat = "$WATER"
+	exittext = lookup, "BOX_ENDTEXT"
+}
+
+Cluster 2 //this one is for endless mode
+{
+	flat = "$LAVA"
+	exittext = lookup, "BOX_ENDTEXT2"
+}
+
+Cluster 3 //this one is for boat episode
+{
+	flat = "$WOOD3"
+	exittext = lookup, "BOX_ENDTEXT3"
+}
+
+/////////////
+//MAIN LEVELS
+/////////////
+
+Map party00 "you're in a dream, wake up"
+{
+	cluster = 1
+	levelnum = 0
+	sky1 = "CITYSKY3"
+	next = "party01"
+}
+
+Map party01 "Fashionably Late"
+{
+	cluster = 1
+	levelnum = 1
+	sky1 = "CITYSKY3"
+	next = "party02"
+	par = 50
+}
+
+Map party02 "Boxsterpiece"
+{
+	cluster = 1
+	levelnum = 2
+	sky1 = "ISLESKY"
+	next = "party03"
+	par = 75
+}
+
+Map party03 "Not Invited"
+{
+	next = EndPic, "TITLEPIC"
+	cluster = 1
+	levelnum = 3
+	sky1 = "FARSKY"
+	par = 80
+}
+
+/////////////////////
+//BOAT EPISODE LEVELS
+/////////////////////
+
+//Map sail00 "difficulty select level"
+//{
+//	cluster = 3
+//	levelnum = 20
+//	next = "sail01"
+//}
+
+map sail01 "Laffy Taffy"
+{
+	cluster = 3
+	levelnum = 21
+	next = EndPic, "TITLEPIC"
+}

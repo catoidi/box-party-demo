@@ -1,0 +1,271 @@
+//zboxscript/parent.zsc
+
+//zscript code for any actor that gets inherited by other actors.
+//these actors are not meant to be spawned ingame.
+
+//copy/paste this
+/*
+		Death.Melee:
+			#### # 0 {IsMelee = 1;}
+			Goto Death;
+*/
+
+CLASS BoxActor : Actor abstract
+{
+	mixin BoxActorMixin;
+	//boxactor code was moved into mixin, in case certain actors can't inherit boxactor.
+}
+
+CLASS BoxDecor : BoxActor abstract
+{
+	//placeholder.
+}
+
+CLASS BoxMonster : BoxActor abstract
+{
+	bool SwimmingToggle; //stores the canswim property
+	
+	property CanSwim: SwimmingToggle;
+
+	Default
+	{
+		Monster;
+		Species "Food"; //this can cause some issues. might change later.
+		DeathSound "effects/boxdie";
+		PainSound "effects/boxpain3";
+		DamageFactor "Lemon", 0.35;
+		DamageFactor "Pepper", 0.75;
+		DamageFactor "Pie", 3;
+		DamageFactor "Prism", 1.0;
+		PainChance "Lemon", 12;
+		PainChance "Pepper", 32;
+		PainChance "Prism", 256;
+		BoxMonster.CanSwim true; //overrides both +FLOAT and +NOGRAVITY. do not use on flying enemies.
+		//this is to help reduce infighting from lemon monsters, without completely removing it.
+		+CASTSPRITESHADOW;
+	}
+	
+	action void A_BoxSuperDie (void)
+	{
+		//called when monster is killed by console command.
+		A_RemoveLight("Shocking");
+		A_BoxScream();
+		A_NoBlocking();
+	}
+	
+	action void A_BoxScream (void)
+	{
+		if (random(0, 5000) == 5000)
+		{
+			A_StartSound("wilhelm");
+		}
+		else
+		{
+			A_Scream();
+		}
+	}
+	
+	override void BeginPlay (void)
+	{
+		Super.BeginPlay();
+		
+		cvar noswimcheck = cvar.GetCVAR("box_noswim");
+		if ((noswimcheck.GetBool() == true) || (bFLOAT == true) || (bNOGRAVITY == true))
+		{
+			//disable swimming if cvar is on or actor can already fly upon spawning
+			SwimmingToggle = false;
+		}
+	}
+	
+	override void Tick (void)
+	{
+		Super.Tick();
+		
+		if (SwimmingToggle == true) //modders can modify this behavior either by overriding their own Tick() function or by toggling the box_noswim cvar.
+		{
+			if (waterlevel >= 1) //make the monster fly whilst underwater
+			{
+				bFLOAT = true;
+				bNOGRAVITY = true;
+			}
+			else
+			{
+				bFLOAT = false;
+				bNOGRAVITY = false;
+			}
+		}
+	}
+		
+	States
+	{
+		//if you coded the monster correctly, you should never see any of the PBOX frames.
+		Spawn:
+			PBOX A -1;
+			Loop;
+		See:
+			PBOX AB 7;
+			Loop;
+	}
+}
+
+CLASS BoxBlood : BoxActor abstract
+{
+	//base actor for all "blood" replacers for enemies.
+	//chooses which state to jump to based on damage dealt to enemy.
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_Jump(256, "Firsty"); //dmg = 12+
+			TNT1 A 0 A_Jump(256, "Secondy"); //dmg = 9-12
+			TNT1 A 0 A_Jump(256, "Thirdy"); //dmg = 0-8
+			Stop;
+		Firsty:
+			TNT1 A 1 A_SpawnItemEX("ProjectilePuff", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+			Stop;
+		Secondy:
+			TNT1 A 1 A_SpawnItemEX("ProjectilePuffSmall", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+			Stop;
+		Thirdy:
+			TNT1 A 1 A_SpawnItemEX("ProjectilePuffTiny", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+			Stop;
+	}
+}
+
+CLASS BoxCrumb : BoxActor abstract
+{
+	//this is the parent for any particles that weapons/enemies spawn.
+	//this code was originally used for the partyshotty's bullet particles.
+	//meant for any small particle that isn't meant to last very long.
+	//the default sprite is intentionally obnoxious, so if you forget to change it, you will notice.
+	Default
+	{
+		Gravity 0.33;
+		BounceType "Doom";
+		BounceFactor 0.3;
+		WallBounceFactor 0.7;
+		Radius 2;
+		Height 4;
+		Mass 1;
+		Scale 0.5;
+	
+		
+		Projectile;
+		-NOGRAVITY;
+		-SOLID;
+		-BLOCKEDBYSOLIDACTORS;
+		+DONTSPLASH;
+		+THRUACTORS;
+		+INTERPOLATEANGLES;
+		+ROLLSPRITE;
+		+SPRITEANGLE;
+		+FORCEXYBILLBOARD;
+		+DONTBOUNCEONSKY;
+		+EXPLODEONWATER;
+		+MOVEWITHSECTOR;
+	}
+	
+	States
+	{
+		Spawn:
+			PBOX A 0 NoDelay A_SetRoll(random(0, 359));
+			#### # 0 A_QueueCorpse;
+			#### # 1 A_Jump(128, "SpeenLeft");
+			Goto SpeenRight;
+		SpeenRight:
+			#### # 1 A_SetRoll(roll - 8);
+			#### # 0 A_BoxFade(0.02);
+			Loop;
+		SpeenLeft:
+			#### # 1 A_SetRoll(roll + 8);
+			#### # 0 A_BoxFade(0.02);
+			Loop;
+		Death.Sky:
+		Death:
+			#### # 0 A_JumpIf((ACS_ScriptCall("CrumbCheck") >= 1), "Null");
+			#### # 0 A_Jump(224, "TimeForDie");
+			#### ############### 35 {if (self.Pos.Z ~== self.FloorZ) {bFLATSPRITE = true;} else {bFLATSPRITE = false;}} 
+			Goto TimeForDie;
+		TimeForDie:
+			#### # 1 A_BoxFade(0.05);
+			Loop;
+	}
+}
+
+CLASS BoxChunk : BoxCrumb abstract
+{
+	//this is a variation of BoxCrumb that is meant for larger particles with longer lifespans.
+	
+	Default
+	{
+		Scale 1;
+		Gravity 0.67;
+		-DONTSPLASH;
+	}
+	
+	States
+	{
+		SpeenRight:
+			#### # 1 A_SetRoll(roll - 4);
+			#### # 0 A_BoxFade(0.01);
+			Loop;
+		SpeenLeft:
+			#### # 1 A_SetRoll(roll + 4);
+			#### # 0 A_BoxFade(0.01);
+			Loop;
+		Death.Sky:
+		Death:
+			#### # 0 A_JumpIf((ACS_ScriptCall("CrumbCheck") >= 1), "Null");
+			#### # 0 A_Jump(160, "TimeForDie");
+			#### ############### 105 {if (self.Pos.Z ~== self.FloorZ) {bFLATSPRITE = true;} else {bFLATSPRITE = false;}} 
+			Goto TimeForDie;
+		TimeForDie:
+			#### # 1 A_BoxFade(0.025);
+			Loop;
+	}
+}
+
+CLASS BoxGib : BoxCrumb abstract
+{
+	//this was originally only meant for the fruitpuncher, but has been modified to support any enemies needing gibbitude.
+
+	Default
+	{
+		Gravity 1;
+		Scale 1;
+		Radius 8;
+		Height 8;
+		Mass 0;
+		-DONTSPLASH;
+	}
+	
+	States
+	{
+		SpeenRight:
+			#### # 1 A_SetRoll(roll - 3);
+			#### # 0 A_BoxFade(0.005);
+			Loop;
+		SpeenLeft:
+			#### # 1 A_SetRoll(roll + 3);
+			#### # 0 A_BoxFade(0.005);
+			Loop;
+		Death.Sky:
+		Death:
+			#### # 0 A_JumpIf((ACS_ScriptCall("CrumbCheck") >= 1), "Null");
+			#### ############### 210 {if (self.Pos.Z ~== self.FloorZ) {bFLATSPRITE = true;} else {bFLATSPRITE = false;}} 
+			Goto TimeForDie;
+		TimeForDie:
+			#### # 1 A_BoxFade(0.0125);
+			Loop;
+	}
+}
+
+CLASS SorryNothing : BoxActor 
+{	
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+			Stop;
+	}
+}

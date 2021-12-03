@@ -1,0 +1,124 @@
+//sbarinfo.txt
+Base None;
+height 0;
+
+MugShot "Normal"
+{
+	EA -1;
+}
+
+MugShot "Grin"
+{
+	EB 35;
+}
+
+MugShot "Pain"
+{
+	EC 8;
+}
+
+MugShot "Death"
+{
+	ED -1;
+}
+
+MugShot "God"
+{
+	EE -1;
+}
+
+StatusBar Normal, FullscreenOffsets
+{
+	//Health Bar
+	InInventory PlayerBoxToken, 1 //for box class only
+	{
+		DrawBar "HUDBARB", "HUDBARA", Health (100), Horizontal, Reverse, Interpolate (8), -168, -32;
+		DrawNumber 12, "SMALLBOX", Black, Health, Alignment (Right), Interpolate (8), DrawShadow (1, 1), -48, -24, 0, Red, 24, LightBlue, 101;
+		DrawMugShot 1, disableouch, disablerampage, -32, -32;
+		
+		DrawImage weaponicon, -32, -56;
+		
+		//Ammo 1 Bar
+		UsesAmmo
+		{
+			DrawBar "HUDBARF", "HUDBARE", Ammo1, Horizontal, Reverse, Interpolate (32), -136, -56;
+			DrawNumber 12, "SMALLBOX", Black, Ammo1, Alignment (Right), Interpolate (32), DrawShadow (1, 1), -48, -53;
+		}
+		IsSelected not Glowstick //2nd ammo bar will appear on glowstick without this
+		{
+			//Ammo 2 Bar
+			UsesSecondaryAmmo
+			{
+				DrawBar "HUDBARF", "HUDBARE", Ammo2, Horizontal, Reverse, Interpolate (32), -136, -80;
+				DrawNumber 12, "SMALLBOX", Black, Ammo2, Alignment (Right), Interpolate (32), DrawShadow (1, 1), -48, -77;
+				DrawImage ammoicon2, -32, -80;
+			}
+		}
+	}
+	InInventory PlayerCircleToken, 1 //for circle class only
+	{
+		DrawBar "HUDBARC", "HUDBARA", Health (120), Horizontal, Reverse, Interpolate (8), -168, -32;
+		DrawNumber 12, "SMALLBOX", Black, Health, Alignment (Right), Interpolate (8), DrawShadow (1, 1), -48, -24, 0, Red, 14, LightBlue, 61;
+		DrawMugShot 1, disableouch, disablerampage, -32, -32;
+		
+		DrawImage weaponicon, -32, -56;
+		
+		//Ammo 1 Bar
+		UsesAmmo
+		{
+			DrawBar "HUDBARF", "HUDBARE", Ammo1, Horizontal, Reverse, Interpolate (32), -136, -56;
+			DrawNumber 12, "SMALLBOX", Black, Ammo1, Alignment (Right), Interpolate (32), DrawShadow (1, 1), -48, -53;
+			DrawImage ammoicon2, -32, -80;
+		}
+		IsSelected not Glowstick
+		{
+			//Ammo 2 Bar
+			UsesSecondaryAmmo
+			{
+				DrawBar "HUDBARF", "HUDBARE", Ammo2, Horizontal, Reverse, Interpolate (32), -136, -80;
+				DrawNumber 12, "SMALLBOX", Black, Ammo2, Alignment (Right), Interpolate (32), DrawShadow (1, 1), -48, -77;
+				DrawImage ammoicon2, -32, -80;
+			}
+		}
+	}
+	InInventory PlayerTriangleToken, 1 //for triangle class only
+	{
+		DrawBar "HUDBARD", "HUDBARA", Health (40), Horizontal, Reverse, Interpolate (8), -168, -32;
+		DrawNumber 12, "SMALLBOX", Black, Health, Alignment (Right), Interpolate (8), DrawShadow (1, 1), -48, -24, 0, Red, 9, LightBlue, 41;
+		DrawMugShot 1, disableouch, disablerampage, -32, -32;
+		DrawBar "HUDBARH", "HUDBARG", Armor (60), Horizontal, Reverse, Interpolate (8), -142, -56;
+		DrawNumber 12, "SMALLBOX", Black, Armor, Alignment (Right), Interpolate (8), DrawShadow (1, 1), -48, -50, 0, Red, 14, Green, 46;
+		DrawImage "ARMOB0", -24, -36;
+		
+		DrawImage weaponicon, -32, -76;
+		
+		//Ammo 1 Bar
+		UsesAmmo
+		{
+			DrawBar "HUDBARF", "HUDBARE", Ammo1, Horizontal, Reverse, Interpolate (32), -136, -76;
+			DrawNumber 12, "SMALLBOX", Black, Ammo1, Alignment (Right), Interpolate (32), DrawShadow (1, 1), -48, -73;
+		}
+		IsSelected not Glowstick
+		{
+			//Ammo 2 Bar
+			UsesSecondaryAmmo
+			{
+				DrawBar "HUDBARF", "HUDBARE", Ammo2, Horizontal, Reverse, Interpolate (32), -136, -100;
+				DrawNumber 12, "SMALLBOX", Black, Ammo2, Alignment (Right), Interpolate (32), DrawShadow (1, 1), -48, -97;
+				DrawImage ammoicon2, -32, -100;
+			}
+		}
+	}
+
+	IfWaterLevel 3
+	{
+		DrawBar "HUDBARJ", "HUDBARI", AirTime, Horizontal, Reverse, Interpolate (8), -142, 16;
+		DrawNumber 12, "SMALLBOX", Black, AirTime, Alignment (Right), Interpolate (8), DrawShadow (1, 1), -48, 20, 0, Red, 5, LightBlue, 16;
+		DrawImage "AIRICON", -32, 16;
+	}
+	
+	//DrawImage "SCOREBAR", -84, -200;
+	//DrawNumber 10, "CONFONT", White, Score, Alignment (Right), Interpolate (64), -13, -196;
+	
+	DrawKeyBar 8, Horizontal, 16, 12, -8;
+}

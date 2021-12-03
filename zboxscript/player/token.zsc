@@ -1,0 +1,73 @@
+//zboxscript/player/token.zsc
+
+CLASS BoxGenericToken : Inventory //only box player will have this.
+{
+	Default
+	{
+		Inventory.MaxAmount 1;
+		+Inventory.UNDROPPABLE;
+		+Inventory.UNCLEARABLE;
+		+Inventory.PERSISTENTPOWER;
+		+Inventory.UNTOSSABLE;
+		+INVENTORY.ALWAYSPICKUP;
+	}
+}
+
+CLASS BoxCustomToken : CustomInventory //activates script upon pickup.
+{
+	Default
+	{
+		Inventory.MaxAmount 1;
+		+Inventory.UNDROPPABLE;
+		+Inventory.UNCLEARABLE;
+		+Inventory.PERSISTENTPOWER;
+		+Inventory.UNTOSSABLE;
+		+INVENTORY.ALWAYSPICKUP;
+	}
+}
+
+CLASS PlayerBoxToken : BoxGenericToken {} //only box player has this.
+CLASS PlayerCircleToken : BoxGenericToken {} //only circle player will have this.
+CLASS PlayerTriangleToken : BoxGenericToken {} //only triangle player will have this.
+CLASS PlayerTrioToken : BoxGenericToken {} //only trio player will have this.
+CLASS PlayerPrismToken : BoxGenericToken {} //only prism player will have this.
+CLASS PlayerGlassToken : BoxGenericToken {} //i think you get it at this point.
+
+CLASS PlayerHatRemover : BoxGenericToken {} //please remove hat from me thank u :)
+
+CLASS LootHPNum : BoxGenericToken //tracking player's loot drop amount
+{
+	Default
+	{
+		Inventory.MaxAmount 100;
+		-Inventory.UNCLEARABLE;
+	}
+}
+
+CLASS AllEnemiesCleared : BoxGenericToken //given to players when all monsters are killed, removed in the next level.
+{
+	Default {-Inventory.UNCLEARABLE;}
+}
+
+CLASS MurderCount : BoxGenericToken {Default {Inventory.MaxAmount 999999;}}
+CLASS EggMurderCount : MurderCount {}
+CLASS GiveBirthdayHat : BoxGenericToken {}
+CLASS GivenTrash : BoxCustomToken 
+{
+	States
+	{
+		Pickup:
+			TNT1 A 0 ACS_NamedExecuteAlways("TrashTaken", 0, 0, 0, 0);
+			Stop;
+	}
+}
+CLASS CubeRedKey1 : Inventory {}
+CLASS CubeRedKey2 : BoxCustomToken
+{
+	States
+	{
+		Pickup:
+			TNT1 A 0 ACS_NamedExecuteAlways("RedKeyGiven", 0, 0, 0, 0);
+			Stop;
+	}
+}

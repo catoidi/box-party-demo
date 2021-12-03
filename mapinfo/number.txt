@@ -1,0 +1,130 @@
+//mapinfo/number.txt
+
+DoomEdNums
+{
+	//zscript doesn't support putting doomednums on the classes themselves like in decorate, so this will have to suffice.
+	//also these are not organized, they're just in the order that i made them in. have fun :)
+	20001 = Tree
+	20002 = Bush
+	20003 = Lantern
+	20004 = HangingLantern
+	20005 = TallGrass
+	20006 = NPCBox
+	20007 = FruitPuncher
+	20008 = PartyShottyAmmo
+	20009 = PartyShotty
+	20010 = Glowstick
+	20011 = Sign
+	20012 = SignExit
+	20013 = SignStart
+	20014 = SignDanger
+	20015 = SignBlank
+	20016 = Pizzaulter
+	20017 = PizzaulterSmall
+	20018 = OnionTurret
+	20019 = LaserPointerAmmo
+	20020 = LaserPointer
+	20021 = GlowstickAmmo
+	20022 = Buildings
+	20023 = Clouds
+	20024 = Chair
+	20025 = Rocks
+	20026 = Root
+	20027 = Mushroom
+	20028 = Bug
+	20029 = GameController
+	20030 = GameConsole
+	20031 = SignA
+	20032 = SignB
+	20033 = SignC
+	20034 = SignD
+	20035 = SignE
+	20036 = SignF
+	20037 = SignG
+	20038 = SignH
+	20039 = WaterfallButt
+	20040 = SignDown
+	20041 = HeyLook
+	20042 = PopcornGun
+	20043 = PopcornGunAmmo
+	20044 = RedOnionTurret
+	20045 = DeadTree
+	20046 = LightBeam
+	20047 = Lemon
+	20048 = THEHAMMER
+	20049 = TropicalBush
+	20050 = TropicalTree
+	20051 = Campfire
+	20052 = CeilingFan
+	20053 = Mountains
+	20054 = Painting
+	20055 = PieBomb
+	20056 = BoxTNT
+	20057 = BossOnion
+	20058 = Smoker
+	20059 = Umbrella
+	20060 = Towel
+	20061 = Ball
+	20062 = PlateSpawner
+	20063 = SignUp
+	20064 = Pepper
+	20065 = Microphone
+	20066 = StageLamp
+	20067 = TallLantern
+	20068 = Coral
+	20069 = CoralSkybox
+	20070 = Trash
+	20071 = Clock
+	20072 = Curtain
+	20073 = TallGrass2
+	20074 = Banana
+	20075 = BossMelon
+	20076 = SignBoss
+	20077 = FakeWindow
+	20078 = StupidPistol
+	20079 = TrashBag
+	20080 = BossPepper1
+	20081 = BossPepper2
+	
+	//keys
+	20901 = WhiteKey
+	20902 = RedKey
+	20903 = GreenKey
+	20904 = BlueKey
+	20905 = YellowKey
+	20906 = PurpleKey
+	20907 = CyanKey
+	20908 = BlackKey
+
+	//generic npcs
+	20999 = TalkingBoxSpawner
+	21000 = TalkingBoxA
+	21001 = TalkingBoxB
+	21002 = TalkingBoxC
+	21003 = TalkingBoxD
+	21004 = TalkingBoxE
+	21005 = TalkingBoxF
+	21006 = TalkingBoxG
+	21007 = TalkingBoxH
+	21008 = TalkingBoxI
+	21009 = TalkingBoxJ
+	21010 = TalkingBoxK
+	22000 = PlotBoxA
+	22001 = PlotBoxB
+	22002 = PlotBoxC
+	22003 = PlotBoxD
+	22004 = PlotBoxE
+	22005 = PlotBoxF
+	22006 = PlotBoxG
+	22007 = PlotBoxH
+	22008 = PlotBoxI
+	22009 = PlotBoxJ
+	22010 = PlotBoxK
+	
+	//unique npcs
+	22011 = RichBox
+	22012 = CubeBox
+	22013 = Dumb
+	22014 = Egg
+	22015 = TrashCan
+}

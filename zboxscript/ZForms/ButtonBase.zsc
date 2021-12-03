@@ -1,0 +1,45 @@
+class boxparty_ButtonBase : boxparty_Element {
+	enum ButtonState {
+		ButtonState_Inactive,
+		ButtonState_Hover,
+		ButtonState_Click,
+		ButtonState_Disabled
+	}
+
+	boxparty_BoxTextures textures[4];
+	boxparty_BoxDrawer drawers[4];
+
+	Font fnt;
+	string text;
+	int textColor;
+	double textScale;
+	AlignType alignment;
+
+	protected ButtonState curButtonState;
+
+	void setTextures(boxparty_BoxTextures inactive, boxparty_BoxTextures hover, boxparty_BoxTextures click, boxparty_BoxTextures disabled) {
+		self.textures[ButtonState_Inactive] = inactive;
+		self.textures[ButtonState_Hover] = hover;
+		self.textures[ButtonState_Click] = click;
+		self.textures[ButtonState_Disabled] = disabled;
+	}
+	
+	override bool blocksMouse(Vector2 mousePos) {
+		boxparty_AABB screenBox; boxToScreen(screenBox);
+		return screenBox.pointCollides(mousePos);
+	}
+
+	override void drawer() {
+		boxparty_AABB beforeClip, clipRect;
+		screenClip(beforeClip, clipRect);
+		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
+
+		boxparty_BoxTextures textures = textures[curButtonState];
+		drawers[curButtonState].draw(self, (0, 0), box.size, textures, true);
+
+		Vector2 textPos = getAlignedDrawPos(box.size, (fnt.stringWidth(text), fnt.getHeight()) * textScale, alignment);
+		drawText(textPos, fnt, text, textColor, textScale);
+
+		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
+	}
+}

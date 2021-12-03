@@ -1,0 +1,176 @@
+//zboxscript/effects/puff.zsc
+
+//poouf
+
+CLASS ProjectilePuff : BoxActor
+{
+	Default
+	{
+		Radius 4;
+		Height 8;
+		Scale 0.7;
+		
+		+NOGRAVITY;
+		-SOLID;
+		-BLOCKEDBYSOLIDACTORS;
+		+ROLLSPRITE;
+		+SPRITEANGLE;
+		+FORCEXYBILLBOARD;
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 A_StartSound("effects/boxpoof", 0, CHANF_OVERLAP, 0.5);
+		Looper:
+			PUFF A 1 A_FadeOut(0.1);
+			#### # 0 A_BoxScale(0.05);
+			Loop;
+	}
+}
+
+CLASS ProjectilePuffSmall : ProjectilePuff
+{
+	Default
+	{
+		Scale 0.5;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 A_StartSound("effects/boxpoof", 0, CHANF_OVERLAP, 0.5);
+		Looper:
+			PUFF A 1 A_FadeOut(0.2);
+			#### # 0 A_BoxScale(0.1);
+			Loop;
+	}
+}
+
+CLASS ProjectilePuffTiny : ProjectilePuff
+{
+	Default
+	{
+		Scale 0.3;
+	}
+
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 A_StartSound("effects/boxpoof", 0, CHANF_OVERLAP, 0.5);
+		Looper:
+			PUFF A 1 A_FadeOut(0.25); 
+			#### # 0 A_BoxScale(0.075);
+			Loop;
+	}
+}
+
+CLASS ProjectileSmoke : ProjectilePuff replaces BulletPuff
+{
+	Default
+	{
+		Alpha 0.5;
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 A_StartSound("effects/boxpoof", 0, CHANF_OVERLAP, 0.5);
+		Looper:
+			SMOK C 1 A_FadeOut(0.05);
+			#### # 0 A_BoxScale(0.05);
+			Loop;
+	}
+}
+
+CLASS ProjectileSmokeSmall : ProjectileSmoke
+{
+	Default
+	{
+		Scale 0.5;
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 A_StartSound("effects/boxpoof", 0, CHANF_OVERLAP, 0.5);
+		Looper:
+			SMOK C 1 A_FadeOut(0.1);
+			#### # 0 A_BoxScale(0.05);
+			Loop;
+	}
+}
+
+CLASS ProjectileSmokeBig : ProjectileSmoke
+{
+	Default
+	{
+		Scale 1.5;
+	}
+
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 A_StartSound("effects/boxpoof", 0, CHANF_OVERLAP, 0.5);
+		Looper:
+			SMOK C 1 A_FadeOut(0.025); 
+			#### # 0 A_BoxScale(0.0375);
+			Loop;
+	}
+}
+
+CLASS ProjectileSmokeBigger : ProjectileSmoke
+{
+	Default
+	{
+		Scale 2;
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 A_StartSound("effects/boxpoof", 0, CHANF_OVERLAP, 0.5);
+		Looper:
+			SMOK C 1 A_FadeOut(0.0125);
+			#### # 0 A_BoxScale(0.025);
+			Loop;
+	}
+}
+
+CLASS ShockEffect : ProjectilePuff
+{
+	Default
+	{
+		Alpha 0.5;
+		+BRIGHT;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 A_Jump(256, "Firsty", "Secondy", "Thirdy");
+		Firsty:
+			ELEC A 0;
+			Goto Fader;
+		Secondy:
+			ELEC B 0;
+			Goto Fader;
+		Thirdy:
+			ELEC C 0;
+			Goto Fader;
+		Fader:
+			"####" "#" 3 A_FadeOut(0.1);
+	}
+}
+
+CLASS ShockEffectBig : ShockEffect {Default {Scale 3;}}

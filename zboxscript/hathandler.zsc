@@ -1,0 +1,91 @@
+class boxparty_HatMenuHandler : boxparty_Handler
+{
+	boxparty_HatMenu link;
+	
+	override void buttonClickCommand (boxparty_Button caller, string command)
+    {
+		cvar hatsetting = cvar.FindCVAR('box_hat_current');
+		cvar hatcheatmode = cvar.FindCVAR('box_hat_cheat');
+		cvar hatunlocked;
+		int labelnum;
+		int pagenum = link.hatPage;
+	
+        if (command.Left(5) == "DoHat")
+        {
+			let comnumber = command.Mid(5, 6);
+			labelnum = comnumber.ToInt(10);
+			if (labelnum != 0) {labelnum += ((pagenum - 1) * 15);}
+			string unlockstring;
+			bool missinghat;
+			if ((labelnum <= link.BOXHAT_size) && (labelnum != 0)) 
+			{
+				unlockstring = link.BOXHAT_cvar[labelnum - 1];
+				hatunlocked = cvar.FindCVAR(unlockstring);
+			}
+			else if (labelnum == 0)
+			{
+				hatunlocked = cvar.FindCVAR('box_hat_unlock_00');
+			}
+			else {missinghat = true;}
+			
+			
+			
+			if (missinghat == true) {link.updateLabel(false, Stringtable.Localize("$HAT_MISSING"));}
+			else if ((labelnum == 16) && (hatunlocked.GetBool() == false))
+			{
+				//link.aLabel.text = Stringtable.Localize("$HAT_UNLOCK_16");
+				link.aLabel.text = string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_16"));
+				link.aLabel.textColor = Font.CR_GREEN;
+				hatunlocked.SetBool(true);
+				link.ButtonImage1.Config(boxparty_BoxTextures.CreateSingleTexture("graphics/hat/HATBUTTON2A.png", true));
+				link.updateUnlockLabel();
+			}
+			else if ((hatcheatmode.GetBool() == false) && (hatunlocked.GetBool() == false)) 
+			{
+				string languagehat = string.Format("$%s", link.BOXHAT_namelock[labelnum - 1]);
+				link.updateLabel(false, languagehat);
+			}
+			else 
+			{
+				string spritename;
+				string languagehat = "$HAT_SELECT_00";
+				if (labelnum == 0) {spritename = "TNT1A0";}
+				else {spritename = link.BOXHAT_sprite[labelnum - 1].Left(6); languagehat = string.Format("$%s", link.BOXHAT_name[labelnum - 1]);}
+				hatsetting.SetString(spritename);
+				link.updateHat();
+				link.updateLabel(true, languagehat);
+			}
+		}
+		else if (command == "GoLeft")
+		{
+			int updatenum = link.hatPage;
+			if (updatenum > 1) {updatenum += -1;}
+			link.updatePage(updatenum);
+		}
+		else if (command == "GoRight")
+		{
+			int updatenum = link.hatPage;
+			if (updatenum < link.maxPage) {updatenum += 1;}
+			link.updatePage(updatenum);
+		}
+		else if (command == "ChangeColor")
+		{
+			cvar getColorCVAR = cvar.FindCVAR('box_hat_color');
+			string languagehat;
+			if (getColorCVAR.GetBool() == false) 
+			{
+				getColorCVAR.SetBool(true);
+				languagehat = "$HAT_COLOR_ON";
+				link.updateLabel(true, languagehat);
+				link.updateColor();
+			}
+			else 
+			{
+				getColorCVAR.SetBool(false);
+				languagehat = "$HAT_COLOR_OFF";
+				link.updateLabel(false, languagehat);
+				link.updateColor();
+			}
+		}
+    }
+}

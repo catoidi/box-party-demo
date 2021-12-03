@@ -1,0 +1,141 @@
+//zboxscript/player/base.zsc
+
+//zscript code for the player character.
+
+CLASS PlayerBlood : BoxBlood {}
+
+CLASS BoxPlayerBase : PlayerPawn
+{
+	Default
+	{
+		Gravity 1;
+		Speed 0.8;
+		Health 100;
+		Radius 16;
+		Height 56;
+		Mass 100;
+		PainChance 255;
+		DamageFactor "Popcorn", 0;
+		BloodType "PlayerBlood";
+		Player.WeaponSlot 1, "Glowstick";
+		Player.WeaponSlot 2, "LaserPointer";
+		Player.WeaponSlot 3, "PartyShotty";
+		Player.WeaponSlot 4, "PopcornGun";
+		Player.WeaponSlot 7, "PrismWeapon";
+		Player.ViewHeight 48;
+		Player.ViewBob 0.5;
+		Player.ColorRange 15, 15;
+		Player.ColorSet 0, "Milk",				15, 15, 15;
+		Player.ColorSet 1, "Cherry",			27, 27, 27;
+		Player.ColorSet 2, "Orange",			42, 42, 42;
+		Player.ColorSet 3, "Lemon",				63, 63, 63;
+		Player.ColorSet 4, "Lime",				79, 79, 79;
+		Player.ColorSet 5, "Blue Raspberry",	143, 143, 143;
+		Player.ColorSet 6, "Blueberry", 		165, 165, 165;
+		Player.ColorSet 7, "Grape",				187, 187, 187;
+		Player.ColorSet 8, "Guava", 			223, 223, 223;
+		Player.ColorSet 9, "Pomegranate",		229, 229, 229;
+		Player.ColorSet 10, "Chocolate", 		32, 32, 32;
+		Player.JumpZ 12;
+		Player.GruntSpeed 8;
+		Player.ViewHeight 48;
+		+NOBLOODDECALS;
+		+NOSKIN;
+		-CASTSPRITESHADOW;
+	}
+	
+	int LooterNum;
+	
+	action void A_BoxHatTime (bool HasHat)
+	{
+		if (HasHat == true)
+		{
+			HasHat = true;
+			A_TakeInventory("playerhatremover");
+		}
+		else
+		{
+			//A_TakeInventory("playerhatnumber");
+			HasHat = false;
+			A_GiveInventory("playerhatremover");
+		}
+	}
+	
+	action void CheckInvalidHat (void) //switch current hat CVAR to default if current hat selected is invalid.
+	{
+		cvar spawnhat = cvar.FindCVAR('box_hat_current'); //full sprite name without file extension
+		Array<String> BOXHAT_line, BOXHAT_sprite;
+		int BOXHAT_size = 0;
+		bool validhat = false;
+		
+		int ThisLump = Wads.FindLump("BOXHAT", 0, Wads.ANYNAMESPACE);
+		int NextLump = Wads.FindLump("BOXHAT", ThisLump + 1, Wads.ANYNAMESPACE);
+		
+		while (ThisLump != -1)
+		{
+			Wads.ReadLump(ThisLump).Split(BOXHAT_line, "\n", TOK_SKIPEMPTY);
+			ThisLump = NextLump;
+			NextLump = Wads.FindLump("BOXHAT", ThisLump + 1, 1);
+		}
+		
+		for (int i = 0; i < BOXHAT_line.Size(); i++)
+		{
+			string currentline = BOXHAT_line[i];
+			int currentlength = currentline.Length();
+			array<string> fixedline;
+			array<string> splitline;
+			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			
+			if (currentline.Left(6) == "Hat = ")
+			{
+				currentlength += -1;
+				currentline = currentline.Mid(6, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				BOXHAT_sprite.Push(splitline[3]);
+			}
+		}
+		
+		BOXHAT_size = BOXHAT_sprite.Size();
+		string spawnstring = spawnhat.GetString();
+		string currentstring;
+		
+		for (int i = 0; i < BOXHAT_size; i++)
+		{
+			currentstring = BOXHAT_sprite[i].Left(6);
+			if (spawnstring == currentstring) {validhat = true;}
+		}
+		
+		if (validhat != true)
+		{
+			spawnhat.SetString("HATAA0");
+		}
+	}
+	
+	override void PostBeginPlay (void)
+	{
+		Super.PostBeginPlay();
+		
+		if (!player || !player.mo || player.mo != self) //dont run this code on voodoo dolls.
+		{
+			return;
+		}
+		CheckInvalidHat();
+	}
+	
+	override void Tick (void)
+	{
+		Super.Tick();
+		
+		if (CountInv("LootHPNum") < LooterNum)
+		{
+			GiveInventory("LootHPNum", LooterNum - CountInv("LootHPNum"));
+		}
+		else if (CountInv("LootHPNum") > LooterNum)
+		{
+			TakeInventory("LootHPNum", LooterNum - CountInv("LootHPNum"));
+		}
+	}
+}

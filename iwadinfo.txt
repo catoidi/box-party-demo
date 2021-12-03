@@ -1,0 +1,15 @@
+//iwadinfo.txt
+
+IWad 
+{
+    Name = "Box Party DEMO v1.0"
+    Autoname = "BoxParty"
+    Game = "Doom"
+    Config = "BoxParty"
+    IWADname = "boxparty.ipk3"
+	Load = "boxparty-full.pk3"
+	Mapinfo = "mapinfo/doom2.txt"
+    BannerColors = "FFFFFF", "000000"
+	StartupType = "Hexen"
+	NoKeyboardCheats
+}

@@ -1,0 +1,6 @@
+//zmapinfo.txt
+
+include "mapinfo/game.txt"
+include "mapinfo/levels.txt"
+include "mapinfo/number.txt"
+include "mapinfo/skill.txt"

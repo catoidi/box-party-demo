@@ -1,0 +1,103 @@
+class boxparty_RadioController {
+	int curVal;
+}
+
+class boxparty_RadioButton : boxparty_ButtonBase {
+	boxparty_RadioController variable;
+	int value;
+
+	protected bool click;
+	protected bool hover;
+
+	void config(
+		boxparty_RadioController variable, int value,
+		boxparty_BoxTextures inactive = NULL, boxparty_BoxTextures hover = NULL,
+		boxparty_BoxTextures click = NULL, boxparty_BoxTextures disabled = NULL,
+		string text = "", Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
+		AlignType alignment = AlignType_Center, boxparty_Handler cmdHandler = NULL, string command = ""
+	) {
+		if (fnt == NULL) {
+			self.fnt = smallfont;
+		}
+		else {
+			self.fnt = fnt;
+		}
+		self.text = text;
+		self.textScale = textScale;
+		self.setTextures(inactive, hover, click, disabled);
+		self.textColor = textColor;
+		self.alignment = alignment;
+		self.variable = variable;
+		self.value = value;
+		self.cmdHandler = cmdHandler;
+		self.command = command;
+		self.alpha = 1;
+	}
+
+	static boxparty_RadioButton create(
+		Vector2 pos, Vector2 size,
+		boxparty_RadioController variable, int value,
+		boxparty_BoxTextures inactive = NULL, boxparty_BoxTextures hover = NULL,
+		boxparty_BoxTextures click = NULL, boxparty_BoxTextures disabled = NULL,
+		string text = "", Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
+		AlignType alignment = AlignType_Center, boxparty_Handler cmdHandler = NULL, string command = ""
+	) {
+		let ret = new('boxparty_RadioButton');
+
+		ret.config(variable, value, inactive, hover, click, disabled, text, fnt, textScale, textColor, alignment, cmdHandler, command);
+		ret.setBox(pos, size);
+
+		return ret;
+	}
+
+	override void activate() {
+		variable.curVal = value;
+		if (cmdHandler != NULL) {
+			cmdHandler.radioButtonChanged(self, command, variable);
+		}
+	}
+
+	override void drawer() {
+		if (isEnabled()) {
+			boxparty_AABB screenBox; boxToScreen(screenBox);
+			if (!mouseBlock && screenBox.pointCollides(master.mousePos)) {
+				hover = true;
+			}
+			else {
+				hover = false;
+			}
+		}
+		if (!isEnabled()) { curButtonState = ButtonState_Disabled; }
+		else if (variable.curVal == value) { curButtonState = ButtonState_Click; }
+		else if ((!getHoverBlock() && hover) || click) { curButtonState = ButtonState_Hover; }
+		else { curButtonState = ButtonState_Inactive; }
+		Super.drawer();
+	}
+
+	override bool onUIEvent(boxparty_UiEvent ev) {
+		// if the player's clicked, and their mouse is in the right place, set the state accordingly
+		if (ev.type == UIEvent.Type_LButtonDown) {
+			boxparty_AABB screenBox; boxToScreen(screenBox);
+			if (!ev.mouseBlock && isEnabled() && screenBox.pointCollides(master.mousePos)) {
+				click = true;
+				setHoverBlock(self);
+			}
+		}
+		// if the player's releasing, check if their mouse is still in the correct range and trigger method if it was
+		else if (ev.type == UIEvent.Type_LButtonUp) {
+			if (isEnabled()) {
+				boxparty_AABB screenBox; boxToScreen(screenBox);
+				if (screenBox.pointCollides(master.mousePos) && click) {
+					variable.curVal = value;
+					if (cmdHandler != NULL) {
+						cmdHandler.radioButtonChanged(self, command, variable);
+					}
+				}
+				click = false;
+				setHoverBlock(NULL);
+			}
+		}
+		// if the player's mouse has moved, update the tracked position and do a quick hover check
+		return false;
+	}
+}

@@ -1,0 +1,28 @@
+//zboxscript/signs/kindasigns.zsc
+
+//these are like signs but a little different
+
+CLASS HeyLook : Actor
+{
+	Default
+	{
+		Radius 12;
+		Height 32;
+		-SOLID;
+		+FLOATBOB;
+		+NOGRAVITY;
+		//$Category "Box Party/Signs/"
+		//$Title "Objective Marker"
+		//$Color 14
+	}
+
+	States
+	{
+		Spawn:
+			LOOK A -1 BRIGHT;
+			Loop;
+		Death:
+			TNT1 A 0;
+			Stop;
+	}
+}

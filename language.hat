@@ -1,0 +1,57 @@
+[enu default]
+
+HAT_GLOWREMAIN = " glowstick kills remain.";
+HAT_MISSING = "wait for the full version for more hats :)";
+
+//Hat Menu
+HAT_COLOR_ON = "Copy Player Colors: ON";
+HAT_COLOR_OFF = "Copy Player Colors: OFF";
+HAT_SELECT_00 = "Your hat has been removed.";
+HAT_SELECT_01 = "You have selected: Top Hat";
+HAT_SELECT_02 = "You have selected: Mini Box";
+HAT_SELECT_03 = "You have selected: Mini Circle";
+HAT_SELECT_04 = "You have selected: Mini Triangle";
+HAT_SELECT_05 = "You have selected: Pizza";
+HAT_SELECT_06 = "You have selected: Melon";
+HAT_SELECT_07 = "You have selected: Sunglasses";
+HAT_SELECT_08 = "You have selected: Cat";
+HAT_SELECT_09 = "You have selected: Birthday Hat";
+HAT_SELECT_10 = "You have selected: Box";
+HAT_SELECT_11 = "You have selected: Bow";
+HAT_SELECT_12 = "You have selected: Alien";
+HAT_SELECT_13 = "You have selected: Glowstick";
+HAT_SELECT_14 = "You have selected: Pepper";
+HAT_SELECT_15 = "You have selected: Crown";
+HAT_SELECT_16 = "You have selected: Top Hat :)";
+//hat 01 is unlocked by default.
+HAT_LOCKED_02 = "LOCKED: Complete Box Party Demo as Box.";
+HAT_LOCKED_03 = "LOCKED: Complete Box Party Demo as Circle.";
+HAT_LOCKED_04 = "LOCKED: Complete Box Party Demo as Triangle.";
+HAT_LOCKED_05 = "LOCKED: Complete Level 2 in under 75 seconds.";
+HAT_LOCKED_06 = "LOCKED: Complete Level 1 in under 50 seconds.";
+HAT_LOCKED_07 = "LOCKED: Complete Level 3 in under 80 seconds.";
+HAT_LOCKED_08 = "LOCKED: wear the super lucky hat to unlock this.";
+HAT_LOCKED_09 = "LOCKED: Your lottery numbers: 03, 11"; //play the game on November 3rd, or talk to a special NPC to unlock this.
+HAT_LOCKED_10 = "UNAVAILABLE: Will be added in a future update."; //"LOCKED: Complete every quest in Level 1.";
+HAT_LOCKED_11 = "UNAVAILABLE: Will be added in a future update."; //"LOCKED: Complete every quest in Level 2.";
+HAT_LOCKED_12 = "UNAVAILABLE: Will be added in a future update."; //"LOCKED: Complete every quest in Level 3.";
+HAT_LOCKED_13 = "LOCKED: Defeat 250 enemies with Glowstick.";
+HAT_LOCKED_14 = "LOCKED: Give Jalapeño a taste of their own medicine.";
+HAT_LOCKED_15 = "UNAVAILABLE: Will be added in a future update."; //"LOCKED: Unlock every other hat on Page 1.";
+HAT_LOCKED_16 = "u unlock this hat by clicking the slot so this message will never appear.";
+
+HAT_UNLOCK_02 = "Mini Box";
+HAT_UNLOCK_03 = "Mini Circle";
+HAT_UNLOCK_04 = "Mini Triangle";
+HAT_UNLOCK_05 = "Pizza";
+HAT_UNLOCK_06 = "Melon";
+HAT_UNLOCK_07 = "Sunglasses";
+HAT_UNLOCK_08 = "Cat";
+HAT_UNLOCK_09 = "Birthday Hat";
+HAT_UNLOCK_10 = "Box";
+HAT_UNLOCK_11 = "Bow";
+HAT_UNLOCK_12 = "Alien";
+HAT_UNLOCK_13 = "Glowstick";
+HAT_UNLOCK_14 = "Pepper";
+HAT_UNLOCK_15 = "Crown\n\nALL PAGE 1 HATS UNLOCKED!!!!!!!!!!!! :)";
+HAT_UNLOCK_16 = "Top Hat :)";

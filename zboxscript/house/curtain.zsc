@@ -1,0 +1,23 @@
+//zboxscript/house/curtain.zsc
+
+CLASS Curtain : BoxActor
+{
+	Default
+	{
+		Height 64;
+		Radius 8;
+		-SOLID;
+		+NOINTERACTION;
+		+WALLSPRITE;
+		//$Category "Box Party/Decor/House/"
+		//$Title "Curtain"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			CURT A -1;
+			Stop;
+	}
+}

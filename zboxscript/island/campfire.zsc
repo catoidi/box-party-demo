@@ -1,0 +1,29 @@
+//zboxscript/island/campfire.zsc
+
+CLASS Campfire : BoxActor //200
+{
+	Default
+	{
+		Radius 24;
+		Height 20;
+		+SOLID;
+		//$Category "Box Party/Decor/Island/"
+		//$Title "Campfire"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			CAMP A 0 BRIGHT NoDelay A_Jump(128, 2);
+			CAMP A 0 BRIGHT {bSPRITEFLIP = true;}
+		Looper:
+			CAMP AABB 4 BRIGHT 
+			{
+				A_SpawnItemEX("BoomSmoke", frandom(-8, 8), frandom(-8, 8), frandom(16, 24), frandom(-1, 1), frandom(-1, 1), frandom(2, 6), 0, SXF_NOCHECKPOSITION, 128);
+				A_BoxParticle2("ff 4f 00", random(0, 1), 12, 24, POffset: 16.0, POffsetZ: 8.0, PSpeed: 2.0);
+			}
+			CAMP A 0 BRIGHT A_Explode(1, 24, XF_NOTMISSILE | XF_NOSPLASH, false, 24, 0, 0, "BulletPuff", "Fire");
+			Loop;
+	}
+}

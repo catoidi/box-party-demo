@@ -1,0 +1,120 @@
+class boxparty_Scrollbar : boxparty_Element {
+	boxparty_BoxTextures background;
+	boxparty_BoxDrawer bgDrawer;
+	boxparty_BoxTextures textures[3];
+	boxparty_BoxDrawer barDrawers[3];
+
+	enum BarState {
+		BarState_Normal,
+		BarState_Hover,
+		BarState_Click
+	}
+
+	double position;
+	double size;
+
+	protected BarState curBarState;
+
+	protected double originalPos;
+	protected Vector2 originalMousePos;
+	protected bool clicking;
+
+	void config(
+		boxparty_BoxTextures normal, boxparty_BoxTextures hover = NULL,
+		boxparty_BoxTextures click = NULL, boxparty_BoxTextures background = NULL
+	) {
+		self.background = background;
+		self.textures[BarState_Normal] = normal;
+		self.textures[BarState_Hover] = (hover != NULL) ? hover : normal;
+		self.textures[BarState_Click] = (click != NULL) ? click : normal;
+		self.alpha = 1.0;
+	}
+
+	static boxparty_Scrollbar create(
+		Vector2 pos, Vector2 size,
+		boxparty_BoxTextures normal, boxparty_BoxTextures hover = NULL,
+		boxparty_BoxTextures click = NULL, boxparty_BoxTextures background = NULL
+	) {
+		let ret = new('boxparty_Scrollbar');
+
+		ret.config(normal, hover, click, background);
+		ret.setBox(pos, size);
+
+		return ret;
+	}
+
+	override bool blocksMouse(Vector2 mousePos) {
+		boxparty_AABB screenBox; boxToScreen(screenBox);
+		return screenBox.pointCollides(mousePos);
+	}
+
+	void barBox(boxparty_AABB ret) {
+		ret.pos = (0, box.size.y * position);
+		ret.size = (box.size.x, box.size.y * size);
+	}
+
+	override void drawer() {
+		if (curBarState == BarState_Click) {
+			if (size < 1.0) {
+				let delta = master.mousePos - relToScreen((0, 0)) - originalMousePos;
+				delta /= getScale();
+				position = originalPos + delta.y / box.size.y;
+				clampBarPos();
+			}
+		}
+		else {
+			boxparty_AABB box; barBox(box);
+			boxparty_AABB screenBox; aabbToScreen(screenBox, box);
+			if (!mouseBlock && isEnabled() && !getHoverBlock() && screenBox.pointCollides(master.mousePos)) {
+				curBarState = BarState_Hover;
+			}
+			else {
+				curBarState = BarState_Normal;
+			}
+		}
+
+		boxparty_AABB beforeClip, clipRect;
+		screenClip(beforeClip, clipRect);
+		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
+
+		if (background) {
+			bgDrawer.draw(self, (0, 0), box.size, background, true);
+		}
+
+		if (size < 1.0) {
+			boxparty_AABB box; barBox(box);
+			barDrawers[curBarState].draw(self, box.pos, box.size, textures[curBarState], true);
+		}
+
+		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
+	}
+
+	void clampBarPos() {
+		position = clamp(position, 0.0, 1.0 - size);
+	}
+
+	override bool onUIEvent(boxparty_UiEvent ev) {
+		if (ev.type == UIEvent.Type_LButtonDown) {
+			boxparty_AABB box; barBox(box);
+			boxparty_AABB screenBox; aabbToScreen(screenBox, box);
+			if (!ev.mouseBlock && isEnabled() && screenBox.pointCollides(master.mousePos)) {
+				curBarState = BarState_Click;
+				originalPos = position;
+				originalMousePos = master.mousePos - relToScreen((0, 0));
+				setHoverBlock(self);
+			}
+		}
+		else if (ev.type == UIEvent.Type_LButtonUp) {
+			boxparty_AABB box; barBox(box);
+			boxparty_AABB screenBox; aabbToScreen(screenBox, box);
+			if (!ev.mouseBlock && screenBox.pointCollides(master.mousePos) && curBarState == BarState_Click) {
+				curBarState = BarState_Hover;
+			}
+			else {
+				curBarState = BarState_Normal;
+			}
+			setHoverBlock(NULL);
+		}
+		return false;
+	}
+}

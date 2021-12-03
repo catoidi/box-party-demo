@@ -1,0 +1,122 @@
+//zboxscript/weapons/stupidweapon.zsc
+
+//just a dumb weapon i made back in early 2020.
+//ported from DECORATE to ZScript, with extra stuff to work in Box Party.
+//not meant to be actually used as a real weapon.
+
+CLASS StupidPistol : Weapon
+{
+	Default
+	{
+		Scale 0.7;
+		Weapon.Kickback 0;
+		Weapon.SelectionOrder 10000;
+		Weapon.SlotNumber 9;
+		Weapon.SlotPriority 1;
+		Weapon.AmmoUse 2;
+		Weapon.AmmoGive 16;
+		Weapon.AmmoType "StupidPistolClip";
+		Inventory.Icon "PISTG0";
+		Obituary "$BOX_DIE_STUPID";
+		Inventory.Pickupmessage "$BOX_WEAPON_STUPID";
+		Tag "$BOX_TAG_STUPID";
+		+WEAPON.CHEATNOTWEAPON;
+		//$Category "Box Party/Very Bad Items"
+		//$Title "a super normal pistol"
+		//$Color 20
+	}
+	
+	States
+	{
+		Ready:
+			PIST A 1 A_WeaponReady;
+			Loop;
+		Deselect:
+			PIST A 1 A_Lower;
+			Loop;
+		Select:
+			PIST A 1 A_Raise;
+			Loop;
+		Fire:
+			PIST B 0 A_StartSound("weapons/stupidweapon/pistpow", CHAN_WEAPON);
+			PIST B 0 A_GunFlash;
+			PIST B 2 A_FireBullets(25, 25, 2, 1, "StupidPuff");
+			PIST C 3;
+			PIST C 1 A_Refire;
+			Goto Ready;
+		Spawn:
+			PIST F -1;
+			Stop;
+	}
+}
+
+Class StupidPuff : Actor
+{
+	Default
+	{
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+		+ALLOWPARTICLES;
+		+RANDOMIZE;
+		RenderStyle "Translucent";
+		Alpha 0.5;
+		Mass 5;
+	}
+	
+	States
+	{
+		Spawn:
+			PIST D 4;
+			PIST E 4 A_Fadeout(0.1);
+			Loop;
+	}
+}
+
+Class StupidPistolClip : Ammo
+{
+	//it sure is ammo.
+	Default
+	{
+		Radius 20;
+		Height 24;
+		Inventory.PickupMessage "$BOX_AMMO_STUPID";
+		Inventory.Amount 16;
+		Inventory.MaxAmount 64;
+		Inventory.Icon "PISTG0";
+		Ammo.BackpackAmount 16;
+		Ammo.BackpackMaxAmount 96;
+		+CASTSPRITESHADOW;
+		//$Category "Box Party/Very Bad Items"
+		//$Title "a super normal pistol's ammo"
+		//$Color 20
+	}
+	
+	States
+	{
+		Spawn:
+			PIST F -1;
+			Stop;
+	}
+}
+
+Class StupidPistolClipDrop : StupidPistolClip
+{
+	mixin BoxActorMixin;
+
+	Default {+FLOATBOB;}
+	
+	int FadeNum;
+
+	States
+	{
+		Spawn:
+			PIST FFFFFFFFFFFFFFFFFF 10 BRIGHT A_BoxParticle2("ff ff ff", random(1, 2), 12, 24, POffset: 8.0, POffsetZ: frandom(0.0, 4.0), PSpeed: 2.0, PBright: true);
+			#### # 0
+			{
+				FadeNum += 1;
+				if (FadeNum == 2) {A_BoxParticle("ff ff ff", 8, 12, 24);}
+			}
+			PIST F 0 A_FadeOut(0.5);
+			Loop;
+	}
+}

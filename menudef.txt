@@ -1,0 +1,131 @@
+//menudef.txt
+
+LISTMENU "MainMenu"
+{
+	Size "Clean"
+	//the 'size' line is to ensure all menu elements are visible.
+	LineSpacing 24
+	Font "BigUpper", "Gray"
+	StaticPatchCentered 160, -4, "BOXDEMO"
+	Position 58, 80
+	PatchItem "M_NGAME",	"n",	"PlayerclassMenu"
+	Position 70, 104
+	PatchItem "M_OPTION",	"o",	"OptionsMenu"
+	Position 82, 128
+	PatchItem "M_RDTHIS",   "r",    "ReadThisMenu"
+	Position 94, 152
+	PatchItem "M_LOADG",	"l",	"LoadGameMenu"
+	Position 106, 180
+	PatchItem "M_SAVEG",	"s",	"SaveGameMenu"
+	Position 118, 204
+	PatchItem "M_QUITG",	"q",	"QuitMenu"
+}
+
+LISTMENU "MainMenuTextOnly"
+{
+	Size "Clean"
+	//the 'size' line is to ensure all menu elements are visible.
+	LineSpacing 24
+	Font "BigUpper", "Gray"
+	StaticPatchCentered 160, 0, "BOXDEMO"
+	Position 64, 108
+	TextItem "$MNU_NEWGAME",   "n", "PlayerclassMenu"
+	//Position -20, 152
+	TextItem "$MNU_OPTIONS",   "o", "OptionsMenu"
+	//Position 220, 128
+	TextItem "$MNU_LOADGAME",  "l", "LoadGameMenu"
+	//Position 220, 160
+	TextItem "$MNU_SAVEGAME",  "s", "SaveGameMenu"
+	//Position 100, 192
+	TextItem "$MNU_QUITGAME",  "q", "QuitMenu"
+}
+
+AddListMenu "PlayerclassMenu"
+{
+	Size "Clean"
+	//when 'optclean' was on, the player portraits were getting cropped.
+}
+
+AddOptionMenu "OptionsMenu" before "CustomizeControls"
+{
+	StaticText "$NO_SUPPORT", "Brick"
+	StaticText " "
+}
+
+AddOptionMenu "OptionsMenu" before "GameplayOptions"
+{
+	Submenu "$BOX_HAT_MENU", 			"boxparty_hatmenu"
+	SubMenu "$BOX_SUBMENU_OPTIONS",		"BoxGameplay"
+}
+
+AddOptionMenu "OptionsMenuSimple" after "NewPlayerMenu"
+{
+	Submenu "$BOX_HAT_MENU", 			"boxparty_hatmenu"
+	//Submenu "$OPTMNU_NASHHPBAR", "NashHPBarOptionMenu"
+}
+
+AddOptionMenu "OptionsMenuSimple" before "SoundOptionsSimple"
+{
+	Submenu "$BOX_HUDOPTIONS",			"BoxHudOptions"
+}
+
+AddOptionMenu "OptionsMenu" before "reset2defaults"
+{
+	StaticText "$HAT_RESET_WARN", "Red"
+}
+
+AddOptionMenu "OptionsMenuSimple" before "reset2defaults"
+{
+	StaticText "$HAT_RESET_WARN", "Red"
+}
+
+AddOptionMenu "NewPlayerMenu"
+{
+	StaticText " "
+	Submenu "$BOX_HAT_MENU", "boxparty_hatmenu"
+	StaticText " "
+	StaticText " "
+	StaticText "$NO_AUTOAIM", "Brick"
+}
+
+AddOptionMenu "ScalingOptionsSimple" after "uiscale"
+{
+	ScaleSlider "$SCALEMNU_HUD", 				"hud_scale", -1.0, 8.0, 1.0, "$SCALEMNU_USEUI", "$SCALEMNU_USEFS"
+}
+AddOptionMenu "ScalingOptionsSimple" after "screenblocks"
+{
+	StaticText "$SIZE_IS_ELEVEN", "Brick"
+}
+
+AddOptionMenu "VideoOptionsSimple" before "vid_gamma"
+{
+	//Option "$BOX_OPTION_SKY",		"box_simplesky",	"skyvalue"
+	//Option "$BOX_OPTION_CRUMB",		"box_nocrumbs",		"crumbvalue"
+	//Option "$BOX_OPTION_RESERVE",	"box_reserve",		"onbydefault"
+	//Slider "$BOX_OPTION_HUD",		"box_hudshake",		0, 5, 1, 0
+	//StaticText " "
+} 
+
+AddOptionMenu "VideoOptionsSimple" before "r_drawfuzz"
+{
+	Submenu "$DSPLYMNU_GLOPT", 			"BoxHardware"
+	StaticText " "
+	Option "$DSPLYMNU_SPRITESHADOW",	"r_actorspriteshadow",	"onbydefault"
+}
+
+AddOptionMenu "VideoOptions" before "screenblocks"
+{
+	Option "$BOX_OPTION_SKY",		"box_simplesky",	"skyvalue"
+	Option "$BOX_OPTION_CRUMB",		"box_nocrumbs",		"crumbvalue"
+	Option "$BOX_OPTION_RESERVE",	"box_reserve",		"onbydefault"
+	Slider "$BOX_OPTION_HUD",		"box_hudshake",		0, 5, 1, 0
+	StaticText " "
+}
+
+AddOptionMenu "SoundOptionsSimple"
+{
+	StaticText " "
+	StaticText "$NOMUSICYET", "Brick"
+}
+
+//the menudef file has been split into multiple files for the different submenus to make changing a certain menu quicker.

@@ -1,0 +1,30 @@
+>>This is a comment. Any line starting with ">>" will be ignored by Box Party.
+>>If you're making custom HUD stuff for Box Party, simply follow the instructions below to get everything setup right.
+>>
+>>Adding new elements to the HUD is not done here. You must create your own HUD class to do that.
+>>
+>>PLAYER SUPPORT:
+>>This is for adding support for custom character's health bars, and making room for extra stuff.
+>>1st parameter is the name of the Player's "Token", which is a unique nonremovable inventory item that only that specific player will have.
+>>2nd parameter is the first 3 letters of it's corresponding "MugShot" graphics.
+>>3rd parameter is the pixel offset between the "Health Bar" and "Ammo Bars". This is used for displaying Triangle's Armor bar, for example.
+>>4th parameter is graphic for the "Foreground" of it's Health Bar.
+>>5th parameter is graphic for the "Background" of it's Health Bar.
+>>
+Player = PlayerBoxToken, FAC, 0, HUDBARB.png, HUDBARA.png;
+Player = PlayerCircleToken, CAC, 0, HUDBARC.png, HUDBARA.png;
+Player = PlayerTriangleToken, TAC, 24, HUDBARD.png, HUDBARA.png;
+>>
+>>WEAPON SUPPORT:
+>>By default, the ammo counters for your custom weapons will already work.
+>>However, in order for your weapon to added to the list of reserve ammos, you must follow these steps:
+>>1st parameter is the name of the Weapon.
+>>2nd parameter is the name of the Weapon's "Ammo". (it doesn't have to be the weapon's ammo 1 or 2.)
+>>3rd parameter is the graphic for the ammo "icon" that appears in the reserve ammos.
+Weapon = Glowstick, GlowstickAmmo, AMMOH0.png;
+Weapon = LaserPointer, LaserPointerAmmo, AMMOJ0.png;
+Weapon = PartyShotty, PartyShottyAmmo, AMMOI0.png;
+Weapon = PopcornGun, PopcornGunAmmo, AMMOL0.png;
+Weapon = PopcornGun, PopcornGunAmmo2, AMMOK0.png;
+>>this weapon sucks btw
+Weapon = StupidPistol, StupidPistolClip, PISTG0.png;

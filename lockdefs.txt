@@ -1,0 +1,67 @@
+//lockdefs.txt
+
+clearlocks
+
+Lock 1
+{
+	WhiteKey
+	Message "$BOX_KEY_WHITE_DOOR"
+	RemoteMessage "$BOX_KEY_WHITE_OBJECT"
+	MapColor 255 255 255
+}
+
+Lock 2
+{
+	RedKey
+	Message "$BOX_KEY_RED_DOOR"
+	RemoteMessage "$BOX_KEY_RED_OBJECT"
+	MapColor 255 0 0
+}
+
+Lock 3
+{
+	GreenKey
+	Message "$BOX_KEY_GREEN_DOOR"
+	RemoteMessage "$BOX_KEY_GREEN_OBJECT"
+	MapColor 0 255 0
+}
+
+Lock 4
+{
+	BlueKey
+	Message "$BOX_KEY_BLUE_DOOR"
+	RemoteMessage "$BOX_KEY_BLUE_OBJECT"
+	MapColor 0 0 255
+}
+
+Lock 5
+{
+	YellowKey
+	Message "$BOX_KEY_YELLOW_DOOR"
+	RemoteMessage "$BOX_KEY_YELLOW_OBJECT"
+	MapColor 255 255 0
+}
+
+Lock 6
+{
+	PurpleKey
+	Message "$BOX_KEY_PURPLE_DOOR"
+	RemoteMessage "$BOX_KEY_PURPLE_OBJECT"
+	MapColor 255 0 255
+}
+
+Lock 7
+{
+	CyanKey
+	Message "$BOX_KEY_CYAN_DOOR"
+	RemoteMessage "$BOX_KEY_CYAN_OBJECT"
+	MapColor 0 255 255
+}
+
+Lock 8
+{
+	BlackKey
+	Message "$BOX_KEY_BLACK_DOOR"
+	RemoteMessage "$BOX_KEY_BLACK_OBJECT"
+	MapColor 0 0 0
+}

@@ -1,0 +1,8 @@
+3:watch
+3:banner
+1:roof
+1:potassium
+1:ghost
+2:tree
+T:lemon
+1:pistol
