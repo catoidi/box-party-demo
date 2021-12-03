@@ -20,6 +20,7 @@ CLASS OnionTurret : BoxMonster
 		PainChance "PartyShot", 96;
 		BloodType "OnionBlood";
 		MinMissileChance 1;
+		Species "Onion";
 		Tag "Henry";
 		Obituary "$BOX_DIE_ONION";
 		BoxMonster.CanSwim false;
@@ -223,7 +224,7 @@ CLASS OnionBullet : BoxActor
 		DamageFunction (random(8, 16));
 		DamageType "Water";
 		Projectile;
-		+BLOODSPLATTER;
+		//+BLOODSPLATTER;
 		+INTERPOLATEANGLES;
 		+ROLLSPRITE;
 		+SPRITEANGLE;

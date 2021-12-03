@@ -19,12 +19,14 @@ CLASS BossMelon : BoxMonster
 		DamageFactor "Melee", 2.0;
 		DamageFactor "PartyShot", 1.25;
 		BloodType "BigFruitBlood";
+		Species "Melon";
 		Tag "* SUPER TURBO FRUIT PUNCHER *";
 		Obituary "$BOX_DIE_BIGMELON";
 		MinMissileChance 1;
 		MeleeThreshold 0;
 		MeleeRange 128;
 		+BOSS;
+		+NOINFIGHTING;
 		//$Category "Box Party/Enemies/"
 		//$Title "Melon (BOSS)"
 		//$Color 4
@@ -329,6 +331,7 @@ CLASS BossMelonBullet : OnionBullet
 		DamageFunction (25);
 		Speed 32;
 		+BRIGHT;
+		+BLOODSPLATTER;
 	}
 
 	States

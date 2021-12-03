@@ -16,6 +16,7 @@ CLASS FruitPuncher : BoxMonster //20007
 		PainChance "Lightning", 192;
 		PainChance "PartyShot", 100;
 		BloodType "FruitBlood";
+		Species "Melon";
 		Tag "Fruit Puncher";
 		Obituary "$BOX_DIE_FRUIT";
 		+FLOORCLIP;

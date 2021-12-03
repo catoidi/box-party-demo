@@ -30,19 +30,22 @@ CLASS BoxMonster : BoxActor abstract
 	Default
 	{
 		Monster;
-		Species "Food"; //this can cause some issues. might change later.
 		DeathSound "effects/boxdie";
 		PainSound "effects/boxpain3";
-		DamageFactor "Lemon", 0.35;
+		DamageFactor "Water", 0.0; //box party foods are canonically immune to water
+		DamageFactor "Lemon", 0.35; //resistant to other foods' attacks
+		DamageFactor "Pizza", 0.35;
 		DamageFactor "Pepper", 0.75;
-		DamageFactor "Pie", 3;
+		DamageFactor "Pie", 3; //Extremely weak against Pie Bombs
 		DamageFactor "Prism", 1.0;
 		PainChance "Lemon", 12;
+		PainChance "Pizza", 1;
 		PainChance "Pepper", 32;
-		PainChance "Prism", 256;
+		PainChance "Prism", 256; //needs to be guaranteed for intended effect
 		BoxMonster.CanSwim true; //overrides both +FLOAT and +NOGRAVITY. do not use on flying enemies.
-		//this is to help reduce infighting from lemon monsters, without completely removing it.
 		+CASTSPRITESHADOW;
+		+NOINFIGHTSPECIES;
+		+DONTHARMSPECIES;
 	}
 	
 	action void A_BoxSuperDie (void)

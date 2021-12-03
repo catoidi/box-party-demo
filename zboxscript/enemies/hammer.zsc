@@ -22,6 +22,7 @@ CLASS THEHAMMER : BoxMonster //200
 		PainChance "PartyShot", 40;
 		PainChance "Popcorn", 64;
 		BloodType "HammerBlood";
+		Species "Ham";
 		Tag "THE HAMMER";
 		Obituary "$BOX_DIE_HAMMER";
 		+FLOORCLIP;

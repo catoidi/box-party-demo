@@ -17,6 +17,7 @@ CLASS Pizzaulter : BoxMonster //20016
 		PainChance "Lightning", 192;
 		PainChance "PartyShot", 128;
 		BloodType "PizzaBlood";
+		Species "Pizza";
 		Tag "Pizzaulter";
 		Obituary "$BOX_DIE_PIZZA_BIG";
 		BoxMonster.CanSwim false;

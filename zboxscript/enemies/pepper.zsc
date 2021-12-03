@@ -19,12 +19,12 @@ class Pepper : BoxMonster
 		PainChance "Popcorn", 30;
         PainChance "Pepper", 256;
         BloodType "PepperBlood";
+		Species "Pepper";
         Tag "Jalapeño";
 		Obituary "$BOX_DIE_PEPPER";
         +NOBLOODDECALS;
 		+FLOORCLIP;
 		+JUMPDOWN;
-		+NOINFIGHTSPECIES;
 		//$Category "Box Party/Enemies/"
 		//$Title "Pepper"
 		//$Color 4
@@ -217,7 +217,9 @@ class PepperBullet : OnionBullet
 		Radius 12;
 		Height 24;
 		DamageFunction (10);
+		DamageType "Pepper";
 		Speed 16;
+		+BLOODSPLATTER;
 	}
 
 	States
