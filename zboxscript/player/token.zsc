@@ -44,6 +44,10 @@ CLASS LootHPNum : BoxGenericToken //tracking player's loot drop amount
 	}
 }
 
+//this is a gross ugly hack for making exhaustion meter work for NashHPBar because I suck at coding
+CLASS ExhaustionChecker : LootHPNum {Default {Inventory.MaxAmount 999999;}}
+CLASS ExhaustionCheckerMax : ExhaustionChecker {} //any actor with this will cause an exhaust bar to appear for them.
+
 CLASS AllEnemiesCleared : BoxGenericToken //given to players when all monsters are killed, removed in the next level.
 {
 	Default {-Inventory.UNCLEARABLE;}

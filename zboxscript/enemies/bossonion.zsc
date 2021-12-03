@@ -96,6 +96,18 @@ CLASS BossOnion : OnionTurret
 			
 			if ((self.Health <= (startingHealth / 2)) && (self.Health > 0)) {isAngery = true;}
 			else {isAngery = false;}
+			
+			//this is fucking awful
+			int exhaustinv = CountInv("ExhaustionChecker");
+			int exhaustmaxinv = CountInv("ExhaustionCheckerMax");
+			int ActualExhaustMeter = ExhaustMeter + 100;
+			
+			if (exhaustinv < Exhaustion) {GiveInventory("ExhaustionChecker", Exhaustion - exhaustinv);}
+			else if (exhaustinv > Exhaustion) {TakeInventory("ExhaustionChecker", Exhaustion - exhaustinv);}
+			
+			if (exhaustmaxinv < ActualExhaustMeter) {GiveInventory("ExhaustionCheckerMax", ActualExhaustMeter - exhaustmaxinv);}
+			else if (exhaustmaxinv > ActualExhaustMeter) {TakeInventory("ExhaustionCheckerMax", ActualExhaustMeter - exhaustmaxinv);}
+			//im sorry to anyone who sees this code
 		}
 	}
 
