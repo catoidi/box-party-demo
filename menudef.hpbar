@@ -24,5 +24,6 @@ OptionMenu "NashHPBarOptionMenu"
 
 	NashHPBarOption "$NASHHPBARMNU_ENABLE", "$NASHHPBARMNU_HELPTEXT_ENABLE", "nashhpbar_enable", "OnOff"
 	NashHPBarOption "$NASHHPBARMNU_BOSSONLY", "$NASHHPBARMNU_HELPTEXT_BOSSONLY", "nashhpbar_bossonly", "OnOff"
+	NashHPBarOption "$NASHHPBARMNU_EXHAUST", "$NASHHPBARMNU_HELPTEXT_EXHAUST", "nashhpbar_exhaust", "OnOff"
 	NashHPBarOption "$NASHHPBARMNU_STYLE", "$NASHHPBARMNU_HELPTEXT_STYLE", "nashhpbar_style", "NashHPBarStyle"
 }

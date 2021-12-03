@@ -95,6 +95,7 @@ user cheat int box_hat_glowstick = 0; //unlocks glowstick hat when at 250 or abo
 user bool nashhpbar_enable = true;
 user bool nashhpbar_bossonly = false;
 user int nashhpbar_style = 1;
+user bool nashhpbar_exhaust = false;
 
 //lazy points
 nosave string lp_score = "";

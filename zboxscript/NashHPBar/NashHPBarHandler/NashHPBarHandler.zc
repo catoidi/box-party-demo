@@ -35,6 +35,7 @@ class NashHPBarHandler : EventHandler
 	transient ui CVar cvEnableHPBar;
 	transient ui CVar cvBossOnly;
 	transient ui CVar cvStyle;
+	transient ui CVar cvExhaust;
 	transient ui Actor prevAimTarget;
 	transient ui double healthBarAlpha;
 
@@ -107,6 +108,9 @@ class NashHPBarHandler : EventHandler
 		
 		if (!cvStyle) cvStyle = CVar.GetCVar("nashhpbar_style", players[consoleplayer]);
 		if (!cvStyle) ThrowAbortException("Cannot cache CVar \"nashhpbar_style\"!");
+		
+		if (!cvExhaust) cvExhaust = CVar.GetCVar("nashhpbar_exhaust", players[consoleplayer]);
+		if (!cvExhaust) ThrowAbortException("Cannot cache CVar \"nashhpbar_exhaust\"!");
 	}
 
 	//===========================================================================
@@ -349,6 +353,9 @@ class NashHPBarHandler : EventHandler
 
 			// fonts are invalid, cancel drawing
 			if (!fnt) return;
+			
+			// disable if exhaust option is off
+			if (cvExhaust && !cvExhaust.GetBool()) return;
 
 			// retrieve target health
 			int realhealth = prevAimTarget.Health;
@@ -431,27 +438,6 @@ class NashHPBarHandler : EventHandler
 			// get font colours
 			int normalTxtColor = plugin.GetNormalTextColor();
 			int nameTxtColor = normalTxtColor;
-
-			/*
-			// draw target name
-			String targName = prevAimTarget.GetCharacterName();
-			if (prevAimTarget is "PlayerPawn")
-			{
-				PlayerInfo plr = prevAimTarget.player;
-				if (plr)
-				{
-					targName = plr.GetUserName();
-				}
-			}
-			txt = String.Format("%s", targName);
-			Screen.DrawText(fnt, nameTxtColor,
-				(Screen.GetWidth() / 2) - ((fnt.StringWidth(txt) / 2) * CleanXFac),
-				(baseYPos * CleanYFac) - (fnt.GetHeight() * CleanYFac) + (1 * CleanYFac),
-				txt,
-				DTA_CleanNoMove, true,
-				DTA_KeepRatio, true,
-				DTA_Alpha, healthBarAlpha);
-			*/
 
 			// draw target health in numbers
 			txt = String.Format("%d/%d", health, maxHealth);

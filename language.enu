@@ -205,6 +205,8 @@ NASHHPBARMNU_BOSSONLY = "Boss Only";
 NASHHPBARMNU_HELPTEXT_BOSSONLY = "Only shows HP bar for Bosses (and Players).";
 NASHHPBARMNU_STYLE = "Style";
 NASHHPBARMNU_HELPTEXT_STYLE = "Changes the appearance of the HP bar.";
+NASHHPBARMNU_EXHAUST = "Show Exhaustion";
+NASHHPBARMNU_HELPTEXT_EXHAUST = "Toggles Exhaust Bar for Bosses.";
 
 //Stupid Achievements
 // Default values //////////////////////////////////////////////////////////////
