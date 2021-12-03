@@ -33,7 +33,7 @@ Box Party Demo is free and open source. This repository does not contain any con
   -This is the first ever video game I've actually made. If you're going to look through Box Party's code, expect it to be ***very*** messy. :)
 I've tried my best to make Box Party modding friendly, however it is far from perfect.
 
-  -A lot of the behind-the-scenes code for Box Party is subject to change, so be aware that any potential mods you create may end up breaking when Box Party receives an update.
+  -A lot of the behind-the-scenes code for Box Party is subject to change, so be aware that any potential mods you create that are more in depth than just like a level or a hat or a character may end up breaking when Box Party receives an update.
 
   -Multiplayer is not functional as of this moment. Desyncs are rampant. I'm hoping to fix this at some point soon.
 
