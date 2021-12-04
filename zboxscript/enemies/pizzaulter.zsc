@@ -12,6 +12,7 @@ CLASS Pizzaulter : BoxMonster //20016
 		Height 40;
 		Mass 400;
 		DamageFactor "Melee", 2;
+		DamageFactor "Pizza", 1;
 		PainChance 128;
 		PainChance "Melee", 256;
 		PainChance "Lightning", 192;
@@ -135,6 +136,7 @@ CLASS PizzaulterSmall : Pizzaulter //20017
 		DamageFunction (random(3, 5));
 		Tag "Pizza Slicer";
 		Obituary "$BOX_DIE_PIZZA_SMALL";
+		-DONTHARMSPECIES;
 		//$Category "Box Party/Enemies/"
 		//$Title "Pizza (Small)"
 		//$Color 4
