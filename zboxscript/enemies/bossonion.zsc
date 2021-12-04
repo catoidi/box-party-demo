@@ -30,6 +30,7 @@ CLASS BossOnion : OnionTurret
 	int startingHealth;
 	int Exhaustion;
 	int ExhaustMeter;
+	int SweatTimer;
 	
 	action void A_BigOnionAttack1 (int Angled, int Offseted)
 	{
@@ -108,6 +109,14 @@ CLASS BossOnion : OnionTurret
 			if (exhaustmaxinv < ActualExhaustMeter) {GiveInventory("ExhaustionCheckerMax", ActualExhaustMeter - exhaustmaxinv);}
 			else if (exhaustmaxinv > ActualExhaustMeter) {TakeInventory("ExhaustionCheckerMax", ActualExhaustMeter - exhaustmaxinv);}
 			//im sorry to anyone who sees this code
+			
+			if (SweatTimer < 16) {++SweatTimer;}
+			else
+			{
+				if (exhaustinv >= (ActualExhaustMeter - 25)) {A_BoxStars("BossSweat", 3);}
+				else if (exhaustinv >= (ActualExhaustMeter - 50)) {A_BoxStars("BossSweat", 1);}
+				SweatTimer = 0;
+			}
 		}
 	}
 

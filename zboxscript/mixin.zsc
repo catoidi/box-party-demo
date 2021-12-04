@@ -183,19 +183,18 @@ mixin class BoxActorMixin
 	}
 
 	
-	action void A_BoxStars (void)
+	action void A_BoxStars (string StarActor = "MeleeStars", int StarAmount = 4)
 	{
 		//Creates a star affect above the enemy's head to specify when they've been stunned by a melee attack.
 		//That's it.
 		if (invoker)
 		{
 			double BoxHeight = invoker.Height * 0.75;
-			double BoxRadius = invoker.Radius / 4;
-			double BoxSpeed = BoxRadius / 16;
-	
-			A_SpawnItemEX("MeleeStars", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(3, 8), 0, SXF_NOCHECKPOSITION);
-			A_SpawnItemEX("MeleeStars", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(3, 8), 0, SXF_NOCHECKPOSITION);
-			A_SpawnItemEX("MeleeStars", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(3, 8), 0, SXF_NOCHECKPOSITION);
+			double BoxRadius = invoker.Radius / 3;
+			double BoxSpeed = BoxRadius / 6;
+			
+			for (int snum = 0; snum < StarAmount; snum++)
+			{A_SpawnItemEX(StarActor, frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(3, 8), 0, SXF_NOCHECKPOSITION);}
 		}
 	}
 

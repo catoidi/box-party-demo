@@ -272,3 +272,66 @@ CLASS SorryNothing : BoxActor
 			Stop;
 	}
 }
+
+CLASS BossSweat : BoxActor
+{
+	//visual indicator that boss is getting tired
+	Default
+	{
+		Mass 0;
+		Gravity 1;
+		Radius 4;
+		Height 8;
+		Speed 10;
+		+ROLLSPRITE;
+		+SPRITEANGLE;
+		+FORCEXYBILLBOARD;
+		+BRIGHT;
+	}
+	
+	bool SweatFlip;
+	int sweatstart;
+	
+	override void BeginPlay(void)
+	{
+		Super.BeginPlay();
+		sweatstart = random(85, 95);
+	}
+	
+	override void Tick(void)
+	{
+		Super.Tick();
+		
+		double sweatvel = self.Vel.Z * 5.0;
+		
+		if (sweatvel >= 90.0) {sweatvel = 90.0;}
+		if (sweatvel <= -90.0) {sweatvel = -90.0;}
+		
+		if (sweatflip == true) 
+		{
+			if (sweatstart > 0) {sweatstart *= -1;}
+			sweatvel *= -1;
+		}
+		
+		if (!sweatvel ~== 0.0) {self.Roll = sweatstart + sweatvel;}
+	}
+	
+	States
+	{
+		Spawn:
+			SWET A 1;
+			SWET A 0 
+			{
+				bINTERPOLATEANGLES = true;
+				if (random(0, 1) == 1) {invoker.SweatFlip = true;}
+			}
+			Goto Looper;
+		Looper:
+			SWET A 1
+			{
+				A_FadeOut(0.05);
+				A_BoxScale(0.05);
+			}
+			Loop;
+	}
+}
