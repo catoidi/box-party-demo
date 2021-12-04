@@ -111,7 +111,7 @@ CLASS BossOnion : OnionTurret
 			//im sorry to anyone who sees this code
 			
 			if (SweatTimer < 16) {++SweatTimer;}
-			else
+			else if (self.Health > 1)
 			{
 				if (exhaustinv >= (ActualExhaustMeter - 25)) {A_BoxStars("BossSweat", 3);}
 				else if (exhaustinv >= (ActualExhaustMeter - 50)) {A_BoxStars("BossSweat", 1);}
