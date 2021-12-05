@@ -9,9 +9,9 @@
 ## Info:
 Box Party Demo is free and open source. This repository does not contain any content for the Full Version of Box Party.
 
-[Please visit Box Party's Steam page for more info about the game itself.](https://store.steampowered.com/app/1727350/Box_Party/)
+[Link to Box Party on Steam.](https://store.steampowered.com/app/1727350/Box_Party/)
 
-(i'll put an itch.io link here soon)
+[Link to Box Party on itch.io.](https://idiotbitz.itch.io/box-party)
 
 ## Requirements:
   -GZDOOM 4.7.1
@@ -23,7 +23,7 @@ Box Party Demo is free and open source. This repository does not contain any con
 
   2. Either download the latest release on the "Releases" page or download the latest commit and name the zip file `boxparty.ipk3`.
   
-  3. Place your `boxparty.ipk3` file inside the GZDOOM folder.
+  3. Place your `boxparty.ipk3` file inside the GZDOOM folder. (The file extension should be `.ipk3`, not `.zip`.)
   
   4. Run `gzdoom.exe`, and you're good to go! :)
   
