@@ -14,12 +14,10 @@ Box Party Demo is free and open source. This repository does not contain any con
 [Link to Box Party on itch.io.](https://idiotbitz.itch.io/box-party)
 
 ## Requirements:
-  -GZDOOM 4.7.1
-  
-  -That's it
+  -A fresh copy of the latest version of GZDOOM. (version 4.7.1 as of this writing)
 
 ## Installing Box Party (from Github):
-  1. [Download a fresh copy of GZDOOM, and extract the folder somewhere.](https://zdoom.org/downloads)
+  1. [Download GZDOOM, and extract the folder somewhere.](https://zdoom.org/downloads)
 
   2. Either download the latest release on the "Releases" page or download the latest commit and name the zip file `boxparty.ipk3`.
   
