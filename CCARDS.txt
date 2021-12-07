@@ -1,0 +1,8 @@
+// Compatibility file for the Corruption Cards Mod.
+// Download the mod here: https://forum.zdoom.org/viewtopic.php?f=43&t=67939
+
+excludemap PARTY00
+
+monstercardsprite FruitPuncher, CARD_MLN
+
+removecard CCard_BonusHealthDrain
