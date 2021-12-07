@@ -5,4 +5,5 @@ excludemap PARTY00
 
 monstercardsprite FruitPuncher, CARD_MLN
 
-removecard CCard_BonusHealthDrain
+// removecard CCard_BonusHealthDrain
+// can't remove cards because box party loads before corruption cards does
