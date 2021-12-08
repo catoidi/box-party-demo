@@ -27,6 +27,7 @@ CLASS BossPepper1 : BoxMonster
 		+FLOORCLIP;
 		+NOBLOODDECALS;
 		+NOINFIGHTING;
+		+DONTRIP;
 		//$Category "Box Party/Enemies/"
 		//$Title "Pepper (BOSS 1)"
 		//$Color 4
