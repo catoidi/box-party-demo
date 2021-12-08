@@ -1,5 +1,7 @@
-class boxparty_ListFrame : boxparty_Frame {
-	double padding;
+class boxparty_ZF_ListFrame : boxparty_ZF_Frame {
+	protected double padding;
+	double getPadding() { return self.padding; }
+	void setPadding(double padding) { self.padding = padding; }
 
 	void setElementBoxes() {
 		let pos = 0.0;
@@ -10,25 +12,24 @@ class boxparty_ListFrame : boxparty_Frame {
 		}
 	}
 
-	static boxparty_ListFrame create(
+	static boxparty_ZF_ListFrame create(
 		Vector2 pos, Vector2 size, double padding
 	) {
-		let ret = new('boxparty_ListFrame');
+		let ret = new('boxparty_ZF_ListFrame');
 
 		ret.setBox(pos, size);
 		ret.padding = padding;
 		ret.alpha = 1.0;
-		ret.needsMouseMove = true;
 
 		return ret;
 	}
 
-	override void ticker() {
+	override void drawer() {
 		setElementBoxes();
-		Super.ticker();
+		Super.drawer();
 	}
 
-	override void onPack(boxparty_Element elem) {
+	override void onPack(boxparty_ZF_Element elem) {
 		setElementBoxes();
 	}
 }

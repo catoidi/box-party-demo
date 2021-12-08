@@ -1,39 +1,35 @@
-class boxparty_ToggleButton : boxparty_ButtonBase {
-	bool on;
+class boxparty_ZF_ToggleButton : boxparty_ZF_ButtonBase {
+	protected bool on;
 
 	protected bool hover;
 	protected bool click;
 
 	void config(
 		string text = "",
-		boxparty_BoxTextures inactive = NULL, boxparty_BoxTextures hover = NULL,
-		boxparty_BoxTextures click = NULL, boxparty_BoxTextures disabled = NULL,
+		boxparty_ZF_BoxTextures inactive = NULL, boxparty_ZF_BoxTextures hover = NULL,
+		boxparty_ZF_BoxTextures click = NULL, boxparty_ZF_BoxTextures disabled = NULL,
 		Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
-		AlignType alignment = AlignType_Center, boxparty_Handler cmdHandler = NULL, string command = ""
+		AlignType alignment = AlignType_Center, boxparty_ZF_Handler cmdHandler = NULL, string command = ""
 	) {
-		if (fnt == NULL) {
-			self.fnt = smallfont;
-		}
-		else {
-			self.fnt = fnt;
-		}
-		self.text = text;
-		self.textScale = textScale;
-		self.setTextures(inactive, hover, click, disabled);
-		self.textColor = textColor;
-		self.alignment = alignment;
+		setFont(fnt);
+		setText(text);
+		setTextScale(textScale);
+		setTextures(inactive, hover, click, disabled);
+		setTextColor(textColor);
+		setAlignment(alignment);
+		setAlpha(1.0);
+
 		self.cmdHandler = cmdHandler;
 		self.command = command;
-		self.alpha = 1;
 	}
 
-	static boxparty_ToggleButton create(
+	static boxparty_ZF_ToggleButton create(
 		Vector2 pos, Vector2 size, string text = "",
-		boxparty_BoxTextures inactive = NULL, boxparty_BoxTextures hover = NULL, boxparty_BoxTextures click = NULL,
-		boxparty_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
-		AlignType alignment = AlignType_Center, boxparty_Handler cmdHandler = NULL, string command = ""
+		boxparty_ZF_BoxTextures inactive = NULL, boxparty_ZF_BoxTextures hover = NULL, boxparty_ZF_BoxTextures click = NULL,
+		boxparty_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
+		AlignType alignment = AlignType_Center, boxparty_ZF_Handler cmdHandler = NULL, string command = ""
 	) {
-		let ret = new('boxparty_ToggleButton');
+		let ret = new('boxparty_ZF_ToggleButton');
 
 		ret.config(text, inactive, hover, click, disabled, fnt, textScale, textColor, alignment, cmdHandler, command);
 		ret.setBox(pos, size);
@@ -41,21 +37,36 @@ class boxparty_ToggleButton : boxparty_ButtonBase {
 		return ret;
 	}
 
-	override void drawer() {
+	override bool handleMousePosition(bool mouseBlock, Vector2 mousePos) {
 		if (isEnabled()) {
-			boxparty_AABB screenBox; boxToScreen(screenBox);
-			if (!mouseBlock && screenBox.pointCollides(master.mousePos)) {
+			boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
+			if (!mouseBlock && screenBox.pointCollides(mousePos)) {
 				hover = true;
 			}
 			else {
 				hover = false;
 			}
 		}
+		return false;
+	}
+
+	override void drawer() {
 		if (!isEnabled()) { curButtonState = ButtonState_Disabled; }
 		else if ((!getHoverBlock() && hover) || click) { curButtonState = ButtonState_Hover; }
 		else if (on) { curButtonState = ButtonState_Click; }
 		else { curButtonState = ButtonState_Inactive; }
 		Super.drawer();
+	}
+
+	override bool onNavEvent(boxparty_ZF_NavEventType type, bool fromController) {
+		if (isEnabled() && isFocused() && type == boxparty_ZF_NavEventType_Confirm) {
+			on = !on;
+			if (cmdHandler != NULL) {
+				cmdHandler.toggleButtonChanged(self, command, on);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	override void activate() {
@@ -65,11 +76,12 @@ class boxparty_ToggleButton : boxparty_ButtonBase {
 		}
 	}
 
-	override bool onUIEvent(boxparty_UiEvent ev) {
+	override bool onUIEvent(boxparty_ZF_UiEvent ev) {
 		// if the player's clicked, and their mouse is in the right place, set the state accordingly
 		if (ev.type == UIEvent.Type_LButtonDown) {
-			boxparty_AABB screenBox; boxToScreen(screenBox);
-			if (!ev.mouseBlock && isEnabled() && screenBox.pointCollides(master.mousePos)) {
+			let mousePos = getGlobalStore().mousePos;
+			boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
+			if (!mouseBlock && isEnabled() && screenBox.pointCollides(mousePos)) {
 				click = true;
 				setHoverBlock(self);
 			}
@@ -77,8 +89,9 @@ class boxparty_ToggleButton : boxparty_ButtonBase {
 		// if the player's releasing, check if their mouse is still in the correct range and trigger method if it was
 		else if (ev.type == UIEvent.Type_LButtonUp) {
 			if (isEnabled()) {
-				boxparty_AABB screenBox; boxToScreen(screenBox);
-				if (screenBox.pointCollides(master.mousePos) && click) {
+				let mousePos = getGlobalStore().mousePos;
+				boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
+				if (screenBox.pointCollides(mousePos) && click) {
 					on = !on;
 					if (cmdHandler != NULL) {
 						cmdHandler.toggleButtonChanged(self, command, on);

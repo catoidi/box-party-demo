@@ -2,7 +2,7 @@
 
 //this uses code from the ZForms directory.
 
-//also the classes here use the "boxparty_" prefix instead of the usual "box" prefix to help mitigate confusion with certain ZForm elements.
+//also the classes here use the "boxparty_ZF_" prefix instead of the usual "box" prefix to help mitigate confusion with certain ZForm elements.
 
 //also lemme preface this by saying i messed up the placement for the first 9 hats, so they're a bit wonky.
 
@@ -15,21 +15,21 @@
 // 08 03 05 11 14
 // 09 04 07 12 15
 
-CLASS boxparty_HatMenu : boxparty_GenericMenu
+CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 {
 	Font smallFont;
 	
-	boxparty_HatMenuHandler handler;
+	boxparty_ZF_HatMenuHandler handler;
 	
-	boxparty_Image background;
-	boxparty_Button aButton;
-	boxparty_Label aLabel;
-	boxparty_Label pageLabel;
-	boxparty_Label unlockLabel;
-	boxparty_Label unlockLabel2;
+	boxparty_ZF_Image background;
+	boxparty_ZF_Button aButton;
+	boxparty_ZF_Label aLabel;
+	boxparty_ZF_Label pageLabel;
+	boxparty_ZF_Label unlockLabel;
+	boxparty_ZF_Label unlockLabel2;
 	
-	boxparty_BoxTextures hatTexture;
-	boxparty_BoxImage ChosenHat;
+	boxparty_ZF_BoxTextures hatTexture;
+	boxparty_ZF_BoxImage ChosenHat;
 	cvar hatpreview;
 	string hatimage;
 	vector2 hatSize;
@@ -46,10 +46,10 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 	int lockedhats;
 	int unlockfail;
 	
-	boxparty_BoxImage ColorOnOff;
+	boxparty_ZF_BoxImage ColorOnOff;
 	cvar ColorCVAR;
 	
-	boxparty_BoxImage ButtonImage, ButtonImage0, ButtonImage1, ButtonImage2, ButtonImage3, ButtonImage4, ButtonImage5, ButtonImage6, ButtonImage7, ButtonImage8, ButtonImage9, ButtonImage10, ButtonImage11, ButtonImage12, ButtonImage13, ButtonImage14, ButtonImage15;
+	boxparty_ZF_BoxImage ButtonImage, ButtonImage0, ButtonImage1, ButtonImage2, ButtonImage3, ButtonImage4, ButtonImage5, ButtonImage6, ButtonImage7, ButtonImage8, ButtonImage9, ButtonImage10, ButtonImage11, ButtonImage12, ButtonImage13, ButtonImage14, ButtonImage15;
 	
 	Array<String> BOXHAT_line, BOXHAT_name, BOXHAT_namelock, BOXHAT_cvar, BOXHAT_sprite, BOXHAT_menu, BOXHAT_locked;
 	int BOXHAT_size;
@@ -132,7 +132,7 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		
 		hatTexture = hatTexture.CreateTexturePixels(hatimage, (4, 6), (12, 18), true, true);
 		hatSize = (16, 24);
-		ChosenHat = boxparty_BoxImage.Create((274, 8), hatSize, hatTexture, (1.0, 1.0));
+		ChosenHat = boxparty_ZF_BoxImage.Create((274, 8), hatSize, hatTexture, (1.0, 1.0));
 		ChosenHat.Pack (mainFrame);
 	}
 
@@ -142,15 +142,15 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		{
 			hatText = Stringtable.Localize(switchname);
 			
-			aLabel.text = hatText;
-			aLabel.textcolor = Font.CR_WHITE;
+			aLabel.setText(hatText);
+			aLabel.settextcolor(Font.CR_WHITE);
 		}
 		else
 		{
 			hatText = Stringtable.Localize(switchname);
 			
-			aLabel.text = hatText;
-			aLabel.textcolor = Font.CR_BRICK;
+			aLabel.settext(hatText);
+			aLabel.settextcolor(Font.CR_BRICK);
 		}
 	}
 	
@@ -163,8 +163,8 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		let unlockcolor2 = Font.CR_WHITE;
 		if (unlockedhats == (unlockedhats + lockedhats)) {unlockcolor2 = Font.CR_GREEN;}
 		
-		unlockLabel.text = string.Format("    %d/%d", unlockedhats, unlockedhats + lockedhats);
-		unlockLabel.textColor = unlockcolor2;
+		unlockLabel.settext(string.Format("    %d/%d", unlockedhats, unlockedhats + lockedhats));
+		unlockLabel.settextColor(unlockcolor2);
 	}
 	
 	virtual void updatePage (int PageNum)
@@ -221,13 +221,13 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 
 				if ((ischeat.GetBool() == false) && (grabhatcvar.GetBool() == false)) {gettex = texlock;}
 
-				let newtex = boxparty_BoxTextures.CreateSingleTexture(gettex, true);
+				let newtex = boxparty_ZF_BoxTextures.CreateSingleTexture(gettex, true);
 				NewImage.Config(newtex);
 				HatPage = PageNum;
 			}
 		}
 		
-		pageLabel.text = pageText;
+		pageLabel.settext(pageText);
 	}
 	
 	virtual void createHatButton (int HatSlot)
@@ -289,9 +289,9 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 			dotexture = hatname;
 		}
 		
-		let boxTexture = boxparty_BoxTextures.CreateSingleTexture(dotexture, false);
+		let boxTexture = boxparty_ZF_BoxTextures.CreateSingleTexture(dotexture, false);
 		let boxSize = (44, 44);
-		ButtonImage = boxparty_BoxImage.Create
+		ButtonImage = boxparty_ZF_BoxImage.Create
         (
             // Position
             getposition - (2, 2),
@@ -324,11 +324,11 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		}
 
 		// Create the button's textures.
-        let buttonIdle = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATIDLE.png", true);
-        let buttonHover = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATHOVER.png", false);
-        let buttonClick = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATSELECT.png", false);
+        let buttonIdle = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATIDLE.png", true);
+        let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATHOVER.png", false);
+        let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATSELECT.png", false);
         // Add a button.
-        aButton = boxparty_Button.Create
+        aButton = boxparty_ZF_Button.Create
         (
             // Position
             getposition,
@@ -363,9 +363,9 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 			dotexture = "graphics/hat/HATPAGEL.png";
 		}
 	
-		let boxTexture = boxparty_BoxTextures.CreateTexturePixels(dotexture, (0, 0), (24, 24), false, false);
+		let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(dotexture, (0, 0), (24, 24), false, false);
 		let boxSize = (24, 24);
-		let aBoxImage = boxparty_BoxImage.Create
+		let aBoxImage = boxparty_ZF_BoxImage.Create
         (
             // Position
             HatPos,
@@ -380,11 +380,11 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
         aBoxImage.Pack (mainFrame);
 		
 		// Create the button's textures.
-        let buttonIdle = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATIDLE.png", true);
-        let buttonHover = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATPAGEHOVER.png", false);
-        let buttonClick = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATPAGESELECT.png", false);
+        let buttonIdle = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATIDLE.png", true);
+        let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATPAGEHOVER.png", false);
+        let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATPAGESELECT.png", false);
         // Add a button.
-        aButton = boxparty_Button.Create
+        aButton = boxparty_ZF_Button.Create
         (
             // Position
             HatPos,
@@ -412,9 +412,9 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		docommand = "ChangeColor";
 		dotexture = "graphics/hat/HATCOLOR.png";
 	
-		let boxTexture = boxparty_BoxTextures.CreateTexturePixels(dotexture, (0, 0), (24, 24), false, false);
+		let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(dotexture, (0, 0), (24, 24), false, false);
 		let boxSize = (16, 14);
-		let aBoxImage = boxparty_BoxImage.Create
+		let aBoxImage = boxparty_ZF_BoxImage.Create
         (
             // Position
             ColorPos,
@@ -429,11 +429,11 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
         aBoxImage.Pack (mainFrame);
 		
 		// Create the button's textures.
-        let buttonIdle = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATIDLE.png", true);
-        let buttonHover = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATCOLORHOVER.png", false);
-        let buttonClick = boxparty_BoxTextures.CreateSingleTexture ("graphics/hat/HATCOLORSELECT.png", false);
+        let buttonIdle = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATIDLE.png", true);
+        let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATCOLORHOVER.png", false);
+        let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATCOLORSELECT.png", false);
         // Add a button.
-        aButton = boxparty_Button.Create
+        aButton = boxparty_ZF_Button.Create
         (
             // Position
             ColorPos,
@@ -469,9 +469,9 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		if (ColorCVAR.GetBool() == true) {ChosenImage = OnImage;}
 		else {ChosenImage = OffImage;}
 		
-		let boxTexture = boxparty_BoxTextures.CreateTexturePixels(ChosenImage, (0, 0), (16, 14), true, true);
+		let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(ChosenImage, (0, 0), (16, 14), true, true);
 		let boxSize = (16, 14);
-		ColorOnOff = boxparty_BoxImage.Create(ColorPos, boxSize, boxTexture, (1.0, 1.0));
+		ColorOnOff = boxparty_ZF_BoxImage.Create(ColorPos, boxSize, boxTexture, (1.0, 1.0));
 		ColorOnOff.Pack (mainFrame);
 	}
 	
@@ -483,10 +483,10 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		Super.Init(parent);
 		SetBaseResolution(baseRes);
 		smallFont = OptionFont(); //keep font consistent with other menus
-		background = boxparty_Image.Create((0, 0), baseRes, "graphics/hat/HATBACK.png", boxparty_Image.AlignType_TopLeft);
+		background = boxparty_ZF_Image.Create((0, 0), baseRes, "graphics/hat/HATBACK.png", boxparty_ZF_Image.AlignType_TopLeft);
 		background.Pack(mainFrame);
 		
-		handler = new('boxparty_HatMenuHandler');
+		handler = new('boxparty_ZF_HatMenuHandler');
 		handler.link = self;
 		
 		LoadHatWad();
@@ -494,7 +494,7 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		updateHat();
 
 		// Add a label.
-        aLabel = boxparty_Label.Create
+        aLabel = boxparty_ZF_Label.Create
         (
             // Position
             (20, 44),
@@ -524,7 +524,7 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		maxPage = pagecounter;
 		pageText = string.Format("Page: 1/%d", maxPage); //menu always starts on page 1
 		
-		pageLabel = boxparty_Label.Create
+		pageLabel = boxparty_ZF_Label.Create
 		(
 			(264, 108),
 			(0, smallFont.GetHeight()),
@@ -547,8 +547,8 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		{
 			if (isbirthday.GetBool() == false) 
 			{
-				aLabel.text = string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_09"));
-				aLabel.textColor = Font.CR_GREEN;
+				aLabel.settext(string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_09")));
+				aLabel.settextColor(Font.CR_GREEN);
 			}
 			isbirthday.SetBool(true);
 		}
@@ -581,15 +581,15 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		{
 			if (getlucky.GetBool() == false) 
 			{
-				aLabel.text = string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_08"));
-				aLabel.textColor = Font.CR_GREEN;
+				aLabel.settext(string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_08")));
+				aLabel.settextColor(Font.CR_GREEN);
 			}
 			getlucky.SetBool(true);
 		}
 		
-		let signTexture = boxparty_BoxTextures.CreateTexturePixels("graphics/hat/CHOOSEHAT.png", (0, 0), (160, 40), true, true);
+		let signTexture = boxparty_ZF_BoxTextures.CreateTexturePixels("graphics/hat/CHOOSEHAT.png", (0, 0), (160, 40), true, true);
 		let signSize = (160, 40);
-		let signImage = boxparty_BoxImage.Create((8, 8), signSize, signTexture, (1.0, 1.0));
+		let signImage = boxparty_ZF_BoxImage.Create((8, 8), signSize, signTexture, (1.0, 1.0));
 		signImage.Pack (mainFrame);
 		
 		switch (random(0, 5))
@@ -602,9 +602,9 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 			case 5: playerSprite = "sprites/Characters/PlayerBox/TBOXB0.lmp"; break;
 		}
 		
-		let playerTexture = boxparty_BoxTextures.CreateTexturePixels(playerSprite, (0, 0), (32, 64), true, true);
+		let playerTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(playerSprite, (0, 0), (32, 64), true, true);
 		let playerSize = (32, 64);
-		let playerImage = boxparty_BoxImage.Create((266, 30), playerSize, playerTexture, (1.0, 1.0));
+		let playerImage = boxparty_ZF_BoxImage.Create((266, 30), playerSize, playerTexture, (1.0, 1.0));
 		playerImage.Pack (mainFrame);
 		
 		for (int countey = 0; countey < 16; countey++) {createHatButton(countey);}
@@ -633,7 +633,7 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 		let unlockcolor = Font.CR_WHITE;
 		if (unlockedhats == (unlockedhats + lockedhats)) {unlockcolor = Font.CR_GREEN;}
 		
-		unlockLabel = boxparty_Label.Create
+		unlockLabel = boxparty_ZF_Label.Create
 		(
 			(200, 32),
 			(0, smallFont.GetHeight()),
@@ -645,7 +645,7 @@ CLASS boxparty_HatMenu : boxparty_GenericMenu
 			textColor: unlockcolor
 		);
 		
-		unlockLabel2 = boxparty_Label.Create
+		unlockLabel2 = boxparty_ZF_Label.Create
 		(
 			(200, 24),
 			(0, smallFont.GetHeight()),

@@ -7,6 +7,7 @@
 #include "zboxscript/ZForms/ToggleButton.zsc"
 #include "zboxscript/ZForms/BoxTextures.zsc"
 #include "zboxscript/ZForms/BoundingBox.zsc"
+#include "zboxscript/ZForms/ElementContainer.zsc"
 #include "zboxscript/ZForms/Frame.zsc"
 #include "zboxscript/ZForms/Label.zsc"
 #include "zboxscript/ZForms/Handler.zsc"
@@ -20,3 +21,4 @@
 #include "zboxscript/ZForms/Slider.zsc"
 #include "zboxscript/ZForms/DropdownList.zsc"
 #include "zboxscript/ZForms/Tabs.zsc"
+#include "zboxscript/ZForms/FocusLinkHelper.zsc"

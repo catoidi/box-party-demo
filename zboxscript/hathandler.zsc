@@ -1,8 +1,8 @@
-class boxparty_HatMenuHandler : boxparty_Handler
+class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 {
 	boxparty_HatMenu link;
 	
-	override void buttonClickCommand (boxparty_Button caller, string command)
+	override void buttonClickCommand (boxparty_ZF_Button caller, string command)
     {
 		cvar hatsetting = cvar.FindCVAR('box_hat_current');
 		cvar hatcheatmode = cvar.FindCVAR('box_hat_cheat');
@@ -34,10 +34,10 @@ class boxparty_HatMenuHandler : boxparty_Handler
 			else if ((labelnum == 16) && (hatunlocked.GetBool() == false))
 			{
 				//link.aLabel.text = Stringtable.Localize("$HAT_UNLOCK_16");
-				link.aLabel.text = string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_16"));
-				link.aLabel.textColor = Font.CR_GREEN;
+				link.aLabel.setText(string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_16")));
+				link.aLabel.settextColor(Font.CR_GREEN);
 				hatunlocked.SetBool(true);
-				link.ButtonImage1.Config(boxparty_BoxTextures.CreateSingleTexture("graphics/hat/HATBUTTON2A.png", true));
+				link.ButtonImage1.Config(boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/hat/HATBUTTON2A.png", true));
 				link.updateUnlockLabel();
 			}
 			else if ((hatcheatmode.GetBool() == false) && (hatunlocked.GetBool() == false)) 

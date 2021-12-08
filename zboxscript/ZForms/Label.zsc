@@ -1,47 +1,92 @@
-class boxparty_Label : boxparty_Element {
-	Font fnt;
-	string text;
-	double textScale;
-	AlignType alignment;
-	int textColor;
-	bool wrap;
-	bool autoSize;
-	double lineSpacing;
-
-	boxparty_Element forElement;
-	bool clicking;
-
-	void config(
-		string text = "", Font fnt = NULL, AlignType alignment = AlignType_TopLeft, bool wrap = true,
-		bool autoSize = false, double textScale = 1, int textColor = Font.CR_WHITE, double lineSpacing = 0,
-		boxparty_Element forElement = NULL
-	) {
+class boxparty_ZF_Label : boxparty_ZF_Element {
+	protected Font fnt;
+	Font getFont() { return fnt; }
+	void setFont(Font fnt) {
 		if (fnt == NULL) {
 			self.fnt = smallfont;
 		}
 		else {
 			self.fnt = fnt;
 		}
-		self.text = text;
-		self.alignment = alignment;
-		self.wrap = wrap;
-		self.autoSize = autoSize;
-		self.textScale = textScale;
-		self.textColor = textColor;
-		self.alpha = 1;
-		self.lineSpacing = lineSpacing;
-		self.forElement = forElement;
+		recalculateLines();
 	}
 
-	static boxparty_Label create(
+	protected string text;
+	string getText() { return self.text; }
+	void setText(string text) { self.text = text; recalculateLines(); }
+
+	protected double textScale;
+	double getTextScale() { return self.textScale; }
+	void setTextScale(double textScale) { self.textScale = textScale; recalculateLines(); }
+
+	protected AlignType alignment;
+	AlignType getAlignment() { return self.alignment; }
+	void setAlignment(AlignType alignment) { self.alignment = alignment; }
+
+	protected int textColor;
+	int getTextColor() { return self.textColor; }
+	void setTextColor(int textColor) { self.textColor = textColor; }
+
+	protected bool wrap;
+	bool getWrap() { return self.wrap; }
+	void setWrap(bool wrap) { self.wrap = wrap; recalculateLines(); }
+
+	protected bool autoSize;
+	bool getAutoSize() { return self.autoSize; }
+	void setAutoSize(bool autoSize) { self.autoSize = autoSize; }
+
+	protected double lineSpacing;
+	double getLineSpacing() { return self.lineSpacing; }
+	void setLineSpacing(double lineSpacing) { self.lineSpacing = lineSpacing; }
+
+	protected boxparty_ZF_Element forElement;
+	boxparty_ZF_Element getForElement() { return self.forElement; }
+	void setForElement(boxparty_ZF_Element forElement) { self.forElement = forElement; }
+
+	protected bool clicking;
+
+	protected BrokenLines lines;
+	protected bool calculate;
+	void recalculateLines() {
+		if (calculate && wrap) {
+			lines = fnt.breakLines(text, int(box.size.x / textScale));
+		}
+	}
+
+	override void onBoxChanged() {
+		recalculateLines();
+	}
+
+	void config(
+		string text = "", Font fnt = NULL, AlignType alignment = AlignType_TopLeft, bool wrap = true,
+		bool autoSize = false, double textScale = 1, int textColor = Font.CR_WHITE, double lineSpacing = 0,
+		boxparty_ZF_Element forElement = NULL
+	) {
+		calculate = false;
+		setFont(fnt);
+		setText(text);
+		setAlignment(alignment);
+		setWrap(wrap);
+		setAutoSize(autoSize);
+		setTextScale(textScale);
+		setTextColor(textColor);
+		setAlpha(1.0);
+		setLineSpacing(lineSpacing);
+		setForElement(forElement);
+		calculate = true;
+
+		recalculateLines();
+	}
+
+	static boxparty_ZF_Label create(
 		Vector2 pos, Vector2 size, string text = "", Font fnt = NULL, AlignType alignment = AlignType_TopLeft,
 		bool wrap = true, bool autoSize = false, double textScale = 1, int textColor = Font.CR_WHITE,
-		double lineSpacing = 0, boxparty_Element forElement = NULL
+		double lineSpacing = 0, boxparty_ZF_Element forElement = NULL
 	) {
-		let ret = new('boxparty_Label');
+		let ret = new('boxparty_ZF_Label');
 
-		ret.config(text, fnt, alignment, wrap, autoSize, textScale, textColor, lineSpacing, forElement);
 		ret.setBox(pos, size);
+		ret.config(text, fnt, alignment, wrap, autoSize, textScale, textColor, lineSpacing, forElement);
 
 		return ret;
 	}
@@ -50,8 +95,7 @@ class boxparty_Label : boxparty_Element {
 		if (autoSize) {
 			if (wrap) {
 				int fntHeight = fnt.getHeight();
-				BrokenLines textLines = fnt.breakLines(text, int(box.size.x / textScale));
-				box.size.y = fntHeight * textScale * textLines.count();
+				box.size.y = fntHeight * textScale * lines.count();
 			}
 			else {
 				Array<string> split;
@@ -64,7 +108,7 @@ class boxparty_Label : boxparty_Element {
 	}
 
 	override void drawer() {
-		boxparty_AABB beforeClip, clipRect;
+		boxparty_ZF_AABB beforeClip, clipRect;
 		screenClip(beforeClip, clipRect);
 		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
 
@@ -78,15 +122,14 @@ class boxparty_Label : boxparty_Element {
 			int fntHeight = fnt.getHeight();
 			float lineHeight = fntHeight + lineSpacing;
 
-			BrokenLines printLines = fnt.breakLines(text, int(box.size.x / textScale));
 			Vector2 pos = getAlignedDrawPos(
 				box.size,
-				(0, (lineHeight * printLines.count() - lineSpacing) * textScale),
+				(0, (lineHeight * lines.count() - lineSpacing) * textScale),
 				alignment
 			);
 
-			for (int i = 0; i < printLines.count(); i++) {
-				string line = printLines.stringAt(i);
+			for (int i = 0; i < lines.count(); i++) {
+				string line = lines.stringAt(i);
 				Vector2 linePos = getAlignedDrawPos(box.size, (fnt.stringWidth(line) * textScale, 0), alignment);
 				drawText((linePos.x, pos.y + (lineHeight * i * textScale)), fnt, line, textColor, textScale);
 			}
@@ -95,18 +138,32 @@ class boxparty_Label : boxparty_Element {
 		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
 	}
 
-	override bool onUIEvent(boxparty_UiEvent ev) {
+	override bool onNavEvent(boxparty_ZF_NavEventType type, bool fromController) {
+		if (forElement == NULL) return false;
+
+		if (isFocused() && type == boxparty_ZF_NavEventType_Confirm) {
+			if (forElement.isEnabled()) {
+				forElement.activate();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	override bool onUIEvent(boxparty_ZF_UiEvent ev) {
 		if (forElement == NULL) return false;
 		if (ev.type == UIEvent.Type_LButtonDown) {
-			boxparty_AABB screenBox; boxToScreen(screenBox);
-			if (!ev.mouseBlock && isEnabled() && screenBox.pointCollides(master.mousePos)) {
+			boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
+			let mousePos = getGlobalStore().mousePos;
+			if (!mouseBlock && isEnabled() && screenBox.pointCollides(mousePos)) {
 				clicking = true;
 				setHoverBlock(self);
 			}
 		}
 		else if (ev.type == UIEvent.Type_LButtonUp) {
-			boxparty_AABB screenBox; boxToScreen(screenBox);
-			if (isEnabled() && screenBox.pointCollides(master.mousePos) && clicking) {
+			boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
+			let mousePos = getGlobalStore().mousePos;
+			if (isEnabled() && screenBox.pointCollides(mousePos) && clicking) {
 				if (forElement.isEnabled()) forElement.activate();
 				clicking = false;
 				setHoverBlock(NULL);

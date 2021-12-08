@@ -1,4 +1,4 @@
-class boxparty_UiEvent ui {
+struct boxparty_ZF_UiEvent ui {
 	// 
 	int Type;
 	//
@@ -12,10 +12,7 @@ class boxparty_UiEvent ui {
 	bool IsCtrl;
 	bool IsAlt;
 
-	// not from gzd's UiEvent
-	bool mouseBlock;
-
-	static void fromGZDUiEvent(UiEvent gzdEv, boxparty_UiEvent ev) {
+	static void fromGZDUiEvent(UiEvent gzdEv, boxparty_ZF_UiEvent ev) {
 		ev.Type = gzdEv.Type;
 		ev.KeyString = gzdEv.KeyString;
 		ev.KeyChar = gzdEv.KeyChar;

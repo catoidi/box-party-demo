@@ -1,9 +1,27 @@
-class boxparty_TextInput : boxparty_Element {
-	Font fnt;
-	double textScale;
-	int textColor;
-	boxparty_BoxTextures background;
-	boxparty_BoxDrawer bgDrawer;
+class boxparty_ZF_TextInput : boxparty_ZF_Element {
+	protected Font fnt;
+	Font getFont() { return self.fnt; }
+	void setFont(Font fnt) {
+		if (fnt == NULL) {
+			self.fnt = newConsoleFont;
+		}
+		else {
+			self.fnt = fnt;
+		}
+	}
+
+	protected double textScale;
+	double getTextScale() { return self.textScale; }
+	void setTextScale(double textScale) { self.textScale = textScale; }
+
+	protected int textColor;
+	int getTextColor() { return self.textColor; }
+	void setTextColor(int textColor) { self.textColor = textColor; }
+
+	protected boxparty_ZF_BoxTextures background;
+	boxparty_ZF_BoxTextures getBackgroundTexture() { return self.background; }
+	void setBackgroundTexture(boxparty_ZF_BoxTextures background) { self.background = background; }
+	protected boxparty_ZF_BoxDrawer bgDrawer;
 
 	protected string text;
 
@@ -31,27 +49,24 @@ class boxparty_TextInput : boxparty_Element {
 	protected double upDownX;
 
 	protected bool multiline;
-	protected boxparty_Scrollbar bar;
+	protected boxparty_ZF_Scrollbar bar;
 	protected double scrollbarWidth;
 
 	void config(
 		Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
-		boxparty_BoxTextures background = NULL, bool multiline = false,
-		boxparty_Handler cmdHandler = NULL, string command = "",
+		boxparty_ZF_BoxTextures background = NULL, bool multiline = false,
+		boxparty_ZF_Handler cmdHandler = NULL, string command = "",
 		double scrollbarWidth = 0.0,
-		boxparty_BoxTextures scrollBarNormal = NULL, boxparty_BoxTextures scrollBarHover = NULL,
-		boxparty_BoxTextures scrollBarClick = NULL, boxparty_BoxTextures scrollBg = NULL
+		boxparty_ZF_BoxTextures scrollBarNormal = NULL, boxparty_ZF_BoxTextures scrollBarHover = NULL,
+		boxparty_ZF_BoxTextures scrollBarClick = NULL, boxparty_ZF_BoxTextures scrollBg = NULL
 	) {
-		if (fnt == NULL) {
-			self.fnt = newConsoleFont;
-		}
-		else {
-			self.fnt = fnt;
-		}
+
+		setFont(fnt);
+		setBackgroundTexture(background);
+		setTextScale(textScale);
+		setTextColor(textColor);
+
 		self.text = "";
-		self.textScale = textScale;
-		self.textColor = textColor;
-		self.background = background;
 		if (multiline != self.multiline) curOffset = 0.0;
 		self.multiline = multiline;
 		self.scrollbarWidth = scrollbarWidth;
@@ -67,19 +82,19 @@ class boxparty_TextInput : boxparty_Element {
 		updateLines();
 	}
 
-	static boxparty_TextInput create(
+	static boxparty_ZF_TextInput create(
 		Vector2 pos, Vector2 size, Font fnt = NULL, double textScale = 1,
-		int textColor = Font.CR_WHITE, boxparty_BoxTextures background = NULL,
-		bool multiline = false, boxparty_Handler cmdHandler = NULL, string command = "",
+		int textColor = Font.CR_WHITE, boxparty_ZF_BoxTextures background = NULL,
+		bool multiline = false, boxparty_ZF_Handler cmdHandler = NULL, string command = "",
 		double scrollbarWidth = 0.0,
-		boxparty_BoxTextures scrollBarNormal = NULL, boxparty_BoxTextures scrollBarHover = NULL,
-		boxparty_BoxTextures scrollBarClick = NULL, boxparty_BoxTextures scrollBg = NULL
+		boxparty_ZF_BoxTextures scrollBarNormal = NULL, boxparty_ZF_BoxTextures scrollBarHover = NULL,
+		boxparty_ZF_BoxTextures scrollBarClick = NULL, boxparty_ZF_BoxTextures scrollBg = NULL
 	) {
 
-		let ret = new('boxparty_TextInput');
+		let ret = new('boxparty_ZF_TextInput');
 
 		ret.setBox(pos, size);
-		ret.bar = boxparty_Scrollbar.create((0, 0), (0, 0), NULL, NULL);
+		ret.bar = boxparty_ZF_Scrollbar.create((0, 0), (0, 0), NULL, NULL);
 		ret.bar.master = ret;
 		ret.config(fnt, textScale, textColor, background, multiline, cmdHandler, command, scrollbarWidth, scrollBarNormal, scrollBarHover, scrollBarClick, scrollBg);
 
@@ -224,11 +239,6 @@ class boxparty_TextInput : boxparty_Element {
 		}
 	}
 
-	override bool blocksMouse(Vector2 mousePos) {
-		boxparty_AABB screenBox; boxToScreen(screenBox);
-		return screenBox.pointCollides(mousePos);
-	}
-
 	override void ticker() {
 		blinkTimer += 1;
 		if (blinkTimer == 35) {
@@ -292,6 +302,7 @@ class boxparty_TextInput : boxparty_Element {
 				if (cmdHandler != NULL) {
 					cmdHandler.textInputExit(self, command);
 				}
+				getGlobalStore().blockMenuEvent = false;
 				typing = false;
 				selCursor = -1;
 				cursor = 0;
@@ -303,8 +314,10 @@ class boxparty_TextInput : boxparty_Element {
 	}
 
 	override void drawer() {
+		if (hidden) { return; }
+
 		if (scrollbarWidth > 0.0) bar.setBox((getXSize(), 0.0), (scrollbarWidth, box.size.y));
-		mousePos = master.mousePos;
+		let mousePos = getGlobalStore().mousePos;
 		if (multiline && bar != NULL) {
 			let areaHeight = (lines.size() + 1) * fnt.getHeight() * textScale - 2.0 * 4.0 * textScale;
 			bar.size = box.size.y / areaHeight;
@@ -312,8 +325,8 @@ class boxparty_TextInput : boxparty_Element {
 			if (scrollbarWidth > 0.0) bar.drawer();
 		}
 
-		boxparty_AABB beforeClip, clipRect;
-		boxparty_AABB aabb;
+		boxparty_ZF_AABB beforeClip, clipRect;
+		boxparty_ZF_AABB aabb;
 		aabb.size = (getXSize(), box.size.y);
 		screenClip(beforeClip, clipRect, aabb);
 		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
@@ -410,8 +423,9 @@ class boxparty_TextInput : boxparty_Element {
 	}
 
 	double, int, bool getCursorPositionFromMouse() {
-		boxparty_AABB screenBox; boxToScreen(screenBox);
-		let diff = master.mousePos - screenBox.pos;
+		boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
+		let mousePos = getGlobalStore().mousePos;
+		let diff = mousePos - screenBox.pos;
 		diff /= getScale();
 		diff.x -= 4.0 * textScale;
 		let ret0 = 0.0;
@@ -553,6 +567,7 @@ class boxparty_TextInput : boxparty_Element {
 	}
 
 	override void activate() {
+		getGlobalStore().blockMenuEvent = true;
 		typing = true;
 		blink = true;
 		blinkTimer = 0;
@@ -566,19 +581,40 @@ class boxparty_TextInput : boxparty_Element {
 		else upDownX = fnt.stringWidth(lines[selCursorLine].left(selCursorRelative)) * textScale;
 	}
 
-	override bool onUIEvent(boxparty_UiEvent ev) {
+	override bool onNavEvent(boxparty_ZF_NavEventType type, bool fromController) {
+		if (isEnabled() && isFocused() && type == boxparty_ZF_NavEventType_Confirm) {
+			setHoverBlock(self);
+			getGlobalStore().blockMenuEvent = true;
+			typing = true;
+			blink = true;
+			blinkTimer = 0;
+			cursorLineBeginning = true;
+			cursor = 0;
+			selCursor = -1;
+
+			updateLines();
+			updateUpDownX();
+
+			return true;
+		}
+		return false;
+	}
+
+	override bool onUIEvent(boxparty_ZF_UiEvent ev) {
 		if (bar != NULL) bar.onUIEvent(ev);
-		ev.mouseBlock |= bar.blocksMouse(mousePos);
+		let mousePos = getGlobalStore().mousePos;
+		mouseBlock |= bar.blocksMouse(mousePos);
 
 		bool dontFixOffset = false;
 		
-		boxparty_AABB screenBox; boxToScreen(screenBox);
+		boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
 
 		// if the player's clicked, and their mouse is in the right place, set the state accordingly
 		if (ev.type == UIEvent.Type_LButtonDown) {
-			if (!ev.mouseBlock && isEnabled() && screenBox.pointCollides(master.mousePos)) {
+			if (!mouseBlock && isEnabled() && screenBox.pointCollides(mousePos)) {
 				clicking = true;
 				setHoverBlock(self);
+				getGlobalStore().blockMenuEvent = true;
 				typing = true;
 				blink = true;
 				blinkTimer = 0;
@@ -594,6 +630,7 @@ class boxparty_TextInput : boxparty_Element {
 			else {
 				if (typing && cmdHandler != NULL) {
 					cmdHandler.textInputExit(self, command);
+					getGlobalStore().blockMenuEvent = false;
 				}
 				clicking = false;
 				typing = false;
@@ -661,6 +698,7 @@ class boxparty_TextInput : boxparty_Element {
 					}
 				}
 				else {
+					getGlobalStore().blockMenuEvent = false;
 					typing = false;
 					cursor = 0;
 					selCursor = -1;
@@ -804,7 +842,7 @@ class boxparty_TextInput : boxparty_Element {
 				}
 			}
 		}
-		else if (ev.type == UiEvent.Type_WheelDown && multiline && screenBox.pointCollides(master.mousePos)) {
+		else if (ev.type == UiEvent.Type_WheelDown && multiline && screenBox.pointCollides(mousePos)) {
 			let c = floor(-curOffset / (fnt.getHeight() * textScale));
 			c += 1;
 			curOffset = -c * fnt.getHeight() * textScale;
@@ -820,7 +858,7 @@ class boxparty_TextInput : boxparty_Element {
 				bar.position = -(curOffset) / areaHeight;
 			}
 		}
-		else if (ev.type == UiEvent.Type_WheelUp && multiline && screenBox.pointCollides(master.mousePos)) {
+		else if (ev.type == UiEvent.Type_WheelUp && multiline && screenBox.pointCollides(mousePos)) {
 			let c = ceil(-curOffset / (fnt.getHeight() * textScale));
 			c -= 1;
 			curOffset = -c * fnt.getHeight() * textScale;

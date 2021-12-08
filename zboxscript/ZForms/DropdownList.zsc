@@ -1,62 +1,92 @@
-class boxparty_DropdownItems {
+class boxparty_ZF_DropdownItems {
 	Array<string> items;
 }
 
-class boxparty_DropdownList : boxparty_Element {
-	boxparty_DropdownItems items;
-	int selection;
-	int textColor;
-	Font fnt;
-	double textScale;
+class boxparty_ZF_DropdownList : boxparty_ZF_Element {
+	protected boxparty_ZF_DropdownItems items;
+	boxparty_ZF_DropdownItems getItems() { return self.items; }
+	void setItems(boxparty_ZF_DropdownItems items) { self.items = items; }
 
-	boxparty_Frame bindingFrame;
+	protected int textColor;
+	int getTextColor() { return self.textColor; }
+	void setTextColor(int textColor) { self.textColor = textColor; }
 
-	boxparty_BoxTextures boxBg;
-	boxparty_BoxDrawer boxBgDrawer;
-	boxparty_BoxTextures listBg;
-	boxparty_BoxDrawer listBgDrawer;
-	boxparty_BoxTextures highlightBg;
-	boxparty_BoxDrawer highlightBgDrawer;
-	string dropTex;
-
-	protected bool clicking;
-	protected bool active;
-	protected int hover;
-
-	void config(
-		boxparty_DropdownItems items, Font fnt = NULL, double textScale = 1.0, int textColor = Font.CR_WHITE,
-		boxparty_BoxTextures boxBg = NULL, boxparty_BoxTextures listBg = NULL, boxparty_BoxTextures highlightBg = NULL,
-		string dropTex = "", int defaultSelection = -1, boxparty_Handler cmdHandler = NULL, string command = "",
-		boxparty_Frame bindingFrame = NULL
-	) {
+	protected Font fnt;
+	Font getFont() { return self.fnt; }
+	void setFont(Font fnt) {
 		if (fnt == NULL) {
 			self.fnt = smallfont;
 		}
 		else {
 			self.fnt = fnt;
 		}
-		self.items = items;
-		self.selection = defaultSelection;
-		self.textScale = textScale;
-		self.textColor = textColor;
-		self.boxBg = boxBg;
-		self.listBg = listBg;
-		self.highlightBg = highlightBg;
-		self.dropTex = dropTex;
-		self.cmdHandler = cmdHandler;
-		self.command = command;
-		self.bindingFrame = bindingFrame;
-		self.alpha = 1.0;
 	}
 
-	static boxparty_DropdownList create(
-		Vector2 pos, Vector2 size,
-		boxparty_DropdownItems items, Font fnt = NULL, double textScale = 1.0, int textColor = Font.CR_WHITE,
-		boxparty_BoxTextures boxBg = NULL, boxparty_BoxTextures listBg = NULL, boxparty_BoxTextures highlightBg = NULL,
-		string dropTex = "", int defaultSelection = -1, boxparty_Handler cmdHandler = NULL, string command = "",
-		boxparty_Frame bindingFrame = NULL
+	protected double textScale;
+	double getTextScale() { return self.textScale; }
+	void setTextScale(double textScale) { self.textScale = textScale; }
+
+	protected int selection;
+	int getSelection() { return self.selection; }
+
+	protected boxparty_ZF_Frame bindingFrame;
+	boxparty_ZF_Frame getBindingFrame() { return self.bindingFrame; }
+	void setBindingFrame(boxparty_ZF_Frame bindingFrame) { self.bindingFrame = bindingFrame; }
+
+	protected boxparty_ZF_BoxTextures boxBg;
+	boxparty_ZF_BoxTextures getBoxBgTexture() { return self.boxBg; }
+	void setBoxBgTexture(boxparty_ZF_BoxTextures boxBg) { self.boxBg = boxBg; }
+	protected boxparty_ZF_BoxDrawer boxBgDrawer;
+
+	protected boxparty_ZF_BoxTextures listBg;
+	boxparty_ZF_BoxTextures getListBgTexture() { return self.listBg; }
+	void setListBgTexture(boxparty_ZF_BoxTextures listBg) { self.listBg = listBg; }
+	protected boxparty_ZF_BoxDrawer listBgDrawer;
+
+	protected boxparty_ZF_BoxTextures highlightBg;
+	boxparty_ZF_BoxTextures getHighlightBgTexture() { return self.highlightBg; }
+	void setHighlightBgTexture(boxparty_ZF_BoxTextures highlightBg) { self.highlightBg = highlightBg; }
+	protected boxparty_ZF_BoxDrawer highlightBgDrawer;
+
+	protected string dropTex;
+	string getDropTex() { return self.dropTex; }
+	void setDropTex(string dropTex) { self.dropTex = dropTex; }
+
+	protected bool clicking;
+	protected bool active;
+	protected int hover;
+	protected bool lastKey;
+
+	void config(
+		boxparty_ZF_DropdownItems items, Font fnt = NULL, double textScale = 1.0, int textColor = Font.CR_WHITE,
+		boxparty_ZF_BoxTextures boxBg = NULL, boxparty_ZF_BoxTextures listBg = NULL, boxparty_ZF_BoxTextures highlightBg = NULL,
+		string dropTex = "", int defaultSelection = -1, boxparty_ZF_Handler cmdHandler = NULL, string command = "",
+		boxparty_ZF_Frame bindingFrame = NULL
 	) {
-		let ret = new("boxparty_DropdownList");
+		setFont(fnt);
+		setItems(items);
+		setTextScale(textScale);
+		setTextColor(textColor);
+		setBoxBgTexture(boxBg);
+		setListBgTexture(listBg);
+		setHighlightBgTexture(highlightBg);
+		setDropTex(dropTex);
+		setBindingFrame(bindingFrame);
+		setAlpha(1.0);
+
+		self.cmdHandler = cmdHandler;
+		self.command = command;
+		self.selection = defaultSelection;
+	}
+
+	static boxparty_ZF_DropdownList create(
+		Vector2 pos, Vector2 size,
+		boxparty_ZF_DropdownItems items, Font fnt = NULL, double textScale = 1.0, int textColor = Font.CR_WHITE,
+		boxparty_ZF_BoxTextures boxBg = NULL, boxparty_ZF_BoxTextures listBg = NULL, boxparty_ZF_BoxTextures highlightBg = NULL,
+		string dropTex = "", int defaultSelection = -1, boxparty_ZF_Handler cmdHandler = NULL, string command = "",
+		boxparty_ZF_Frame bindingFrame = NULL
+	) {
+		let ret = new("boxparty_ZF_DropdownList");
 
 		ret.config(
 			items, fnt, textScale, textColor, boxBg, listBg, highlightBg, dropTex,
@@ -67,30 +97,28 @@ class boxparty_DropdownList : boxparty_Element {
 		return ret;
 	}
 
-	override bool blocksMouse(Vector2 mousePos) {
-		boxparty_AABB screenBox; boxToScreen(screenBox);
-		return screenBox.pointCollides(mousePos);
-	}
-
-	void dropdownAABB(boxparty_AABB screenBox) {
-		boxparty_AABB aabb;
+	void dropdownAABB(boxparty_ZF_AABB screenBox) {
+		boxparty_ZF_AABB aabb;
 		aabb.pos = (0.0, getDropdownYOff());
 		aabb.size = (box.size.x, box.size.y * items.items.size());
 		aabbToScreen(screenBox, aabb, false);
 		if (bindingFrame != NULL) {
-			boxparty_AABB bindingBox; bindingFrame.boxToScreen(bindingBox);
+			boxparty_ZF_AABB bindingBox; bindingFrame.boxToScreen(bindingBox);
 			screenBox.rectOfIntersection(screenBox, bindingBox);
 		}
 	}
 
 	override bool blocksMousePriority(Vector2 mousePos) {
+		if (dontBlockMouse) return false;
 		if (!active) return false;
-		boxparty_AABB screenBox; dropdownAABB(screenBox);
+		boxparty_ZF_AABB screenBox; dropdownAABB(screenBox);
 		return screenBox.pointCollides(mousePos);
 	}
 
 	override void drawer() {
-		boxparty_AABB beforeClip, clipRect;
+		if (hidden) { return; }
+
+		boxparty_ZF_AABB beforeClip, clipRect;
 		screenClip(beforeClip, clipRect);
 		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
 
@@ -115,11 +143,11 @@ class boxparty_DropdownList : boxparty_Element {
 	}
 
 	double getDropdownYOff() {
-		boxparty_AABB aabb;
+		boxparty_ZF_AABB aabb;
 		aabb.pos = (0.0, box.size.y);
 		aabb.size = (box.size.x, box.size.y * items.items.size());
-		boxparty_AABB dropdownBox; aabbToScreen(dropdownBox, aabb, false);
-		boxparty_AABB masterBox;
+		boxparty_ZF_AABB dropdownBox; aabbToScreen(dropdownBox, aabb, false);
+		boxparty_ZF_AABB masterBox;
 		if (bindingFrame != NULL) {
 			bindingFrame.boxToScreen(masterBox);
 		}
@@ -143,18 +171,23 @@ class boxparty_DropdownList : boxparty_Element {
 	}
 
 	override void topDrawer() {
+		if (hidden) { return; }
 		if (!active) return;
 
-		boxparty_AABB screenBox; dropdownAABB(screenBox);
-		hover = -1;
-		if (screenBox.pointCollides(master.mousePos)) {
-			let diff = master.mousePos - screenBox.pos;
+		boxparty_ZF_AABB screenBox; dropdownAABB(screenBox);
+		let mousePos = getGlobalStore().mousePos;
+		if (screenBox.pointCollides(mousePos)) {
+			hover = -1;
+			let diff = mousePos - screenBox.pos;
 			diff /= getScale();
 			int newSelection = int(diff.y / box.size.y);
 			hover = newSelection;
+			lastKey = false;
+		} else if (!lastKey) {
+			hover = -1;
 		}
 
-		boxparty_AABB beforeClip, clipRect;
+		boxparty_ZF_AABB beforeClip, clipRect;
 		if (bindingFrame != NULL) {
 			bindingFrame.screenClip(beforeClip, clipRect);
 			Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
@@ -180,11 +213,10 @@ class boxparty_DropdownList : boxparty_Element {
 	}
 
 	bool setSelection() {
-		boxparty_AABB dropdownBox; dropdownAABB(dropdownBox);
-		if (dropdownBox.pointCollides(master.mousePos)) {
-			let diff = master.mousePos - dropdownBox.pos;
-			diff /= getScale();
-			int newSelection = int(diff.y / box.size.y);
+		let mousePos = getGlobalStore().mousePos;
+		boxparty_ZF_AABB dropdownBox; dropdownAABB(dropdownBox);
+		if (dropdownBox.pointCollides(mousePos) && hover != -1) {
+			let newSelection = hover;
 			let fireEvent = selection != newSelection;
 			selection = newSelection;
 			if (fireEvent && cmdHandler != NULL) {
@@ -192,11 +224,60 @@ class boxparty_DropdownList : boxparty_Element {
 			}
 			return true;
 		}
-		boxparty_AABB screenBox; boxToScreen(screenBox);
-		return screenBox.pointCollides(master.mousePos);
+		boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
+		return screenBox.pointCollides(mousePos);
 	}
 
-	override bool onUIEventPriority(boxparty_UiEvent ev) {
+	override bool onNavEvent(boxparty_ZF_NavEventType type, bool fromController) {
+		if (isEnabled()) {
+			if (active) {
+				switch (type) {
+				case boxparty_ZF_NavEventType_Confirm: {
+					let newSelection = hover;
+					let fireEvent = selection != newSelection;
+					selection = newSelection;
+					if (fireEvent && cmdHandler != NULL) {
+						cmdHandler.dropdownChanged(self, command);
+					}
+					active = false;
+					break;
+				}
+				case boxparty_ZF_NavEventType_Down: {
+					if (hover == -1) { hover = 0; }
+					else {
+						hover += 1;
+						if (hover == items.items.size()) {
+							hover -= 1;
+						}
+					}
+					lastKey = true;
+					break;
+				}
+				case boxparty_ZF_NavEventType_Up: {
+					if (hover == -1) { hover = items.items.size() - 1; }
+					else {
+						hover -= 1;
+						if (hover == -1) {
+							hover = 0;
+						}
+					}
+					lastKey = true;
+					break;
+				}
+				}
+				return true;
+			} else if (isFocused() && type == boxparty_ZF_NavEventType_Confirm) {
+				active = true;
+				setHoverBlock(self);
+				hover = -1;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	override bool onUIEventPriority(boxparty_ZF_UiEvent ev) {
+		let mousePos = getGlobalStore().mousePos;
 		if (ev.type == UIEvent.Type_LButtonDown) {
 			if (isEnabled()) {
 				if (active) {
@@ -209,8 +290,8 @@ class boxparty_DropdownList : boxparty_Element {
 		else if (ev.type == UIEvent.Type_LButtonUp && clicking) {
 			clicking = false;
 			setHoverBlock(NULL);
-			boxparty_AABB screenBox; dropdownAABB(screenBox);
-			if (active && screenBox.pointCollides(master.mousePos)) {
+			boxparty_ZF_AABB screenBox; dropdownAABB(screenBox);
+			if (active && screenBox.pointCollides(mousePos)) {
 				active = false;
 				return setSelection();
 			}
@@ -221,15 +302,17 @@ class boxparty_DropdownList : boxparty_Element {
 		return false;
 	}
 
-	override bool onUIEvent(boxparty_UiEvent ev) {
+	override bool onUIEvent(boxparty_ZF_UiEvent ev) {
 		if (ev.type == UIEvent.Type_LButtonDown) {
 			if (isEnabled()) {
-				boxparty_AABB screenBox; boxToScreen(screenBox);
-				if (!active && !ev.mouseBlock && screenBox.pointCollides(master.mousePos)) {
+				boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
+				let mousePos = getGlobalStore().mousePos;
+				if (!active && !mouseBlock && screenBox.pointCollides(mousePos)) {
 					active = true;
+					hover = -1;
 					clicking = true;
-					boxparty_AABB dropdownBox; dropdownAABB(dropdownBox);
-					if (dropdownBox.pointCollides(master.mousePos)) {
+					boxparty_ZF_AABB dropdownBox; dropdownAABB(dropdownBox);
+					if (dropdownBox.pointCollides(mousePos)) {
 						clicking = false;
 					}
 					setHoverBlock(self);

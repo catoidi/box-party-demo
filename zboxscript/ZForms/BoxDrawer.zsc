@@ -1,15 +1,15 @@
-struct boxparty_BoxDrawer ui {
+struct boxparty_ZF_BoxDrawer ui {
 	private Shape2D shape;
 	private Shape2DTransform transform;
 
 	private bool initialised;
 	private Vector2 lastPos;
 	private Vector2 lastSize;
-	private boxparty_BoxTextures lastTextures;
+	private boxparty_ZF_BoxTextures lastTextures;
 	private Vector2 lastScale;
 
 	void draw(
-		boxparty_Element master, Vector2 pos, Vector2 size, boxparty_BoxTextures textures,
+		boxparty_ZF_Element master, Vector2 pos, Vector2 size, boxparty_ZF_BoxTextures textures,
 		bool animate, Vector2 scale = (1, 1)
 	) {
 		let absPos = master.relToScreen(pos) * master.getScale();
@@ -18,7 +18,9 @@ struct boxparty_BoxDrawer ui {
 			shape == NULL || scaledSize != lastSize ||
 			textures != lastTextures || scale != lastScale
 		) {
-			shape = calc(master, size, textures, scale);
+			if (shape == NULL) shape = new("Shape2D");
+			calc(master, size, textures, scale);
+			if (shape == NULL) return;
 			lastSize = scaledSize;
 			lastTextures = textures;
 			lastScale = scale;
@@ -31,9 +33,9 @@ struct boxparty_BoxDrawer ui {
 		}
 		shape.setTransform(transform);
 		let texID = TexMan.checkForTexture(textures.getBoxTexture(), TexMan.Type_Any);
-		boxparty_AABB clipRect; master.getClipAABB(clipRect);
+		boxparty_ZF_AABB clipRect; master.getClipAABB(clipRect);
 		Screen.drawShape(
-			texID, animate, shape, DTA_Alpha, master.alpha * master.getAlpha(),
+			texID, animate, shape, DTA_Alpha, master.getDrawAlpha(),
 			DTA_ClipLeft, int(floor(clipRect.pos.x)),
 			DTA_ClipTop, int(floor(clipRect.pos.y)),
 			DTA_ClipRight, int(ceil(clipRect.pos.x + clipRect.size.x)),
@@ -104,7 +106,7 @@ struct boxparty_BoxDrawer ui {
 	}
 
 	Shape2D calc(
-		boxparty_Element master, Vector2 size, boxparty_BoxTextures textures, Vector2 scale = (1, 1)
+		boxparty_ZF_Element master, Vector2 size, boxparty_ZF_BoxTextures textures, Vector2 scale = (1, 1)
 	) {
 		double screenScale = master.getScale();
 
@@ -122,10 +124,14 @@ struct boxparty_BoxDrawer ui {
 			return null;
 		}
 
-		// Raw
-		Vector2 tlRawSize = scaleVec(imageSize, textures.getMidSliceTopLeft());
+		let midSliceTopLeft = textures.getMidSliceTopLeft();
+		let midSliceBottomRight = textures.getMidSliceBottomRight();
+		let midSliceSize = midSliceBottomRight - midSliceTopLeft;
 
-		Vector2 brRawPos = scaleVec(imageSize, textures.getMidSliceBottomRight());
+		// Raw
+		Vector2 tlRawSize = scaleVec(imageSize, midSliceTopLeft);
+
+		Vector2 brRawPos = scaleVec(imageSize, midSliceBottomRight);
 		Vector2 brRawSize = imageSize - brRawPos;
 
 		Vector2 midRawPos = tlRawSize;
@@ -159,7 +165,6 @@ struct boxparty_BoxDrawer ui {
 		Vector2 midScreenPos = tlScreenPos + tlScreenSize;
 		Vector2 midScreenSize = brScreenPos - midScreenPos;
 
-		let shape = new("Shape2D");
 		shape.clear();
 
 		int vertCount = 0;
@@ -211,27 +216,39 @@ struct boxparty_BoxDrawer ui {
 			Vector2 rightScreenSize = (brScreenSize.x, midScreenSize.y);
 
 			if (textures.getScaleSides()) {
-				shape2DAddQuad(shape, topScreenPos, topScreenSize, topUVPos, topUVSize, vertCount);
-				shape2DAddQuad(shape, bottomScreenPos, bottomScreenSize, bottomUVPos, bottomUVSize, vertCount);
-				shape2DAddQuad(shape, leftScreenPos, leftScreenSize, leftUVPos, leftUVSize, vertCount);
-				shape2DAddQuad(shape, rightScreenPos, rightScreenSize, rightUVPos, rightUVSize, vertCount);
+				if (midSliceSize.x != 0.0) {
+					shape2DAddQuad(shape, topScreenPos, topScreenSize, topUVPos, topUVSize, vertCount);
+					shape2DAddQuad(shape, bottomScreenPos, bottomScreenSize, bottomUVPos, bottomUVSize, vertCount);
+				}
+				if (midSliceSize.y != 0.0) {
+					shape2DAddQuad(shape, leftScreenPos, leftScreenSize, leftUVPos, leftUVSize, vertCount);
+					shape2DAddQuad(shape, rightScreenPos, rightScreenSize, rightUVPos, rightUVSize, vertCount);
+				}
 			} else {
 				Vector2 topScaledSize = (midScaledSize.x, tlScaledSize.y);
 				Vector2 bottomScaledSize = (midScaledSize.x, brScaledSize.y);
 				Vector2 leftScaledSize = (tlScaledSize.x, midScaledSize.y);
 				Vector2 rightScaledSize = (brScaledSize.x, midScaledSize.y);
 
-				calcTiledImage(shape, topScreenPos, topScreenSize, topScaledSize, topUVPos, topUVSize, vertCount);
-				calcTiledImage(shape, bottomScreenPos, bottomScreenSize, bottomScaledSize, bottomUVPos, bottomUVSize, vertCount);
-				calcTiledImage(shape, leftScreenPos, leftScreenSize, leftScaledSize, leftUVPos, leftUVSize, vertCount);
-				calcTiledImage(shape, rightScreenPos, rightScreenSize, rightScaledSize, rightUVPos, rightUVSize, vertCount);
+				if (midSliceSize.x != 0.0) {
+					calcTiledImage(shape, topScreenPos, topScreenSize, topScaledSize, topUVPos, topUVSize, vertCount);
+					calcTiledImage(shape, bottomScreenPos, bottomScreenSize, bottomScaledSize, bottomUVPos, bottomUVSize, vertCount);
+				}
+				if (midSliceSize.y != 0.0) {
+					calcTiledImage(shape, leftScreenPos, leftScreenSize, leftScaledSize, leftUVPos, leftUVSize, vertCount);
+					calcTiledImage(shape, rightScreenPos, rightScreenSize, rightScaledSize, rightUVPos, rightUVSize, vertCount);
+				}
 			}
 		}
 
 		if (textures.getScaleMiddle()) {
-			shape2DAddQuad(shape, midScreenPos, midScreenSize, midUVPos, midUVSize, vertCount);
+			if (midSliceSize.x != 0.0 && midSliceSize.y != 0.0) {
+				shape2DAddQuad(shape, midScreenPos, midScreenSize, midUVPos, midUVSize, vertCount);
+			}
 		} else {
-			calcTiledImage(shape, midScreenPos, midScreenSize, midScaledSize, midUVPos, midUVSize, vertCount);
+			if (midSliceSize.x != 0.0 && midSliceSize.y != 0.0) {
+				calcTiledImage(shape, midScreenPos, midScreenSize, midScaledSize, midUVPos, midUVSize, vertCount);
+			}
 		}
 
 		return shape;

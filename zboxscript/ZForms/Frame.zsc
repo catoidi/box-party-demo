@@ -1,100 +1,51 @@
 /// Frame class - one frame at least is used in any menu, but frames can be put in frames
 /// for easy subpositioning.
-class boxparty_Frame : boxparty_Element {
-	Array<boxparty_Element> elements;
+class boxparty_ZF_Frame : boxparty_ZF_ElementContainer {
+	uint elementCount() { return elements.size(); }
+	uint indexOfElement(boxparty_ZF_Element elem) { return elements.find(elem); }
+	void swapElements(uint index0, uint index1) {
+		let tmp = elements[index0];
+		elements[index0] = elements[index1];
+		elements[index1] = tmp;
+	}
+	void moveElement(uint beforeIndex, uint afterIndex) {
+		if (beforeIndex == afterIndex) return;
+		if (afterIndex > beforeIndex) afterIndex -= 1;
+		let tmp = elements[beforeIndex];
+		elements.delete(beforeIndex);
+		elements.insert(afterIndex, tmp);
+	}
 
-	static boxparty_Frame create(Vector2 pos, Vector2 size) {
-		let ret = new('boxparty_Frame');
+	void internalPack(boxparty_ZF_Element elem) {
+		if (elem.master != NULL) {
+			elem.unpack();
+		}
+		elem.master = self;
+		self.elements.push(elem);
+		self.onPack(elem);
+	}
+	void internalUnpack(boxparty_ZF_Element elem) {
+		if (elem.master != self) {
+			throwAbortException("This shouldn't happen unless the user called internalUnpack themselves");
+		}
+		int index = self.elements.find (elem);
+		if (index != self.elements.Size ()) {
+			self.elements.delete(index, 1);
+		}
+		elem.master = NULL;
+		elem.globalStore = NULL;
+	}
+
+	static boxparty_ZF_Frame create(Vector2 pos, Vector2 size) {
+		let ret = new('boxparty_ZF_Frame');
 
 		ret.setBox(pos, size);
 		ret.alpha = 1;
-		ret.needsMouseMove = true;
 
 		return ret;
 	}
 
-	virtual void onPack(boxparty_Element elem) {}
-
-	override bool handleBack() {
-		let ret = false;
-		for (int i = 0; i < elements.size(); i++) {
-			if (elements[i] != NULL) {
-				ret = ret || elements[i].handleBack();
-			}
-		}
-		return ret;
-	}
-
-	override void ticker() {
-		for (int i = 0; i < elements.size(); i++) {
-			if (elements[i] != NULL) {
-				elements[i].ticker();
-			}
-		}
-	}
-
-	void drawerInternal(bool top) {
-		if (hidden) {
-			return;
-		}
-
-		// stuff in the frame shouldn't draw outside the frame
-		boxparty_AABB beforeClip; getClipAABB(beforeClip);
-		if (master != NULL) {
-			boxparty_AABB clipCoords; boxToScreen(clipCoords);
-			boxparty_AABB screenClip;
-			screenClip.size = screenSize();
-			clipCoords.rectOfIntersection(clipCoords, screenClip);
-
-			Screen.setClipRect(int(clipCoords.pos.x), int(clipCoords.pos.y), int(clipCoords.size.x), int(clipCoords.size.y));
-		}
-
-		for (int i = 0; i < elements.size(); i++) {
-			if (elements[i] != NULL && !elements[i].hidden) {
-				if (top) { elements[i].topDrawer(); }
-				else { elements[i].drawer(); }
-			}
-		}
-
-		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
-	}
-
-	override void drawer() {
-		drawerInternal(false);
-	}
-	override void topDrawer() {
-		drawerInternal(true);
-	}
-
-	override bool onUIEventPriority(boxparty_UiEvent ev) {
-		if (ev.type == UIEvent.Type_MouseMove) {
-			mousePos = (ev.mouseX, ev.mouseY);
-		}
-		for (int i = elements.size() - 1; i >= 0; i--) {
-			let elem = elements[i];
-			if (elem != NULL) {
-				let res = (ev.type == UiEvent.Type_MouseMove && !elem.needsMouseMove) ? false : elem.onUIEventPriority(ev);
-				elem.mouseBlock = ev.mouseBlock;
-				ev.mouseBlock |= elem.blocksMousePriority(mousePos);
-				if (res) return true;
-			}
-		}
-		return false;
-	}
-
-	override bool onUIEvent(boxparty_UiEvent ev) {
-		for (int i = elements.size() - 1; i >= 0; i--) {
-			let elem = elements[i];
-			if (elem != NULL) {
-				let res = (ev.type == UiEvent.Type_MouseMove && !elem.needsMouseMove) ? false : elem.onUIEvent(ev);
-				if (ev.type == UiEvent.Type_MouseMove) elem.doHover(ev.mouseBlock, mousePos);
-				elem.mouseBlock = ev.mouseBlock;
-				ev.mouseBlock |= elem.blocksMouse(mousePos);
-				if (res) return true;
-			}
-		}
-		return false;
-	}
+	virtual void onPack(boxparty_ZF_Element elem) {}
 
 	/// Converts relative positioning to screen positioning.
 	override Vector2 relToScreen(Vector2 relPos) {

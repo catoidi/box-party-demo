@@ -1,38 +1,37 @@
-class boxparty_Button : boxparty_ButtonBase {
-	int holdTicInterval;
+class boxparty_ZF_Button : boxparty_ZF_ButtonBase {
+	protected int holdTicInterval;
+	int getHoldTicInterval() { return self.holdTicInterval; }
+	void setHoldTicInterval(int holdTicInterval) { self.holdTicInterval = holdTicInterval; }
+
 	protected int currentHoldTicsRemaining;
 
 	void config(
-		string text = "", boxparty_Handler cmdHandler = NULL, string command = "",
-		boxparty_BoxTextures inactive = NULL, boxparty_BoxTextures hover = NULL,
-		boxparty_BoxTextures click = NULL, boxparty_BoxTextures disabled = NULL,
+		string text = "", boxparty_ZF_Handler cmdHandler = NULL, string command = "",
+		boxparty_ZF_BoxTextures inactive = NULL, boxparty_ZF_BoxTextures hover = NULL,
+		boxparty_ZF_BoxTextures click = NULL, boxparty_ZF_BoxTextures disabled = NULL,
 		Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
 		int holdInterval = -1, AlignType alignment = AlignType_Center
 	) {
-		if (fnt == NULL) {
-			self.fnt = smallfont;
-		}
-		else {
-			self.fnt = fnt;
-		}
+		setFont(fnt);
+		setHoldTicInterval(holdInterval);
+		setText(text);
+		setTextScale(textScale);
+		setTextures(inactive, hover, click, disabled);
+		setTextColor(textColor);
+		setAlignment(alignment);
+		setAlpha(1.0);
+
 		self.cmdHandler = cmdHandler;
 		self.command = command;
-		self.holdTicInterval = holdInterval;
-		self.text = text;
-		self.textScale = textScale;
-		self.setTextures(inactive, hover, click, disabled);
-		self.textColor = textColor;
-		self.alignment = alignment;
-		self.alpha = 1;
 	}
 
-	static boxparty_Button create(
-		Vector2 pos, Vector2 size, string text = "", boxparty_Handler cmdHandler = NULL, string command = "",
-		boxparty_BoxTextures inactive = NULL, boxparty_BoxTextures hover = NULL, boxparty_BoxTextures click = NULL,
-		boxparty_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
+	static boxparty_ZF_Button create(
+		Vector2 pos, Vector2 size, string text = "", boxparty_ZF_Handler cmdHandler = NULL, string command = "",
+		boxparty_ZF_BoxTextures inactive = NULL, boxparty_ZF_BoxTextures hover = NULL, boxparty_ZF_BoxTextures click = NULL,
+		boxparty_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
 		int holdInterval = -1, AlignType alignment = AlignType_Center
 	) {
-		let ret = new('boxparty_Button');
+		let ret = new('boxparty_ZF_Button');
 
 		ret.config(text, cmdHandler, command, inactive, hover, click, disabled, fnt, textScale, textColor, holdInterval, alignment);
 		ret.setBox(pos, size);
@@ -65,27 +64,36 @@ class boxparty_Button : boxparty_ButtonBase {
 		}
 	}
 
-	override void drawer() {
-		boxparty_AABB screenBox; boxToScreen(screenBox);
+	override bool handleMousePosition(bool mouseBlock, Vector2 mousePos) {
+		boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
 		if (!isEnabled()) {
 			curButtonState = ButtonState_Disabled;
 		}
 		else if (curButtonState != ButtonState_Click) {
-			if (!mouseBlock && !getHoverBlock() && screenBox.pointCollides(master.mousePos)) {
+			if (!mouseBlock && !getHoverBlock() && screenBox.pointCollides(mousePos)) {
 				curButtonState = ButtonState_Hover;
 			}
 			else {
 				curButtonState = ButtonState_Inactive;
 			}
 		}
-		Super.drawer();
+		return false;
 	}
 
-	override bool onUIEvent(boxparty_UiEvent ev) {
+	override bool onNavEvent(boxparty_ZF_NavEventType type, bool fromController) {
+		if (isEnabled() && isFocused() && type == boxparty_ZF_NavEventType_Confirm && holdTicInterval == -1) {
+			if (cmdHandler != NULL) cmdHandler.buttonClickCommand(self, command);
+			return true;
+		}
+		return false;
+	}
+
+	override bool onUIEvent(boxparty_ZF_UiEvent ev) {
 		// if the player's clicked, and their mouse is in the right place, set the state accordingly
 		if (ev.type == UIEvent.Type_LButtonDown) {
-			boxparty_AABB screenBox; boxToScreen(screenBox);
-			if (!ev.mouseBlock && isEnabled() && screenBox.pointCollides(master.mousePos)) {
+			let mousePos = getGlobalStore().mousePos;
+			boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
+			if (!mouseBlock && isEnabled() && screenBox.pointCollides(mousePos)) {
 				if (cmdHandler && holdTicInterval >= 0) {
 					cmdHandler.buttonClickCommand(self, command);
 					currentHoldTicsRemaining = holdTicInterval;
@@ -96,11 +104,12 @@ class boxparty_Button : boxparty_ButtonBase {
 		}
 		// if the player's releasing, check if their mouse is still in the correct range and trigger method if it was
 		else if (ev.type == UIEvent.Type_LButtonUp) {
-			boxparty_AABB screenBox; boxToScreen(screenBox);
+			let mousePos = getGlobalStore().mousePos;
+			boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
 			if (!isEnabled()) {
 				curButtonState = ButtonState_Disabled;
 			}
-			else if (screenBox.pointCollides(master.mousePos) && curButtonState == ButtonState_Click) {
+			else if (screenBox.pointCollides(mousePos) && curButtonState == ButtonState_Click) {
 				if (cmdHandler && holdTicInterval == -1) {
 					cmdHandler.buttonClickCommand(self, command);
 				}
