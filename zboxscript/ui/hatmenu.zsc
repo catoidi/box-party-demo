@@ -22,7 +22,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 	boxparty_ZF_HatMenuHandler handler;
 	
 	boxparty_ZF_Image background;
-	boxparty_ZF_Button aButton;
+	boxparty_ZF_Button aButton, colorButton;
 	boxparty_ZF_Label aLabel;
 	boxparty_ZF_Label pageLabel;
 	boxparty_ZF_Label unlockLabel;
@@ -433,7 +433,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
         let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATCOLORHOVER.png", false);
         let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/hat/HATCOLORSELECT.png", false);
         // Add a button.
-        aButton = boxparty_ZF_Button.Create
+        colorButton = boxparty_ZF_Button.Create
         (
             // Position
             ColorPos,
@@ -448,15 +448,14 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
             hover: buttonHover,
             click: buttonClick
         );
-        // Add the button element into the main frame.
-        aButton.Pack (mainFrame);
 		
+        // Add the button element into the main frame.
+        //colorButton.Pack (mainFrame);
 		updateColor();
 	}
 	
 	virtual void updateColor (void)
 	{
-		if (ColorOnOff) {ColorOnOff.Destroy();}
 		vector2 ColorPos = (246, 84);
 
 		//hat preview
@@ -471,8 +470,20 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		
 		let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(ChosenImage, (0, 0), (16, 14), true, true);
 		let boxSize = (16, 14);
-		ColorOnOff = boxparty_ZF_BoxImage.Create(ColorPos, boxSize, boxTexture, (1.0, 1.0));
+		if (ColorOnOff) 
+		{
+			ColorOnOff.Unpack();
+			ColorOnOff.Config(boxTexture, (1.0, 1.0));
+		}
+		else 
+		{
+			ColorOnOff = boxparty_ZF_BoxImage.Create(ColorPos, boxSize, boxTexture, (1.0, 1.0));
+		}
+		
 		ColorOnOff.Pack (mainFrame);
+		
+		colorButton.Unpack();
+		colorButton.Pack (mainFrame);
 	}
 	
 	override void Init (Menu parent)
