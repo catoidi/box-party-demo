@@ -45,3 +45,10 @@ OptionValue "boxinfight"
 	0, "$BOX_VALUE_DEFAULT"
 	1, "$BOX_VALUE_INFIGHT_TOTAL"
 }
+
+OptionValue "scorevalue"
+{
+	0, "$BOX_VALUE_OFF"
+	1, "$BOX_VALUE_ON_DEFAULT"
+	2, "$BOX_VALUE_SCOREFADE"
+}

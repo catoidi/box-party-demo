@@ -77,6 +77,8 @@ class BoxPartyStatusBar : BaseStatusBar
 	Array<string> reserveweapon; //weapon associated with corresponding ammo.
 	
 	bool HideAmmo1;
+	
+	int leveltime;
 
 	override void Init()
 	{
@@ -198,6 +200,8 @@ class BoxPartyStatusBar : BaseStatusBar
 		
 		//update interpolated numbers
 		BoxInterpolate();
+		
+		leveltime = level.maptime / 35;
 		
 		Ammo ammo1, ammo2;
 		int ammomax;
@@ -422,28 +426,36 @@ class BoxPartyStatusBar : BaseStatusBar
 			
 			DrawImage(keyimage, GlobalOffset + (12 + (16 * keyoffset), -8), DI_ITEM_OFFSETS);
 		}
+		
+		//level time
+		vector2 TimeOffset = (0, 20);
+		cvar timecvar = cvar.FindCVAR('box_leveltime');
+		if (timecvar.GetBool() == true)
+		{
+			DrawImage("graphics/SCOREBAR.png", GlobalOffset + (-46, 28));
+			let timestring = String.Format("\c-%02d\cu:\c-%02d\cu:\c-%02d", leveltime/3600, (leveltime%3600)/60, leveltime%60);
+			DrawString(SmallFont, timestring, GlobalOffset + (-12, 16), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT);
+		}
+		else {TimeOffset = (0, 0);}
+		
+		//score
+		cvar togglescore = cvar.FindCVAR('box_showscore');
+		double ScoreAlpha = ScoreFadeTime;
+		if (togglescore.GetInt() <= 1)	{ScoreAlpha = 1.0;}
+		if (togglescore.GetInt() >= 1)
+		{
+			DrawImage("graphics/SCOREBAR.png", GlobalOffset + TimeOffset + (-46, 28), 0, ScoreAlpha);
+			if (ScoreFadeTime >= 1.0) {DrawBar("graphics/SCOREBAA.png", "graphics/SCOREBAR.png", MurderTimer, 175, GlobalOffset + TimeOffset + (-84, 12), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);}
+			if (MurderCombo >= 5) {DrawImage("graphics/SCOREBAB.png", GlobalOffset + TimeOffset + (-46, 28), 0, ComboFade);}
+			DrawString(SmallFont, FormatNumber(BoxScoreInterpolator.GetValue()), GlobalOffset + TimeOffset + (-12, 16), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, ScoreAlpha);
+		}
 	
 		//oxygen meter
 		if (IsUnderwater == true)
 		{
-			DrawBar("graphics/HUDBARJ.png", "graphics/HUDBARI.png", OxygenLevel, MaxOxygen, GlobalOffset + (-142, 32), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
-			DrawImage("graphics/AIRICON.png", GlobalOffset + (-32, 32), DI_ITEM_OFFSETS);
-			DrawString(NumberFont, FormatNumber(OxygenNumber), GlobalOffset + (-48, 36), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, OxygenColor);
-		}
-		
-		//score
-		cvar togglescore = cvar.FindCVAR('box_showscore');
-		cvar togglescorefade = cvar.FindCVAR('box_scorefade');
-		
-		double ScoreAlpha = ScoreFadeTime;
-		if (togglescorefade.GetBool() == false)	{ScoreAlpha = 1.0;}
-		
-		if (togglescore.GetBool() == true)
-		{
-			DrawImage("graphics/SCOREBAR.png", GlobalOffset + (-46, 28), 0, ScoreAlpha);
-			if (ScoreFadeTime >= 1.0) {DrawBar("graphics/SCOREBAA.png", "graphics/SCOREBAR.png", MurderTimer, 175, GlobalOffset + (-84, 12), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);}
-			if (MurderCombo >= 5) {DrawImage("graphics/SCOREBAB.png", GlobalOffset + (-46, 28), 0, ComboFade);}
-			DrawString(SmallFont, FormatNumber(BoxScoreInterpolator.GetValue()), GlobalOffset + (-12, 16), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, ScoreAlpha);
+			DrawBar("graphics/HUDBARJ.png", "graphics/HUDBARI.png", OxygenLevel, MaxOxygen, GlobalOffset + TimeOffset + (-142, 32), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+			DrawImage("graphics/AIRICON.png", GlobalOffset + TimeOffset + (-32, 32), DI_ITEM_OFFSETS);
+			DrawString(NumberFont, FormatNumber(OxygenNumber), GlobalOffset + TimeOffset + (-48, 36), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, OxygenColor);
 		}
 	}
 	

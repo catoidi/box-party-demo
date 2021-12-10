@@ -155,8 +155,8 @@ BOX_HAT_NUM = "Hat";
 BOX_HAT_MENU = "Open Hat Menu";
 HAT_RESET_WARN = "WARNING: Resetting your settings WILL delete your hats!";
 BOX_HUDOPTIONS = "HUD Options";
+BOX_LEVELTIME = "Speedrun Clock";
 BOX_SHOWSCORE = "Show Player Score";
-BOX_SCOREFADE = "Score Bar Fade";
 BOX_TUTORIAL = "Show Tutorials";
 BOX_LEVELNAME = "Show Level Names";
 HIGHSCORE = "Level High Scores";
@@ -194,6 +194,7 @@ BOX_VALUE_NOTHANKS = "No thanks.";
 BOX_VALUE_INFIGHT_OFF = "No Infighting";
 BOX_VALUE_DEFAULT = "\cfDefault";
 BOX_VALUE_INFIGHT_TOTAL = "Total Infighting";
+BOX_VALUE_SCOREFADE = "Fade Over Time";
 
 //NashHPBar Menu
 //same as the default BoxHPBar files, but with references to Nash specifically removed.
