@@ -217,7 +217,7 @@ class BoxPartyStatusBar : BaseStatusBar
 			if (!OffsetHealth > 0) {OffsetHealth = cplayer.health;} //offsethealth should never reach 0 after start
 			else if (OffsetHealth > cplayer.health) //health lowered, start shaking
 			{
-				if (OffsetHealth > 200) {OffsetHealth = 200;}
+				if (OffsetHealth > 200 + cplayer.health) {OffsetHealth = 200 + cplayer.health;}
 				if (WhichClass[CurrentPlayer] == "PlayerTriangleToken") {OffsetAmount = (((OffsetHealth - cplayer.health) * (shakecvar.GetInt())) / 8);} //shakes 1 pixel per 4 damage for triangle
 				else {OffsetAmount = (((OffsetHealth - cplayer.health) * (shakecvar.GetInt())) / 20);} //shakes 1 pixel per 10 damage for non-triangles
 				if (OffsetAmount > (4 + shakecvar.GetInt())) {OffsetAmount = (4 + shakecvar.GetInt());} //cap shake amount
