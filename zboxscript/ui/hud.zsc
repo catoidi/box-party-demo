@@ -433,7 +433,7 @@ class BoxPartyStatusBar : BaseStatusBar
 		if (timecvar.GetBool() == true)
 		{
 			DrawImage("graphics/SCOREBAR.png", GlobalOffset + (-46, 28));
-			let timestring = String.Format("\c-%02d\cu:\c-%02d\cu:\c-%02d", leveltime/3600, (leveltime%3600)/60, leveltime%60);
+			let timestring = String.Format("\c-%d\cu:\c-%02d\cu.\c-%02d", (leveltime/60)%10000, leveltime%60, level.maptime%35);
 			DrawString(SmallFont, timestring, GlobalOffset + (-12, 16), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT);
 		}
 		else {TimeOffset = (0, 0);}
