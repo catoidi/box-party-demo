@@ -363,6 +363,7 @@ script "ShowSideQuests" (int QuestEnabled)
 		if (togglesidequests == false) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
 		else {ACS_NamedExecuteAlways("ForceHideQuests", 0, 0, 0, 0);}
 	}
+	else {Log(l:"QUEST_UNAVAILABLE");}
 }
 
 script "UpdateSideQuests" (void)

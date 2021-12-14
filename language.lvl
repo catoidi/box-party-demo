@@ -296,6 +296,7 @@ TXT_PARTY03_TALKK_2 = "\cci'm quenched";
 /////////////////////////////////
 QUESTUPDATED = "A side quest has been updated.";
 QUEST_NONE = "";
+QUEST_UNAVAILABLE = "no quests are available at this time.";
 QUEST_UNFINISHED = "Progress: \cfincomplete.";
 QUEST_COMPLETE = "Progress: \cdDONE!";
 QUEST_FAILED = "Progress: \caFailed.";
