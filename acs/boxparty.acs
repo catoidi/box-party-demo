@@ -340,7 +340,7 @@ script "healplayer" (void) //simple and clean player healer. used just before bo
 ///QUESTS///
 ////////////
 
-//temporarily disabled this stuff until i have more time to work on it.
+//i would like to replace the UI for this with ZScript in the future, but for now it is out of my league.
 
 bool togglesidequests = false;
 str quest1_name = "QUEST_NONE";
@@ -358,20 +358,17 @@ script "ShowSideQuests" (int QuestEnabled)
 	//Explanation: Player calls a script named "CheckSideQuests" via keybind. This script is defined on a per-level basis.
 	//The level script will then call this script, and give it all of the variables that need to be displayed.
 	
-	/*
 	if (QuestEnabled != 0)
 	{
 		if (togglesidequests == false) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
 		else {ACS_NamedExecuteAlways("ForceHideQuests", 0, 0, 0, 0);}
 	}
-	*/
 }
 
 script "UpdateSideQuests" (void)
 {
-	/*
 	SetHudSize(640, 480, false);
-	int questx = 16.1;
+	int questx = 180.1;
 	int questy = 396.0;
 	HudMessage(l:quest1_name; HUDMSG_PLAIN, -123456781, CR_UNTRANSLATED, questx, questy, 0, 1.0);
 	HudMessage(l:quest1_progress; HUDMSG_PLAIN, -123456782, CR_UNTRANSLATED, questx + 4.0, questy + 10.0, 0, 1.0);
@@ -382,15 +379,13 @@ script "UpdateSideQuests" (void)
 			
 	SetHudSize(320, 240, false);
 	SetFont("QUESTBOX");
-	HudMessage(s:"A"; HUDMSG_PLAIN, -123456780, CR_UNTRANSLATED, 84.0, 214.0, 0, 1.0);
+	HudMessage(s:"A"; HUDMSG_PLAIN, -123456780, CR_UNTRANSLATED, 164.0, 214.0, 0, 1.0);
 			
 	togglesidequests = true;
-	*/
 }
 
 script "ForceHideQuests" (void)
 {
-	/*
 	HudMessage(s:""; HUDMSG_PLAIN, -123456780, CR_UNTRANSLATED, 0, 0, 1, 1.0);
 	HudMessage(s:""; HUDMSG_PLAIN, -123456781, CR_UNTRANSLATED, 0, 0, 1, 1.0);
 	HudMessage(s:""; HUDMSG_PLAIN, -123456782, CR_UNTRANSLATED, 0, 0, 1, 1.0);
@@ -400,18 +395,15 @@ script "ForceHideQuests" (void)
 	HudMessage(s:""; HUDMSG_PLAIN, -123456786, CR_UNTRANSLATED, 0, 0, 1, 1.0);
 			
 	togglesidequests = false;
-	*/
 }
 
 script "FailUnfinishedQuests" (void)
 {
 	//sets all quests marked as unfinished to failed.
-	/*
 	if (quest1done == false) {quest1_progress = "QUEST_FAILED";}
 	if (quest2done == false) {quest2_progress = "QUEST_FAILED";}
 	if (quest3done == false) {quest3_progress = "QUEST_FAILED";}
 	QuestUpdated(false);
-	*/
 }
 
 function void QuestProgressed (int QNum, str QMsg, bool DoReward)
@@ -421,7 +413,6 @@ function void QuestProgressed (int QNum, str QMsg, bool DoReward)
 	//note: quest names and progression can be updated without this function.
 	//this just automates the process for most normal quests.
 	
-	/*
 	switch (QNum)
 	{
 		case 0: quest1_progress = QMsg; break;
@@ -433,7 +424,6 @@ function void QuestProgressed (int QNum, str QMsg, bool DoReward)
 	if (DoReward == true) {GiveInventory("BoxQuestReward", 1500);}
 	
 	QuestUpdated(true);
-	*/
 }
 
 function void QuestUpdated (bool QuestLog)
@@ -441,9 +431,7 @@ function void QuestUpdated (bool QuestLog)
 	//displays a "side quest updated" message, and updates the Quest UI if it is open.
 	//useful if you are changing quests without the use of the above function.
 	
-	/*
 	if (QuestLog == true) {Log(l:"QUESTUPDATED");}
 	if (togglesidequests == true) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
 	else {ACS_NamedExecuteAlways("ForceHideQuests", 0, 0, 0, 0);}
-	*/
 }

@@ -8,6 +8,6 @@ Alias box_test "netevent box_test"
 
 AddKeySection "Box Party" "box_party"
 AddMenuKey    "Glass Dash Ability" "boxability"
-//AddMenuKey    "Show Side Quests" "togglequest"
+AddMenuKey    "Show Side Quests" "togglequest"
 AddMenuKey    "Open Hat Menu" "openhatmenu"
 AddMenuKey    "Open Leaderboard" "zc_top"
