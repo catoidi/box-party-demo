@@ -13,6 +13,7 @@ BOX_VERSION = "DEMO v1.0.5\n\n\n:)";
 SORRY_NOTHING = "Sorry Nothing"; //sorry nothing
 NOAMMO = "outta ammo!";
 SECRETMESSAGE = "you found a secret!";
+FUN = ":)";
 
 /////////////////////////////////
 ////////Warnings/////////////////
