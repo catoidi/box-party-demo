@@ -77,7 +77,7 @@ CLASS TrashCan : BoxActor //not a regular NPC
 	{
 		Spawn:
 			TRCN B 1;
-			//TRCN B -1;
+			TRCN B -1;
 			Stop;
 	}
 }

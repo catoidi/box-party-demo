@@ -17,7 +17,7 @@ CLASS TrashBag : Inventory
 	{
 		Spawn:
 			TRCN A 1;
-			//TRCN A -1;
+			TRCN A -1;
 			Stop;
 	}
 }
