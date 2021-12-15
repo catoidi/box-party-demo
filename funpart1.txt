@@ -6,3 +6,4 @@
 2:tree
 T:lemon
 1:pistol
+1:sign

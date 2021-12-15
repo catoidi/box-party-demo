@@ -65,6 +65,7 @@ KEEPSHOTGUN = "can i keep the snack shotgun";
 OKCOOL = "ok cool";
 H = "h";
 TRASHCAN = "Trash Can";
+HI = "hi";
 TXT_RANDOMGOODBYE_1 = "ok bye";
 TXT_RANDOMGOODBYE_2 = "see ya";
 TXT_RANDOMGOODBYE_3 = "l8r";
