@@ -1,0 +1,27 @@
+//zboxscript/quest/speedrunbox.zsc
+
+Class SpeedrunBox : NPCBox
+{
+	Default
+	{
+		Speed 40;
+		Height 80;
+		PainChance 0;
+		-SOLID;
+		+NOCLIP;
+		+FRIENDLY;
+	}
+	
+	States
+	{
+		Spawn:
+			SPDB A 10 A_Look;
+			Loop;
+		See:
+			SPDB AB 4 A_Chase;
+			Loop;
+		StopMoving:
+			SPDB A 10;
+			Loop;
+	}
+}

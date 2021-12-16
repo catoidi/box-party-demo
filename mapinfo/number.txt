@@ -127,4 +127,5 @@ DoomEdNums
 	22013 = Dumb
 	22014 = Egg
 	22015 = TrashCan
+	22016 = SpeedrunBox
 }
