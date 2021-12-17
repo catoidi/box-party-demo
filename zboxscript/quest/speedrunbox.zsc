@@ -4,7 +4,7 @@ Class SpeedrunBox : NPCBox
 {
 	Default
 	{
-		Speed 40;
+		Speed 50;
 		Height 80;
 		PainChance 0;
 		-SOLID;

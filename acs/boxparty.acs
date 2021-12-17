@@ -398,15 +398,6 @@ script "ForceHideQuests" (void)
 	togglesidequests = false;
 }
 
-script "FailUnfinishedQuests" (void)
-{
-	//sets all quests marked as unfinished to failed.
-	if (quest1done == false) {quest1_progress = "QUEST_FAILED";}
-	if (quest2done == false) {quest2_progress = "QUEST_FAILED";}
-	if (quest3done == false) {quest3_progress = "QUEST_FAILED";}
-	QuestUpdated(false);
-}
-
 function void QuestProgressed (int QNum, str QMsg, bool DoReward)
 {
 	//quick and easy to use function to update progress for a quest.
