@@ -9,6 +9,7 @@ All Box Party Demo assets, which includes levels, sounds, and artwork, not inclu
 -most graphics in the game were created using Photopea
 -'simple' hp bar graphics were created by Nash Muhandes
 -'PANABE.png' was created by awesometems
+-'PANBB1.png', 'PANBB2.png', 'PANBB3.png', and 'PANBB4.png' were created by "Piss".
 	
 all levels in box party were created in Ultimate Doom Builder
 
