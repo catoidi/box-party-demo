@@ -62,7 +62,7 @@ CLASS Painting : BoxActor
 			PANB A 0 DoPaintingRotation(random(1, 14));
 			Goto Looper;
 		BigPainting2:
-			PANT Z 1;
+			PANT Z 1 A_BoxScale(-0.25);
 			PANB B 0 DoPaintingRotation(random(1, 4));
 			Goto Looper;
 		Looper:
