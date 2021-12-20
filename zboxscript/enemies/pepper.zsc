@@ -25,6 +25,7 @@ class Pepper : BoxMonster
         +NOBLOODDECALS;
 		+FLOORCLIP;
 		+JUMPDOWN;
+		-DONTHARMSPECIES;
 		//$Category "Box Party/Enemies/"
 		//$Title "Pepper"
 		//$Color 4
