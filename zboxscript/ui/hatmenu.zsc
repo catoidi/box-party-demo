@@ -101,7 +101,21 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				BOXHAT_menu.Push(splitline[4]);
 				BOXHAT_locked.Push(splitline[5]);
 			}
-			else if (currentline.Left(9) == "Secret = ")
+			else if (currentline.Left(9) != "Secret = ")
+			{
+				console.printf("\cgERROR - Line #%d, AKA \cc'%s' \cgis invalid.", i + 1, currentline);
+			}
+		}
+		
+		for (int i = 0; i < BOXHAT_line.Size(); i++)
+		{
+			string currentline = BOXHAT_line[i];
+			int currentlength = currentline.Length();
+			array<string> fixedline;
+			array<string> splitline;
+			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			
+			if (currentline.Left(9) == "Secret = ")
 			{
 				currentlength += -1;
 				currentline = currentline.Mid(9, currentlength);
@@ -130,7 +144,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 					console.printf("%s", "\cgERROR - Secret Hat CVAR is invalid.");
 				}
 			}
-			else
+			else if (currentline.Left(6) != "Hat = ")
 			{
 				console.printf("\cgERROR - Line #%d, AKA \cc'%s' \cgis invalid.", i + 1, currentline);
 			}
