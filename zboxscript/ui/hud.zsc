@@ -79,6 +79,8 @@ class BoxPartyStatusBar : BaseStatusBar
 	bool HideAmmo1;
 	
 	int leveltime;
+	
+	double DeathFade;
 
 	override void Init()
 	{
@@ -262,6 +264,10 @@ class BoxPartyStatusBar : BaseStatusBar
 		}
 		PrevMurder = GetAmount("MurderCount");
 		PrevScore = CPlayer.mo.score;
+		
+		//death fade
+		if ((cplayer.health <= 0) && (DeathFade < 1.0)) {DeathFade += 0.01;}
+		else if ((cplayer.health > 0) && (DeathFade > 0.0)) {DeathFade -= 0.1;}
 		
 		//only run once a second (35 tics)
 		if (secondtimer == 0) 
@@ -456,6 +462,14 @@ class BoxPartyStatusBar : BaseStatusBar
 			DrawBar("graphics/HUDBARJ.png", "graphics/HUDBARI.png", OxygenLevel, MaxOxygen, GlobalOffset + TimeOffset + (-142, 32), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
 			DrawImage("graphics/AIRICON.png", GlobalOffset + TimeOffset + (-32, 32), DI_ITEM_OFFSETS);
 			DrawString(NumberFont, FormatNumber(OxygenNumber), GlobalOffset + TimeOffset + (-48, 36), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, OxygenColor);
+		}
+		
+		//death message
+		cvar tutorialcvar = cvar.FindCVAR('box_tutorial');
+		if (tutorialcvar.GetBool() == true)
+		{
+			DrawString(SmallFont, Stringtable.Localize("$YOUDED"), GlobalOffset + (320, 120), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, DeathFade, scale: (2.0, 2.0));
+			DrawString(SmallFont, Stringtable.Localize("$YOUDED2"), GlobalOffset + (-100, 140), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, DeathFade);
 		}
 	}
 	
