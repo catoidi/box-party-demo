@@ -96,6 +96,16 @@ CLASS BoxPlayerBase : PlayerPawn
 				
 				BOXHAT_sprite.Push(splitline[3]);
 			}
+			else if (currentline.Left(9) == "Secret = ")
+			{
+				currentlength += -1;
+				currentline = currentline.Mid(9, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+
+				BOXHAT_sprite.Push(splitline[2]);
+			}
 		}
 		
 		BOXHAT_size = BOXHAT_sprite.Size();

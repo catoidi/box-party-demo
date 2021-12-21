@@ -110,10 +110,11 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				fixedline[0].Split(splitline, ", ");
 				
 				cvar secretcheck = cvar.FindCVAR(splitline[1]);
+				cvar secretcheat = cvar.FindCVAR("box_hat_cheat");
 				
-				if (secretcheck)
+				if (secretcheck && secretcheat)
 				{
-					if (secretcheck.GetBool() == true)
+					if ((secretcheck.GetBool() == true) || (secretcheat.GetBool() == true))
 					{
 						BOXHAT_name.Push(splitline[0]);
 						BOXHAT_cvar.Push(splitline[1]);
