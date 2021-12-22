@@ -40,6 +40,7 @@ version "4.7"
 #include "zboxscript/weapons/popcorngun.zsc"
 #include "zboxscript/weapons/stupidweapon.zsc" //joke weapon
 #include "zboxscript/weapons/fishingrod.zsc" //meant for side quest in level 3
+#include "zboxscript/weapons/metaldetector.zsc" //meant for side quest in level 2
 
 //npc
 #include "zboxscript/npc/npcbox.zsc"
