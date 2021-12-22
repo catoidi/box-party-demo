@@ -353,5 +353,6 @@ CLASS FruitPuncher_Tiny : FruitPuncher
 		Speed 5;
 		Scale 0.5;
 		DamageMultiply 0.25;
+		Tag "Fruit Slapper";
 	}
 }

@@ -85,6 +85,7 @@ DoomEdNums
 	20079 = TrashBag
 	20080 = BossPepper1
 	20081 = BossPepper2
+	20082 = MetalDetectorMarker
 	
 	//keys
 	20901 = WhiteKey
