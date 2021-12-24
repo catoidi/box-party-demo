@@ -16,7 +16,6 @@ class BoxPartyStatusBar : BaseStatusBar
 	bool HasAmmo1;
 	bool HasAmmo2;
 	const ArmorMax = 60;
-	const EnergyMax = 100;
 	
 	//score
 	double ScoreFadeTime;
