@@ -58,5 +58,7 @@ HAT_UNLOCK_16 = "Top Hat :)";
 
 HAT_SECRET_01 = "You have selected: BOOM!";
 HAT_SECRET_12 = "You have selected: Xmas Hat";
+HAT_SECRET_13 = "You have selected: Birthday Cake";
 HAT_SECRETUNLOCK_01 = "BOOM!";
 HAT_SECRETUNLOCK_12 = "Xmas Hat";
+HAT_SECRETUNLOCK_13 = "Birthday Cake";

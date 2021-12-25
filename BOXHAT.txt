@@ -42,4 +42,5 @@ Hat = HAT_SELECT_16, HAT_LOCKED_16, box_hat_unlock_16, HATAB1.png, HATBUTTON2A.p
 >>Hidden by default. These hats only appear in the hat menu upon unlocking them.
 Secret = HAT_SECRET_01, box_hat_secret_01, HATAE2.png, HATSECRET01.png;
 Secret = HAT_SECRET_12, box_hat_secret_12, HATAE1.png, HATSECRET12.png;
+Secret = HAT_SECRET_13, box_hat_secret_13, HATAE3.png, HATSECRET13.png;
 >>END OF FILE

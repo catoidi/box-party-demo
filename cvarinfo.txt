@@ -88,7 +88,9 @@ user cheat bool box_hat_unlock_57 = false; //not used
 user cheat bool box_hat_unlock_58 = false; //not used
 user cheat bool box_hat_unlock_59 = false; //not used
 user cheat bool box_hat_unlock_60 = false; //not used
+user cheat bool box_hat_secret_01 = false;
 user cheat bool box_hat_secret_12 = false;
+user cheat bool box_hat_secret_13 = false;
 user cheat string box_hat_lucky = ""; //determines which hat is the lucky hat.
 user cheat int box_hat_glowstick = 0; //unlocks glowstick hat when at 250 or above.
 
