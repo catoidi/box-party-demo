@@ -55,3 +55,6 @@ HAT_UNLOCK_13 = "Glowstick";
 HAT_UNLOCK_14 = "Pepper";
 HAT_UNLOCK_15 = "Crown\n\nALL PAGE 1 HATS UNLOCKED!!!!!!!!!!!! :)";
 HAT_UNLOCK_16 = "Top Hat :)";
+
+HAT_SECRET_12 = "You have selected: Xmas Hat";
+HAT_SECRETUNLOCK_12 = "Xmas Hat";

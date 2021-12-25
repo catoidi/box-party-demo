@@ -101,6 +101,34 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				BOXHAT_menu.Push(splitline[4]);
 				BOXHAT_locked.Push(splitline[5]);
 			}
+			else if (currentline.Left(9) == "Secret = ")
+			{
+				currentlength += -1;
+				currentline = currentline.Mid(9, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				cvar secretcheck = cvar.FindCVAR(splitline[1]);
+				
+				if (secretcheck)
+				{
+					if (secretcheck.GetBool() == true)
+					{
+						BOXHAT_name.Push(splitline[0]);
+						BOXHAT_cvar.Push(splitline[1]);
+						BOXHAT_sprite.Push(splitline[2]);
+						BOXHAT_menu.Push(splitline[3]);
+				
+						BOXHAT_namelock.Push("HAT_LOCKED_01"); //placeholder. you shouldn't ever see these two.
+						BOXHAT_locked.Push("HATLOCK.png");
+					}
+				}
+				else
+				{
+					console.printf("%s", "\cgERROR - Secret Hat CVAR is invalid.");
+				}
+			}
 			else
 			{
 				console.printf("\cgERROR - Line #%d, AKA \cc'%s' \cgis invalid.", i + 1, currentline);
@@ -500,6 +528,33 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		handler = new('boxparty_ZF_HatMenuHandler');
 		handler.link = self;
 		
+		//time based hats
+		string timemonth;
+		string timeday;
+		cvar isbirthday = cvar.FindCVAR("box_hat_unlock_09");
+		cvar isxmas = cvar.FindCVAR("box_hat_secret_12");
+		string unlockmessage = "sorrynothing";
+		
+		timemonth = SystemTime.Format("%B", SystemTime.Now());
+		timeday = SystemTime.Format("%d", SystemTime.Now());
+		
+		if ((timemonth == "November") && (timeday == "03"))
+		{
+			if (isbirthday.GetBool() == false) 
+			{
+				unlockmessage = "$HAT_UNLOCK_09";
+			}
+			isbirthday.SetBool(true);
+		}
+		else if ((timemonth == "December") && (timeday == "25"))
+		{
+			if (isxmas.GetBool() == false) 
+			{
+				unlockmessage = "$HAT_SECRETUNLOCK_12";
+			}
+			isxmas.SetBool(true);
+		}
+		
 		LoadHatWad();
 		
 		updateHat();
@@ -525,6 +580,12 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
             textColor: Font.CR_WHITE
         );
 		
+		if (unlockmessage != "sorrynothing")
+		{
+			aLabel.settext(string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize(unlockmessage)));
+			aLabel.settextColor(Font.CR_GREEN);
+		}
+		
 		int pagecounter = 0;
 		int fakehatsize = BOXHAT_size;
 		while (fakehatsize > 0)
@@ -546,23 +607,6 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 			textScale: 0.5,
 			textColor: Font.CR_WHITE
 		);
-        
-		string timemonth;
-		string timeday;
-		cvar isbirthday = cvar.FindCVAR("box_hat_unlock_09");
-		
-		timemonth = SystemTime.Format("%B", SystemTime.Now());
-		timeday = SystemTime.Format("%d", SystemTime.Now());
-		
-		if ((timemonth == "November") && (timeday == "03"))
-		{
-			if (isbirthday.GetBool() == false) 
-			{
-				aLabel.settext(string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_09")));
-				aLabel.settextColor(Font.CR_GREEN);
-			}
-			isbirthday.SetBool(true);
-		}
 		
 		cvar getlucky = cvar.FindCVAR("box_hat_unlock_08");
 		cvar luckyhat = cvar.FindCVAR("box_hat_lucky");

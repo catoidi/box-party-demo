@@ -38,4 +38,7 @@ Hat = HAT_SELECT_15, HAT_LOCKED_15, box_hat_unlock_15, HATAAF.png, HATBUTTONO.pn
 Hat = HAT_SELECT_16, HAT_LOCKED_16, box_hat_unlock_16, HATAB1.png, HATBUTTON2A.png, HATLOCK2.png;
 >>rest of the hats are in full version :)
 >>Yes, I know these hats are out of order. I messed up during the process of coding the hats and I'm just gonna leave it like this.
+>>Secret Hats:
+>>Hidden by default. These hats only appear in the hat menu upon unlocking them.
+Secret = HAT_SECRET_12, box_hat_secret_12, HATAE0.png, HATSECRET12.png;
 >>END OF FILE
