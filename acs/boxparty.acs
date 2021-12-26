@@ -7,6 +7,9 @@ int glowkill;
 int glowmax = 250;
 int glowremain = 0;
 
+int eggkill;
+int eggmax = 30;
+
 SCRIPT "playerscript" ENTER
 {
 	SetAirControl(1.0);
@@ -237,6 +240,19 @@ script "glowcounter" (void)
 		{
 			if (random(1, 25) == 25) {Log(d:glowremain, l:"HAT_GLOWREMAIN");}
 		}
+	}
+}
+
+script "eggcounter" (void)
+{
+	if (eggkill == 0) {eggkill = GetCVAR("box_hat_egg");}
+	
+	++eggkill;
+	SetCVAR("box_hat_egg", eggkill);
+
+	if (eggkill >= eggmax)
+	{
+		box_gethat("box_hat_secret_16", "box_unlocksecret_16");
 	}
 }
 

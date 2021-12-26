@@ -228,6 +228,7 @@ class BoxHandler : EventHandler
 				if (e.Thing is "Egg")
 				{
 					e.Thing.target.GiveInventory("EggMurderCount", 1);
+					e.Thing.target.ACS_NamedExecuteAlways("eggcounter", 0, 0, 0, 0);
 				}
 			}
 		}
