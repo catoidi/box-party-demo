@@ -31,6 +31,7 @@ class zc_MapScoreItem : ScoreItem
   Default
   {
     -CountItem;
+    +DONTGIB;
     +Inventory.Quiet;
   }
 
