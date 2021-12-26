@@ -18,6 +18,7 @@ CLASS PartyShottyAmmo : Ammo //20008
 		Ammo.BackpackAmount 2;
 		Ammo.BackpackMaxAmount 24;
 		+CASTSPRITESHADOW;
+		+COUNTITEM;
 		//partyshotty (AKA snack blaster, as it's called ingame) shoots out 6 pellets at once, giving you 40 total shots without a backpack.
 		
 		//$Category "Box Party/Ammo"
@@ -40,6 +41,7 @@ CLASS PartyShottyAmmoDrop : PartyShottyAmmo
 	Default
 	{
 		+FLOATBOB;
+		-COUNTITEM;
 	}
 
 	int FadeNum;
@@ -81,6 +83,7 @@ CLASS PartyShotty : Weapon //20009
 		Tag "$BOX_TAG_SHOT";
 		+WEAPON.ALT_USES_BOTH;
 		+CASTSPRITESHADOW;
+		+COUNTITEM;
 		//$Category "Box Party/Weapons"
 		//$Title "PartyShotty (Obligatory Shotgun)"
 		//$Color 9

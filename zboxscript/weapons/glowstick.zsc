@@ -51,6 +51,7 @@ CLASS Glowstick : Weapon //20010
 		+WEAPON.NOALERT;
 		+INVENTORY.UNDROPPABLE;
 		+CASTSPRITESHADOW;
+		+COUNTITEM;
 		//$Category "Box Party/Weapons"
 		//$Title "Glowstick (Weapon)"
 		//$Color 9
@@ -144,6 +145,7 @@ CLASS GlowstickAmmo : Ammo //20021
 		Ammo.BackpackAmount 1;
 		Ammo.BackpackMaxAmount 8;
 		+CASTSPRITESHADOW;
+		+COUNTITEM;
 		//$Category "Box Party/Ammo"
 		//$Title "Glowstick (Ammo)"
 		//$Color 19
@@ -164,6 +166,7 @@ CLASS GlowstickAmmoDrop : GlowstickAmmo
 	Default
 	{
 		+FLOATBOB;
+		-COUNTITEM;
 	}
 	
 	int FadeNum;

@@ -16,6 +16,7 @@ CLASS LaserPointerAmmo : Ammo //20019
 		Ammo.BackpackAmount 10;
 		Ammo.BackpackMaxAmount 60;
 		+CASTSPRITESHADOW;
+		+COUNTITEM;
 		//$Category "Box Party/Ammo"
 		//$Title "Laser Ammo"
 		//$Color 19
@@ -36,6 +37,7 @@ CLASS LaserPointerAmmoDrop : LaserPointerAmmo
 	Default
 	{
 		+FLOATBOB;
+		-COUNTITEM;
 	}
 	
 	int FadeNum;
@@ -75,6 +77,7 @@ CLASS LaserPointer : Weapon //20020
 		
 		+WEAPON.ALT_USES_BOTH
 		+CASTSPRITESHADOW;
+		+COUNTITEM;
 		//$Category "Box Party/Weapons"
 		//$Title "Laser Pointer"
 		//$Color 9

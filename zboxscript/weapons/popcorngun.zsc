@@ -15,6 +15,7 @@ CLASS PopcornGunAmmo : Ammo //200
 		Ammo.BackpackAmount 10;
 		Ammo.BackpackMaxAmount 120;
 		+CASTSPRITESHADOW;
+		+COUNTITEM;
 		//popcorngun shoot many popcorn, but not have many popcorn
 		
 		//$Category "Box Party/Ammo"
@@ -60,6 +61,7 @@ CLASS PopcornGunAmmoDrop : PopcornGunAmmo
 	Default
 	{
 		+FLOATBOB;
+		-COUNTITEM;
 	}
 	
 	int FadeNum;
@@ -101,6 +103,7 @@ CLASS PopcornGun : Weapon //200
 		Tag "$BOX_TAG_POPCORN";
 		+WEAPON.AMMO_CHECKBOTH;
 		+CASTSPRITESHADOW;
+		+COUNTITEM;
 		//$Category "Box Party/Weapons"
 		//$Title "Popcorn Gun"
 		//$Color 9
