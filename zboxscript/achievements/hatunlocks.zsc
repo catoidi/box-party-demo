@@ -615,3 +615,13 @@ class box_unlocksecret_14 : box_unlockhat
 		box_Achievement.unlockedicon "graphics/hat/HATSECRET14.png";
 	}
 }
+
+class box_unlocksecret_15 : box_unlockhat
+{
+	Default
+	{
+		box_Achievement.name "$HAT_SECRETUNLOCK_15";
+		box_Achievement.boxColor 0x000000;
+		box_Achievement.unlockedicon "graphics/hat/HATSECRET15.png";
+	}
+}
