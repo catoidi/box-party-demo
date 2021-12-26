@@ -171,6 +171,7 @@ BOX_INFO_GAMEPLAY = "\cvIt is recommended you playthrough the game at least";
 BOX_INFO_GAMEPLAY2 = "\cvone time before changing anything here.";
 BOX_OPTION_RESETHP = "Reset HP on Level Start";
 BOX_OPTION_BADCVAR = "Check for 'bad' GZDoom settings";
+BOX_OPTION_HIDELOCKHAT = "Hide Locked Hats";
 BOX_OPTION_RESETHAT = "RESET HATS TO DEFAULT SETTINGS";
 
 //BoxGraphics Menu

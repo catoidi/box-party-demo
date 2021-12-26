@@ -24,6 +24,7 @@ server bool box_levelname = true; //display level names at start of level
 
 //hat unlocks
 user bool box_hat_color = false;
+user bool box_hat_hidelock = false; //hide all locked hats in the hat menu.
 user cheat string box_hat_current = "HATAA1"; //currently selected hat
 user cheat bool box_hat_cheat = false; //auto-unlock all hats
 user cheat bool box_hat_unlock_00 = true; //not used

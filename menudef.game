@@ -9,6 +9,7 @@ OptionMenu "BoxGameplay" protected
 	ScrollTop 3
 	Option "$BOX_OPTION_RESETHP", 		"box_resethp",		"onbydefault"
 	Option "$BOX_OPTION_BADCVAR", 		"box_checkbadcvar", 	"onbydefault"
+	Option "$BOX_OPTION_HIDELOCKHAT",	"box_hat_hidelock",		"offbydefault"
 	SafeCommand "$BOX_OPTION_RESETHAT", "pukename RESETALLHATS"
 	StaticText " "
 	StaticText " "

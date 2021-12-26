@@ -31,13 +31,35 @@ class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 			
 			
 			if (missinghat == true) {link.updateLabel(false, Stringtable.Localize("$HAT_MISSING"));}
-			else if ((labelnum == 16) && (hatunlocked.GetBool() == false))
+			else if ((labelnum >= 1) && (link.BOXHAT_cvar[labelnum - 1] == "box_hat_unlock_16") && (hatunlocked.GetBool() == false))
 			{
 				//link.aLabel.text = Stringtable.Localize("$HAT_UNLOCK_16");
 				link.aLabel.setText(string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_16")));
 				link.aLabel.settextColor(Font.CR_GREEN);
 				hatunlocked.SetBool(true);
-				link.ButtonImage1.Config(boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/hat/HATBUTTON2A.png", true));
+				let newbuttonimage = link.ButtonImage1;
+				if (labelnum != 16)
+				{
+					switch (comnumber.ToInt(10))
+					{
+						case 1: newbuttonimage = link.ButtonImage1; break;
+						case 2: newbuttonimage = link.ButtonImage2; break;
+						case 3: newbuttonimage = link.ButtonImage3; break;
+						case 4: newbuttonimage = link.ButtonImage4; break;
+						case 5: newbuttonimage = link.ButtonImage5; break;
+						case 6: newbuttonimage = link.ButtonImage6; break;
+						case 7: newbuttonimage = link.ButtonImage7; break;
+						case 8: newbuttonimage = link.ButtonImage8; break;
+						case 9: newbuttonimage = link.ButtonImage9; break;
+						case 10: newbuttonimage = link.ButtonImage10; break;
+						case 11: newbuttonimage = link.ButtonImage11; break;
+						case 12: newbuttonimage = link.ButtonImage12; break;
+						case 13: newbuttonimage = link.ButtonImage13; break;
+						case 14: newbuttonimage = link.ButtonImage14; break;
+						case 15: newbuttonimage = link.ButtonImage15; break;
+					}
+				}
+				newbuttonimage.Config(boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/hat/HATBUTTON2A.png", true));
 				link.updateUnlockLabel();
 			}
 			else if ((hatcheatmode.GetBool() == false) && (hatunlocked.GetBool() == false)) 

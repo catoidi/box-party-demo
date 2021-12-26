@@ -54,6 +54,8 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 	Array<String> BOXHAT_line, BOXHAT_name, BOXHAT_namelock, BOXHAT_cvar, BOXHAT_sprite, BOXHAT_menu, BOXHAT_locked;
 	int BOXHAT_size;
 	
+	cvar cheatcheck;
+	
 	static const string alphabet[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "]"};
 	static const string rotations[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G"}; //all characters you can use for sprite rotations.
 	
@@ -84,6 +86,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 			int currentlength = currentline.Length();
 			array<string> fixedline;
 			array<string> splitline;
+			cheatcheck = cvar.FindCVAR("box_hat_cheat");
 			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
 			
 			if (currentline.Left(6) == "Hat = ")
@@ -94,12 +97,25 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
 				fixedline[0].Split(splitline, ", ");
 				
-				BOXHAT_name.Push(splitline[0]);
-				BOXHAT_namelock.Push(splitline[1]);
-				BOXHAT_cvar.Push(splitline[2]);
-				BOXHAT_sprite.Push(splitline[3]);
-				BOXHAT_menu.Push(splitline[4]);
-				BOXHAT_locked.Push(splitline[5]);
+				cvar lockcheck = cvar.FindCVAR(splitline[2]);
+				cvar hidecheck = cvar.FindCVAR("box_hat_hidelock");
+				
+				if (hidecheck && cheatcheck && lockcheck)
+				{
+					if ((lockcheck.GetBool() == true) || (cheatcheck.GetBool() == true) || (hidecheck.GetBool() == false) || (splitline[2] == "box_hat_unlock_16"))
+					{
+						BOXHAT_name.Push(splitline[0]);
+						BOXHAT_namelock.Push(splitline[1]);
+						BOXHAT_cvar.Push(splitline[2]);
+						BOXHAT_sprite.Push(splitline[3]);
+						BOXHAT_menu.Push(splitline[4]);
+						BOXHAT_locked.Push(splitline[5]);
+					}
+					else
+					{
+						++lockedhats;
+					}
+				}
 			}
 			else if (currentline.Left(9) != "Secret = ")
 			{
@@ -124,11 +140,10 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				fixedline[0].Split(splitline, ", ");
 				
 				cvar secretcheck = cvar.FindCVAR(splitline[1]);
-				cvar secretcheat = cvar.FindCVAR("box_hat_cheat");
 				
-				if (secretcheck && secretcheat)
+				if (secretcheck && cheatcheck)
 				{
-					if ((secretcheck.GetBool() == true) || (secretcheat.GetBool() == true))
+					if ((secretcheck.GetBool() == true) || (cheatcheck.GetBool() == true))
 					{
 						BOXHAT_name.Push(splitline[0]);
 						BOXHAT_cvar.Push(splitline[1]);
