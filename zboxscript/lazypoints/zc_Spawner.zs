@@ -35,7 +35,7 @@ class zc_Spawner
     }
     else if (thing is "Key")
     {
-      zc_MapScoreItem(Actor.Spawn("zc_MapScoreItem", thing.pos)).init(250);
+      zc_MapScoreItem(Actor.Spawn("zc_MapScoreItem", thing.pos)).init(500);
     }
   }
 
