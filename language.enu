@@ -15,7 +15,7 @@ NOAMMO = "outta ammo!";
 SECRETMESSAGE = "you found a secret!";
 FUN = ":)";
 YOUDED = "you ded.";
-YOUDED2 = "\capress \cc(Use) \cato load your previous save.";
+YOUDED2 = "\capress \cc(Use) \cato stop being ded.";
 
 /////////////////////////////////
 ////////Warnings/////////////////
