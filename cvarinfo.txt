@@ -15,7 +15,7 @@ user int box_hudshake = 2; //how much hud shakes when taking damage
 user bool box_noammo = true; //flashes ur screen when ur trying to use gun with no ammo
 user bool box_reserve = true; //show the ammo reserve bars.
 user int box_showscore = 1; //show score counter on HUD. setting to "2" will make score fade over time.
-user bool box_leveltime = false; //show current level time at top right of HUD.
+user bool box_leveltime = true; //show current level time at top right of HUD.
 server bool box_lootlog = false; //displays all items added to loot system.
 nosave bool box_noswim = false; //disable monster swimming
 server noarchive int box_fun = 0; //controls certain RNG-related events. number persists until game is closed.
@@ -99,7 +99,7 @@ user cheat int box_hat_glowstick = 0; //unlocks glowstick hat when at 250 or abo
 user bool nashhpbar_enable = true;
 user bool nashhpbar_bossonly = false;
 user int nashhpbar_style = 1;
-user bool nashhpbar_exhaust = false;
+user bool nashhpbar_exhaust = true;
 
 //lazy points
 nosave string lp_score = "";
