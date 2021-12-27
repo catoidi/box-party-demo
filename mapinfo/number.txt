@@ -86,6 +86,7 @@ DoomEdNums
 	20080 = BossPepper1
 	20081 = BossPepper2
 	20082 = MetalDetectorMarker
+	20083 = QuestMarker
 	
 	//keys
 	20901 = WhiteKey

@@ -65,13 +65,3 @@ CLASS GivenTrash : BoxCustomToken
 			Stop;
 	}
 }
-CLASS CubeRedKey1 : Inventory {}
-CLASS CubeRedKey2 : BoxCustomToken
-{
-	States
-	{
-		Pickup:
-			TNT1 A 0 ACS_NamedExecuteAlways("RedKeyGiven", 0, 0, 0, 0);
-			Stop;
-	}
-}

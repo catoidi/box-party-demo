@@ -352,6 +352,12 @@ script "healplayer" (void) //simple and clean player healer. used just before bo
 	if (maxhp != 0) {SetActorProperty(0, APROP_Health, maxhp);}
 }
 
+script "activateself" (void)
+{
+	Thing_Activate(0);
+}
+
+
 ////////////
 ///QUESTS///
 ////////////

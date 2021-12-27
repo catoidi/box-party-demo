@@ -249,7 +249,7 @@ mixin class BoxActorMixin
 		}		
 	}
 
-	action void A_BoxDropAmmo (int ItemDrops)
+	action void A_BoxDropAmmo (int ItemDrops, bool ExtraDrop = false)
 	{
 		//guaranteed drops of any ammo type
 		//replaces ammo for missing weapons with glowstick ammo
@@ -257,12 +257,11 @@ mixin class BoxActorMixin
 		
 		if (invoker)
 		{
-			int CurrentDrop = 0;
-			while (CurrentDrop < ItemDrops)
+			string LootName = "BoxFakeAmmoDropForced";
+			if (ExtraDrop) {LootName = "BoxFakeAmmoDrop";}
+			for (int CDrop = 0; CDrop < ItemDrops; ++CDrop)
 			{
-				A_BoxSpawnLoot("BoxFakeAmmoDropForced", 0);
-				
-				CurrentDrop += 1;
+				A_BoxSpawnLoot(LootName, 0);
 			}
 		}
 	}

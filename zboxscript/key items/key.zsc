@@ -17,6 +17,13 @@ CLASS WhiteKey : Key
 		//$Title "Key (White)"
 		//$Color 8
 	}
+	
+	override void PostBeginPlay(void)
+	{
+		Super.PostBeginPlay();
+		
+		A_SpawnItemEX("KeyMarker", flags: SXF_NOCHECKPOSITION | SXF_SETTARGET | SXF_TRANSFERSPRITEFRAME | SXF_ISTARGET);
+	}
 
 	States
 	{

@@ -303,6 +303,7 @@ CLASS BossOnion : OnionTurret
 		Exhausted:
 			ONI2 A 0 A_BoxDropLoot("Pure", -4, IsPrism);
 			ONI2 A 0 A_BoxDropAmmo(4);
+			ONI2 A 0 A_BoxDropAmmo(2, true);
 			ONI2 A 0 {bNOPAIN = true;}
 			ONI2 KK 8 A_BoxScaleXY(-0.015, 0.015);
 			ONI2 LL 8 A_BoxScaleXY(0.015, -0.015);
