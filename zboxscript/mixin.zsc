@@ -35,11 +35,9 @@ mixin class BoxActorMixin
 	{
 		//simplifies making particle effects for stuff.
 	
-		let PTimer = 0;
-		while (PTimer < PAmount)
+		for (int PTimer = 0; PTimer < PAmount; ++PTimer)
 		{
 			A_SpawnParticle(PColor, 0, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
-			PTimer++;
 		}
 	}
 	
@@ -47,11 +45,9 @@ mixin class BoxActorMixin
 	{
 		//like a_boxparticle, but the particle only goes up/down. (speed is somewhat random.)
 	
-		let PTimer = 0;
-		while (PTimer < PAmount)
+		for (int PTimer = 0; PTimer < PAmount; ++PTimer)
 		{
 			A_SpawnParticle(PColor, 0, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), POffsetZ, 0, 0, frandom((PSpeed * 0.8), (PSpeed * 1.2)), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
-			PTimer++;
 		}
 	}
 
@@ -216,7 +212,6 @@ mixin class BoxActorMixin
 		//-This mode will ignore whatever is set for MeleeBonus, and will ignore the Target's HP.
 		//-This is great if you want a certain action to have a guaranteed chance to drop a specific amount of drops.
 		
-		let DropAmount = 0;
 		let TargetHP = 0;
 		string ItemPrefix = "BoxLooter_";
 		string ItemDropping = string.Format("%s%s", ItemPrefix, ItemSuffix);
@@ -239,17 +234,13 @@ mixin class BoxActorMixin
 				ItemDropping.AppendFormat("%s", "_Forced");
 			}
 			
-			while (DropAmount < LootAmount)
-			{
-				A_BoxSpawnLoot(ItemDropping, 0);
-				DropAmount += 1;
-			}
+			for (int DropAmount = 0; DropAmount < LootAmount; ++DropAmount)	{A_BoxSpawnLoot(ItemDropping, 0);}
 
 			if ((target) && (ItemDrops >= 0)) {A_BoxSpawnLoot("BoxFakeAmmoDrop", 0);}
 		}		
 	}
 
-	action void A_BoxDropAmmo (int ItemDrops)
+	action void A_BoxDropAmmo (int ItemDrops, bool ExtraDrop = false)
 	{
 		//guaranteed drops of any ammo type
 		//replaces ammo for missing weapons with glowstick ammo
@@ -257,12 +248,11 @@ mixin class BoxActorMixin
 		
 		if (invoker)
 		{
-			int CurrentDrop = 0;
-			while (CurrentDrop < ItemDrops)
+			string LootName = "BoxFakeAmmoDropForced";
+			if (ExtraDrop) {LootName = "BoxFakeAmmoDrop";}
+			for (int CDrop = 0; CDrop < ItemDrops; ++CDrop)
 			{
-				A_BoxSpawnLoot("BoxFakeAmmoDropForced", 0);
-				
-				CurrentDrop += 1;
+				A_BoxSpawnLoot(LootName, 0);
 			}
 		}
 	}

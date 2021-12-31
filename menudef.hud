@@ -6,7 +6,7 @@ OptionMenu "BoxHudOptions" protected
 	Submenu "$OPTMNU_NASHHPBAR", 	"NashHPBarOptionMenu"
 	Submenu "$BOX_MENU_TITLE", 		"box_AchieveOptions"
 	StaticText ""
-	Option "$BOX_LEVELTIME",		"box_leveltime",	"offbydefault"
+	Option "$BOX_LEVELTIME",		"box_leveltime",	"onbydefault"
 	Option "$BOX_SHOWSCORE",		"box_showscore",	"scorevalue"
 	Option "$BOX_OPTION_RESERVE",	"box_reserve",		"onbydefault"
 	Slider "$BOX_OPTION_HUD",		"box_hudshake",		0, 5, 1, 0	
@@ -24,7 +24,7 @@ AddOptionMenu "HUDOptions" after "FontOptions"
 	Submenu "$OPTMNU_NASHHPBAR", 	"NashHPBarOptionMenu"
 	Submenu "$BOX_MENU_TITLE", 		"box_AchieveOptions"
 	StaticText ""
-	Option "$BOX_LEVELTIME",		"box_leveltime",	"offbydefault"
+	Option "$BOX_LEVELTIME",		"box_leveltime",	"onbydefault"
 	Option "$BOX_SHOWSCORE",		"box_showscore",	"scorevalue"
 	Option "$BOX_OPTION_RESERVE",	"box_reserve",		"onbydefault"
 	Slider "$BOX_OPTION_HUD",		"box_hudshake",		0, 5, 1, 0	

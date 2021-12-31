@@ -7,6 +7,9 @@ int glowkill;
 int glowmax = 250;
 int glowremain = 0;
 
+int eggkill;
+int eggmax = 30;
+
 SCRIPT "playerscript" ENTER
 {
 	SetAirControl(1.0);
@@ -240,6 +243,19 @@ script "glowcounter" (void)
 	}
 }
 
+script "eggcounter" (void)
+{
+	if (eggkill == 0) {eggkill = GetCVAR("box_hat_egg");}
+	
+	++eggkill;
+	SetCVAR("box_hat_egg", eggkill);
+
+	if (eggkill >= eggmax)
+	{
+		box_gethat("box_hat_secret_16", "box_unlocksecret_16");
+	}
+}
+
 script "RESETALLHATS" (void)
 {
 	//this will reset every single hat back to default values. use with caution.
@@ -335,6 +351,12 @@ script "healplayer" (void) //simple and clean player healer. used just before bo
 	int maxhp = GetActorProperty(0, APROP_SpawnHealth);
 	if (maxhp != 0) {SetActorProperty(0, APROP_Health, maxhp);}
 }
+
+script "activateself" (void)
+{
+	Thing_Activate(0);
+}
+
 
 ////////////
 ///QUESTS///

@@ -1,0 +1,21 @@
+//zboxscript/quest/metalbox.zsc
+
+Class MetalBox : NPCBox
+{
+	Default
+	{
+		PainChance 0;
+		+FRIENDLY;
+		+NPCBox.HasHat;
+	}
+	
+	States
+	{
+		Spawn:
+			METB AB 10;
+			Loop;
+		NoMetal:
+			METB CD 10;
+			Loop;
+	}
+}

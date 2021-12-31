@@ -62,7 +62,7 @@ class zc_Counter
     int newSecretCount = _player.SecretCount;
     if (newSecretCount > _oldSecretCount)
     {
-      addPoints(250);
+      addPoints(500);
       _oldSecretCount = newSecretCount;
     }
   }

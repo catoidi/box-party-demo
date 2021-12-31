@@ -40,6 +40,7 @@ version "4.7"
 #include "zboxscript/weapons/popcorngun.zsc"
 #include "zboxscript/weapons/stupidweapon.zsc" //joke weapon
 #include "zboxscript/weapons/fishingrod.zsc" //meant for side quest in level 3
+#include "zboxscript/weapons/metaldetector.zsc" //meant for side quest in level 2
 
 //npc
 #include "zboxscript/npc/npcbox.zsc"
@@ -52,6 +53,7 @@ version "4.7"
 #include "zboxscript/quest/score.zsc" //inventory items that give score to the player.
 #include "zboxscript/quest/trashbag.zsc"
 #include "zboxscript/quest/speedrunbox.zsc"
+#include "zboxscript/quest/metalbox.zsc"
 
 //effects
 #include "zboxscript/effects/splashes.zsc"
@@ -122,6 +124,7 @@ version "4.7"
 //signs
 #include "zboxscript/signs/basicsigns.zsc"
 #include "zboxscript/signs/kindasigns.zsc"
+#include "zboxscript/signs/mapmarkers.zsc"
 
 //lights
 #include "zboxscript/lights/lantern.zsc"

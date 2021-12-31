@@ -15,7 +15,7 @@ user int box_hudshake = 2; //how much hud shakes when taking damage
 user bool box_noammo = true; //flashes ur screen when ur trying to use gun with no ammo
 user bool box_reserve = true; //show the ammo reserve bars.
 user int box_showscore = 1; //show score counter on HUD. setting to "2" will make score fade over time.
-user bool box_leveltime = false; //show current level time at top right of HUD.
+user bool box_leveltime = true; //show current level time at top right of HUD.
 server bool box_lootlog = false; //displays all items added to loot system.
 nosave bool box_noswim = false; //disable monster swimming
 server noarchive int box_fun = 0; //controls certain RNG-related events. number persists until game is closed.
@@ -24,8 +24,8 @@ server bool box_levelname = true; //display level names at start of level
 
 //hat unlocks
 user bool box_hat_color = false;
-user cheat int box_hat_num = 0; //currently selected hat
-user cheat string box_hat_current = "HATAA1";
+user bool box_hat_hidelock = false; //hide all locked hats in the hat menu.
+user cheat string box_hat_current = "HATAA1"; //currently selected hat
 user cheat bool box_hat_cheat = false; //auto-unlock all hats
 user cheat bool box_hat_unlock_00 = true; //not used
 user cheat bool box_hat_unlock_01 = true; //top hat, unlocked by default
@@ -91,14 +91,19 @@ user cheat bool box_hat_unlock_60 = false; //not used
 user cheat bool box_hat_secret_01 = false;
 user cheat bool box_hat_secret_12 = false;
 user cheat bool box_hat_secret_13 = false;
+user cheat bool box_hat_secret_14 = false;
+user cheat bool box_hat_secret_15 = false;
+user cheat bool box_hat_secret_16 = false;
+user cheat bool box_hat_secret_17 = false;
 user cheat string box_hat_lucky = ""; //determines which hat is the lucky hat.
 user cheat int box_hat_glowstick = 0; //unlocks glowstick hat when at 250 or above.
+user cheat int box_hat_egg = 0; //unlocks cracked egg hat when at 30 or above.
 
 //nashhpbar
 user bool nashhpbar_enable = true;
 user bool nashhpbar_bossonly = false;
 user int nashhpbar_style = 1;
-user bool nashhpbar_exhaust = false;
+user bool nashhpbar_exhaust = true;
 
 //lazy points
 nosave string lp_score = "";

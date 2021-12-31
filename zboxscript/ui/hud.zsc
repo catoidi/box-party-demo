@@ -16,7 +16,6 @@ class BoxPartyStatusBar : BaseStatusBar
 	bool HasAmmo1;
 	bool HasAmmo2;
 	const ArmorMax = 60;
-	const EnergyMax = 100;
 	
 	//score
 	double ScoreFadeTime;
@@ -469,7 +468,7 @@ class BoxPartyStatusBar : BaseStatusBar
 		if (tutorialcvar.GetBool() == true)
 		{
 			DrawString(SmallFont, Stringtable.Localize("$YOUDED"), GlobalOffset + (320, 120), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, DeathFade, scale: (2.0, 2.0));
-			DrawString(SmallFont, Stringtable.Localize("$YOUDED2"), GlobalOffset + (-100, 140), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, DeathFade);
+			DrawString(SmallFont, Stringtable.Localize("$YOUDED2"), GlobalOffset + (-130, 140), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, DeathFade);
 		}
 	}
 	

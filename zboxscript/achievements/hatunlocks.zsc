@@ -603,3 +603,45 @@ class box_unlockhat_60 : box_unlockhat
 		box_Achievement.unlockedicon "graphics/hat/HATBUTTON4O.png";
 	}
 }
+
+//secret hats
+
+class box_unlocksecret_14 : box_unlockhat
+{
+	Default
+	{
+		box_Achievement.name "$HAT_SECRETUNLOCK_14";
+		box_Achievement.boxColor 0x805b7b;
+		box_Achievement.unlockedicon "graphics/hat/HATSECRET14.png";
+	}
+}
+
+class box_unlocksecret_15 : box_unlockhat
+{
+	Default
+	{
+		box_Achievement.name "$HAT_SECRETUNLOCK_15";
+		box_Achievement.boxColor 0x000000;
+		box_Achievement.unlockedicon "graphics/hat/HATSECRET15.png";
+	}
+}
+
+class box_unlocksecret_16 : box_unlockhat
+{
+	Default
+	{
+		box_Achievement.name "$HAT_SECRETUNLOCK_16";
+		box_Achievement.boxColor 0x4d3419;
+		box_Achievement.unlockedicon "graphics/hat/HATSECRET16.png";
+	}
+}
+
+class box_unlocksecret_17 : box_unlockhat
+{
+	Default
+	{
+		box_Achievement.name "$HAT_SECRETUNLOCK_17";
+		box_Achievement.boxColor 0x023300;
+		box_Achievement.unlockedicon "graphics/hat/HATSECRET17.png";
+	}
+}

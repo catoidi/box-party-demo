@@ -177,7 +177,7 @@ CLASS BossPepper1 : BoxMonster
 			PEP1 E 2 BRIGHT Slow A_BossPepper1Attack();
 			PEP1 D 2 BRIGHT Slow A_BossPepper1Charge();
 			PEP1 E 2 BRIGHT Slow A_BossPepper1Attack();
-			PEP1 D 4 Slow A_BoxExhaust(8);
+			PEP1 D 4 Slow A_BoxExhaust(10);
 			#### # 0 {bNOPAIN = false;}
 			Goto JustOneSec;
 		EVILMissile:
@@ -207,7 +207,7 @@ CLASS BossPepper1 : BoxMonster
 			PEP1 F 2 BRIGHT Slow A_BossPepper1Charge(true);
 			PEP1 G 2 BRIGHT Slow A_BossPepper1Attack(true);
 			#### # 0 {self.Speed = 44;}
-			PEP1 D 4 Slow A_BoxExhaust(16);
+			PEP1 D 4 Slow A_BoxExhaust(25);
 			#### # 0 A_Jump(100, "StartFiring");
 			#### # 0 {bNOPAIN = false;}
 			Goto JustOneSec;
@@ -257,6 +257,7 @@ CLASS BossPepper1 : BoxMonster
 		Exhausted:
 			PEP1 A 0 A_BoxDropLoot("Pure", -2, IsPrism);
 			PEP1 A 0 A_BoxDropAmmo(2);
+			PEP1 A 0 A_BoxDropAmmo(1, true);
 			PEP1 A 0 {bNOPAIN = true;}
 			PEP1 RR 8 A_BoxScaleXY(-0.015, 0.015);
 			PEP1 SS 8 A_BoxScaleXY(0.015, -0.015);

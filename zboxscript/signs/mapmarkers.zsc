@@ -1,0 +1,46 @@
+//zboxscript/signs/mapmarkers.zsc
+
+Class QuestMarker : MapMarker
+{
+	Default
+	{
+		Scale 0.25;
+	}
+	
+	States
+	{
+		Spawn:
+			LOOK B -1;
+			Loop;
+	}
+}
+
+Class KeyMarker : MapMarker
+{
+	//markers for keys do not get removed upon pickup because keys aren't actually ever "picked up"
+	override void Tick(void)
+	{
+		Super.Tick();
+		
+		if (target)
+		{
+			Vector3 sPos = (
+				target.Pos.X,
+				target.Pos.Y,
+				target.Pos.Z
+			); 
+			SetOrigin(sPos, true);
+		}
+		else {SetState(ResolveState("Death"));}
+	}
+	
+	States
+	{
+		Spawn:
+			#### # -1;
+			Loop;
+		Death:
+			#### # 1 ACS_NamedExecuteAlways("activateself");
+			Stop;
+	}
+}
