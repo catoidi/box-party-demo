@@ -131,4 +131,5 @@ DoomEdNums
 	22015 = TrashCan
 	22016 = SpeedrunBox
 	22017 = MetalBox
+	22018 = Marshmallow
 }

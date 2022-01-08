@@ -245,11 +245,11 @@ EGG10EVIL = "eggs do not have tear ducts";
 //marshmallow
 MARSHMALLOW = "Marshmallow";
 MARSHMALLOW_1 = "you can never roast me, i am unroastable";
-MARSHMALLOW_1A = "(comment on the marshmallow's glasses.)";
-MARSHMALLOW_1B = "(comment on the marshmallow's posture.)";
-MARSHMALLOW_1C = "(comment on the marshmallow's shoes.)";
-MARSHMALLOW_1D = "(comment on the marshmallow's lack of arms.)";
-MARSHMALLOW_1E = "(comment on the marshmallow's parents.)";
+MARSHMALLOW_1A = "(comment on the their glasses.)";
+MARSHMALLOW_1B = "(comment on the their posture.)";
+MARSHMALLOW_1C = "(comment on the their shoes.)";
+MARSHMALLOW_1D = "(comment on the their lack of arms.)";
+MARSHMALLOW_1E = "(comment on the their parents.)";
 MARSHMALLOW_2 = "yea i know my glasses are cool, tell me something i don't know.";
 MARSHMALLOW_3 = "my posture is what makes me unroastable.";
 MARSHMALLOW_4 = "(you have successfully roasted the marshmallow.)";
