@@ -242,6 +242,19 @@ EGG7EVIL = "(the egg knows what you've done.)";
 EGG8EVIL = " ";
 EGG9EVIL = "(you feel as if you've lost something very important.)";
 EGG10EVIL = "eggs do not have tear ducts";
+//marshmallow
+MARSHMALLOW = "Marshmallow";
+MARSHMALLOW_1 = "you can never roast me, i am unroastable";
+MARSHMALLOW_1A = "(comment on the marshmallow's glasses.)";
+MARSHMALLOW_1B = "(comment on the marshmallow's posture.)";
+MARSHMALLOW_1C = "(comment on the marshmallow's shoes.)";
+MARSHMALLOW_1D = "(comment on the marshmallow's lack of arms.)";
+MARSHMALLOW_1E = "(comment on the marshmallow's parents.)";
+MARSHMALLOW_2 = "yea i know my glasses are cool, tell me something i don't know.";
+MARSHMALLOW_3 = "my posture is what makes me unroastable.";
+MARSHMALLOW_4 = "(you have successfully roasted the marshmallow.)";
+MARSHMALLOW_5 = "it is my right to not bear arms.";
+MARSHMALLOW_6 = "my parents are very nice to me, actually.";
 
 
 /////////////////////////////////LEVEL 3
@@ -315,4 +328,9 @@ QUEST_TEST3 = "\cv#3: Also do this, please. :)";
 QUEST_LVL1_1 = "\cv#1: Check out the party.";
 QUEST_LVL1_2 = "\cv#2: Go take out the trash.";
 QUEST_LVL1_3 = "\ct#3: ???";
-QUEST_LVL1_3A = "\cv#3: Beat the Speedrunning Box in a race.";
+QUEST_LVL1_3A = "\ct#3: Beat the Speedrunning Box in a race.";
+//lvl 2
+QUEST_LVL2_1 = "\cv#1: Roast a marshmallow.";
+QUEST_LVL2_2 = "\cv#2: Find shinies with the Metal Detector.";
+QUEST_LVL2_3 = "\ct#3: ???";
+QUEST_LVL2_3A = "\ct#3: Defeat the bonus enemy encounter.";

@@ -262,6 +262,11 @@ flickerlight CAMPFIRE
 }
 
 object Campfire {frame CAMP {light CAMPFIRE}}
+object Marshmallow 
+{
+	frame MARSB {light CAMPFIRE}
+	frame MARSC {light CAMPFIRE}
+}
 
 object BoxTeleport {frame TELE {light TELEPORT}}
 

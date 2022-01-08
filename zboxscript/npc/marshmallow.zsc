@@ -1,0 +1,26 @@
+//zboxscript/npc/marshmallow.zsc
+
+Class Marshmallow : BoxActor
+{
+	Default
+	{
+		Radius 16;
+		Height 40;
+		+SOLID;
+		+NOBLOODDECALS;
+		+CASTSPRITESHADOW;
+		//$Category "Box Party/NPCs"
+		//$Title "Marshmallow"
+		//$Color 16
+	}
+	
+	States
+	{
+		Spawn:
+			MARS A -1;
+			Loop;
+		Roasted:
+			MARS BC 15;
+			Loop;
+	}
+}

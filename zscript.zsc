@@ -48,6 +48,7 @@ version "4.7"
 #include "zboxscript/npc/plotbox.zsc"
 #include "zboxscript/npc/uniquebox.zsc"
 #include "zboxscript/npc/egg.zsc"
+#include "zboxscript/npc/marshmallow.zsc"
 
 //quest (anything related to side quests.)
 #include "zboxscript/quest/score.zsc" //inventory items that give score to the player.
