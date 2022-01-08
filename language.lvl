@@ -255,7 +255,15 @@ MARSHMALLOW_3 = "my posture is what makes me unroastable.";
 MARSHMALLOW_4 = "(you have successfully roasted the marshmallow.)";
 MARSHMALLOW_5 = "it is my right to not bear arms.";
 MARSHMALLOW_6 = "my parents are very nice to me, actually.";
-
+//vacuumbox
+VACUUMBOX = "\cpVacuum Box";
+VACUUMBOX_1 = "\cpyo this vacuum i bought online kinda sucks";
+VACUUMBOX_1A = "that's not a vacuum";
+VACUUMBOX_2 = "\cpwhat???? you serious????";
+VACUUMBOX_2A = "that's definitely a metal detector";
+VACUUMBOX_3 = "\cpwell then i don't want this anymore";
+VACUUMBOX_3A = "i'll take it";
+VACUUMBOX_4 = "(dejected, the vacuum box drops the metal detector on the ground. a new realm of possibilities has been opened for you.)";
 
 /////////////////////////////////LEVEL 3
 REMAINING = " remaining.";
