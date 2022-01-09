@@ -104,6 +104,13 @@ CLASS MetalDetectorMarker : BoxActor
 		+NOBLOOD;
 	}
 	
+	override void PostBeginPlay(void)
+	{
+		Super.PostBeginPlay();
+		
+		A_SpawnItemEX("KeyMarker", flags: SXF_NOCHECKPOSITION | SXF_SETTARGET | SXF_TRANSFERSPRITEFRAME | SXF_ISTARGET);
+	}
+	
 	States
 	{
 		Spawn:
@@ -137,6 +144,7 @@ CLASS MetalDetectorMarker : BoxActor
 					spawnedy = "MetalDetectorTrash";
 				}
 				A_SpawnItemEx(spawnedy, random(-6, 6), random(-6, 6), random(0, 8), random(-12, 12), random(-12, 12), random(0, 12), random(0, 359), SXF_NOCHECKPOSITION);
+				ACS_NamedExecute("MetalMarkDie", 0, 0, 0, 0);
 			}
 			Stop;
 	}
