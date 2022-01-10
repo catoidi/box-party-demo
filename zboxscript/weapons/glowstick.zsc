@@ -253,6 +253,7 @@ CLASS GlowstickThrow : Actor
 		Death.Sky:
 		Death:
 			"####" "#" 1 BRIGHT A_SetRoll(0);
+			"####" "#" 0 BRIGHT {bMOVEWITHSECTOR = true;}
 			"####" "#" 0 BRIGHT A_SpawnItemEX("ProjectileSmokeBig", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
 			"####" "#" 0 BRIGHT A_Jump(256, "Flipper", "Stopper");
 		Flipper:

@@ -159,6 +159,7 @@ CLASS HammerHammer : BoxActor //dropped when the hammer dies.
 		+ROLLSPRITE;
 		+SPRITEANGLE;
 		+FORCEXYBILLBOARD;
+		//+MOVEWITHSECTOR;
 	}
 	
 	States
@@ -183,6 +184,7 @@ CLASS HammerHammer : BoxActor //dropped when the hammer dies.
 				if (self.Pos.Z ~== self.FloorZ) {bFLATSPRITE = true;} else {bFLATSPRITE = false;}
 			}
 			HAMM QQQQQQQQQQQQQQQQ 0 A_SpawnItemEX("BoomSmoke", frandom(-8, 8), frandom(-8, 8), frandom(0, 8), frandom(-8, 8), frandom(-8, 8), frandom(4, 8), 0, SXF_NOCHECKPOSITION, 64);
+			HAMM Q 0 {bMOVEWITHSECTOR = true;}
 			HAMM Q -1;
 	}
 }

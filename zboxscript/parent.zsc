@@ -164,7 +164,17 @@ CLASS BoxCrumb : BoxActor abstract
 		+FORCEXYBILLBOARD;
 		+DONTBOUNCEONSKY;
 		+EXPLODEONWATER;
-		+MOVEWITHSECTOR;
+		//+MOVEWITHSECTOR;
+	}
+	
+	override void tick(void)
+	{
+		super.tick();
+		
+		if (InStateSequence(CurState, ResolveState("Death")))
+		{
+			bMOVEWITHSECTOR = true;
+		}
 	}
 	
 	States
@@ -241,6 +251,37 @@ CLASS BoxGib : BoxCrumb abstract
 		-DONTSPLASH;
 	}
 	
+	/*
+	bool donespeening;
+	float oldZ;
+	int oldFloorCount;
+	
+	override void tick(void)
+	{
+		super.tick();
+	
+		if (!donespeening)
+		{
+			if ((self.oldZ >= self.FloorZ - 2) || ((self.oldZ <= self.FloorZ + 2)))
+			{
+				++self.oldFloorCount;
+				if (self.oldFloorCount == 35)
+				{
+					A_Die();
+					self.donespeening = true;
+				}
+				console.printf("%s, %f, %f, %f", "im browning", self.Pos.X, self.Pos.Y, self.oldz);
+			}
+			else
+			{
+				self.oldFloorCount = 0;
+				console.printf("%s, %f, %f, %f", "im shittsing?!", self.FloorZ, self.oldz);
+			}
+			self.oldZ = self.Pos.Z;
+		}
+	}
+	*/
+	
 	States
 	{
 		SpeenRight:
@@ -254,6 +295,7 @@ CLASS BoxGib : BoxCrumb abstract
 		Death.Sky:
 		Death:
 			#### # 0 A_JumpIf((ACS_ScriptCall("CrumbCheck") >= 1), "Null");
+			//#### # 0 {self.donespeening = true;}
 			#### ############### 210 {if (self.Pos.Z ~== self.FloorZ) {bFLATSPRITE = true;} else {bFLATSPRITE = false;}} 
 			Goto TimeForDie;
 		TimeForDie:

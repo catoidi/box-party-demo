@@ -135,7 +135,7 @@ CLASS MetalDetectorMarker : BoxActor
 				{
 					spawnedy = "FruitPuncher_Tiny";
 				}
-				else if (random(1, 2) == 2)
+				else if (random(1, 4) <= 3)
 				{
 					spawnedy = "MetalDetectorCoin";
 				}
@@ -143,7 +143,7 @@ CLASS MetalDetectorMarker : BoxActor
 				{
 					spawnedy = "MetalDetectorTrash";
 				}
-				A_SpawnItemEx(spawnedy, random(-6, 6), random(-6, 6), random(0, 8), random(-12, 12), random(-12, 12), random(0, 12), random(0, 359), SXF_NOCHECKPOSITION);
+				A_SpawnItemEx(spawnedy, random(-6, 6), random(-6, 6), random(0, 8), 0, 0, random(6, 16), random(0, 359), SXF_NOCHECKPOSITION);
 				ACS_NamedExecute("MetalMarkDie", 0, 0, 0, 0);
 			}
 			Stop;
