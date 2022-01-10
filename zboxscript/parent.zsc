@@ -251,37 +251,6 @@ CLASS BoxGib : BoxCrumb abstract
 		-DONTSPLASH;
 	}
 	
-	/*
-	bool donespeening;
-	float oldZ;
-	int oldFloorCount;
-	
-	override void tick(void)
-	{
-		super.tick();
-	
-		if (!donespeening)
-		{
-			if ((self.oldZ >= self.FloorZ - 2) || ((self.oldZ <= self.FloorZ + 2)))
-			{
-				++self.oldFloorCount;
-				if (self.oldFloorCount == 35)
-				{
-					A_Die();
-					self.donespeening = true;
-				}
-				console.printf("%s, %f, %f, %f", "im browning", self.Pos.X, self.Pos.Y, self.oldz);
-			}
-			else
-			{
-				self.oldFloorCount = 0;
-				console.printf("%s, %f, %f, %f", "im shittsing?!", self.FloorZ, self.oldz);
-			}
-			self.oldZ = self.Pos.Z;
-		}
-	}
-	*/
-	
 	States
 	{
 		SpeenRight:
