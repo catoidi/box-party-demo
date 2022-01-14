@@ -2,7 +2,8 @@
 
 Box Party Demo created by: idiotbitz (thats me)
 
-Box Party Demo's code is licensed under the GPLv3 License. Please read LICENSE.txt for more information.
+All of Box Party Demo's code, unless specified otherwise, is licensed under the GPLv3 License. 
+Please read LICENSE.txt for more information.
 
 All Box Party Demo assets, which includes levels, sounds, and artwork, not including anything specified below, were created by me and are licensed under Creative Commons Zero v1.0 Universal (CC0).
 
@@ -21,8 +22,8 @@ code:
 
 audio:
 	-retro sound effects generated using: sfxr
-	-popcorn gun's pop sound "sounds/weapons/popcorn/poppop.flac" was originally by: Blender Foundation
-	-pepper's gunfire sound "sounds/enemies/peppow" is a modified chaingun sound by: Michel Baradari
+	-popcorn gun's pop sound "poppop.flac" was originally by: Blender Foundation
+	-pepper's gunfire sounds "peppow.wav", "peppowA.wav", and "peppowB.wav", are all a modified chaingun sound by: Michel Baradari
 	
 special thanks:
 	-id software for creating that one 1993 game i spend way too much time playing
@@ -31,6 +32,4 @@ special thanks:
 	-the creators of GZDoom Builder and Ultimate Doom Builder for building a builder that builds levels very well
 	-everyone who has created their own games in gzdoom for inspiring me to create a standalone gzdoom title of my own
 	-all my friends who helped playtest Box Party with me
-	
-also be sure to take a look at LICENSES.txt if you wish to use any code from Box Party.
 	
