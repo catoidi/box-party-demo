@@ -296,7 +296,7 @@ class BoxPartyStatusBar : BaseStatusBar
 	{
 		Super.DrawAutomapHUD(TicFrac);
 		
-		BeginHUD();
+		BeginHUD(0.5);
 		DrawBoxHUD(TicFrac);
 	}
 	
@@ -465,10 +465,15 @@ class BoxPartyStatusBar : BaseStatusBar
 		
 		//death message
 		cvar tutorialcvar = cvar.FindCVAR('box_tutorial');
+		int halfscreen = (Screen.GetWidth() / defaultScale.X) / 2;
+		string dedmsg1 = Stringtable.Localize("$YOUDED");
+		string dedmsg2 = Stringtable.Localize("$YOUDED2");
+		int dedmsg1_size = dedmsg1.Length() * 8;
+		int dedmsg2_size = dedmsg2.Length() * 4;
 		if (tutorialcvar.GetBool() == true)
 		{
-			DrawString(SmallFont, Stringtable.Localize("$YOUDED"), GlobalOffset + (320, 120), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, DeathFade, scale: (2.0, 2.0));
-			DrawString(SmallFont, Stringtable.Localize("$YOUDED2"), GlobalOffset + (-130, 140), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, DeathFade);
+			DrawString(SmallFont, dedmsg1, GlobalOffset + (halfscreen + dedmsg1_size, 120), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, DeathFade, scale: (2.0, 2.0));
+			DrawString(SmallFont, dedmsg2, GlobalOffset + (halfscreen + dedmsg2_size, 140), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_BRICK, DeathFade);
 		}
 	}
 	

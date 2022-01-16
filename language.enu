@@ -15,7 +15,7 @@ NOAMMO = "outta ammo!";
 SECRETMESSAGE = "you found a secret!";
 FUN = ":)";
 YOUDED = "you ded.";
-YOUDED2 = "\capress \cc(Use) \cato stop being ded.";
+YOUDED2 = "press the (Use) button to stop being ded.";
 
 /////////////////////////////////
 ////////Warnings/////////////////
