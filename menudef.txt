@@ -61,7 +61,6 @@ AddOptionMenu "OptionsMenu" before "GameplayOptions"
 AddOptionMenu "OptionsMenuSimple" after "NewPlayerMenu"
 {
 	Submenu "$BOX_HAT_MENU", 			"boxparty_hatmenu"
-	//Submenu "$OPTMNU_NASHHPBAR", "NashHPBarOptionMenu"
 }
 
 AddOptionMenu "OptionsMenuSimple" before "SoundOptionsSimple"
@@ -97,14 +96,11 @@ AddOptionMenu "ScalingOptionsSimple" after "screenblocks"
 	StaticText "$SIZE_IS_ELEVEN", "Brick"
 }
 
-AddOptionMenu "VideoOptionsSimple" before "vid_gamma"
+AddOptionMenu "VideoOptions" after "fov"
 {
-	//Option "$BOX_OPTION_SKY",		"box_simplesky",	"skyvalue"
-	//Option "$BOX_OPTION_CRUMB",		"box_nocrumbs",		"crumbvalue"
-	//Option "$BOX_OPTION_RESERVE",	"box_reserve",		"onbydefault"
-	//Slider "$BOX_OPTION_HUD",		"box_hudshake",		0, 5, 1, 0
-	//StaticText " "
-} 
+	StaticText " "
+	Slider "$BOX_MAXGIBS", "sv_corpsequeuesize", 100, 5000, 100, 0
+}
 
 AddOptionMenu "VideoOptionsSimple" before "r_drawfuzz"
 {
@@ -113,13 +109,10 @@ AddOptionMenu "VideoOptionsSimple" before "r_drawfuzz"
 	Option "$DSPLYMNU_SPRITESHADOW",	"r_actorspriteshadow",	"onbydefault"
 }
 
-AddOptionMenu "VideoOptions" before "screenblocks"
+AddOptionMenu "VideoOptionsSimple" after "fov"
 {
-	Option "$BOX_OPTION_SKY",		"box_simplesky",	"skyvalue"
-	Option "$BOX_OPTION_CRUMB",		"box_nocrumbs",		"crumbvalue"
-	Option "$BOX_OPTION_RESERVE",	"box_reserve",		"onbydefault"
-	Slider "$BOX_OPTION_HUD",		"box_hudshake",		0, 5, 1, 0
 	StaticText " "
+	Slider "$BOX_MAXGIBS", "sv_corpsequeuesize", 100, 5000, 100, 0
 }
 
 AddOptionMenu "SoundOptionsSimple"

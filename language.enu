@@ -181,6 +181,7 @@ BOX_OPTION_PICKUP = "Fancy Pickups";
 BOX_OPTION_SKY = "Simpler Skyboxes";
 BOX_OPTION_RESERVE = "Show Reserve Ammo";
 BOX_OPTION_HUD = "HUD Shake Effect";
+BOX_MAXGIBS = "Maximum Gibs";
 
 //Option Values
 BOX_VALUE_ALL = "All of em \cf[Default]";
