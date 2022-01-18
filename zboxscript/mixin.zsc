@@ -50,6 +50,44 @@ mixin class BoxActorMixin
 			A_SpawnParticle(PColor, 0, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), POffsetZ, 0, 0, frandom((PSpeed * 0.8), (PSpeed * 1.2)), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
 		}
 	}
+	
+	action void A_BoxGib (string Gibber, int GAmount = 1, int GMode = 0, int GFail = 0)
+	{
+		double GRadius = invoker.Radius / 2;
+		double GHeight = invoker.Height;
+		double GSpeed = invoker.Radius * 0.75;
+		double GSpeed2 = GHeight;
+		
+		//default GMode is gib mode.
+		if (GMode == 1) //chunk mode
+		{
+			GRadius *= 0.6;
+			GSpeed *= 1.5;
+			GSpeed2 *= 1.25;
+		}
+		else if (GMode == 2) //blood/crumb mode
+		{
+			GRadius *= 0.25;
+			GSpeed *= 2;
+			GSpeed2 *= 1.5;
+		}
+			
+		for (int i = 0; i < GAmount; ++i)
+		{
+			A_SpawnItemEX(
+				Gibber, 
+				frandom(-GRadius, GRadius), 
+				frandom(-GRadius, GRadius), 
+				frandom(GHeight / 2, GHeight), 
+				frandom(-GSpeed, GSpeed),  
+				frandom(-GSpeed, GSpeed),  
+				frandom(GSpeed2 / 3, GSpeed2), 
+				random(0, 359), 
+				SXF_ORIGINATOR | SXF_TRANSFERSCALE | SXF_NOCHECKPOSITION,
+				GFail
+			);
+		}
+	}
 
 	action void A_BoxScale (double ScaleAmount, bool IsMultiply = false)
 	{
