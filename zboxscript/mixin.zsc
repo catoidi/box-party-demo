@@ -55,21 +55,21 @@ mixin class BoxActorMixin
 	{
 		double GRadius = invoker.Radius / 2;
 		double GHeight = invoker.Height;
-		double GSpeed = invoker.Radius * 0.75;
+		double GSpeed =  4 + (invoker.Radius * 0.35);
 		double GSpeed2 = GHeight;
 		
 		//default GMode is gib mode.
 		if (GMode == 1) //chunk mode
 		{
 			GRadius *= 0.6;
-			GSpeed *= 1.5;
-			GSpeed2 *= 1.25;
+			GSpeed *= 1.25;
+			GSpeed2 *= 1.15;
 		}
 		else if (GMode == 2) //blood/crumb mode
 		{
 			GRadius *= 0.25;
-			GSpeed *= 2;
-			GSpeed2 *= 1.5;
+			GSpeed *= 1.6;
+			GSpeed2 *= 1.25;
 		}
 			
 		for (int i = 0; i < GAmount; ++i)
