@@ -165,11 +165,22 @@ CLASS FruitGusher : BoxActor
 		+SPRITEANGLE;
 	}
 	
+	override void tick(void)
+	{
+		super.tick();
+		
+		if (!InStateSequence(CurState, ResolveState("Death")))
+		{
+			if (self.Pos.Z ~== self.FloorZ) {A_Die();}
+		}
+	}
+	
 	States
 	{
 		Spawn:
 			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
 			BLDR A 0 {frame = random(0, 3);}
+			#### # 0 A_QueueCorpse;
 			BLDR # 1 A_Jump(128, "SpeenLeft");
 		SpeenRight:
 			BLDR #################### 1 A_SetRoll(roll - 8);
@@ -230,6 +241,7 @@ CLASS FruitGusherFlat : BoxActor
 		Spawn:
 			TNT1 A 0 A_SetRoll(random(0, 359)); //inherits sprite/frame from parent.
 			#### # 0 A_BoxParticle("ff 00 00", 2, 12, 30);
+			#### # 0 A_QueueCorpse;
 			#### # 0 A_JumpIf((ACS_ScriptCall("CrumbCheck") >= 2), "Null");
 			#### #################### 1 A_BoxScale(frandom(0.03, 0.05));
 			#### # 900;

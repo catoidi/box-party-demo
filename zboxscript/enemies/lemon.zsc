@@ -231,6 +231,7 @@ CLASS LemonGusher : FruitGusher
 	{
 		Spawn:
 			BLDY A 0 NoDelay A_SetRoll(random(0, 359));
+			#### # 0 A_QueueCorpse;
 			BLDY # 1 A_Jump(128, "SpeenLeft");
 		SpeenRight:
 			BLDY #################### 1 A_SetRoll(roll - 8);
@@ -290,6 +291,7 @@ CLASS LemonGusherFlat : FruitGusherFlat
 		Spawn:
 			TNT1 A 0 A_SetRoll(random(0, 359));
 			TNT1 A 0 A_BoxParticle("f8 ff 86", 2, 12, 30);
+			#### # 0 A_QueueCorpse;
 			TNT1 A 0 A_JumpIf((ACS_ScriptCall("CrumbCheck") >= 2), "Null");
 			BLDY AAAAAAAAAAAAAAAAAAAA 1 A_BoxScale(frandom(0.03, 0.05));
 			BLDY # 900;
