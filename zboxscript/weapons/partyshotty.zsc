@@ -197,10 +197,17 @@ CLASS PartyShottyBullet : BoxActor
 		DamageType "PartyShot";
 		Projectile;
 		+BLOODSPLATTER;
-		+INTERPOLATEANGLES;
+		//+INTERPOLATEANGLES;
 		+ROLLSPRITE;
 		+SPRITEANGLE;
 		+FORCEXYBILLBOARD;
+	}
+	
+	override void BeginPlay()
+	{
+		Super.BeginPlay();
+		
+		BoxStartRoll();
 	}
 	
 	States
@@ -209,29 +216,23 @@ CLASS PartyShottyBullet : BoxActor
 			TNT1 A 0 NoDelay A_Jump(256, "Firsty", "Secondy", "Thirdy");
 			Stop;
 		Firsty:
-			SHOT U 1 A_SetRoll(random(0, 359));
+			SHOT U 1;
 			goto SpeenStart;
 		Secondy:
-			SHOT V 1 A_SetRoll(random(0, 359));
+			SHOT V 1;
 			goto SpeenStart;
 		Thirdy:
-			SHOT W 1 A_SetRoll(random(0, 359));
+			SHOT W 1;
 			goto SpeenStart;
 		SpeenStart:
-			"####" "#" 0 A_Jump(256, "SpeenLeft", "SpeenRight");
-			Stop;
-		SpeenLeft:
-			"####" "#" 1 A_SetRoll(roll - 8);
-			Loop;
-		SpeenRight:
-			"####" "#" 1 A_SetRoll(roll + 8);
+			"####" "#" 1 A_SetRoll(roll + StartRoll);
 			Loop;
 		Death.Sky:
 		Death:
 			TNT1 A 1 {
 				A_SpawnItemEx("ProjectileSmoke", 0, 0, 0, 0, 0, 0);
 				A_BoxParticle("7b 49 2b", 3);
-				A_SpawnItemEx("PartyShottyBulletCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359), 0, 192);
+				A_SpawnItemEx("PartyShottyBulletCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359), 0, 128);
 			}
 			Stop;
 	}
@@ -286,8 +287,8 @@ CLASS PartyShottyBulletCrumb : BoxCrumb
 	States
 	{
 		Spawn:
-			SHOT X 0 NoDelay A_SetRoll(random(0, 359));
-			"####" "#" 0 A_QueueCorpse;
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			SHOT X 0 A_QueueCorpse;
 			"####" "#" 1 A_Jump(128, "SpeenLeft");
 			Goto SpeenRight;
 	}

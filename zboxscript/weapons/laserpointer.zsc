@@ -155,7 +155,7 @@ CLASS LaserPointerBullet : BoxActor
 	States
 	{
 		Spawn:
-			LAZR C 1 BRIGHT A_SetRoll(random(0, 359));
+			TNT1 A 1 BRIGHT A_SetRoll(random(0, 359));
 		Zoomin:
 			LAZR C 2 BRIGHT;
 			LAZR C 1 BRIGHT A_SpawnItemEx("LaserPointerBulletTrail", 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
@@ -193,9 +193,9 @@ CLASS LaserPointerBullet2 : LaserPointerBullet
 	States
 	{
 		Spawn:
-			LAZR J 1 BRIGHT A_SetRoll(random(0, 359));
+			TNT1 A 1 BRIGHT A_SetRoll(random(0, 359));
 		Zoomin:
-			LAZR # 3 BRIGHT;
+			LAZR J 3 BRIGHT;
 			LAZR ## 0 BRIGHT A_SpawnItemEx("LaserPointerBulletTrail2", 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
 			Loop;
 		XDeath:
@@ -280,7 +280,7 @@ CLASS LaserPointerBulletTrail : BoxActor
 	}
 }
 
-CLASS LaserPOinterBulletTrail2: LaserPointerBulletTrail
+CLASS LaserPointerBulletTrail2: LaserPointerBulletTrail
 {
 	States
 	{

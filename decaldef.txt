@@ -72,3 +72,17 @@ Decal LaserPointed
 	animator LaserFade
 }
 generator LaserPointerBullet LaserPointed
+
+Fader LaserFade2
+{
+	DecayStart 0
+	DecayTime 6
+}
+
+Decal LaserPointed2
+{
+	pic LAZRJ
+	fullbright
+	animator LaserFade2
+}
+generator LaserPointerBullet2 LaserPointed2
