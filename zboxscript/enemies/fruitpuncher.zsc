@@ -47,6 +47,7 @@ CLASS FruitPuncher : BoxMonster //20007
 			#### I 0 A_Pain;
 			#### I 1 A_BoxStars();
 			#### I 0 A_BoxDropLoot("Melon", -1, IsPrism);
+			#### I 0 A_BoxGib("FruitGusher", 3, 2, 128, 1.0, 0.25);
 			#### # 0 {IsPrism = false;}
 			#### I 7 ThrustThingZ(0, 10, 0, 1);
 			#### I 8;
@@ -55,9 +56,8 @@ CLASS FruitPuncher : BoxMonster //20007
 			#### I 0 A_RemoveLight("Shocking");
 			#### I 0 A_ResetScale();
 			#### I 0 A_Pain;
-			#### I 4;
-			#### I 0 A_BoxGib("FruitGusher", 3, 2, 128);
-			#### I 4;
+			#### I 0 A_BoxGib("FruitGusher", 3, 2, 128, 1.0, 0.25);
+			#### I 8;
 			Goto See;
 		Death.Massacre:
 			#### G 0 A_ResetScale();
@@ -293,7 +293,7 @@ CLASS FruitGib_Torso : FruitGib
 	States
 	{
 		Spawn:
-			MELN J 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
 			"####" "#" 0 A_QueueCorpse;
 			MELN J 1 A_Jump(128, "SpeenLeft");
 			Goto SpeenRight;
@@ -305,7 +305,7 @@ CLASS FruitGib_Glasses : FruitGib
 	States
 	{
 		Spawn:
-			MELN K 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
 			"####" "#" 0 A_QueueCorpse;
 			MELN K 1 A_Jump(128, "SpeenLeft");
 			Goto SpeenRight;
@@ -317,7 +317,7 @@ CLASS FruitGib_LeftArm : FruitGib
 	States
 	{
 		Spawn:
-			MELN L 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
 			"####" "#" 0 A_QueueCorpse;
 			MELN L 1 A_Jump(128, "SpeenLeft");
 			Goto SpeenRight;
@@ -329,7 +329,7 @@ CLASS FruitGib_RightArm : FruitGib
 	States
 	{
 		Spawn:
-			MELN M 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
 			"####" "#" 0 A_QueueCorpse;
 			MELN M 1 A_Jump(128, "SpeenLeft");
 			Goto SpeenRight;
@@ -341,7 +341,7 @@ CLASS FruitGib_LeftLeg : FruitGib
 	States
 	{
 		Spawn:
-			MELN N 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
 			"####" "#" 0 A_QueueCorpse;
 			MELN N 1 A_Jump(128, "SpeenLeft");
 			Goto SpeenRight;
@@ -353,7 +353,7 @@ CLASS FruitGib_RightLeg : FruitGib
 	States
 	{
 		Spawn:
-			MELN O 0 NoDelay A_SetRoll(random(0, 359));
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
 			"####" "#" 0 A_QueueCorpse;
 			MELN O 1 A_Jump(128, "SpeenLeft");
 			Goto SpeenRight;
