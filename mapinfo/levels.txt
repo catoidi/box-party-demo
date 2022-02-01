@@ -50,13 +50,20 @@ Cluster 1 //yeah basically just every level in main story should be in this
 	exittext = lookup, "BOX_ENDTEXT"
 }
 
-Cluster 2 //this one is for endless mode
+Cluster 2 //this one is for challenge mode
+{
+	flat = "$WOODC4"
+	exittext = lookup, "BOX_ENDTEXT4"
+	hub
+}
+
+Cluster 3 //this one is for endless mode
 {
 	flat = "$LAVA"
 	exittext = lookup, "BOX_ENDTEXT2"
 }
 
-Cluster 3 //this one is for boat episode
+Cluster 4 //this one is for boat episode
 {
 	flat = "$WOOD3"
 	exittext = lookup, "BOX_ENDTEXT3"
