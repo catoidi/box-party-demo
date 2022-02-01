@@ -28,18 +28,6 @@ Episode "party00"
 	key = "B"
 }
 
-//Episode "arena00"
-//{
-//	name = "Endless Mode"
-//	key = "E"
-//}
-
-//episode "sail01"
-//{
-	//name = "Boat Episode"
-	//key = "B"
-//}
-
 //////////
 //CLUSTERS
 //////////
