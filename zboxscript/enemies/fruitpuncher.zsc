@@ -104,7 +104,7 @@ CLASS FruitPuncher : BoxMonster //20007
 		Pain.Lightning:
 			#### I 0 A_ResetScale();
 			#### I 4 BRIGHT {bNOPAIN = true;}
-			#### I 0 A_BoxGib("FruitGusher", 3, 2, 128);
+			#### I 0 A_BoxGib("FruitGusher", 3, 2, 128, 1.0, 0.25);
 			#### I 0 BRIGHT A_AttachLightDef("Shocking", "SHOCKER");
 			Goto ShockGo;
 		ShockGo:
