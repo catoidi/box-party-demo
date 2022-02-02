@@ -7,7 +7,7 @@
 
 [enu default]
 
-BOX_VERSION = "                     DEMO v1.2.1\n\nnow with more chemoluminescence!";
+BOX_VERSION = "                     DEMO v1.2.2\n\nnow with more chemoluminescence!";
 
 //Sorry Nothing
 SORRY_NOTHING = "Sorry Nothing"; //sorry nothing
