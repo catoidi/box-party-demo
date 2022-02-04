@@ -58,6 +58,7 @@ CLASS Lemon : BoxMonster
 			LEMN FFFFF 1 
 			{
 				A_StartSound("enemies/whiff", pitch: 1.5);
+				A_BoxParticle("f8 ff 86", 6, 12, 30, 16.0);
 				A_SpawnProjectile("LemonBullet", frandom(24, 32), frandom(-4, 4), frandom(-2, 2), 0, frandom(8, 16));
 				A_BoxScaleXY(0.1, -0.1);
 			}

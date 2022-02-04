@@ -24,8 +24,8 @@ Map titlemap "this is the title screen for the game"
 
 Episode "party00"
 {
-	name = "Box Party"
-	key = "B"
+	name = "Story Mode"
+	key = "S"
 }
 
 //////////
