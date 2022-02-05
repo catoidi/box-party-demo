@@ -564,36 +564,30 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		cvar isbirthday = cvar.FindCVAR("box_hat_secret_13");
 		cvar isnewyear = cvar.FindCVAR("box_hat_secret_01");
 		cvar isxmas = cvar.FindCVAR("box_hat_secret_12");
+		cvar isvalentine = cvar.FindCVAR("box_hat_secret_02");
 		string unlockmessage = "sorrynothing";
 		
 		timemonthstring = SystemTime.Format("%m", SystemTime.Now());
-		timedaystring = SystemTime.Format("%d", SystemTime.Now());
 		
 		timemonth = timemonthstring.ToInt(10);
-		timeday = timedaystring.ToInt(10);
 		
 		switch (timemonth)
 		{
 			case 1:
-				if (timeday == 1)
-				{
-					if (isnewyear.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_01";}
-					isnewyear.SetBool(true);
-				}
+				if (isnewyear.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_01";}
+				isnewyear.SetBool(true);
+				break;
+			case 2:
+				if (isvalentine.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_02";}
+				isvalentine.SetBool(true);
 				break;
 			case 11:
-				if (timeday == 3)
-				{
-					if (isbirthday.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_13";}
-					isbirthday.SetBool(true);
-				}
+				if (isbirthday.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_13";}
+				isbirthday.SetBool(true);
 				break;
 			case 12:
-				if (timeday == 25)
-				{
-					if (isxmas.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_12";}
-					isxmas.SetBool(true);
-				}
+				if (isxmas.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_12";}
+				isxmas.SetBool(true);
 				break;
 		}
 		

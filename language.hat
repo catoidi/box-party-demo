@@ -57,6 +57,7 @@ HAT_UNLOCK_15 = "Crown\n\nALL PAGE 1 HATS UNLOCKED!!!!!!!!!!!! :)";
 HAT_UNLOCK_16 = "Top Hat :)";
 
 HAT_SECRET_01 = "You have selected: BOOM!";
+HAT_SECRET_02 = "You have selected: <3";
 HAT_SECRET_12 = "You have selected: Xmas Hat";
 HAT_SECRET_13 = "You have selected: Birthday Cake";
 HAT_SECRET_14 = "You have selected: Beach Ball";
@@ -64,6 +65,7 @@ HAT_SECRET_15 = "this hat seems a little broken...";
 HAT_SECRET_16 = "You have selected: Cracked Egg";
 HAT_SECRET_17 = "You have selected: Ghost Tree";
 HAT_SECRETUNLOCK_01 = "BOOM!";
+HAT_SECRETUNLOCK_02 = "<3";
 HAT_SECRETUNLOCK_12 = "Xmas Hat";
 HAT_SECRETUNLOCK_13 = "Birthday Cake";
 HAT_SECRETUNLOCK_14 = "Beach Ball";
