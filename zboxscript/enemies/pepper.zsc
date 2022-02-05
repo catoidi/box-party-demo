@@ -45,8 +45,10 @@ class Pepper : BoxMonster
 			PEPR AABB 10 Fast A_Chase(null, null);
 			Goto See;
         Missile:
+			PEPR C 0 A_FaceTarget;
 			PEPR C 0 A_StartSound("enemies/pepload1");
             PEPR CCCC 4 Slow A_BoxScaleXY(-0.0125, 0.025);
+			PEPR D 0 A_FaceTarget;
 			PEPR D 0 A_StartSound("enemies/pepload2");
             PEPR DDDD 4 Slow A_BoxScaleXY(0.0125, -0.025);
             PEPR D 0 A_FaceTarget;
