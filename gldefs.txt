@@ -23,6 +23,17 @@ pulselight BIGBOOM
 	dontlightself 1
 }
 
+pulselight PLATEBOOM
+{
+	color 1.0 0.0 0.0
+	size 32
+	offset 0 12 0
+	secondarysize 64
+	interval 0.5
+	attenuate 1
+	dontlightself 1
+}
+
 pulselight TELEPORT
 {
 	color 0.0 0.5 1.0
@@ -271,3 +282,12 @@ object Marshmallow
 object BoxTeleport {frame TELE {light TELEPORT}}
 
 object PepperBullet {frame PEPR {light GLOWYELLOW}}
+
+object PlateSpawner 
+{
+	frame PLATB {light PLATEBOOM}
+	frame PLATC {light PLATEBOOM}
+	frame PLATD {light PLATEBOOM}
+	frame PLATE {light PLATEBOOM}
+}
+object PlateSpawnerRing {frame PLAT {light PLATEBOOM}}

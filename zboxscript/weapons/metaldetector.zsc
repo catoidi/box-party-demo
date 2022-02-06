@@ -109,6 +109,7 @@ CLASS MetalDetectorMarker : BoxActor
 		Super.PostBeginPlay();
 		
 		A_SpawnItemEX("KeyMarker", flags: SXF_NOCHECKPOSITION | SXF_SETTARGET | SXF_TRANSFERSPRITEFRAME | SXF_ISTARGET);
+		A_AttachLightDef("lighter", "GLOWWHITE");
 	}
 	
 	States
@@ -171,6 +172,13 @@ class MetalDetectorCoin : BoxQuestReward
 		Inventory.Amount 100;
 		+FLOATBOB;
 		+BRIGHT;
+	}
+	
+	override void PostBeginPlay(void)
+	{
+		Super.PostBeginPlay();
+		
+		A_AttachLightDef("lighter", "GLOWYELLOW");
 	}
 	
 	States
