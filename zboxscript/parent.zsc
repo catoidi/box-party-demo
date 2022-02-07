@@ -85,7 +85,7 @@ CLASS BoxMonster : BoxActor abstract
 		
 		if (SwimmingToggle == true) //modders can modify this behavior either by overriding their own Tick() function or by toggling the box_noswim cvar.
 		{
-			if (waterlevel >= 1) //make the monster fly whilst underwater
+			if ((waterlevel >= 1) && (self.health > 0)) //make the monster fly whilst underwater
 			{
 				bFLOAT = true;
 				bNOGRAVITY = true;
