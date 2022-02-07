@@ -291,3 +291,5 @@ object PlateSpawner
 	frame PLATE {light PLATEBOOM}
 }
 object PlateSpawnerRing {frame PLAT {light PLATEBOOM}}
+
+object Lemon {frame LEMNF {light GLOWRED}}
