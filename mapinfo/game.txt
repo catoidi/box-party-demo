@@ -144,5 +144,18 @@ GameInfo
 		"gluttony",
 		"do not kill the eggs",
 		"CONGRATULATION!!!!! YOU'RE THE LUCKY BOX!!!!!! CLICK [HERE] FOR A FREE HAT!!!!!!!",
-		"not a horror game"
+		"not a horror game",
+		"come back in 10000 years",
+		"why are we still here? just to party?",
+		"this is a certified box party moment",
+		"box party is a timed exclusive for the gameboy advance sp",
+		"im using gyro controls",
+		"bread is not sentient",
+		"melons do not have mouths",
+		"play box party on your smart fridge",
+		"think about box party 24/7",
+		"be sure to ask your doctor if box party is right for you",
+		"be sure to use the wheel attachment to play box party",
+		"don't forget to pack your lunch",
+		"get at least 8 hours of sleep every night"
 }
