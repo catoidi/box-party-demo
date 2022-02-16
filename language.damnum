@@ -1,0 +1,17 @@
+[enu default]
+
+//this language file is used for Xaser's DamNums mod. great mod by the way. i recommend it.
+//go check it out here: https://forum.zdoom.org/viewtopic.php?f=46&t=55048
+
+//this will give specific colors to the damage numbers based on Box Party's damage types.
+
+//melee and lightning damagetypes are skipped as they are predefined.
+DAMNUM_TYPECOLOR_PARTYSHOT = "DamPurple";
+DAMNUM_TYPECOLOR_POPCORN = "DamGold";
+DAMNUM_TYPECOLOR_METALDETECTOR = "DamBlack";
+DAMNUM_TYPECOLOR_WATER = "DamCyan";
+DAMNUM_TYPECOLOR_LEMON = "DamYellow";
+DAMNUM_TYPECOLOR_PIZZA = "DamDarkRed";
+DAMNUM_TYPECOLOR_PEPPER = "DamGold";
+DAMNUM_TYPECOLOR_PIE = "DamBrown";
+DAMNUM_TYPECOLOR_PRISM = "DamPurple";
