@@ -23,6 +23,16 @@ pulselight BIGBOOM
 	dontlightself 1
 }
 
+pulselight IMBURNING
+{
+	color 1.0 0.5 0.0
+	size 24
+	offset 0 24 0
+	secondarysize 48
+	interval 0.15
+	attenuate 1
+}
+
 pulselight PLATEBOOM
 {
 	color 1.0 0.0 0.0

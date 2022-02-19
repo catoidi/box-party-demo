@@ -22,6 +22,7 @@ class Pepper : BoxMonster
 		Species "Pepper";
         Tag "Jalapeño";
 		Obituary "$BOX_DIE_PEPPER";
+		BoxMonster.CanBurn false;
         +NOBLOODDECALS;
 		+FLOORCLIP;
 		+JUMPDOWN;

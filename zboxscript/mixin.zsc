@@ -167,6 +167,30 @@ mixin class BoxActorMixin
 		}
 	}
 	
+	action void A_BoxBurned (int BurnMode)
+	{
+		//copy/pasted a lot from A_BoxShocked.
+		if (invoker)
+		{
+			double BoxRadius = invoker.Radius / 4;
+			
+			if (BurnMode == 0)
+			{
+				A_SpawnItemEX("BurnEffectSmall", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), 0, 0, 0, frandom(1, 4), 0, SXF_ORIGINATOR | SXF_NOCHECKPOSITION);
+			}
+			else
+			{
+				if (self.target != null)	{invoker.shocktarget = self.target;}
+			
+				A_SpawnItemEX("BurnEffect", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), 0, 0, 0, frandom(1, 4), 0, SXF_ORIGINATOR | SXF_NOCHECKPOSITION);
+				if (self.health > 5) {self.health -= 5;}
+				else if (self.health <= 5) {A_Die("Fire");}
+				A_Pain();
+				if (invoker.shocktarget != null) {self.target = invoker.shocktarget;}
+			}
+		}
+	}
+	
 	action void A_BoxShocked (void)
 	{
 		//This is the effect that plays when the enemy is stunned by a shock attack.

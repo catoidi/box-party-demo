@@ -173,6 +173,37 @@ CLASS BoomText : SafeBoom
 	}
 }
 
+CLASS BurnEffect : SafeBoom
+{
+	Default
+	{
+		Radius 4;
+		Height 4;
+		+DONTSPLASH;
+	}
+	
+	States
+	{
+		Spawn:
+			FIRE B 0 BRIGHT NoDelay A_AttachLightDef("Boomer", "BIGBOOM");
+			Goto Expander;
+		Expander:
+			#### # 1 BRIGHT A_FadeOut(0.1);
+			#### # 0 BRIGHT A_BoxScale(0.1);
+			Loop;
+	}
+}
+
+CLASS BurnEffectSmall : BurnEffect
+{
+	States
+	{
+		Spawn:
+			FIRE A 0 BRIGHT;
+			Goto Expander;
+	}
+}
+
 CLASS SafeBoomExtra : SafeBoom
 {
 	Default

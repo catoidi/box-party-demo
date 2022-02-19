@@ -22,6 +22,7 @@ CLASS BossPepper1 : BoxMonster
 		Tag "* BELL *";
 		Obituary "$BOX_DIE_BIGPEPPER1";
 		MaxTargetRange 16;
+		BoxMonster.CanBurn false;
 		+BOSS;
         +NOBLOODDECALS;
 		+FLOORCLIP;

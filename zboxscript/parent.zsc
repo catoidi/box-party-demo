@@ -24,8 +24,13 @@ CLASS BoxDecor : BoxActor abstract
 CLASS BoxMonster : BoxActor abstract
 {
 	bool SwimmingToggle; //stores the canswim property
+	bool BurnToggle;
+	
+	int BurnAmount;
+	int BurnTimer;
 	
 	property CanSwim: SwimmingToggle;
+	property CanBurn: BurnToggle;
 
 	Default
 	{
@@ -42,6 +47,7 @@ CLASS BoxMonster : BoxActor abstract
 		PainChance "Pepper", 32;
 		PainChance "Prism", 256; //needs to be guaranteed for intended effect
 		BoxMonster.CanSwim true; //overrides both +FLOAT and +NOGRAVITY. do not use on flying enemies.
+		BoxMonster.CanBurn true; //allows actor to gain burn status effect.
 		+CASTSPRITESHADOW;
 		+NOINFIGHTSPECIES;
 		+DONTHARMSPECIES;
@@ -79,6 +85,18 @@ CLASS BoxMonster : BoxActor abstract
 		}
 	}
 	
+	override int TakeSpecialDamage (Actor inflictor, Actor source, int damage, Name damagetype)
+	{
+		Super.TakeSpecialDamage(inflictor, source, damage, damagetype);
+		
+		if ((damagetype == "Fire") && (BurnToggle == true))
+		{
+			BurnAmount += 3;
+		}
+		
+		return damage;
+	}
+	
 	override void Tick (void)
 	{
 		Super.Tick();
@@ -96,6 +114,27 @@ CLASS BoxMonster : BoxActor abstract
 				bNOGRAVITY = false;
 			}
 		}
+		
+		if ((BurnAmount > 0) && (self.Health > 0))
+		{
+			++BurnTimer;
+			
+			A_AttachLightDef("imonfire", "IMBURNING");
+			
+			if (random(0, 3) == 3)
+			{
+				if (random(0, 9) == 9) {A_BoxBurned(0);}
+				else {A_BoxParticle2("ff 4f 00", 1, 16, 70, POffset: 4.0, POffsetZ: 4.0, PSpeed: 1.0, PBright: true);}
+			}
+			
+			if (BurnTimer >= 35)
+			{
+				A_BoxBurned(1);
+				BurnTimer = 0;
+				BurnAmount -= 1;
+			}
+		}
+		else {A_RemoveLight("imonfire");}
 	}
 		
 	States

@@ -24,6 +24,7 @@ CLASS BossPepper2 : BoxMonster
 		Tag "* GHOST *";
 		Obituary "$BOX_DIE_BIGMELON";
 		MinMissileChance 500;
+		BoxMonster.CanBurn false;
 		+BOSS;
 		+NOBLOODDECALS;
 		+NOINFIGHTING;
