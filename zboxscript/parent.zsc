@@ -26,9 +26,6 @@ CLASS BoxMonster : BoxActor abstract
 	bool SwimmingToggle; //stores the canswim property
 	bool BurnToggle;
 	
-	int BurnAmount;
-	int BurnTimer;
-	
 	property CanSwim: SwimmingToggle;
 	property CanBurn: BurnToggle;
 
@@ -92,6 +89,12 @@ CLASS BoxMonster : BoxActor abstract
 		if ((damagetype == "Fire") && (BurnToggle == true))
 		{
 			BurnAmount += 3;
+		}
+		else if ((damagetype == "Lightning") && (BurnAmount > 0))
+		{
+			int bigdamage = damage * 2;
+			
+			return bigdamage;
 		}
 		
 		return damage;

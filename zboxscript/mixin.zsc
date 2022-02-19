@@ -12,6 +12,9 @@ mixin class BoxActorMixin
 	
 	actor shocktarget;
 	
+	int BurnAmount;
+	int BurnTimer;
+	
 	int StartRoll;
 	void BoxStartRoll (void)
 	{
@@ -206,10 +209,15 @@ mixin class BoxActorMixin
 			A_SpawnItemEX("ShockEffect", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
 			A_SpawnItemEX("ShockEffect", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
 			A_SpawnItemEX("ShockEffect", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), BoxHeight, frandom(-BoxSpeed, BoxSpeed), frandom(-BoxSpeed, BoxSpeed), frandom(1, 4), 0, SXF_ORIGINATOR, 64);
-			//A_DamageSelf(3);
 			if (self.health > 3) {self.health -= 3;}
 			else if (self.health <= 3) {A_Die("Lightning");}
 			A_Pain();
+			if (invoker.BurnAmount > 0) //extra damage if on fire
+			{
+				A_SpawnItemEX("BurnEffect", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), 0, 0, 0, frandom(1, 4), 0, SXF_ORIGINATOR | SXF_NOCHECKPOSITION);
+				if (self.health > 6) {self.health -= 6;}
+				else if (self.health <= 6) {A_Die("Lightning");}
+			}
 			if (invoker.shocktarget != null) {self.target = invoker.shocktarget;}
 		}
 	}
@@ -235,6 +243,12 @@ mixin class BoxActorMixin
 			if (self.health > 150) {self.health -= 150;}
 			else if (self.health <= 150) {A_Die("Lightning");}
 			A_Pain();
+			if (invoker.BurnAmount > 0) //extra damage if on fire
+			{
+				A_SpawnItemEX("BurnEffect", frandom(-BoxRadius, BoxRadius), frandom(-BoxRadius, BoxRadius), 0, 0, 0, frandom(1, 4), 0, SXF_ORIGINATOR | SXF_NOCHECKPOSITION);
+				if (self.health > 50) {self.health -= 50;}
+				else if (self.health <= 50) {A_Die("Lightning");}
+			}
 		}
 	}
 	
