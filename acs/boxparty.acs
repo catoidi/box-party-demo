@@ -375,7 +375,7 @@ bool quest1done = false;
 bool quest2done = false;
 bool quest3done = false;
 
-script "ShowSideQuests" (int QuestEnabled)
+script "ShowSideQuests" (int QuestEnabled) net
 {
 	//Explanation: Player calls a script named "CheckSideQuests" via keybind. This script is defined on a per-level basis.
 	//The level script will then call this script, and give it all of the variables that need to be displayed.
