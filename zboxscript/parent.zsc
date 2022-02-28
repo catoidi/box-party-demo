@@ -135,6 +135,7 @@ CLASS BoxMonster : BoxActor abstract
 				A_BoxBurned(1);
 				BurnTimer = 0;
 				BurnAmount -= 1;
+				if (BurnAmount > 15) {BurnAmount = 15;}
 			}
 		}
 		else {A_RemoveLight("imonfire");}
