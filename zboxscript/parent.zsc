@@ -86,9 +86,9 @@ CLASS BoxMonster : BoxActor abstract
 	{
 		Super.TakeSpecialDamage(inflictor, source, damage, damagetype);
 		
-		if ((damagetype == "Fire") && (BurnToggle == true))
+		if (BurnToggle == true)
 		{
-			BurnAmount += 3;
+			if ((damagetype == "Fire") || (damagetype == "Pepper")) {BurnAmount += 3;}
 		}
 		else if ((damagetype == "Lightning") && (BurnAmount > 0))
 		{
