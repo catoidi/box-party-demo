@@ -15,14 +15,20 @@ SCRIPT "playerscript" ENTER
 	SetAirControl(1.0);
 	
 	if (GetCVAR("box_checkbadcvar") == 1) { ACS_NamedExecute("CheckBadCVar", 0, 0, 0, 0); }
+	//warns player if using a setting that can break compatibility with box party levels.
 	
 	if (CheckInventory("PlayerGlassToken")) {GiveInventory("GlassProtection", 1);}
+	//gives protection from lava.
 	
 	if (ActivatorTID() < 7500) {Thing_ChangeTID(0, 7500 + PlayerNumber());}
+	//Log(d:ActivatorTID());
+	//player 1 is 7500, player 8 is 7507.
 	
-	TakeInventory("AllEnemiesCleared", 9999);
-	TakeInventory("Armor", 9999);
+	TakeInventory("AllEnemiesCleared", 9999); //flag used for level scripts. needs to be reset upon leaving.
+	TakeInventory("Armor", 9999); //Triangle's armor gets reset upon entering a new level.
 	
+	
+	//check for when all enemies are defeated. used for multiple things.
 	bool noenemies = false;
 	
 	int mtotal = GetLevelInfo (LEVELINFO_TOTAL_MONSTERS),
@@ -52,8 +58,17 @@ SCRIPT "playerscript" ENTER
 	//:)
 }
 
+script "resetplayerTID" RESPAWN
+{
+	//Make sure our old dead body doesn't still have our tid
+	//this is just copy/pasted from the zdoom wiki.
+	Thing_ChangeTID(7500+PlayerNumber(),0);
+	Thing_ChangeTID(0,7500+PlayerNumber());
+}
+
 function void box_gethat (str hatcvar, str hatachieve)
 {
+	//hatcvar is the CVAR that the unlocked hat uses. hatachieve is the actor that displays this hat's corresponding achievement box.
 	if (GetCVAR(hatcvar) == false)
 	{
 		SetCVAR(hatcvar, true);
@@ -117,6 +132,7 @@ SCRIPT "giveglowstick" (void) {if (CheckInventory("Glowstick") == 0) {GiveInvent
 
 SCRIPT "PlateSpawnScript" (int PlateSpawned) 
 {
+	//script that plays when a plate spawner performs the act of "spawning" a monster.
 	if (SetActorPosition(PlateSpawned, GetActorX(0), GetActorY(0), GetActorZ(0), false))
 	{
 		SetActorPosition(PlateSpawned, GetActorX(0), GetActorY(0), GetActorZ(0), false);
@@ -142,15 +158,16 @@ SCRIPT "CheckBadCVar" (void)
 	if (GetCVAR("sv_fastweapons") == 1) { HudMessage(l:"BOX_WARNING_FASTWEAPONS"; HUDMSG_PLAIN | HUDMSG_LOG, 406, CR_Brick, 0.5, 0.2, 5.0); }
 }
 
+//old checks. might not be needed anymore.
 SCRIPT "npccheck" (void) {SetResultValue(GetCVAR("box_nonpcs"));}
 SCRIPT "crumbcheck" (void) {SetResultValue(GetCVAR("box_nocrumbs"));}
 SCRIPT "skycheck" (void) {SetResultValue(GetCVAR("box_simplesky"));}
-
 SCRIPT "BoxHatSwitcher" (int HatNumber)
 {
 	TakeInventory("playerhatnumber", 9999);
 	GiveInventory("playerhatnumber", HatNumber);
 }
+
 
 script "noammo" (void)
 {
@@ -169,6 +186,7 @@ script "noammo" (void)
 
 script "exitscreen" (void)
 {
+	//screen that plays when you complete a story level.
 	ChangeCamera(7575, 1, 0);
 	Thing_Move(7500, 7600, true);
 	Thing_Move(7501, 7601, true);
@@ -188,6 +206,7 @@ script "exitnow" (void) {Exit_Normal(0);}
 
 script "beatthegame" (void)
 {
+	//gives necessary unlocks for when you beat the story/demo as a specific character.
 	for (int p = 7500; p < 7508; p++)
 	{
 		if (PlayerInGame(p - 7500))
@@ -220,8 +239,10 @@ script "beatthegame" (void)
 	}
 }
 
+//this script is activated when the pepper is killed by it's own attacks.
 script "PepperUnlock" (void) {box_gethat("box_hat_unlock_14", "box_unlockhat_14");}
 
+//script that handles unlocking the hat you get for getting 250 glowstick kills.
 script "glowcounter" (void)
 {
 	if (GetWeapon() == "Glowstick") //not compatible with custom stuff but whatev's.
@@ -259,6 +280,7 @@ script "eggcounter" (void)
 script "RESETALLHATS" (void)
 {
 	//this will reset every single hat back to default values. use with caution.
+	//looking to replace this script with something more "flexible" in the future, so it's easier to account for new hats.
 	SetCVAR("box_hat_unlock_01", true);
 	SetCVAR("box_hat_unlock_02", false);
 	SetCVAR("box_hat_unlock_03", false);
@@ -326,6 +348,7 @@ script "RESETALLHATS" (void)
 
 SCRIPT "BoxJumpPad" (int jumpamount)
 {
+	//script for the green jump pads. use jumpamount to configure jump pad's strength.
 	if (CheckFlag(0, "SOLID") == true)
 	{
 		int x = GetActorX(0);
@@ -333,7 +356,6 @@ SCRIPT "BoxJumpPad" (int jumpamount)
 		int z = GetActorZ(0);
 		SpawnForced("BoxSlam", x, y, z);
 		ThrustThingZ(0, jumpamount, false, true);
-		//Delay(18);
 	}
 }
 
@@ -364,7 +386,15 @@ script "activateself" (void)
 
 //i would like to replace the UI for this with ZScript in the future, but for now it is out of my league.
 
-bool togglesidequests = false;
+bool togglesidequests_0 = false;
+bool togglesidequests_1 = false;
+bool togglesidequests_2 = false;
+bool togglesidequests_3 = false;
+bool togglesidequests_4 = false;
+bool togglesidequests_5 = false;
+bool togglesidequests_6 = false;
+bool togglesidequests_7 = false;
+
 str quest1_name = "QUEST_NONE";
 str quest1_progress = "QUEST_NONE";
 str quest2_name = "QUEST_NONE";
@@ -382,7 +412,7 @@ script "ShowSideQuests" (int QuestEnabled) net
 	
 	if (QuestEnabled != 0)
 	{
-		if (togglesidequests == false) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
+		if (SideQuestChecker() == false) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
 		else {ACS_NamedExecuteAlways("ForceHideQuests", 0, 0, 0, 0);}
 	}
 	else {Log(l:"QUEST_UNAVAILABLE");}
@@ -404,7 +434,8 @@ script "UpdateSideQuests" (void)
 	SetFont("QUESTBOX");
 	HudMessage(s:"A"; HUDMSG_PLAIN, -123456780, CR_UNTRANSLATED, 164.0, 214.0, 0, 1.0);
 			
-	togglesidequests = true;
+	//togglesidequests = true;
+	SideQuestToggler(true);
 }
 
 script "ForceHideQuests" (void)
@@ -417,7 +448,8 @@ script "ForceHideQuests" (void)
 	HudMessage(s:""; HUDMSG_PLAIN, -123456785, CR_UNTRANSLATED, 0, 0, 1, 1.0);
 	HudMessage(s:""; HUDMSG_PLAIN, -123456786, CR_UNTRANSLATED, 0, 0, 1, 1.0);
 			
-	togglesidequests = false;
+	//togglesidequests = false;
+	SideQuestToggler(false);
 }
 
 function void QuestProgressed (int QNum, str QMsg, bool DoReward)
@@ -446,6 +478,48 @@ function void QuestUpdated (bool QuestLog)
 	//useful if you are changing quests without the use of the above function.
 	
 	if (QuestLog == true) {Log(l:"QUESTUPDATED");}
-	if (togglesidequests == true) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
-	else {ACS_NamedExecuteAlways("ForceHideQuests", 0, 0, 0, 0);}
+	
+	for (int act = 7500; act < 7508; act++)
+	{
+		SetActivator(act);
+	
+		if (SideQuestChecker() == true) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
+		else {ACS_NamedExecuteAlways("ForceHideQuests", 0, 0, 0, 0);}
+	}
+}
+
+function void SideQuestToggler (bool QToggle)
+{
+	switch (ActivatorTID())
+	{
+		case 7500: togglesidequests_0 = QToggle; break;
+		case 7501: togglesidequests_1 = QToggle; break;
+		case 7502: togglesidequests_2 = QToggle; break;
+		case 7503: togglesidequests_3 = QToggle; break;
+		case 7504: togglesidequests_4 = QToggle; break;
+		case 7505: togglesidequests_5 = QToggle; break;
+		case 7506: togglesidequests_6 = QToggle; break;
+		case 7507: togglesidequests_7 = QToggle; break;
+		default: break;
+	}
+}
+
+function bool SideQuestChecker (void)
+{
+	bool returnvalue;
+
+	switch (ActivatorTID())
+	{
+		case 7500: returnvalue = togglesidequests_0; break;
+		case 7501: returnvalue = togglesidequests_1; break;
+		case 7502: returnvalue = togglesidequests_2; break;
+		case 7503: returnvalue = togglesidequests_3; break;
+		case 7504: returnvalue = togglesidequests_4; break;
+		case 7505: returnvalue = togglesidequests_5; break;
+		case 7506: returnvalue = togglesidequests_6; break;
+		case 7507: returnvalue = togglesidequests_7; break;
+		default: break;
+	}
+	
+	return returnvalue;
 }
