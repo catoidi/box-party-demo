@@ -24,6 +24,20 @@ CLASS WhiteKey : Key
 		
 		A_SpawnItemEX("KeyMarker", flags: SXF_NOCHECKPOSITION | SXF_SETTARGET | SXF_TRANSFERSPRITEFRAME | SXF_ISTARGET);
 	}
+	
+	override void DoPickupSpecial(Actor toucher)
+	{
+		A_GiveInventory(GetClassName(), 1, AAPTR_PLAYER1);
+		A_GiveInventory(GetClassName(), 1, AAPTR_PLAYER2);
+		A_GiveInventory(GetClassName(), 1, AAPTR_PLAYER3);
+		A_GiveInventory(GetClassName(), 1, AAPTR_PLAYER4);
+		A_GiveInventory(GetClassName(), 1, AAPTR_PLAYER5);
+		A_GiveInventory(GetClassName(), 1, AAPTR_PLAYER6);
+		A_GiveInventory(GetClassName(), 1, AAPTR_PLAYER7);
+		A_GiveInventory(GetClassName(), 1, AAPTR_PLAYER8);
+		
+		Super.DoPickupSpecial(toucher);
+	}
 
 	States
 	{
