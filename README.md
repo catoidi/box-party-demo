@@ -37,5 +37,7 @@ I've tried my best to make Box Party modding friendly, however it is far from pe
 
 Box Party has a few unique mechanics that should (hopefully) take minimal effort to add new content for, like the loot and hat systems.
 
-I will be working on a Github Wiki to try to document these mechanics to the best of my ability.
+I will (eventually) be working on a Github Wiki to try to document these mechanics to the best of my ability.
+
+[if you wish to support Box Party, please consider donating to me at Ko-Fi.](https://ko-fi.com/idiotbitz)
   
