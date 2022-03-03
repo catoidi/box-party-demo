@@ -552,14 +552,6 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		Super.Init(parent);
 		SetBaseResolution(baseRes);
 		smallFont = OptionFont(); //keep font consistent with other menus
-		
-		if (cvar.GetCVAR("box_hat_current", players[1]))
-		{
-			background = boxparty_ZF_Image.Create((0, 0), baseRes, "graphics/hat/HATBACK2.png", boxparty_ZF_Image.AlignType_TopLeft);
-			background.Pack(mainFrame);
-			return;
-		}
-		
 		background = boxparty_ZF_Image.Create((0, 0), baseRes, "graphics/hat/HATBACK.png", boxparty_ZF_Image.AlignType_TopLeft);
 		background.Pack(mainFrame);
 		
@@ -661,14 +653,14 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		
 		if (luckycvarstring.Left(5) != "HATAA")
 		{
-			int luckynum = random(2, 14);
+			int luckynum = random[boxhud](2, 14);
 		
 			switch (luckynum)
 			{
 				//default: luckyhat.SetInt(luckynum); break;
-				//case 8: luckyhat.SetInt(luckynum - (random(1, 3))); break;
+				//case 8: luckyhat.SetInt(luckynum - (random[boxhud](1, 3))); break;
 				default: break;
-				case 8: luckynum += random(-1, -3); break;
+				case 8: luckynum += random[boxhud](-1, -3); break;
 			}
 			
 			string luckystring = string.Format("%s%s", "HATAA", rotations[luckynum]);
@@ -691,7 +683,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		let signImage = boxparty_ZF_BoxImage.Create((8, 8), signSize, signTexture, (1.0, 1.0));
 		signImage.Pack (mainFrame);
 		
-		switch (random(0, 5))
+		switch (random[boxhud](0, 5))
 		{
 			case 0: playerSprite = "sprites/Characters/PlayerBox/PBOXA0.lmp"; break;
 			case 1: playerSprite = "sprites/Characters/PlayerBox/CBOXA0.lmp"; break;
