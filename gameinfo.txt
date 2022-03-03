@@ -1,4 +1,4 @@
 IWAD = "boxparty.ipk3"
-STARTUPTITLE = "Box Party v1.3"
+STARTUPTITLE = "Box Party v1.3.1"
 STARTUPCOLORS = "FFFFFF", "000000"
 //this is only run when Box Party is loaded as a mod, which should never be done in an actual release environment.
