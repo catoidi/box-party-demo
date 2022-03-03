@@ -552,8 +552,23 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		Super.Init(parent);
 		SetBaseResolution(baseRes);
 		smallFont = OptionFont(); //keep font consistent with other menus
+		
+		if (cvar.GetCVAR("box_hat_current", players[1]))
+		{
+			background = boxparty_ZF_Image.Create((0, 0), baseRes, "graphics/hat/HATBACK2.png", boxparty_ZF_Image.AlignType_TopLeft);
+			background.Pack(mainFrame);
+			return;
+		}
+		
 		background = boxparty_ZF_Image.Create((0, 0), baseRes, "graphics/hat/HATBACK.png", boxparty_ZF_Image.AlignType_TopLeft);
 		background.Pack(mainFrame);
+		
+		if (cvar.GetCVAR("box_hat_current", players[1]))
+		{
+			background = boxparty_ZF_Image.Create((0, 0), baseRes, "graphics/hat/HATBACK.png", boxparty_ZF_Image.AlignType_TopLeft);
+			background.Pack(mainFrame);
+			return;
+		}
 		
 		handler = new('boxparty_ZF_HatMenuHandler');
 		handler.link = self;
