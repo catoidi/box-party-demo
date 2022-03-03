@@ -4,8 +4,8 @@ class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 	
 	override void buttonClickCommand (boxparty_ZF_Button caller, string command)
     {
-		cvar hatsetting = cvar.GetCVAR('box_hat_current', players[consoleplayer]);
-		cvar hatcheatmode = cvar.GetCVAR('box_hat_cheat', players[consoleplayer]);
+		cvar hatsetting = cvar.FindCVAR('box_hat_current');
+		cvar hatcheatmode = cvar.FindCVAR('box_hat_cheat');
 		cvar hatunlocked;
 		int labelnum;
 		int pagenum = link.hatPage;
@@ -20,11 +20,11 @@ class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 			if ((labelnum <= link.BOXHAT_size) && (labelnum != 0)) 
 			{
 				unlockstring = link.BOXHAT_cvar[labelnum - 1];
-				hatunlocked = cvar.GetCVAR(unlockstring, players[consoleplayer]);
+				hatunlocked = cvar.FindCVAR(unlockstring);
 			}
 			else if (labelnum == 0)
 			{
-				hatunlocked = cvar.GetCVAR('box_hat_unlock_00', players[consoleplayer]);
+				hatunlocked = cvar.FindCVAR('box_hat_unlock_00');
 			}
 			else {missinghat = true;}
 			
@@ -92,7 +92,7 @@ class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 		}
 		else if (command == "ChangeColor")
 		{
-			cvar getColorCVAR = cvar.GetCVAR('box_hat_color', players[consoleplayer]);
+			cvar getColorCVAR = cvar.FindCVAR('box_hat_color');
 			string languagehat;
 			if (getColorCVAR.GetBool() == false) 
 			{

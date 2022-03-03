@@ -86,7 +86,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 			int currentlength = currentline.Length();
 			array<string> fixedline;
 			array<string> splitline;
-			cheatcheck = cvar.GetCVAR("box_hat_cheat", players[consoleplayer]);
+			cheatcheck = cvar.FindCVAR("box_hat_cheat");
 			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
 			
 			if (currentline.Left(6) == "Hat = ")
@@ -97,8 +97,8 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
 				fixedline[0].Split(splitline, ", ");
 				
-				cvar lockcheck = cvar.GetCVAR(splitline[2], players[consoleplayer]);
-				cvar hidecheck = cvar.GetCVAR("box_hat_hidelock", players[consoleplayer]);
+				cvar lockcheck = cvar.FindCVAR(splitline[2]);
+				cvar hidecheck = cvar.FindCVAR("box_hat_hidelock");
 				
 				if (hidecheck && cheatcheck && lockcheck)
 				{
@@ -139,7 +139,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
 				fixedline[0].Split(splitline, ", ");
 				
-				cvar secretcheck = cvar.GetCVAR(splitline[1], players[consoleplayer]);
+				cvar secretcheck = cvar.FindCVAR(splitline[1]);
 				
 				if (secretcheck && cheatcheck)
 				{
@@ -174,7 +174,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 
 		//hat preview
 		//so that u dont have to close the menu to see ur currently selected hat
-		hatpreview = cvar.GetCVAR('box_hat_current', players[consoleplayer]);
+		hatpreview = cvar.FindCVAR('box_hat_current');
 		hatimage = "graphics/hat/HATIDLE.png";
 		string hatname = "sprites/Hats/";
 		string hatnamesprite = hatpreview.GetString();
@@ -231,7 +231,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		string texprefix;
 		string texlock;
 
-		cvar ischeat = cvar.GetCVAR('box_hat_cheat', players[consoleplayer]);
+		cvar ischeat = cvar.FindCVAR('box_hat_cheat');
 		cvar grabhatcvar;
 		string gethatstring;
 
@@ -275,7 +275,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				}
 				else {gethatstring = "box_hat_unlock_00"; gettex = "graphics/hat/HATMISSING.png"; texlock = "graphics/hat/HATMISSING.png";}
 				
-				grabhatcvar = cvar.GetCVAR(gethatstring, players[consoleplayer]);
+				grabhatcvar = cvar.FindCVAR(gethatstring);
 
 				if ((ischeat.GetBool() == false) && (grabhatcvar.GetBool() == false)) {gettex = texlock;}
 
@@ -294,7 +294,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		int pageadder = (hatPage - 1) * 15;
 		string hatreplace = string.Format("%d", HatSlot);
 		string lockname = "FailXX";
-		cvar ischeat = cvar.GetCVAR('box_hat_cheat', players[consoleplayer]);
+		cvar ischeat = cvar.FindCVAR('box_hat_cheat');
 		string docommand = string.Format("DoHat");
 		string dotexture;
 		vector2 getposition;
@@ -327,17 +327,17 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		{
 			hatname = string.Format("graphics/hat/%s", BOXHAT_menu[HatSlot - 1]);
 			hatcvarname = BOXHAT_cvar[HatSlot - 1];
-			hatcvar = cvar.GetCVAR(hatcvarname, players[consoleplayer]);
+			hatcvar = cvar.FindCVAR(hatcvarname);
 			dotexture = hatname;
 		}
 		else if (HatSlot == 0)
 		{
-			hatcvar = cvar.GetCVAR('box_hat_unlock_00', players[consoleplayer]); 
+			hatcvar = cvar.FindCVAR('box_hat_unlock_00'); 
 			dotexture = "graphics/hat/HATBUTTONOFF.png";
 		}
 		else
 		{
-			hatcvar = cvar.GetCVAR('box_hat_unlock_00', players[consoleplayer]); 
+			hatcvar = cvar.FindCVAR('box_hat_unlock_00'); 
 			dotexture = "graphics/hat/HATMISSING.png";
 		}
 		
@@ -518,7 +518,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 
 		//hat preview
 		//so that u dont have to close the menu to see ur currently selected hat
-		ColorCVAR = cvar.GetCVAR('box_hat_color', players[consoleplayer]);
+		ColorCVAR = cvar.FindCVAR('box_hat_color');
 		string OnImage = "graphics/hat/HATCOLORON.png";
 		string OffImage = "graphics/hat/HATCOLOROFF.png";
 		string ChosenImage = "graphics/hat/HATIDLE.png";
@@ -561,10 +561,10 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		//time based hats
 		string timemonthstring, timedaystring;
 		int timemonth, timeday;
-		cvar isbirthday = cvar.GetCVAR("box_hat_secret_13", players[consoleplayer]);
-		cvar isnewyear = cvar.GetCVAR("box_hat_secret_01", players[consoleplayer]);
-		cvar isxmas = cvar.GetCVAR("box_hat_secret_12", players[consoleplayer]);
-		cvar isvalentine = cvar.GetCVAR("box_hat_secret_02", players[consoleplayer]);
+		cvar isbirthday = cvar.FindCVAR("box_hat_secret_13");
+		cvar isnewyear = cvar.FindCVAR("box_hat_secret_01");
+		cvar isxmas = cvar.FindCVAR("box_hat_secret_12");
+		cvar isvalentine = cvar.FindCVAR("box_hat_secret_02");
 		string unlockmessage = "sorrynothing";
 		
 		timemonthstring = SystemTime.Format("%m", SystemTime.Now());
@@ -644,10 +644,10 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 			textColor: Font.CR_WHITE
 		);
 		
-		cvar getlucky = cvar.GetCVAR("box_hat_unlock_08", players[consoleplayer]);
-		cvar luckyhat = cvar.GetCVAR("box_hat_lucky", players[consoleplayer]);
-		cvar unluckyhat = cvar.GetCVAR("box_hat_current", players[consoleplayer]);
-		cvar luckycheat = cvar.GetCVAR("box_hat_cheat", players[consoleplayer]);
+		cvar getlucky = cvar.FindCVAR("box_hat_unlock_08");
+		cvar luckyhat = cvar.FindCVAR("box_hat_lucky");
+		cvar unluckyhat = cvar.FindCVAR("box_hat_current");
+		cvar luckycheat = cvar.FindCVAR("box_hat_cheat");
 		
 		string luckycvarstring = luckyhat.GetString();
 		
@@ -707,7 +707,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		{
 			unlockstring = BOXHAT_cvar[lockcount];
 			
-			cvar unlockcvar = cvar.GetCVAR(unlockstring, players[consoleplayer]);
+			cvar unlockcvar = cvar.FindCVAR(unlockstring);
 			
 			if (unlockcvar) 
 			{
