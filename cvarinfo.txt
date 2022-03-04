@@ -90,6 +90,15 @@ user cheat bool box_hat_unlock_59 = false; //not used
 user cheat bool box_hat_unlock_60 = false; //not used
 user cheat bool box_hat_secret_01 = false;
 user cheat bool box_hat_secret_02 = false;
+user cheat bool box_hat_secret_03 = false;
+user cheat bool box_hat_secret_04 = false;
+user cheat bool box_hat_secret_05 = false;
+user cheat bool box_hat_secret_06 = false;
+user cheat bool box_hat_secret_07 = false;
+user cheat bool box_hat_secret_08 = false;
+user cheat bool box_hat_secret_09 = false;
+user cheat bool box_hat_secret_10 = false;
+//there is no secret_11
 user cheat bool box_hat_secret_12 = false;
 user cheat bool box_hat_secret_13 = false;
 user cheat bool box_hat_secret_14 = false;
