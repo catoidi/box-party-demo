@@ -216,7 +216,7 @@ CLASS BossMelon : BoxMonster
 			{
 				if (self.Vel.Z > 0) {A_BoxParticle2("d7 d7 d7", 1, 40, 80, 32.0, 4.0, -self.Vel.Z, true);}
 				A_CustomMeleeAttack(6);
-				if (self.Pos.Z ~== self.FloorZ) {return ResolveState('BigSlamDone');}
+				if ((self.Pos.Z ~== self.FloorZ) || (CheckBlock(zofs: -1) == true)) {return ResolveState('BigSlamDone');}
 				else return ResolveState(null);
 			}
 			Loop;
