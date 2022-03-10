@@ -5,5 +5,9 @@ excludemap PARTY00
 
 monstercardsprite FruitPuncher, CARD_MLN
 
-// removecard CCard_BonusHealthDrain
-// can't remove cards because box party loads before corruption cards does
+// players can't normally get bonus health
+removecard CCard_BonusHealthDrain
+// there is no cyberdemon in box party
+removecard CCard_SurpriseCyberdemon
+// there is no icon of sin in box party
+removecard CCard_BaphometsChosen
