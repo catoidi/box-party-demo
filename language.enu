@@ -7,7 +7,7 @@
 
 [enu default]
 
-BOX_VERSION = "                    DEMO v1.3.1\n\nup to 3 servings per container!";
+BOX_VERSION = "                    DEMO v1.3.2\n\nup to 3 servings per container!";
 
 //Sorry Nothing
 SORRY_NOTHING = "Sorry Nothing"; //sorry nothing
