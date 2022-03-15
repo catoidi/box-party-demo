@@ -6,19 +6,21 @@ All of Box Party Demo's code, unless specified otherwise, is licensed under the 
 Please read LICENSE.txt for more information.
 
 All Box Party Demo assets, which includes levels, sounds, and artwork, not including anything specified below, were created by me and are licensed under Creative Commons Zero v1.0 Universal (CC0).
-
--most graphics in the game were created using Photopea
--'simple' hp bar graphics were created by Nash Muhandes
--'PANABE.png' was created by awesometems
--'PANBB1.png', 'PANBB2.png', 'PANBB3.png', and 'PANBB4.png' were created by "Piss".
 	
-all levels in box party were created in Ultimate Doom Builder
+All levels in box party were created by me in Ultimate Doom Builder.
 
 code:
 	-ZForms code is by Gutawer and phantombeta
 	-NashHPBar code is originally by Nash Muhandes, with a couple small edits from me.
 	-lazypoints code is originally by mmaulwurff, with a couple small edits from me.
+	-emmyposs fixed multiplayer desyncing in box party
 	-most of my coding was done within SLADE3
+	
+graphics:
+	-most graphics in the game were created by me using Photopea
+	-'simple' hp bar graphics were created by Nash Muhandes
+	-'PANABE.png' was created by awesometems
+	-'PANBB1.png', 'PANBB2.png', 'PANBB3.png', and 'PANBB4.png' were created by "Piss".
 
 audio:
 	-retro sound effects generated using: sfxr
@@ -32,4 +34,3 @@ special thanks:
 	-the creators of GZDoom Builder and Ultimate Doom Builder for building a builder that builds levels very well
 	-everyone who has created their own games in gzdoom for inspiring me to create a standalone gzdoom title of my own
 	-all my friends who helped playtest Box Party with me
-	
