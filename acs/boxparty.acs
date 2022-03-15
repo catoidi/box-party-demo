@@ -69,14 +69,22 @@ script "resetplayerTID" RESPAWN
 function void box_gethat (str hatcvar, str hatachieve)
 {
 	//hatcvar is the CVAR that the unlocked hat uses. hatachieve is the actor that displays this hat's corresponding achievement box.
+	bool popupshown = false;
+	
 	for (int i = 0; i < 8; i++)
 	{
-		if (GetUserCVAR(i, hatcvar) == false)
+		int plnum = 7500 + i;
+		if ((GetUserCVAR(i, hatcvar) == false) && (IsTIDUsed(plnum) == true))
 		{
-			SetUserCVAR(i, hatcvar, true);
-			int plnum = 7500 + i;
+			//unlock the hat cvar for all players
 			SetActivator(plnum);
-			ScriptCall("box_Achiever", "achieve", hatachieve);
+			SetUserCVAR(i, hatcvar, true);
+			if (popupshown == false)
+			{
+				//show hat unlock popup, but only once.
+				ScriptCall("box_Achiever", "achieve", hatachieve);
+				popupshown = true;
+			}
 		}
 	}
 }
@@ -102,32 +110,27 @@ SCRIPT "doboxability" (void) net
 	}
 }
 
-SCRIPT "playerpartime" (void)
+SCRIPT "playerpartime" (int whatsthenum)
 {
 	//this handles distributing speedrunning hats in the main story.
 
 	int whatsthepar = GetLevelInfo(LEVELINFO_PAR_TIME);
-	int whatsthenum = GetLevelInfo(LEVELINFO_LEVELNUM);
-	int whatsthecluster = GetLevelInfo(LEVELINFO_CLUSTERNUM);
-
-	if (whatsthecluster == 1)
+	if (Timer() <= (whatsthepar * 35)) 
 	{
-		if (Timer() <= (whatsthepar * 35)) 
+		switch (whatsthenum)
 		{
-			switch (whatsthenum)
-			{
-				default:
-				case 0: break;
-				case 1: 
-					box_gethat("box_hat_unlock_06", "box_unlockhat_06");
-					break;
-				case 2: 
-					box_gethat("box_hat_unlock_05", "box_unlockhat_05");
-					break;
-				case 3: 
-					box_gethat("box_hat_unlock_07", "box_unlockhat_07");
-					break;
-			}
+			default:
+			case 0: 
+				break;
+			case 1: 
+				box_gethat("box_hat_unlock_06", "box_unlockhat_06");
+				break;
+			case 2: 
+				box_gethat("box_hat_unlock_05", "box_unlockhat_05");
+				break;
+			case 3: 
+				box_gethat("box_hat_unlock_07", "box_unlockhat_07");
+				break;
 		}
 	}
 }
