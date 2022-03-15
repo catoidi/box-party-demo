@@ -11,5 +11,8 @@ IWad
 	Mapinfo = "mapinfo/doom2.txt"
     BannerColors = "FFFFFF", "000000"
 	StartupType = "Hexen"
+	//DiscordAppID = "953268710821466172"
+	//SteamAppID = "1727350"
+	//will uncomment when gzdoom v4.8 releases
 	NoKeyboardCheats
 }
