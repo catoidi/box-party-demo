@@ -69,10 +69,15 @@ script "resetplayerTID" RESPAWN
 function void box_gethat (str hatcvar, str hatachieve)
 {
 	//hatcvar is the CVAR that the unlocked hat uses. hatachieve is the actor that displays this hat's corresponding achievement box.
-	if (GetCVAR(hatcvar) == false)
+	for (int i = 0; i < 8; i++)
 	{
-		SetCVAR(hatcvar, true);
-		ScriptCall("box_Achiever", "achieve", hatachieve);
+		if (GetUserCVAR(i, hatcvar) == false)
+		{
+			SetUserCVAR(i, hatcvar, true);
+			int plnum = 7500 + i;
+			SetActivator(plnum);
+			ScriptCall("box_Achiever", "achieve", hatachieve);
+		}
 	}
 }
 
