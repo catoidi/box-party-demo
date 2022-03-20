@@ -344,3 +344,16 @@ QUEST_LVL2_1 = "\cv#1: Roast a marshmallow.";
 QUEST_LVL2_2 = "\cv#2: Find shinies with the Metal Detector.";
 QUEST_LVL2_3 = "\ct#3: ???";
 QUEST_LVL2_3A = "\ct#3: ENTER THE FRIDGE OF DEATH.";
+
+/////////////////////////////////
+////////////End Screen///////////
+/////////////////////////////////
+FOOD_DEFEATED = "Foods Defeated: ";
+QUESTS_DONE = "Quests Done: ";
+QUESTS_DONE2 = "Quests Done: N/A";
+YOUR_SCORE = "Level Score: ";
+BEST_SCORE = "Player ";
+BEST_SCORE2 = " had the best score. (";
+BEST_SCORE3 = "You had the best score this level. :)";
+BEST_SCORE4 = "nobody got any score this level :(";
+NEXT_PARTY = "Onto the next party...";

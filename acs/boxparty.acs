@@ -10,6 +10,31 @@ int glowremain = 0;
 int eggkill;
 int eggmax = 30;
 
+int bscore1 = 0, bscore2 = 0, bscore3 = 0, bscore4 = 0, bscore5 = 0, bscore6 = 0, bscore7 = 0, bscore8 = 0, 
+	cscore1 = 0, cscore2 = 0, cscore3 = 0, cscore4 = 0, cscore5 = 0, cscore6 = 0, cscore7 = 0, cscore8 = 0;
+
+//quest variables
+bool togglesidequests_0 = false;
+bool togglesidequests_1 = false;
+bool togglesidequests_2 = false;
+bool togglesidequests_3 = false;
+bool togglesidequests_4 = false;
+bool togglesidequests_5 = false;
+bool togglesidequests_6 = false;
+bool togglesidequests_7 = false;
+
+str quest1_name = "QUEST_NONE";
+str quest1_progress = "QUEST_NONE";
+str quest2_name = "QUEST_NONE";
+str quest2_progress = "QUEST_NONE";
+str quest3_name = "QUEST_NONE";
+str quest3_progress = "QUEST_NONE";
+bool quest1done = false;
+bool quest2done = false;
+bool quest3done = false;
+
+int qdone = 0;
+
 SCRIPT "playerscript" ENTER
 {
 	SetAirControl(1.0);
@@ -27,6 +52,17 @@ SCRIPT "playerscript" ENTER
 	TakeInventory("AllEnemiesCleared", 9999); //flag used for level scripts. needs to be reset upon leaving.
 	TakeInventory("Armor", 9999); //Triangle's armor gets reset upon entering a new level.
 	
+	switch (PlayerNumber())
+	{
+		case 0: bscore1 = GetActorProperty(7500, APROP_Score); break;
+		case 1: bscore2 = GetActorProperty(7501, APROP_Score); break;
+		case 2: bscore3 = GetActorProperty(7502, APROP_Score); break;
+		case 3: bscore4 = GetActorProperty(7503, APROP_Score); break;
+		case 4: bscore5 = GetActorProperty(7504, APROP_Score); break;
+		case 5: bscore6 = GetActorProperty(7505, APROP_Score); break;
+		case 6: bscore7 = GetActorProperty(7506, APROP_Score); break;
+		case 7: bscore8 = GetActorProperty(7507, APROP_Score); break;
+	}
 	
 	//check for when all enemies are defeated. used for multiple things.
 	bool noenemies = false;
@@ -64,6 +100,19 @@ script "resetplayerTID" RESPAWN
 	//this is just copy/pasted from the zdoom wiki.
 	Thing_ChangeTID(7500+PlayerNumber(),0);
 	Thing_ChangeTID(0,7500+PlayerNumber());
+	
+	//also make sure bscore is reset upon respawn, since player's score gets wiped to 0.
+	switch (PlayerNumber())
+	{
+		case 0: bscore1 = 0; break;
+		case 1: bscore2 = 0; break;
+		case 2: bscore3 = 0; break;
+		case 3: bscore4 = 0; break;
+		case 4: bscore5 = 0; break;
+		case 5: bscore6 = 0; break;
+		case 6: bscore7 = 0; break;
+		case 7: bscore8 = 0; break;
+	}
 }
 
 function void box_gethat (str hatcvar, str hatachieve)
@@ -195,6 +244,7 @@ script "noammo" (void)
 script "exitscreen" (void)
 {
 	//screen that plays when you complete a story level.
+	//move all players off screen and show exit camera.
 	ChangeCamera(7575, 1, 0);
 	Thing_Move(7500, 7600, true);
 	Thing_Move(7501, 7601, true);
@@ -204,9 +254,161 @@ script "exitscreen" (void)
 	Thing_Move(7505, 7605, true);
 	Thing_Move(7506, 7606, true);
 	Thing_Move(7507, 7607, true);
+	//fade to black
+	SetFont("BLACK_50");
+	SetHudSize(1, 1, false);
+	HudMessageBold(s:"A"; HUDMSG_FADEINOUT, -123456780, CR_UNTRANSLATED, 0.0, 0.0, 8.0, 1.0, 1.0);
+	//level complete
+	SetFont("SMALLFONT");
 	SetHudSize(160, 100, false);
-	HudMessageBold(l:"LEVEL_COMPLETE"; HUDMSG_PLAIN, 0, CR_CYAN, 80.0, 50.0, 4.0);
-	Delay(140);
+	HudMessageBold(l:"LEVEL_COMPLETE"; HUDMSG_PLAIN, -123456781, CR_CYAN, 80.0, 30.0, 9.0);
+	//enemies killed
+	Delay(35);
+	SetHudSize(320, 200, false);
+	int mtotal = GetLevelInfo (LEVELINFO_TOTAL_MONSTERS),
+        mkilled = GetLevelInfo (LEVELINFO_KILLED_MONSTERS);
+	HudMessageBold(l:"FOOD_DEFEATED", d:mkilled, s:"/", d:mtotal; HUDMSG_PLAIN, -123456782, CR_GREEN, 160.0, 80.0, 8.0);
+	//quests completed
+	Delay(18);
+	if (quest1_name == "QUEST_NONE") {HudMessageBold(l:"QUESTS_DONE2"; HUDMSG_PLAIN, -123456783, CR_YELLOW, 160.0, 100.0, 7.5);}
+	else {HudMessageBold(l:"QUESTS_DONE", d:qdone, s:"/3"; HUDMSG_PLAIN, -123456783, CR_YELLOW, 160.0, 100.0, 7.5);}
+	//your lvl score
+	Delay(17);
+	for (int p = 7500; p < 7508; p++)
+	{
+		if (PlayerInGame(p - 7500))
+		{
+			SetActivator(p);
+			int fscore = GetActorProperty(p, APROP_Score); 
+			switch(p - 7500)
+			{
+				case 0: fscore -= bscore1; break;
+				case 1: fscore -= bscore2; break;
+				case 2: fscore -= bscore3; break;
+				case 3: fscore -= bscore4; break;
+				case 4: fscore -= bscore5; break;
+				case 5: fscore -= bscore6; break;
+				case 6: fscore -= bscore7; break;
+				case 7: fscore -= bscore8; break;
+			}
+			HudMessage(l:"YOUR_SCORE", d:fscore; HUDMSG_PLAIN, -123456784, CR_BRICK, 160.0, 120.0, 7.0);
+		}
+	}
+	//highest lvl score (multiplayer only)
+	Delay(18);
+	if (PlayerCount() > 1)
+	{
+		int bestscore = 0;
+		int bestscore_player = 0;
+		//get all the player's level scores
+		for (int pA = 7500; pA < 7508; pA++)
+		{
+			if (PlayerInGame(pA - 7500))
+			{
+				switch(pA - 7500)
+				{
+					//get player's current 'level' score, not total score.
+					//lotta copy/pasting here, i know.
+					case 0: 
+						cscore1 = GetActorProperty(pA, APROP_Score) - bscore1; 
+						if (cscore1 > bestscore)
+						{
+							bestscore = cscore1;
+							bestscore_player = pA;
+						}
+						break;
+					case 1: 
+						cscore2 = GetActorProperty(pA, APROP_Score) - bscore2; 
+						if (cscore2 > bestscore)
+						{
+							bestscore = cscore2;
+							bestscore_player = pA;
+						}
+						break;
+					case 2: 
+						cscore3 = GetActorProperty(pA, APROP_Score) - bscore3; 
+						if (cscore3 > bestscore)
+						{
+							bestscore = cscore3;
+							bestscore_player = pA;
+						}
+						break;
+					case 3: 
+						cscore4 = GetActorProperty(pA, APROP_Score) - bscore4; 
+						if (cscore4 > bestscore)
+						{
+							bestscore = cscore4;
+							bestscore_player = pA;
+						}
+						break;
+					case 4: 
+						cscore5 = GetActorProperty(pA, APROP_Score) - bscore5; 
+						if (cscore5 > bestscore)
+						{
+							bestscore = cscore5;
+							bestscore_player = pA;
+						}
+						break;
+					case 5: 
+						cscore6 = GetActorProperty(pA, APROP_Score) - bscore6; 
+						if (cscore6 > bestscore)
+						{
+							bestscore = cscore6;
+							bestscore_player = pA;
+						}
+						break;
+					case 6: 
+						cscore7 = GetActorProperty(pA, APROP_Score) - bscore7; 
+						if (cscore7 > bestscore)
+						{
+							bestscore = cscore7;
+							bestscore_player = pA;
+						}
+						break;
+					case 7: 
+						cscore8 = GetActorProperty(pA, APROP_Score) - bscore8; 
+						if (cscore8 > bestscore)
+						{
+							bestscore = cscore8;
+							bestscore_player = pA;
+						}
+						break;
+				}
+			}
+		}
+		//display msgs to players
+		//this one has to be separate from the above one, so that all the scores are calculated properly.
+		for (int pB = 7500; pB < 7508; pB++)
+		{
+			if (PlayerInGame(pB - 7500))
+			{
+				SetActivator(pB);
+				if (bestscore <= 0) {HudMessage(l:"BEST_SCORE4"; HUDMSG_PLAIN, -123456785, CR_PURPLE, 160.0, 140.0, 6.5);}
+				else if (bestscore_player == pB)
+				{
+					HudMessage(l:"BEST_SCORE3"; HUDMSG_PLAIN, -123456785, CR_PURPLE, 160.0, 140.0, 6.5);
+				}
+				else
+				{
+					int bplayernum = bestscore_player - 7499;
+					HudMessage(l:"BEST_SCORE", d:bplayernum, l:"BEST_SCORE2", d:bestscore, s:")"; HUDMSG_PLAIN, -123456785, CR_PURPLE, 160.0, 140.0, 6.5);
+				}
+			}
+		}
+	}
+	//onto the next party...
+	Delay(17);
+	HudMessageBold(l:"NEXT_PARTY"; HUDMSG_FADEINOUT, -123456786, CR_WHITE, 160.0, 160.0, 3.5, 0.5, 1.0);
+	//countdown
+	Delay(35);
+	HudMessageBold(d:4; HUDMSG_PLAIN, -123456787, CR_PURPLE, 160.0, 170.0, 1.0);
+	Delay(35);
+	HudMessageBold(d:3; HUDMSG_PLAIN, -123456787, CR_PURPLE, 160.0, 170.0, 1.0);
+	Delay(35);
+	HudMessageBold(d:2; HUDMSG_PLAIN, -123456787, CR_PURPLE, 160.0, 170.0, 1.0);
+	Delay(35);
+	HudMessageBold(d:1; HUDMSG_PLAIN, -123456787, CR_PURPLE, 160.0, 170.0, 1.0);
+	Delay(35);
 	ACS_NamedExecuteAlways("exitnow", 0, 0, 0, 0);
 }
 
@@ -394,25 +596,6 @@ script "activateself" (void)
 
 //i would like to replace the UI for this with ZScript in the future, but for now it is out of my league.
 
-bool togglesidequests_0 = false;
-bool togglesidequests_1 = false;
-bool togglesidequests_2 = false;
-bool togglesidequests_3 = false;
-bool togglesidequests_4 = false;
-bool togglesidequests_5 = false;
-bool togglesidequests_6 = false;
-bool togglesidequests_7 = false;
-
-str quest1_name = "QUEST_NONE";
-str quest1_progress = "QUEST_NONE";
-str quest2_name = "QUEST_NONE";
-str quest2_progress = "QUEST_NONE";
-str quest3_name = "QUEST_NONE";
-str quest3_progress = "QUEST_NONE";
-bool quest1done = false;
-bool quest2done = false;
-bool quest3done = false;
-
 script "ShowSideQuests" (int QuestEnabled) net
 {
 	//Explanation: Player calls a script named "CheckSideQuests" via keybind. This script is defined on a per-level basis.
@@ -431,16 +614,16 @@ script "UpdateSideQuests" (void)
 	SetHudSize(640, 480, false);
 	int questx = 180.1;
 	int questy = 396.0;
-	HudMessage(l:quest1_name; HUDMSG_PLAIN, -123456781, CR_UNTRANSLATED, questx, questy, 0, 1.0);
-	HudMessage(l:quest1_progress; HUDMSG_PLAIN, -123456782, CR_UNTRANSLATED, questx + 4.0, questy + 10.0, 0, 1.0);
-	HudMessage(l:quest2_name; HUDMSG_PLAIN, -123456783, CR_UNTRANSLATED, questx, questy + 26.0, 0, 1.0);
-	HudMessage(l:quest2_progress; HUDMSG_PLAIN, -123456784, CR_UNTRANSLATED, questx + 4.0, questy + 36.0, 0, 1.0);
-	HudMessage(l:quest3_name; HUDMSG_PLAIN, -123456785, CR_UNTRANSLATED, questx, questy + 52.0, 0, 1.0);
-	HudMessage(l:quest3_progress; HUDMSG_PLAIN, -123456786, CR_UNTRANSLATED, questx + 4.0, questy + 62.0, 0, 1.0);
+	HudMessage(l:quest1_name; HUDMSG_PLAIN, -123456771, CR_UNTRANSLATED, questx, questy, 0, 1.0);
+	HudMessage(l:quest1_progress; HUDMSG_PLAIN, -123456772, CR_UNTRANSLATED, questx + 4.0, questy + 10.0, 0, 1.0);
+	HudMessage(l:quest2_name; HUDMSG_PLAIN, -123456773, CR_UNTRANSLATED, questx, questy + 26.0, 0, 1.0);
+	HudMessage(l:quest2_progress; HUDMSG_PLAIN, -123456774, CR_UNTRANSLATED, questx + 4.0, questy + 36.0, 0, 1.0);
+	HudMessage(l:quest3_name; HUDMSG_PLAIN, -123456775, CR_UNTRANSLATED, questx, questy + 52.0, 0, 1.0);
+	HudMessage(l:quest3_progress; HUDMSG_PLAIN, -123456776, CR_UNTRANSLATED, questx + 4.0, questy + 62.0, 0, 1.0);
 			
 	SetHudSize(320, 240, false);
 	SetFont("QUESTBOX");
-	HudMessage(s:"A"; HUDMSG_PLAIN, -123456780, CR_UNTRANSLATED, 164.0, 214.0, 0, 1.0);
+	HudMessage(s:"A"; HUDMSG_PLAIN, -123456770, CR_UNTRANSLATED, 164.0, 214.0, 0, 1.0);
 			
 	//togglesidequests = true;
 	SideQuestToggler(true);
@@ -448,13 +631,13 @@ script "UpdateSideQuests" (void)
 
 script "ForceHideQuests" (void)
 {
-	HudMessage(s:""; HUDMSG_PLAIN, -123456780, CR_UNTRANSLATED, 0, 0, 1, 1.0);
-	HudMessage(s:""; HUDMSG_PLAIN, -123456781, CR_UNTRANSLATED, 0, 0, 1, 1.0);
-	HudMessage(s:""; HUDMSG_PLAIN, -123456782, CR_UNTRANSLATED, 0, 0, 1, 1.0);
-	HudMessage(s:""; HUDMSG_PLAIN, -123456783, CR_UNTRANSLATED, 0, 0, 1, 1.0);
-	HudMessage(s:""; HUDMSG_PLAIN, -123456784, CR_UNTRANSLATED, 0, 0, 1, 1.0);
-	HudMessage(s:""; HUDMSG_PLAIN, -123456785, CR_UNTRANSLATED, 0, 0, 1, 1.0);
-	HudMessage(s:""; HUDMSG_PLAIN, -123456786, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456770, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456771, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456772, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456773, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456774, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456775, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	HudMessage(s:""; HUDMSG_PLAIN, -123456776, CR_UNTRANSLATED, 0, 0, 1, 1.0);
 			
 	//togglesidequests = false;
 	SideQuestToggler(false);
@@ -475,7 +658,7 @@ function void QuestProgressed (int QNum, str QMsg, bool DoReward)
 	}
 	
 	
-	if (DoReward == true) {GiveInventory("BoxQuestReward", 1500);}
+	if (DoReward == true) {GiveInventory("BoxQuestReward", 1500); qdone += 1;}
 	
 	QuestUpdated(true);
 }
