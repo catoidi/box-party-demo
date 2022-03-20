@@ -1,0 +1,22 @@
+//zboxscript/ocean/wetfloorsign.zsc
+
+CLASS WetFloorSign : BoxDecor
+{
+	Default
+	{
+		Radius 16;
+		Height 28;
+		+SOLID;
+		//$Category "Box Party/Decor/Ocean/"
+		//$Title "Wet Floor Sign"
+		//$Color 2
+	}
+	
+	States
+	{
+		Spawn:
+			WETF A 1 A_BoxDecor(true, 0.95, 1.05, 0);
+			WETF A -1;
+			Stop;
+	}
+}

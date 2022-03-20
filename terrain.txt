@@ -24,6 +24,10 @@ terrain	boxwater
 }
 
 floor WATER boxwater
+floor WATERA boxwater
+floor WATERB boxwater
+floor WATERC boxwater
+floor WATERD boxwater
 
 //lava
 splash 	boxlava

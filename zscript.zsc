@@ -118,6 +118,7 @@ version "4.7"
 
 //ocean
 #include "zboxscript/ocean/coral.zsc"
+#include "zboxscript/ocean/wetfloorsign.zsc"
 
 //party
 #include "zboxscript/party/microphone.zsc"
