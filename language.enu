@@ -138,6 +138,8 @@ BOX_KEY_CYAN = "\cnObtained the \cvCyan \cnKey.";
 BOX_KEY_BLACK = "\cnObtained the \cmBlack \cnKey.";
 BANANA = "\n\n\n\cxbanana";
 YOUGOTTRASH = "You got trash!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+BOX_METALDETECTOR = "\cjMetal Detector Acquired. Time to go shiny hunting!";
+BOX_METALDETECTOR_COIN = "\ckFound a shiny metal coin worth 100 points.";
 
 /////////////////////////////////
 ////////////Menu Text////////////

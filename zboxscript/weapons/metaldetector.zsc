@@ -170,6 +170,7 @@ class MetalDetectorCoin : BoxQuestReward
 	Default
 	{
 		Inventory.Amount 100;
+		Inventory.PickupMessage "$BOX_METALDETECTOR_COIN";
 		+FLOATBOB;
 		+BRIGHT;
 	}
