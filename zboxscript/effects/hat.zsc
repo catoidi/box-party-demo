@@ -223,25 +223,53 @@ CLASS BoxHatNPC : BoxHat
 		Spawn:
 			HATA A 5 NoDelay 
 			{
-				switch (random(1, 24))
+				if (random(1, 10) < 10)
 				{
-					default: self.SpriteAngle = 180; break;
-					case 11: self.SpriteAngle = 180; break;
-					//case 12: self.SpriteAngle = 225; break;
-					//case 13: self.SpriteAngle = 270; break;
-					//case 14: self.SpriteAngle = 315; break;
-					case 15: self.SpriteAngle = 0; break;
-					case 16: self.SpriteAngle = 45; break;
-					case 17: self.SpriteAngle = 90; break;
-					//case 18: self.SpriteAngle = 135; break;
-					case 19: self.SpriteAngle = 202.5; break;
-					case 20: self.SpriteAngle = 247.5; break;
-					case 21: self.SpriteAngle = 292.5; break;
-					//case 22: self.SpriteAngle = 337.5; break;
-					case 23: self.SpriteAngle = 22.5; break;
-					case 24: self.SpriteAngle = 67.5; break;
-					//case 15: self.SpriteAngle = 112.5; break;
-					//case 16: self.SpriteAngle = 157.5; break;
+					//choose normal hats
+					switch (random(1, 24))
+					{
+						default: self.SpriteAngle = 180; break;
+						case 11: self.SpriteAngle = 180; break;
+						//case 12: self.SpriteAngle = 225; break;
+						//case 13: self.SpriteAngle = 270; break;
+						//case 14: self.SpriteAngle = 315; break;
+						case 15: self.SpriteAngle = 0; break;
+						case 16: self.SpriteAngle = 45; break;
+						case 17: self.SpriteAngle = 90; break;
+						//case 18: self.SpriteAngle = 135; break;
+						case 19: self.SpriteAngle = 202.5; break;
+						case 20: self.SpriteAngle = 247.5; break;
+						case 21: self.SpriteAngle = 292.5; break;
+						//case 22: self.SpriteAngle = 337.5; break;
+						case 23: self.SpriteAngle = 22.5; break;
+						case 24: self.SpriteAngle = 67.5; break;
+						//case 15: self.SpriteAngle = 112.5; break;
+						//case 16: self.SpriteAngle = 157.5; break;
+					}
+				}
+				else
+				{
+					//choose monthly hats
+					frame = 4;
+					switch (random(1, 12))
+					{
+						case 1: self.SpriteAngle = 180; break;
+						case 2: self.SpriteAngle = 225; break;
+						case 3: self.SpriteAngle = 270; break;
+						//case 4: self.SpriteAngle = 315; break;
+						//case 5: self.SpriteAngle = 0; break;
+						//case 6: self.SpriteAngle = 45; break;
+						//case 7: self.SpriteAngle = 90; break;
+						case 4: self.SpriteAngle = 135; break;
+						case 5: self.SpriteAngle = 202.5; break;
+						case 6: self.SpriteAngle = 247.5; break;
+						case 7: self.SpriteAngle = 292.5; break;
+						case 8: self.SpriteAngle = 337.5; break;
+						case 9: self.SpriteAngle = 22.5; break;
+						case 10: self.SpriteAngle = 67.5; break;
+						case 11: self.SpriteAngle = 112.5; break;
+						case 12: self.SpriteAngle = 157.5; break;
+					}
 				}
 			}
 			Goto Looper;
