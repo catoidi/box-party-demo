@@ -99,3 +99,53 @@ CLASS SignBoss : Sign
 			Stop;
 	}
 }
+
+CLASS SignMelon : Sign
+{
+	States
+	{
+		Spawn:
+			SIGN H -1;
+			Stop;
+	}
+}
+
+CLASS SignGun : Sign
+{
+	States
+	{
+		Spawn:
+			SIGN I -1;
+			Stop;
+	}
+}
+
+CLASS SignParty : Sign
+{
+	States
+	{
+		Spawn:
+			SIGN J -1;
+			Stop;
+	}
+}
+
+CLASS SignFish : Sign
+{
+	States
+	{
+		Spawn:
+			SIGN K -1;
+			Stop;
+	}
+}
+
+CLASS SignMystery : Sign
+{
+	States
+	{
+		Spawn:
+			SIGN L -1;
+			Stop;
+	}
+}

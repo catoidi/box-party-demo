@@ -88,6 +88,24 @@ DoomEdNums
 	20082 = MetalDetectorMarker
 	20083 = QuestMarker
 	20084 = WetFloorSign
+	20085 = SignMelon
+	20086 = SignGun
+	20087 = SignParty
+	20088 = SignFish
+	20089 = SignMystery
+	20090 = FlatSign
+	20091 = FlatSignExit
+	20092 = FlatSignStart
+	20093 = FlatSignDanger
+	20094 = FlatSignBlank
+	20095 = FlatSignDown
+	20096 = FlatSignUp
+	20097 = FlatSignBoss
+	20098 = FlatSignMelon
+	20099 = FlatSignGun
+	20100 = FlatSignParty
+	20101 = FlatSignFish
+	20102 = FlatSignMystery
 	
 	//keys
 	20901 = WhiteKey

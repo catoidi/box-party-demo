@@ -1,0 +1,143 @@
+//zboxscript/signs/flatsigns.zsc
+
+CLASS FlatSign : Actor //20011
+{
+	Default
+	{
+		Height 64;
+		Radius 16;
+		-SOLID;
+		+NOINTERACTION;
+		+WALLSPRITE;
+		+SPRITEANGLE;
+		//$Category "Box Party/Signs/"
+		//$Color 14
+	}
+	
+	States
+	{
+		Spawn:
+			SIG1 A -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignExit : FlatSign //20012
+{
+	States
+	{
+		Spawn:
+			SIG1 B -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignStart : FlatSign //20013
+{
+	States
+	{
+		Spawn:
+			SIG1 C -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignDanger : FlatSign //20014
+{
+	States
+	{
+		Spawn:
+			SIG1 D -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignBlank : FlatSign //20015
+{
+	States
+	{
+		Spawn:
+			SIG1 Z -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignDown : FlatSign
+{
+	States
+	{
+		Spawn:
+			SIG1 E -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignUp : FlatSign
+{
+	States
+	{
+		Spawn:
+			SIG1 F -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignBoss : FlatSign
+{
+	States
+	{
+		Spawn:
+			SIG1 G -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignMelon : FlatSign
+{
+	States
+	{
+		Spawn:
+			SIG1 H -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignGun : FlatSign
+{
+	States
+	{
+		Spawn:
+			SIG1 I -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignParty : FlatSign
+{
+	States
+	{
+		Spawn:
+			SIG1 J -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignFish : FlatSign
+{
+	States
+	{
+		Spawn:
+			SIG1 K -1;
+			Stop;
+	}
+}
+
+CLASS FlatSignMystery : FlatSign
+{
+	States
+	{
+		Spawn:
+			SIG1 L -1;
+			Stop;
+	}
+}

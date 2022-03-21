@@ -127,6 +127,7 @@ version "4.7"
 #include "zboxscript/signs/basicsigns.zsc"
 #include "zboxscript/signs/kindasigns.zsc"
 #include "zboxscript/signs/mapmarkers.zsc"
+#include "zboxscript/signs/flatsigns.zsc"
 
 //lights
 #include "zboxscript/lights/lantern.zsc"
