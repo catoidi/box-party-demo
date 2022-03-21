@@ -10,7 +10,7 @@ CLASS FlatSign : Actor //20011
 		+NOINTERACTION;
 		+WALLSPRITE;
 		+SPRITEANGLE;
-		//$Category "Box Party/Signs/"
+		//$Category "Box Party/Signs/Flat"
 		//$Color 14
 	}
 	
