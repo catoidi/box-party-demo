@@ -106,6 +106,7 @@ DoomEdNums
 	20100 = FlatSignParty
 	20101 = FlatSignFish
 	20102 = FlatSignMystery
+	20103 = FishingRod
 	
 	//keys
 	20901 = WhiteKey

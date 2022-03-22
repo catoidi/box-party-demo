@@ -6,6 +6,7 @@ CLASS FishingRod : Weapon //20010
 	{
 		Radius 20;
 		Height 24;
+		Weapon.SlotNumber 0;
 		Weapon.SelectionOrder 9999;
 		Inventory.PickupMessage "$BOX_FISHINGROD";
 		//Inventory.Icon "AMMOH0";
@@ -44,5 +45,29 @@ CLASS FishingRod : Weapon //20010
 		Spawn:
 			FROD J -1;
 			Stop;
+	}
+}
+
+Class Fish : RandomSpawner
+{
+	Default
+	{
+		DropItem "FishGold", 255, 10;
+		DropItem "FishBig", 255, 2;
+		DropItem "FishThin", 255, 2;
+		DropItem "FishTrio", 255, 1;
+	}
+}
+
+Class FishGold : BoxActor
+{
+	Default
+	{
+	
+	}
+	
+	States
+	{
+		
 	}
 }
