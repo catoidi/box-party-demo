@@ -335,6 +335,7 @@ QUEST_FAILED = "Progress: \caFailed.";
 QUEST_TEST1 = "\cv#1: Go do some stuff, i guess."; //quest descriptions can be a max of 41 characters long.
 QUEST_TEST2 = "\cv#2: While you're at it, go do this too.";
 QUEST_TEST3 = "\cv#3: Also do this, please. :)";
+//lvl 1
 QUEST_LVL1_1 = "\cv#1: Check out the party.";
 QUEST_LVL1_2 = "\cv#2: Go take out the trash.";
 QUEST_LVL1_3 = "\ct#3: ???";
@@ -344,6 +345,11 @@ QUEST_LVL2_1 = "\cv#1: Roast a marshmallow.";
 QUEST_LVL2_2 = "\cv#2: Find shinies with the Metal Detector.";
 QUEST_LVL2_3 = "\ct#3: ???";
 QUEST_LVL2_3A = "\ct#3: ENTER THE FRIDGE OF DEATH.";
+//lvl 3
+QUEST_LVL3_1 = "\cv#1: Catch a fish.";
+QUEST_LVL3_2 = "\cv#2: Complete the flooded maze.";
+QUEST_LVL3_3 = "\ct#3: ???";
+QUEST_LVL3_3A = "\ct#3: Defeat the secret boss.";
 
 /////////////////////////////////
 ////////////End Screen///////////
