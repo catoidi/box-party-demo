@@ -48,7 +48,7 @@ CLASS TallLantern : Lantern //20003
 {
 	Default
 	{
-		Height 120;
+		Height 96;
 		+SOLID;
 		//$Category "Box Party/Decor/Lights"
 		//$Title "Tall Lantern"
