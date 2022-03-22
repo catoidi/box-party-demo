@@ -130,7 +130,7 @@ CLASS BoxMonster : BoxActor abstract
 				else {A_BoxParticle2("ff 4f 00", 1, 16, 70, POffset: 4.0, POffsetZ: 4.0, PSpeed: 1.0, PBright: true);}
 			}
 			
-			if (BurnTimer >= 35)
+			if (BurnTimer >= 12)
 			{
 				A_BoxBurned(1);
 				BurnTimer = 0;
