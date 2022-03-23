@@ -13,7 +13,7 @@ CLASS FishingRod : Weapon //20010
 		//Inventory.AltHUDIcon "AMMOA0";
 		//Obituary "$BOX_DIE_GLOW";
 		//Tag "$BOX_TAG_GLOW";
-		//DamageType "Melee";
+		DamageType "FishingRod";
 		
 		+WEAPON.WIMPY_WEAPON;
 		+WEAPON.AMMO_OPTIONAL;
@@ -52,10 +52,16 @@ Class Fish : RandomSpawner
 {
 	Default
 	{
+		Radius 16;
+		Height 16;
 		DropItem "FishGold", 255, 10;
 		DropItem "FishBig", 255, 2;
 		DropItem "FishThin", 255, 2;
 		DropItem "FishTrio", 255, 1;
+		//$Category "Box Party/NPCs"
+		//$Title "Fish (Random Spawner)"
+		//$Sprite "FRODK0"
+		//$Color 16
 	}
 }
 
@@ -63,11 +69,57 @@ Class FishGold : BoxActor
 {
 	Default
 	{
-	
+		Radius 16;
+		Height 16;
+		Speed 10;
+		+THRUACTORS;
+		+NOGRAVITY;
+		+WALLSPRITE;
+		+INTERPOLATEANGLES;
+		+SHOOTABLE;
+	}
+
+	override void Tick(void)
+	{
+		self.Angle += 90;
+		Super.Tick();
+		self.Angle -= 90;
 	}
 	
 	States
 	{
-		
+		Spawn:
+			FROD K 10 A_Wander;
+			Loop;
+	}
+}
+
+Class FishBig : FishGold
+{
+	States
+	{
+		Spawn:
+			FROD L 10 A_Wander;
+			Loop;
+	}
+}
+
+Class FishThin : FishGold
+{
+	States
+	{
+		Spawn:
+			FROD M 10 A_Wander;
+			Loop;
+	}
+}
+
+Class FishTrio : FishGold
+{
+	States
+	{
+		Spawn:
+			FROD N 10 A_Wander;
+			Loop;
 	}
 }
