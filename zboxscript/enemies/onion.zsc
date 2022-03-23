@@ -224,7 +224,8 @@ CLASS OnionBullet : BoxActor
 		DamageFunction (random(8, 16));
 		DamageType "Water";
 		Projectile;
-		//+BLOODSPLATTER;
+		-BLOODSPLATTER;
+		+BLOODLESSIMPACT;
 		+INTERPOLATEANGLES;
 		+ROLLSPRITE;
 		+SPRITEANGLE;

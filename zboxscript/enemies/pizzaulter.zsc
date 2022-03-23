@@ -226,7 +226,8 @@ CLASS PepperoniBullet : BoxActor
 		DamageFunction (random(3, 5));
 		DamageType "Pizza";
 		Projectile;
-		+BLOODSPLATTER;
+		-BLOODSPLATTER;
+		+BLOODLESSIMPACT;
 		+INTERPOLATEANGLES;
 		+ROLLSPRITE;
 		+SPRITEANGLE;

@@ -397,6 +397,7 @@ CLASS BossPepper2Bullet : OnionBullet
 		Speed 16;
 		+BRIGHT;
 		+BLOODSPLATTER;
+		-BLOODLESSIMPACT;
 		//+MTHRUSPECIES;
 	}
 
