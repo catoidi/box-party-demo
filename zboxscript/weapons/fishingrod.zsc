@@ -69,14 +69,18 @@ Class FishGold : BoxActor
 {
 	Default
 	{
+		Health 10;
 		Radius 16;
 		Height 16;
 		Speed 10;
-		+THRUACTORS;
+		Species "Fish";
+		+SOLID;
+		+THRUSPECIES;
+		+SHOOTABLE;
 		+NOGRAVITY;
 		+WALLSPRITE;
 		+INTERPOLATEANGLES;
-		+SHOOTABLE;
+		+NOBLOOD;
 	}
 
 	override void Tick(void)
@@ -84,6 +88,8 @@ Class FishGold : BoxActor
 		self.Angle += 90;
 		Super.Tick();
 		self.Angle -= 90;
+
+		if ((waterlevel == 0) && (self.Health > 0)) {A_Die();}
 	}
 	
 	States
@@ -91,6 +97,17 @@ Class FishGold : BoxActor
 		Spawn:
 			FROD K 10 A_Wander;
 			Loop;
+		Pain:
+			FROD # 1 A_Die();
+			Stop;
+		Pain.FishingRod:
+			//put stuff here
+		Death.FishingRod:
+			//put stuff here
+		Death:
+			TNT1 A 35 A_SpawnItemEX("SafeBoom", flags: SXF_NOCHECKPOSITION);
+			Stop;
+		
 	}
 }
 
