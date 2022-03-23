@@ -245,7 +245,7 @@ CLASS OnionBullet : BoxActor
 		Death:
 			TNT1 A 1 {
 				A_SpawnItemEx("ProjectilePuffSmall", 0, 0, 0, 0, 0, 0);
-				A_BoxParticle("00 ef ff", 4, 12, 30, PBright: true);
+				A_BoxParticle("00 ef ff", 1, 12, 30, PBright: true);
 			}
 			Stop;
 	}
