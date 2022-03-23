@@ -250,7 +250,7 @@ CLASS PepperoniBullet : BoxActor
 		Death:
 			TNT1 A 1 {
 				A_SpawnItemEx("ProjectilePuffSmall", 0, 0, 0, 0, 0, 0);
-				A_BoxParticle("97 1d 00", 3, 8, 32);
+				A_BoxParticle("97 1d 00", 1, 8, 32);
 				A_SpawnItemEx("PepperoniBulletCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359), 0, 200);
 				A_SpawnItemEx("PepperoniBulletCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359), 0, 200);
 			}
