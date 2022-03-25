@@ -5,6 +5,7 @@ Class QuestMarker : MapMarker
 	Default
 	{
 		Scale 0.25;
+		//$Category "Box Party/Quest/"
 	}
 	
 	States

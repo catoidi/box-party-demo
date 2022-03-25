@@ -8,6 +8,7 @@ Class MetalBox : NPCBox
 		+FRIENDLY;
 		+NPCBox.HasHat;
 		//$Sprite "METBA0"
+		//$Category "Box Party/Quest/"
 	}
 	
 	States

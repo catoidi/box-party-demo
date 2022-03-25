@@ -18,8 +18,8 @@ CLASS MetalDetector : Weapon
 		+INVENTORY.UNDROPPABLE;
 		+WEAPON.CHEATNOTWEAPON;
 		+CASTSPRITESHADOW;
-		//$Category "Box Party/Weapons"
-		//$Title "Fishing Rod"
+		//$Category "Box Party/Quest/"
+		//$Title "Metal Detector"
 		//$Color 9
 	}
 	
@@ -102,6 +102,7 @@ CLASS MetalDetectorMarker : BoxActor
 		+NODAMAGE;
 		+SHOOTABLE;
 		+NOBLOOD;
+		//$Category "Box Party/Quest/"
 	}
 	
 	override void PostBeginPlay(void)

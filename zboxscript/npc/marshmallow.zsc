@@ -9,7 +9,7 @@ Class Marshmallow : BoxActor
 		+SOLID;
 		+NOBLOODDECALS;
 		+CASTSPRITESHADOW;
-		//$Category "Box Party/NPCs"
+		//$Category "Box Party/Quest/"
 		//$Title "Marshmallow"
 		//$Color 16
 	}

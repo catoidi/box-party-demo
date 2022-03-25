@@ -21,7 +21,7 @@ CLASS FishingRod : Weapon //20010
 		+WEAPON.NOALERT;
 		+INVENTORY.UNDROPPABLE;
 		+CASTSPRITESHADOW;
-		//$Category "Box Party/Weapons"
+		//$Category "Box Party/Quest/"
 		//$Title "Fishing Rod"
 		//$Color 9
 	}

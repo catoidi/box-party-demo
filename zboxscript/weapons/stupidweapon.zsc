@@ -21,7 +21,7 @@ CLASS StupidPistol : Weapon
 		Inventory.Pickupmessage "$BOX_WEAPON_STUPID";
 		Tag "$BOX_TAG_STUPID";
 		+WEAPON.CHEATNOTWEAPON;
-		//$Category "Box Party/Very Bad Items"
+		//$Category "Box Party/Secret Items/"
 		//$Title "a super normal pistol"
 		//$Color 20
 	}

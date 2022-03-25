@@ -11,6 +11,7 @@ CLASS TrashBag : Inventory
 		Radius 16;
 		Inventory.PickupMessage "$YOUGOTTRASH";
 		+INVENTORY.ALWAYSPICKUP;
+		//$Category "Box Party/Quest/"
 	}
 	
 	States

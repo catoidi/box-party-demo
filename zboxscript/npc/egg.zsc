@@ -13,7 +13,7 @@ class egg : boxactor
 		+NOBLOODDECALS;
 		+CASTSPRITESHADOW;
 		//BloodType "ChairChunkSpitter";
-		//$Category "Box Party/NPCs"
+		//$Category "Box Party/NPCs/Special"
 		//$Title "Egg"
 		//$Color 16
 	}

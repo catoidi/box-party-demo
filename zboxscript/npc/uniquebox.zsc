@@ -70,7 +70,8 @@ CLASS TrashCan : BoxActor //not a regular NPC
 		Radius 20;
 		Height 40;
 		+SOLID;
-		//$Category "Box Party/NPCs/Special/"
+		//$Category "Box Party/Quest/"
+		//$Color 16
 	}
 	
 	States

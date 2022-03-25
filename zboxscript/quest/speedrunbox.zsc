@@ -10,6 +10,8 @@ Class SpeedrunBox : NPCBox
 		-SOLID;
 		+NOCLIP;
 		+FRIENDLY;
+		//$Sprite "SPDBA0"
+		//$Category "Box Party/Quest/"
 	}
 	
 	States
