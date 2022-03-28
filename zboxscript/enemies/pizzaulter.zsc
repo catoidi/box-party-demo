@@ -154,12 +154,28 @@ CLASS PizzaulterSmall : Pizzaulter //20017
 			PIZZ B 10 BRIGHT A_Look;
 			Loop;
 		See:
-			PIZZ B 0 BRIGHT A_StopSound(CHAN_BODY);
-			PIZZ B 0 BRIGHT A_SetRoll(roll + 2);
-			PIZZ B 3 Fast BRIGHT A_Chase;
+			PIZZ B 3 Fast BRIGHT
+			{
+				A_StopSound(CHAN_BODY);
+				A_SetRoll(roll + 2);
+				A_Chase();
+			}
 			Loop;
+		NoMissile:
+			PIZZ BBBBBBBB 2 Fast 
+			{
+				A_StopSound(CHAN_BODY);
+				A_SetRoll(roll + 2);
+				A_Wander();
+			}
+			Goto See;
 		Missile:
 			PIZZ H 0 BRIGHT A_StopSound(CHAN_BODY);
+			PIZZ H 0 BRIGHT A_FaceTarget;
+			PIZZ H 0 BRIGHT
+			{
+				if (BoxHammerCheck() == true) {SetStateLabel("NoMissile", false);}
+			}
 			PIZZ H 10 Slow BRIGHT A_FaceTarget;
 			PIZZ H 1 A_SkullAttack;
 			PIZZ H 3 {self.Vel = ((self.Vel.X / 1.5), (self.Vel.Y / 1.5), (self.Vel.Z / 1.5));}

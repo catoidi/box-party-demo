@@ -23,6 +23,25 @@ mixin class BoxActorMixin
 		StartRoll = randompick(-8, 8);
 	}
 	
+	action bool BoxHammerCheck(void)
+	{
+		//used to check if there is room to dash before dashing.
+	
+		//this is probably really inefficient.
+		
+		double radnum = self.radius;
+		
+		if 
+		(
+			(CheckBlock(0, AAPTR_DEFAULT, radnum, 0, 0, 0) == true) || 
+			(CheckBlock(0, AAPTR_DEFAULT, (radnum * 2.0), 0, 0, 0) == true)
+		)
+		{
+			return true;
+		}
+		else {return false;}
+	}
+	
 	action void A_BoxFade (float FadeNum = 0.1)
 	{
 		//name's a little misleading, actor does not start fading until FakeFade reaches 0.75 or higher.
