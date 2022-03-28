@@ -89,6 +89,7 @@ effects/lsplash lsplash
 $volume effects/lsplash 0.1
 effects/tnt tnt
 $volume effects/tnt 1.0
+effects/quest quest
 
 //Traps
 traps/piebomb piebomb

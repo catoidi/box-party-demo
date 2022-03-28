@@ -668,7 +668,7 @@ function void QuestUpdated (bool QuestLog)
 	//displays a "side quest updated" message, and updates the Quest UI if it is open.
 	//useful if you are changing quests without the use of the above function.
 	
-	if (QuestLog == true) {Log(l:"QUESTUPDATED");}
+	if (QuestLog == true) {Log(l:"QUESTUPDATED"); AmbientSound("effects/quest", 127);}
 	
 	for (int act = 7500; act < 7508; act++)
 	{
