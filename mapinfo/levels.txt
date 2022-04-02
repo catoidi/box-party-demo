@@ -9,7 +9,7 @@ GameDefaults
 	PixelRatio = 1
 	NoIntermission
 	sky1 = "CITYSKY3"
-	ResetHealth
+	//ResetHealth
 }
 
 //this is the map that appears when you boot into box party.
