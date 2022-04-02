@@ -83,9 +83,13 @@ CLASS BoxMonster : BoxActor abstract
 			//disable swimming if cvar is on or actor can already fly upon spawning
 			SwimmingToggle = false;
 		}
-		if ((HatToggle == true) && (random(1, 1000) == 1000))
+		if (HatToggle == true)
 		{
-			A_SpawnItemEX("BoxHatNPC", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER | SXF_NOCHECKPOSITION);
+			cvar hatfuncheck = cvar.GetCVAR("box_fun");
+			if ((random(1, 1000) == 1000) || (hatfuncheck.GetInt() == 11))
+			{
+				A_SpawnItemEX("BoxHatNPC", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER | SXF_NOCHECKPOSITION);
+			}
 		}
 	}
 	
