@@ -13,10 +13,22 @@ CLASS Sign : Actor //20011
 		//$Color 14
 	}
 	
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		if (GetCVAR("box_fun") == 13)
+		{
+			SetStateLabel("Melon");
+		}
+	}
+	
 	States
 	{
 		Spawn:
 			SIGN A -1;
+			Stop;
+		Melon:
+			SIGN H -1;
 			Stop;
 	}
 }

@@ -230,7 +230,16 @@ CLASS BoxHatNPC : BoxHat
 		Spawn:
 			HATA A 5 NoDelay 
 			{
-				if (random(1, 10) < 10)
+				if (GetCVAR("box_fun") == 12)
+				{
+					frame = 4;
+					switch (random(1, 2))
+					{
+						case 1: self.SpriteAngle = 202.5; break;
+						case 2: self.SpriteAngle = 337.5; break;
+					}
+				}
+				else if (random(1, 10) < 10)
 				{
 					//choose normal hats
 					switch (random(1, 24))

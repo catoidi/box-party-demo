@@ -9,3 +9,6 @@ T:lemon
 1:sign
 0:wide
 E:hat
+E:pride
+E:melon
+E:triangle

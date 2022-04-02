@@ -43,7 +43,14 @@ CLASS Painting : BoxActor
 	States
 	{
 		Spawn:
-			PANT Z 0 NoDelay A_Jump(32, "Rare", "Rare", "Pride");
+			PANT Z 0 NoDelay
+			{
+				if (GetCVAR("box_fun") == 12)
+				{
+					SetStateLabel("Pride");
+				}
+			}
+			PANT Z 0 A_Jump(32, "Rare", "Rare", "Pride");
 			PANT Z 0 A_Jump(2, "BigPainting");
 			PANT A 0 DoPaintingRotation(random(1, 16)); //common paintings
 			Goto Looper;

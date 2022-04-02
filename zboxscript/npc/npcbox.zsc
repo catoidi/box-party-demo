@@ -59,6 +59,7 @@ CLASS NPCBox : Actor //20006
 						if (SomeRandomNumber == 11) {sprite = GetSpriteIndex("CBOX");}
 						if (SomeRandomNumber == 12) {sprite = GetSpriteIndex("TBOX");}
 					}
+					else if (GetCVAR("box_fun") == 14) {sprite = GetSpriteIndex("TBOX");}
 					else {sprite = GetSpriteIndex("PBOX");}
 					IsRandomed = 1;
 				}

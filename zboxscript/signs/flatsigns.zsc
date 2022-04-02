@@ -14,10 +14,22 @@ CLASS FlatSign : Actor //20011
 		//$Color 14
 	}
 	
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		if (GetCVAR("box_fun") == 13)
+		{
+			SetStateLabel("Melon");
+		}
+	}
+	
 	States
 	{
 		Spawn:
 			SIG1 A -1;
+			Stop;
+		Melon:
+			SIG1 H -1;
 			Stop;
 	}
 }
