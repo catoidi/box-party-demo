@@ -217,6 +217,13 @@ CLASS BoxHatNPC : BoxHat
 		if (random(1, 100) == 100) {return true;}
 		return false;
 	}
+	
+	override void Tick(void)
+	{
+		Super.Tick();
+		
+		if ((master) && (master.Health <= 0)) {Destroy();}
+	}
 
 	States
 	{

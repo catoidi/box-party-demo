@@ -25,9 +25,11 @@ CLASS BoxMonster : BoxActor abstract
 {
 	bool SwimmingToggle; //stores the canswim property
 	bool BurnToggle;
+	bool HatToggle;
 	
 	property CanSwim: SwimmingToggle;
 	property CanBurn: BurnToggle;
+	property CanHat: HatToggle;
 
 	Default
 	{
@@ -45,6 +47,7 @@ CLASS BoxMonster : BoxActor abstract
 		PainChance "Prism", 256; //needs to be guaranteed for intended effect
 		BoxMonster.CanSwim true; //overrides both +FLOAT and +NOGRAVITY. do not use on flying enemies.
 		BoxMonster.CanBurn true; //allows actor to gain burn status effect.
+		BoxMonster.CanHat true; //allows rare chance of a hat spawning.
 		+CASTSPRITESHADOW;
 		+NOINFIGHTSPECIES;
 		+DONTHARMSPECIES;
@@ -79,6 +82,10 @@ CLASS BoxMonster : BoxActor abstract
 		{
 			//disable swimming if cvar is on or actor can already fly upon spawning
 			SwimmingToggle = false;
+		}
+		if ((HatToggle == true) && (random(1, 1000) == 1000))
+		{
+			A_SpawnItemEX("BoxHatNPC", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER | SXF_NOCHECKPOSITION);
 		}
 	}
 	
