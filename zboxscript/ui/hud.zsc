@@ -449,8 +449,8 @@ class BoxPartyStatusBar : BaseStatusBar
 		if (togglescore.GetInt() <= 1)	{ScoreAlpha = 1.0;}
 		if (togglescore.GetInt() >= 1)
 		{
-			DrawImage("graphics/SCOREBAR.png", GlobalOffset + TimeOffset + (-46, 28), 0, ScoreAlpha);
-			if (ScoreFadeTime >= 1.0) {DrawBar("graphics/SCOREBAA.png", "graphics/SCOREBAR.png", MurderTimer, 175, GlobalOffset + TimeOffset + (-84, 12), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);}
+			if (ScoreFadeTime < 1.0) {DrawImage("graphics/SCOREBAR.png", GlobalOffset + TimeOffset + (-46, 28), 0, ScoreAlpha);}
+			else {DrawBar("graphics/SCOREBAA.png", "graphics/SCOREBAR.png", MurderTimer, 175, GlobalOffset + TimeOffset + (-84, 12), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);}
 			if (MurderCombo >= 5) {DrawImage("graphics/SCOREBAB.png", GlobalOffset + TimeOffset + (-46, 28), 0, ComboFade);}
 			DrawString(SmallFont, FormatNumber(BoxScoreInterpolator.GetValue()), GlobalOffset + TimeOffset + (-12, 16), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, ScoreAlpha);
 		}
