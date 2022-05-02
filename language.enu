@@ -61,6 +61,7 @@ BOX_TAG_LASER = "Laser Pointer";
 BOX_TAG_POPCORN = "Kernel Popper";
 BOX_TAG_PRISM = "Superb Hexagon";
 BOX_TAG_STUPID = "actual real pistol";
+BOX_TAG_FISHINGROD = "fishing rod";
 
 /////////////////////////////////
 /////////Locked Doors////////////
@@ -140,6 +141,7 @@ BANANA = "\n\n\n\cxbanana";
 YOUGOTTRASH = "You got trash!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
 BOX_METALDETECTOR = "\cjMetal Detector Acquired. Time to go shiny hunting!";
 BOX_METALDETECTOR_COIN = "\ckFound a shiny metal coin worth 100 points.";
+BOX_FISHINGROD = "\cjFishing Mode Activated.";
 
 /////////////////////////////////
 ////////////Menu Text////////////

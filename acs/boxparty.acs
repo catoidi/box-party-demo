@@ -588,6 +588,18 @@ script "activateself" (void)
 	Thing_Activate(0);
 }
 
+script "selffreezer" (int isfreeze)
+{
+	if (isfreeze == 1)
+	{
+		SetActorProperty(0, APROP_Speed, 0.0);
+	}
+	else
+	{
+		SetActorProperty(0, APROP_Speed, 1.0);
+	}
+}
+
 
 ////////////
 ///QUESTS///
