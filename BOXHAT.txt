@@ -56,4 +56,5 @@ Secret = HAT_SECRET_14, box_hat_secret_14, HATAE4.png, HATSECRET14.png;
 Secret = HAT_SECRET_15, box_hat_secret_15, HATAE5.png, HATSECRET15.png;
 Secret = HAT_SECRET_16, box_hat_secret_16, HATAE6.png, HATSECRET16.png;
 Secret = HAT_SECRET_17, box_hat_secret_17, HATAE7.png, HATSECRET17.png;
+Secret = HAT_SECRET_18, box_hat_secret_18, HATAF1.png, HATSECRET18.png;
 >>END OF FILE

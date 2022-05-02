@@ -62,12 +62,16 @@ CLASS FishingRod : Weapon //20010
 			FROD G 1 A_WeaponReady;
 			Loop;
 		Deselect:
-			FROD AA 0 A_Lower;
-			FROD A 1 A_Lower;
+			FROD ## 0 A_Lower;
+			FROD # 1 A_Lower;
 			Loop;
 		Select:
-			FROD AA 0 A_Raise;
-			FROD A 1 A_Raise;
+			FROD A 0 A_JumpIfInventory("FishingRodAmmo", 1, "Select2");
+			FROD G 0;
+			Goto Select2;
+		Select2:
+			FROD ## 0 A_Raise;
+			FROD # 1 A_Raise;
 			Loop;
 		Fire:
 			FROD # 0 A_JumpIfInventory("FishingRodAmmo", 1, 2);
@@ -272,7 +276,8 @@ Class FishingHook : BoxActor
 	States
 	{
 		Spawn:
-			FROD O 0 NoDelay A_AttachLightDef("glowing", "GLOWWHITE");
+			TNT1 A 0 NoDelay A_AttachLightDef("glowing", "GLOWWHITE");
+			TNT1 A 0 {bSPRITEFLIP = random(0, 1);}
 			FROD O -1;
 			Loop;
 		Returning:
@@ -282,6 +287,7 @@ Class FishingHook : BoxActor
 				bNOCLIP = true;
 				A_FadeOut(0.5);
 				A_RemoveLight("glowing");
+				self.Vel = (0, 0, 0);
 			}
 			Goto ReturnLoop;
 		ReturnLoop:
