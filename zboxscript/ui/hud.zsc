@@ -8,7 +8,7 @@ class BoxPartyStatusBar : BaseStatusBar
 {
 	HUDFont NumberFont; //used for all the number stuff on the HUD.
 	HUDFont SmallFont; //default smallfont font for anything else.
-	//insert inventorybarstate thing here later.
+	InventoryBarState invbar;
 	
 	int secondtimer;
 	
@@ -100,6 +100,8 @@ class BoxPartyStatusBar : BaseStatusBar
 		BoxEnergyInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 50);
 		BoxPowerInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 8);
 		BoxScoreInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 9999999);
+		
+		invbar = InventoryBarState.Create();
 		
 		shakecvar = cvar.findcvar("box_hudshake");
 		
@@ -461,6 +463,17 @@ class BoxPartyStatusBar : BaseStatusBar
 			DrawBar("graphics/HUDBARJ.png", "graphics/HUDBARI.png", OxygenLevel, MaxOxygen, GlobalOffset + TimeOffset + (-142, 32), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
 			DrawImage("graphics/AIRICON.png", GlobalOffset + TimeOffset + (-32, 32), DI_ITEM_OFFSETS);
 			DrawString(NumberFont, FormatNumber(OxygenNumber), GlobalOffset + TimeOffset + (-48, 36), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, OxygenColor);
+		}
+		
+		//inventory bar
+		if (CPlayer.mo.InvSel != null && !Level.NoInventoryBar && isInventoryBarVisible() == false)
+		{
+			DrawInventoryIcon(CPlayer.mo.InvSel, GlobalOffset + (-188, -12), DI_DIMDEPLETED);
+			DrawString(SmallFont, FormatNumber(CPlayer.mo.InvSel.Amount), GlobalOffset + (-173, -24+SmallFont.mFont.GetHeight()), DI_TEXT_ALIGN_RIGHT, Font.CR_GOLD);
+		}
+		if (isInventoryBarVisible())
+		{
+			DrawInventoryBar(invbar, GlobalOffset + (-268, -40), 3, DI_ITEM_LEFT_TOP);
 		}
 		
 		//death message
