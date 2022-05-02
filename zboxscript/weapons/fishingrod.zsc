@@ -227,7 +227,7 @@ Class FishingHook : BoxActor
 				if (master) 
 				{
 					HookSpeedCap(8);
-					if (CheckProximity(master.GetClass(), 48) == true)	
+					if (CheckProximity(master.GetClass(), 64) == true)	
 					{
 						master.GiveInventory("DoneFishing", 1);
 						return ResolveState("Dying");
