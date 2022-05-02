@@ -28,3 +28,10 @@ Weapon = PopcornGun, PopcornGunAmmo, AMMOL0.png;
 Weapon = PopcornGun, PopcornGunAmmo2, AMMOK0.png;
 >>this weapon sucks btw
 Weapon = StupidPistol, StupidPistolClip, PISTG0.png;
+>>
+>>SPECIAL WEAPON SUPPORT:
+>>This is for limited use weapons, like for quests, that have their own ammo pool.
+>>The ammo bar and icons for these weapons are purple instead of yellow.
+>>Ammo for special weapons do not show up in the reserve ammo HUD.
+>>You only need to specify the Weapon's class name for this.
+Special = FishingRod;

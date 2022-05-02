@@ -75,6 +75,8 @@ class BoxPartyStatusBar : BaseStatusBar
 	Array<string> reservetype; //ammo type to put in reserve list.
 	Array<string> reserveweapon; //weapon associated with corresponding ammo.
 	
+	Array<string> specialweapon; //limited use weapons, not used in reserve HUD.
+	
 	bool HideAmmo1;
 	
 	int leveltime;
@@ -125,6 +127,8 @@ class BoxPartyStatusBar : BaseStatusBar
 		reservetype.Clear();
 		reserveweapon.Clear();
 		
+		specialweapon.Clear();
+		
 		CurrentPlayer = 0;
 		
 		//copy/pasted lump loading code.
@@ -174,9 +178,19 @@ class BoxPartyStatusBar : BaseStatusBar
 				reserveammo.Push(0); //will get filled in later.
 				reservemax.Push(0); //will get filled in later.
 			}
+			else if (currentline.Left(10) == "Special = ")
+			{
+				currentline = currentline.Mid(10, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				specialweapon.Push(splitline[0]);
+			}
 			else
 			{
-				console.printf("\cgERROR - THIS LINE SHOULD NOT BE HERE:\n%s", currentline);
+				console.printf("\cxWARNING: Invalid text in BOXHUD at line %d:\n\ci'%s'", i + 1, currentline);
+				//doesn't adjust line # for multiple BOXHUD files, but it's fine enough as is IMO.
 			}
 		}
 	}
@@ -348,11 +362,20 @@ class BoxPartyStatusBar : BaseStatusBar
 		if (ammocount1 == 0) {noammo1 = true;} else {noammo1 = false;}
 		if ((ammocount2 == 0) || ((ammocount2 < 20) && (CheckWeaponSelected("PopcornGun")))) {noammo2 = true;} else {noammo2 = false;}
 		
+		string ammobartex = "graphics/HUDBARF.png";
+		for (int i = 0; i < specialweapon.Size(); i++)
+		{
+			if (CheckWeaponSelected(specialweapon[i]) == true)
+			{
+				ammobartex = "graphics/HUDBARK.png";
+			}
+		}
+		
 		if ((ammo1 != null) && (HideAmmo1 != true))
 		{
 			ammo1max = CPlayer.ReadyWeapon.Ammo1.MaxAmount;
 			ammo1icon = GetIcon(cplayer.readyweapon, 0);
-			DrawBar("graphics/HUDBARF.png", "graphics/HUDBARE.png", BoxAmmoInterpolator.GetValue(), ammo1max, GlobalOffset + ArmorOffset + (-136, -52), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+			DrawBar(ammobartex, "graphics/HUDBARE.png", BoxAmmoInterpolator.GetValue(), ammo1max, GlobalOffset + ArmorOffset + (-136, -52), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
 			DrawString(NumberFont, FormatNumber(ammocount1, 1), GlobalOffset + ArmorOffset + (-48, -49), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_BLACK);
 			DrawImage("graphics/AMMOZ0.png", GlobalOffset + ArmorOffset + (-32, -52), DI_ITEM_OFFSETS);
 			if (noammo1 == true) {DrawImage("graphics/AMMOX0.png", GlobalOffset + ArmorOffset + (-32, -52), DI_ITEM_OFFSETS);}
@@ -364,7 +387,7 @@ class BoxPartyStatusBar : BaseStatusBar
 		{
 			ammo2max = cplayer.readyweapon.ammo2.maxamount;
 			ammo2icon = GetIcon(cplayer.readyweapon.ammo2, 0);
-			DrawBar("graphics/HUDBARF.png", "graphics/HUDBARE.png", BoxAmmo2Interpolator.GetValue(), ammo2max, GlobalOffset + ArmorOffset + Ammo1Offset + (-136, -52), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+			DrawBar(ammobartex, "graphics/HUDBARE.png", BoxAmmo2Interpolator.GetValue(), ammo2max, GlobalOffset + ArmorOffset + Ammo1Offset + (-136, -52), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
 			DrawString(NumberFont, FormatNumber(ammocount2, 1), GlobalOffset + ArmorOffset + Ammo1Offset + (-48, -49), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_BLACK);
 			DrawImage("graphics/AMMOZ0.png", GlobalOffset + ArmorOffset + Ammo1Offset + (-32, -52), DI_ITEM_OFFSETS);
 			if (noammo2 == true) {DrawImage("graphics/AMMOX0.png", GlobalOffset + ArmorOffset + Ammo1Offset + (-32, -52), DI_ITEM_OFFSETS);}
