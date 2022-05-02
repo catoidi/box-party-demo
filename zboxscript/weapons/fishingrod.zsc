@@ -39,12 +39,19 @@ CLASS FishingRod : Weapon //20010
 			FROD A 1 A_Raise;
 			Loop;
 		Fire:
-			FROD # 0 {ACS_NamedExecute("selffreezer", 0, 1, 0, 0);}
+			FROD # 0 
+			{
+				ACS_NamedExecute("selffreezer", 0, 1, 0, 0);
+				self.Vel.X *= 0.1;
+				self.Vel.Y *= 0.1;
+			}
 			FROD BB 10 A_WeaponOffset(0, 5, WOF_ADD | WOF_INTERPOLATE);
 			FROD C 0 A_SpawnItemEX("FishingHook", 8, 0, 24, 8, 0, 12, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER | SXF_ISMASTER);
 			FROD CCCC 1 A_WeaponOffset(2, -3, WOF_ADD | WOF_INTERPOLATE);
-			FROD C 4;
+			FROD C 4 A_JumpIfInventory("DoneFishing", 1, "DoneFishin");
+			Goto Fishin;
 		Fishin:
+			FROD D 0 A_JumpIfInventory("DoneFishing", 1, "DoneFishin");
 			FROD D 1 A_Refire("ReelinStart");
 			Loop;
 		ReelinStart:
@@ -62,6 +69,15 @@ CLASS FishingRod : Weapon //20010
 			}
 			FROD # 0 A_JumpIfInventory("DoneFishing", 1, "DoneFishin");
 			Loop;
+		FishFail:
+			FROD # 0 
+			{
+				if (master)
+				{
+					master.SetStateLabel("Dying");
+				}
+			}
+			Goto DoneFishin;
 		DoneFishin:
 			FROD GGGGGGGGGG 1 A_WeaponOffset(0, 24, WOF_ADD | WOF_INTERPOLATE);
 			FROD AAAAAAAAAA 1 A_WeaponOffset(0, -24, WOF_ADD | WOF_INTERPOLATE);
@@ -177,20 +193,31 @@ Class FishingHook : BoxActor
 {
 	Default
 	{
-	
+		Height 12;
+		Radius 6;
 	}
 	
 	override void Tick()
 	{
-		Super.Tick();
-		
-		if (self.waterlevel >= 1)
+		if ((master) && (master.waterlevel >= 1) && (InStateSequence(CurState, ResolveState("Spawn"))))
+		{
+			A_SpawnItemEX("SafeBoom", flags: SXF_NOCHECKPOSITION);
+			SetStateLabel("FishFailure");
+		}
+		else if (self.waterlevel == 3)
 		{
 			self.Vel.X = 0.0;
 			self.Vel.Y = 0.0;
 			if (self.Vel.Z < -2.0)
 			{self.Vel.Z = -2.0;}
 		}
+		else if ((self.Pos.Z - self.FloorZ) <= 1.0)
+		{
+			self.Vel.X = 0.0;
+			self.Vel.Y = 0.0;
+		}
+		
+		Super.Tick();
 	}
 	
 	void HookSpeedCap(double speedcap)
@@ -237,6 +264,9 @@ Class FishingHook : BoxActor
 				else {return ResolveState("Dying");}
 			}
 			Loop;
+		FishFailure:
+			FROD O 1 {master.GiveInventory("DoneFishing", 1);}
+			Goto Dying;
 		Dying:
 			TNT1 A 20;
 			Stop;
