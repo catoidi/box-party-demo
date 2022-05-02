@@ -41,29 +41,36 @@ CLASS FishingRod : Weapon //20010
 		Fire:
 			FROD # 0 {ACS_NamedExecute("selffreezer", 0, 1, 0, 0);}
 			FROD BB 10 A_WeaponOffset(0, 5, WOF_ADD | WOF_INTERPOLATE);
-			FROD C 0; //insert spawning hook projectile here
+			FROD C 0 A_SpawnItemEX("FishingHook", 8, 0, 24, 8, 0, 12, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER | SXF_ISMASTER);
 			FROD CCCC 1 A_WeaponOffset(2, -3, WOF_ADD | WOF_INTERPOLATE);
 			FROD C 4;
 		Fishin:
-			FROD D 1 A_Refire("Reelin");
+			FROD D 1 A_Refire("ReelinStart");
 			Loop;
+		ReelinStart:
+			FROD D 0 {if (master) {master.ACS_NamedExecute("returnhook", 0, 0, 0, 0);}}
+			Goto Reelin;
 		Reelin:
 			FROD DDDDEEEEFFFF 1 
 			{
 				++invoker.fishtimer;
 				A_WeaponOffset(random(-2, 2), random(-2, 2), WOF_INTERPOLATE);
-				if ((invoker.fishtimer > 100) || (CountInv("DoneFishing") == 1))
+				if (invoker.fishtimer > 100)
 				{
 					GiveInventory("DoneFishing", 1); //can also be given to player via ACS script to end animation early.
-					invoker.fishtimer == 0;
 				}
 			}
 			FROD # 0 A_JumpIfInventory("DoneFishing", 1, "DoneFishin");
 			Loop;
 		DoneFishin:
-			FROD # 0 A_TakeInventory("DoneFishing", 99999);
-			FROD G 20 A_WeaponOffset(0, 0, WOF_INTERPOLATE);
-			FROD # 0 {ACS_NamedExecute("selffreezer", 0, 0, 0, 0);}
+			FROD GGGGGGGGGG 1 A_WeaponOffset(0, 24, WOF_ADD | WOF_INTERPOLATE);
+			FROD AAAAAAAAAA 1 A_WeaponOffset(0, -24, WOF_ADD | WOF_INTERPOLATE);
+			FROD # 2 
+			{
+				A_TakeInventory("DoneFishing", 99999);
+				invoker.fishtimer = 0;
+				ACS_NamedExecute("selffreezer", 0, 0, 0, 0);
+			}
 			Goto Ready;
 		Spawn:
 			FROD J -1;
@@ -165,3 +172,73 @@ Class FishTrio : FishGold
 }
 
 Class DoneFishing : Inventory {Default {Inventory.MaxAmount 1;}} //
+
+Class FishingHook : BoxActor
+{
+	Default
+	{
+	
+	}
+	
+	override void Tick()
+	{
+		Super.Tick();
+		
+		if (self.waterlevel >= 1)
+		{
+			self.Vel.X = 0.0;
+			self.Vel.Y = 0.0;
+			if (self.Vel.Z < -2.0)
+			{self.Vel.Z = -2.0;}
+		}
+	}
+	
+	void HookSpeedCap(double speedcap)
+	{
+		A_Face(master);
+		let ZSpot = master.Pos.Z + (master.Height * master.Scale.Y * 0.5);
+		double NewZSpot = (ZSpot + (self.pos.z * 4)) / 5;
+		SetOrigin((self.pos.x, self.pos.y, NewZSpot), true);
+		Thrust(1);
+		if (self.Vel.X > speedcap) {self.Vel.X = speedcap;}
+		if (self.Vel.Y > speedcap) {self.Vel.Y = speedcap;}
+		if (self.Vel.X < -speedcap) {self.Vel.X = -speedcap;}
+		if (self.Vel.Y < -speedcap) {self.Vel.Y = -speedcap;}
+	}
+	
+	States
+	{
+		Spawn:
+			FROD O 0 NoDelay A_AttachLightDef("glowing", "GLOWWHITE");
+			FROD O -1;
+			Loop;
+		Returning:
+			FROD O 1 
+			{
+				bNOGRAVITY = true;
+				bNOCLIP = true;
+				A_FadeOut(0.5);
+				A_RemoveLight("glowing");
+			}
+			Goto ReturnLoop;
+		ReturnLoop:
+			FROD O 1 
+			{
+				if (master) 
+				{
+					HookSpeedCap(8);
+					if (CheckProximity(master.GetClass(), 48) == true)	
+					{
+						master.GiveInventory("DoneFishing", 1);
+						return ResolveState("Dying");
+					}
+					else {return ResolveState(null);}
+				}
+				else {return ResolveState("Dying");}
+			}
+			Loop;
+		Dying:
+			TNT1 A 20;
+			Stop;
+	}
+}

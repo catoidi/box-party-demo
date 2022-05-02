@@ -600,6 +600,14 @@ script "selffreezer" (int isfreeze)
 	}
 }
 
+script "returnhook" (void)
+{
+	if (CheckActorClass(0, "fishinghook") == true)
+	{
+		SetActorState(0, "Returning", false);
+	}
+}
+
 
 ////////////
 ///QUESTS///
