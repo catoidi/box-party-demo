@@ -1,5 +1,5 @@
 IWAD = "boxparty.ipk3"
-STARTUPTITLE = "Box Party v1.3.2"
+STARTUPTITLE = "Box Party v1.4"
 STARTUPCOLORS = "FFFFFF", "000000"
 //DiscordAppID = "953268710821466172"
 //SteamAppID = "1727350"

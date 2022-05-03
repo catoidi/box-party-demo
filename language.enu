@@ -1,13 +1,8 @@
 //language.enu
 
-//english
-//i've got the games text setup like this just in case someone ever wants to translate it,
-//which in itself would be a very difficult task due to how the dialogue system is made.
-//also it makes it easier for me to make changes to dialogue.
-
 [enu default]
 
-BOX_VERSION = "                    DEMO v1.3.2\n\nup to 3 servings per container!";
+BOX_VERSION = "                              DEMO v1.4\n\nnow made out of 98% recycled cardboard!";
 
 //Sorry Nothing
 SORRY_NOTHING = "Sorry Nothing"; //sorry nothing
