@@ -142,6 +142,7 @@ YOUGOTTRASH = "You got trash!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
 BOX_METALDETECTOR = "\cjMetal Detector Acquired. Time to go shiny hunting!";
 BOX_METALDETECTOR_COIN = "\ckFound a shiny metal coin worth 100 points.";
 BOX_FISHINGROD = "\cjFishing Mode Activated.";
+BOX_FISH = "You have successfully caught a fish.";
 
 /////////////////////////////////
 ////////////Menu Text////////////

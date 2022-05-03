@@ -155,11 +155,12 @@ Class FishGold : BoxActor
 {
 	Default
 	{
-		Health 10;
+		Health 1;
 		Radius 16;
 		Height 16;
 		Speed 10;
 		Species "Fish";
+		PainChance 256;
 		+SOLID;
 		+THRUSPECIES;
 		+SHOOTABLE;
@@ -167,6 +168,18 @@ Class FishGold : BoxActor
 		+WALLSPRITE;
 		+INTERPOLATEANGLES;
 		+NOBLOOD;
+		+BUDDHA;
+	}
+	
+	int catchtime;
+	
+	string fishdrop;
+	
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		
+		fishdrop = "FishItemGold";
 	}
 
 	override void Tick(void)
@@ -175,7 +188,7 @@ Class FishGold : BoxActor
 		Super.Tick();
 		self.Angle -= 90;
 
-		if ((waterlevel == 0) && (self.Health > 0)) {A_Die();}
+		if ((waterlevel == 0) && (InStateSequence(CurState, ResolveState("Spawn")))) {A_Die();}
 	}
 	
 	States
@@ -187,9 +200,33 @@ Class FishGold : BoxActor
 			FROD # 1 A_Die();
 			Stop;
 		Pain.FishingRod:
-			//put stuff here
-		Death.FishingRod:
-			//put stuff here
+			FROD # 0 
+			{
+				bINVULNERABLE = true;
+				A_BoxScaleXY(-0.35, 0.75);
+			}
+		Caught:
+			FROD # 1 
+			{
+				if ((waterlevel > 0) && (catchtime < 35))
+				{
+					self.Vel.Z = 6.0;
+					++catchtime;
+					
+					return ResolveState(null);
+				}
+				else
+				{
+					A_SpawnItemEX("WaterSplooshGiant", flags: SXF_NOCHECKPOSITION);
+					A_SpawnItemEX(fishdrop, zvel: 8.0, flags: SXF_NOCHECKPOSITION | SXF_TRANSFERSPRITEFRAME);
+					
+					return ResolveState("SilentDeath");
+				}
+			}
+			Loop;
+		SilentDeath:
+			TNT1 A 35;
+			Stop;
 		Death:
 			TNT1 A 35 A_SpawnItemEX("SafeBoom", flags: SXF_NOCHECKPOSITION);
 			Stop;
@@ -199,6 +236,13 @@ Class FishGold : BoxActor
 
 Class FishBig : FishGold
 {
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		
+		fishdrop = "FishItemBig";
+	}
+
 	States
 	{
 		Spawn:
@@ -209,6 +253,13 @@ Class FishBig : FishGold
 
 Class FishThin : FishGold
 {
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		
+		fishdrop = "FishItemThin";
+	}
+	
 	States
 	{
 		Spawn:
@@ -219,6 +270,13 @@ Class FishThin : FishGold
 
 Class FishTrio : FishGold
 {
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		
+		fishdrop = "FishItemTrio";
+	}
+
 	States
 	{
 		Spawn:
@@ -227,7 +285,37 @@ Class FishTrio : FishGold
 	}
 }
 
-Class DoneFishing : Inventory {Default {Inventory.MaxAmount 1;}} //
+Class DoneFishing : Inventory {Default {Inventory.MaxAmount 1;}}
+
+Class FishItemGold : BoxQuestReward
+{
+	Default
+	{
+		Inventory.Amount 200;
+		Inventory.PickupMessage "$BOX_FISH";
+		+FLOATBOB;
+		+FLATSPRITE;
+		+ROLLCENTER;
+	}
+	
+	override void Tick()
+	{
+		Super.Tick();
+		
+		if (waterlevel > 0) {self.Vel.Z = 3.0;}
+	}	
+	
+	States
+	{
+		Spawn:
+			#### # -1 A_SetRoll(random(0, 359)); //inherits sprite from originating fish
+			Loop;
+	}
+}
+
+Class FishItemBig : FishItemGold {Default {Inventory.Amount 300;}}
+Class FishItemThin : FishItemGold {Default {Inventory.Amount 400;}}
+Class FishItemTrio : FishItemGold {Default {Inventory.Amount 500;}}
 
 Class FishingHook : BoxActor
 {
@@ -237,12 +325,14 @@ Class FishingHook : BoxActor
 		Radius 6;
 	}
 	
+	int catchtime;
+	
 	override void Tick()
 	{
 		if ((master) && (master.waterlevel >= 1) && (InStateSequence(CurState, ResolveState("Spawn"))))
 		{
 			A_SpawnItemEX("SafeBoom", flags: SXF_NOCHECKPOSITION);
-			SetStateLabel("FishFailure");
+			SetStateLabel("FishOver");
 		}
 		else if (self.waterlevel == 3)
 		{
@@ -281,13 +371,14 @@ Class FishingHook : BoxActor
 			FROD O -1;
 			Loop;
 		Returning:
-			FROD O 1 
+			FROD O 3 
 			{
 				bNOGRAVITY = true;
 				bNOCLIP = true;
 				A_FadeOut(0.5);
 				A_RemoveLight("glowing");
 				self.Vel = (0, 0, 0);
+				A_Explode(1, 20, XF_NOTMISSILE, false, 20, damagetype: "FishingRod");
 			}
 			Goto ReturnLoop;
 		ReturnLoop:
@@ -306,7 +397,7 @@ Class FishingHook : BoxActor
 				else {return ResolveState("Dying");}
 			}
 			Loop;
-		FishFailure:
+		FishOver:
 			FROD O 1 {master.GiveInventory("DoneFishing", 1);}
 			Goto Dying;
 		Dying:
