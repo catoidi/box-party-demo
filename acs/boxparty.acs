@@ -592,11 +592,11 @@ script "selffreezer" (int isfreeze)
 {
 	if (isfreeze == 1)
 	{
-		SetActorProperty(0, APROP_Speed, 0.0);
+		SetPlayerProperty(0, 1, PROP_FROZEN);
 	}
 	else
 	{
-		SetActorProperty(0, APROP_Speed, 1.0);
+		SetPlayerProperty(0, 0, PROP_FROZEN);
 	}
 }
 
