@@ -108,6 +108,7 @@ DoomEdNums
 	20102 = FlatSignMystery
 	20103 = FishingRod
 	20104 = Fish
+	20105 = WoodBarrier
 	
 	//keys
 	20901 = WhiteKey

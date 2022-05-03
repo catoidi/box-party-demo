@@ -82,3 +82,25 @@ CLASS TrashCan : BoxActor //not a regular NPC
 			Stop;
 	}
 }
+
+CLASS WoodBarrier : BoxActor
+{
+	Default
+	{
+		Height 64;
+		Radius 16;
+		-SOLID;
+		+DONTFACETALKER;
+		+NOGRAVITY;
+		+WALLSPRITE;
+		+SPRITEANGLE;
+		//$Category "Box Party/NPCs/Special"
+	}
+	
+	States
+	{
+		Spawn:
+			BOAR A -1;
+			Stop;
+	}
+}
