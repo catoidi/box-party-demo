@@ -12,6 +12,11 @@ class BoxHandler : EventHandler
 
 	override void WorldLoaded(WorldEvent e)
 	{
+		BoxLootLoader(e);
+	}
+	
+	void BoxLootLoader(WorldEvent e)
+	{
 		//create a list of players and weapons, with their associated loot drops.
 		//will also look for custom players and weapons and add them to the system as well.
 		
@@ -97,103 +102,138 @@ class BoxHandler : EventHandler
 	
 	override void WorldThingSpawned(WorldEvent e)
 	{
-		if ((e.Thing != null) && (e.Thing is "BoxLootDropper") && (e.Thing.target != null) && (e.Thing.target is "PlayerPawn"))
+		if (e.Thing != null)
 		{
-			for (int i = 0; i < PlayerNames.Size(); ++i)
+			if ((e.Thing.target != null) && (e.Thing.target is "PlayerPawn"))
 			{
-				actor badguy = e.Thing.target;
-				string badguyname = badguy.GetClassName();
-				badguyname = badguyname.MakeLower();
-				string forname = PlayerNames[i];
-				forname = forname.MakeLower();
-				if (badguyname != forname)
+				if (e.Thing is "BoxLootDropper") {HealthDropper(e);}
+				else if (e.Thing is "BoxFakeAmmoDrop") {AmmoDropper(e);}
+			}
+			else if (e.Thing is "BoxMonster")
+			{
+				FoodController(e);
+			}
+		}
+	}
+	
+	void HealthDropper(WorldEvent e)
+	{
+		for (int i = 0; i < PlayerNames.Size(); ++i)
+		{
+			actor badguy = e.Thing.target;
+			string badguyname = badguy.GetClassName();
+			badguyname = badguyname.MakeLower();
+			string forname = PlayerNames[i];
+			forname = forname.MakeLower();
+			if (badguyname != forname)
+			{
+				continue;
+			}
+			else
+			{
+				string lootstring = e.Thing.GetClassName();
+				int lootlength = lootstring.Length();
+				string loottype;
+				if (lootstring.Mid(lootlength - 7, lootlength) == "_Forced") 
 				{
-					continue;
+					lootstring.Replace("_Forced", "Health");
+					loottype = ""; //don't ask.
 				}
+				else 
+				{loottype = PlayerDrops[i];}
+				
+				//it is implied that anything inheriting from "BoxLootDropper" has a name starting with "BoxLooter_".
+				lootstring = lootstring.Mid(10, lootlength);
+				
+				string realdrop = string.Format("%s%s", lootstring, loottype);
+				//int reallength = realdrop.Length();
+				//realdrop.Truncate(reallength - 1);
+				
+				//console.printf("'%s'", realdrop);
+				//use this if drops are not working for some reason.
+				
+				e.Thing.A_SpawnItemEX(realdrop, 0, 0, 0, e.Thing.Vel.X, e.Thing.Vel.Y, e.Thing.Vel.Z, random(0, 359), SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS);
+			}
+		}
+	}
+	
+	void AmmoDropper(WorldEvent e)
+	{
+		Array<String> EquippedNames;
+		Array<String> EquippedDrops;
+		Array<String> NoAmmoWeapons;
+		Array<String> EquippedBan;
+		actor weaponguy = e.Thing.target;
+		int slotcounter = 0;
+		int currentammo;
+		bool candropammo = true;
+	
+		for (int i = 0; i < WeaponNames.Size(); ++i)
+		{
+			if (weaponguy.CountInv(WeaponNames[i]) == 0) {continue;}
+			else
+			{
+				EquippedNames.Push(WeaponNames[i]);
+				EquippedDrops.Push(WeaponDrops[i]);
+				EquippedBan.Push(DropAmmo[i]);
+				string usethis = EquippedDrops[slotcounter];
+				usethis.Replace(" ", ""); //not sure why, but a space gets added to the end of some lines. this removes em.
+				currentammo = e.Thing.CountInv(usethis, AAPTR_TARGET);
+				
+				if ((currentammo <= MinimumAmmo[slotcounter]) || (e.Thing is "BoxFakeAmmoDropForced")) 
+				{
+					NoAmmoWeapons.Push(EquippedNames[slotcounter]);
+				}
+				else {candropammo = false;}
+				slotcounter += 1;
+			}
+		}
+		if ((candropammo == true) && (NoAmmoWeapons.Size() != 0))
+		{
+			//console.printf("%s", "\cqdropping ammo...");
+			for (int i = 0; i < NoAmmoWeapons.Size(); ++i)
+			{
+				if (EquippedBan[i] == "false") {NoAmmoWeapons.Delete(i);}
+			}
+			
+			int weaponsize = NoAmmoWeapons.Size();
+			int randomnum = random(0, weaponsize -1);
+			string randomweapon = NoAmmoWeapons[randomnum];
+			bool hasspawned = false;
+			for (int i = 0; i < EquippedNames.Size(); ++i)
+			{
+				if ((randomweapon != EquippedNames[i]) || (hasspawned == true)) {continue;}
 				else
 				{
-					string lootstring = e.Thing.GetClassName();
-					int lootlength = lootstring.Length();
-					string loottype;
-					if (lootstring.Mid(lootlength - 7, lootlength) == "_Forced") 
-					{
-						lootstring.Replace("_Forced", "Health");
-						loottype = ""; //don't ask.
-					}
-					else 
-					{loottype = PlayerDrops[i];}
-					
-					//it is implied that anything inheriting from "BoxLootDropper" has a name starting with "BoxLooter_".
-					lootstring = lootstring.Mid(10, lootlength);
-					
-					string realdrop = string.Format("%s%s", lootstring, loottype);
-					//int reallength = realdrop.Length();
-					//realdrop.Truncate(reallength - 1);
-					
-					//console.printf("'%s'", realdrop);
-					//use this if drops are not working for some reason.
-					
-					e.Thing.A_SpawnItemEX(realdrop, 0, 0, 0, e.Thing.Vel.X, e.Thing.Vel.Y, e.Thing.Vel.Z, random(0, 359), SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS);
+					string usethis = EquippedDrops[i];
+					string usethisdrop = string.Format("%sDrop", usethis);
+					//console.printf("'%s' has been dropped.", usethisdrop);
+					e.Thing.A_SpawnItemEX(usethisdrop, 0, 0, 0, e.Thing.Vel.X, e.Thing.Vel.Y, e.Thing.Vel.Z, random(0, 359), SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS);
+					hasspawned = true;
 				}
 			}
 		}
-		if ((e.Thing != null) && (e.Thing is "BoxFakeAmmoDrop") && (e.Thing.target != null) && (e.Thing.target is "PlayerPawn"))
-		{
-			Array<String> EquippedNames;
-			Array<String> EquippedDrops;
-			Array<String> NoAmmoWeapons;
-			Array<String> EquippedBan;
-			actor weaponguy = e.Thing.target;
-			int slotcounter = 0;
-			int currentammo;
-			bool candropammo = true;
+		//else {console.printf("%s", "\cgCANT DROP AMMO!!!");}
+	}
+	
+	void FoodController(WorldEvent e)
+	{
+		cvar foodhp = cvar.FindCVAR('box_foodhp');
+		cvar fooddmg = cvar.FindCVAR('box_fooddamage');
+		double multnum[4] = {0.5, 1.0, 2.0, 3.0};
+		double hpmult = multnum[foodhp.GetInt()];
+		double dmgmult = multnum[fooddmg.GetInt()];
 		
-			for (int i = 0; i < WeaponNames.Size(); ++i)
-			{
-				if (weaponguy.CountInv(WeaponNames[i]) == 0) {continue;}
-				else
-				{
-					EquippedNames.Push(WeaponNames[i]);
-					EquippedDrops.Push(WeaponDrops[i]);
-					EquippedBan.Push(DropAmmo[i]);
-					string usethis = EquippedDrops[slotcounter];
-					usethis.Replace(" ", ""); //not sure why, but a space gets added to the end of some lines. this removes em.
-					currentammo = e.Thing.CountInv(usethis, AAPTR_TARGET);
-					
-					if ((currentammo <= MinimumAmmo[slotcounter]) || (e.Thing is "BoxFakeAmmoDropForced")) 
-					{
-						NoAmmoWeapons.Push(EquippedNames[slotcounter]);
-					}
-					else {candropammo = false;}
-					slotcounter += 1;
-				}
-			}
-			if ((candropammo == true) && (NoAmmoWeapons.Size() != 0))
-			{
-				//console.printf("%s", "\cqdropping ammo...");
-				for (int i = 0; i < NoAmmoWeapons.Size(); ++i)
-				{
-					if (EquippedBan[i] == "false") {NoAmmoWeapons.Delete(i);}
-				}
-				
-				int weaponsize = NoAmmoWeapons.Size();
-				int randomnum = random(0, weaponsize -1);
-				string randomweapon = NoAmmoWeapons[randomnum];
-				bool hasspawned = false;
-				for (int i = 0; i < EquippedNames.Size(); ++i)
-				{
-					if ((randomweapon != EquippedNames[i]) || (hasspawned == true)) {continue;}
-					else
-					{
-						string usethis = EquippedDrops[i];
-						string usethisdrop = string.Format("%sDrop", usethis);
-						//console.printf("'%s' has been dropped.", usethisdrop);
-						e.Thing.A_SpawnItemEX(usethisdrop, 0, 0, 0, e.Thing.Vel.X, e.Thing.Vel.Y, e.Thing.Vel.Z, random(0, 359), SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS);
-						hasspawned = true;
-					}
-				}
-			}
-			//else {console.printf("%s", "\cgCANT DROP AMMO!!!");}
+		if (hpmult != 1.0)
+		{
+			int starthp = e.Thing.Health * hpmult;
+			e.Thing.Health = starthp;
+			e.Thing.StartHealth = starthp  / G_SkillPropertyFloat(SKILLP_MonsterHealth);
+		}
+		if (dmgmult != 1.0)
+		{
+			double startdmg = e.Thing.DamageMultiply * dmgmult;
+			e.Thing.DamageMultiply = startdmg;
 		}
 	}
 	
