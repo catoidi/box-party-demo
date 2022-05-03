@@ -479,13 +479,15 @@ class BoxPartyStatusBar : BaseStatusBar
 			if (MurderCombo >= 5) {DrawImage("graphics/SCOREBAB.png", GlobalOffset + TimeOffset + (-46, 28), 0, ComboFade);}
 			DrawString(SmallFont, FormatNumber(BoxScoreInterpolator.GetValue()), GlobalOffset + TimeOffset + (-12, 16), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, ScoreAlpha);
 		}
+		vector2 ScoreOffset = (0, 0);
+		if ((ScoreAlpha > 0.0) && (togglescore.GetInt() != 0)) {ScoreOffset = (0, 16);}
 	
 		//oxygen meter
 		if (IsUnderwater == true)
 		{
-			DrawBar("graphics/HUDBARJ.png", "graphics/HUDBARI.png", OxygenLevel, MaxOxygen, GlobalOffset + TimeOffset + (-142, 32), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
-			DrawImage("graphics/AIRICON.png", GlobalOffset + TimeOffset + (-32, 32), DI_ITEM_OFFSETS);
-			DrawString(NumberFont, FormatNumber(OxygenNumber), GlobalOffset + TimeOffset + (-48, 36), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, OxygenColor);
+			DrawBar("graphics/HUDBARJ.png", "graphics/HUDBARI.png", OxygenLevel, MaxOxygen, GlobalOffset + TimeOffset + ScoreOffset + (-142, 16), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
+			DrawImage("graphics/AIRICON.png", GlobalOffset + TimeOffset + ScoreOffset + (-32, 16), DI_ITEM_OFFSETS);
+			DrawString(NumberFont, FormatNumber(OxygenNumber), GlobalOffset + TimeOffset + ScoreOffset + (-48, 20), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, OxygenColor);
 		}
 		
 		//inventory bar
