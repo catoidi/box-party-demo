@@ -53,10 +53,12 @@ TXT_PARTY00_SIGN_1A = "Explain 'Beginner' Difficulty";
 TXT_PARTY00_SIGN_1B = "Explain 'Medium' Difficulty";
 TXT_PARTY00_SIGN_1C = "Explain 'Hard' Difficulty";
 TXT_PARTY00_SIGN_1D = "What is the guide book";
+TXT_PARTY00_SIGN_1E = "Explain 'Options'";
 TXT_PARTY00_SIGN_2 = "In Beginner, you take half damage, enemies have 25% less health, and all the enemies can hurt each other.";
 TXT_PARTY00_SIGN_3 = "In Medium, you take normal damage, enemies have 10% less health, and only some enemies can hurt each other.";
 TXT_PARTY00_SIGN_4 = "Hard is like Medium, but you take 50% more damage, and enemies have full health.";
 TXT_PARTY00_SIGN_5 = "The Guide Book will give you the rundown of Box Party's game mechanics and stuff. Either press (F1) or pick the 'READ THIS!' option in the main menu to read it.";
+TXT_PARTY00_SIGN_6 = "Go through the 'Options' portal if you're looking to have more granular control over the difficulty for Box Party. Not recommended for first time players, though.";
 
 /////////////////////////////////LEVEL 1
 CUBE = "\ctCube";
