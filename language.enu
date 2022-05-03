@@ -173,6 +173,12 @@ BOX_OPTION_RESETHP = "Reset HP on Level Start";
 BOX_OPTION_BADCVAR = "Check for 'bad' GZDoom settings";
 BOX_OPTION_HIDELOCKHAT = "Hide Locked Hats";
 BOX_OPTION_RESETHAT = "RESET HATS TO DEFAULT SETTINGS";
+BOX_OPTION_FOODHP = "Enemy Health Multiplier";
+BOX_OPTION_FOODDAMAGE = "Enemy Damage Multiplier";
+BOX_OPTION_FOODCHANCE = "Enemy Health Drops";
+BOX_OPTION_AMMOCHANCE = "Enemy Ammo Drops";
+BOX_OPTION_GLOWSTART = "Glowstick Only Start";
+BOX_OPTION_DOUBLEAMMO = "More Max Ammo";
 
 //BoxGraphics Menu
 BOX_TITLE_GRAPHICS = "Graphics Options";

@@ -24,6 +24,7 @@ server bool box_levelname = true; //display level names at start of level
 
 //difficulty control
 server int box_foodhp = 1; //enemy health multiplier
+server int box_fooddamage = 1; //enemy damage multiplier
 server int box_foodchance = 1; //control chance of enemies dropping health
 server int box_ammochance = 1; //control chance of enemies dropping ammo
 server bool box_doubleammo = false; //toggle giving the player more maximum ammo

@@ -52,3 +52,20 @@ OptionValue "scorevalue"
 	1, "$BOX_VALUE_ON_DEFAULT"
 	2, "$BOX_VALUE_SCOREFADE"
 }
+
+OptionValue "03mult"
+{
+	0, "0.5x"
+	1, "1x"
+	2, "2x"
+	3, "3x"
+}
+
+OptionValue "03mult2"
+{
+	0, "0.5x"
+	1, "1x"
+	2, "2x"
+	3, "3x"
+	4, "$BOX_VALUE_NOTHANKS"
+}
