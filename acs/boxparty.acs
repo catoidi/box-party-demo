@@ -608,6 +608,11 @@ script "returnhook" (void)
 	}
 }
 
+script "RemoveFishingRod" (void)
+{
+	TakeInventory("FishingRod", 1);
+}
+
 
 ////////////
 ///QUESTS///
