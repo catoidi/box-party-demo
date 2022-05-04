@@ -42,6 +42,8 @@ NOENEMIES2 = "and so, the party continued...";
 NOENEMIES3 = "it is now safe to party again.";
 NOENEMIES4 = "the boxes have returned to party once more.";
 NICETRY = "haha nice try";
+MODIFIERSON = " Modifiers Enabled";
+MODIFIERON = " Modifier Enabled";
 
 /////////////////////////////////
 ////////////Dialogue/////////////

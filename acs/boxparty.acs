@@ -613,6 +613,24 @@ script "RemoveFishingRod" (void)
 	TakeInventory("FishingRod", 1);
 }
 
+function void DOptionCheck (void)
+{
+	int modifiers;
+	if (GetCVAR("box_glowstart") == true) {modifiers += 1;}
+	if (GetCVAR("box_doubleammo") == true) {modifiers += 1;}
+	if (GetCVAR("box_foodhp") != 1) {modifiers += 1;}
+	if (GetCVAR("box_fooddamage") != 1) {modifiers += 1;}
+	if (GetCVAR("box_foodchance") != 1) {modifiers += 1;}
+	if (GetCVAR("box_ammochance") != 1) {modifiers += 1;}
+
+	if (modifiers > 0) 
+	{
+		str codeword = "MODIFIERSON";
+		if (modifiers == 1)	{codeword = "MODIFIERON";}
+		HudMessage(s: "\n\n\n\n\n\n", d:modifiers, l:codeword; HUDMSG_TYPEON, -4, CR_PURPLE, 0.5, 0.675, 2.50, 0.05, 1.0);
+	}
+}
+
 
 ////////////
 ///QUESTS///
