@@ -226,7 +226,9 @@ class BoxHandler : EventHandler
 		
 		if (hpmult != 1.0)
 		{
+			//i am aware that these numbers get truncated. i do not plan to fix it right now.
 			int starthp = e.Thing.Health * hpmult;
+			if (starthp < 1) {starthp = 1;}
 			e.Thing.Health = starthp;
 			e.Thing.StartHealth = starthp  / G_SkillPropertyFloat(SKILLP_MonsterHealth);
 		}

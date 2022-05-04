@@ -12,6 +12,9 @@ mixin class BoxActorMixin
 	
 	actor shocktarget;
 	
+	double LootAmmoMult;
+	double LootHPMult;
+	
 	int BurnAmount;
 	int BurnTimer;
 	
@@ -320,6 +323,12 @@ mixin class BoxActorMixin
 		let TargetHP = 0;
 		string ItemPrefix = "BoxLooter_";
 		string ItemDropping = string.Format("%s%s", ItemPrefix, ItemSuffix);
+		
+		cvar ammocvar = cvar.FindCVAR('box_ammochance');
+		cvar foodcvar = cvar.FindCVAR('box_foodchance');
+		double multnum[5] = {0.5, 1.0, 2.0, 3.0, 0.0};
+		double ammomult = multnum[ammocvar.GetInt()];
+		double foodmult = multnum[foodcvar.GetInt()];
 
 		if ((target != null) && (target is "PlayerPawn")) {TargetHP = target.CountInv("LootHPNum");}
 		
@@ -328,9 +337,15 @@ mixin class BoxActorMixin
 		
 		if (invoker)
 		{
-			//Loot drop amount calculations.
-			int LootAmount = (ItemDrops + invoker.IsMelee) * TargetHP;
+			//Food/Ammo Multiplier CVAR.
+			int foodrandom = 1;
+			if (FoodMult == 0.5) {FoodMult = 1.0; foodrandom = 2;}
+			int ammorandom = 1;
+			if (AmmoMult == 0.5) {AmmoMult = 1.0; ammorandom = 2;}
 		
+			//Loot drop amount calculations.
+			double LootAmount = (ItemDrops + invoker.IsMelee) * FoodMult * TargetHP;
+			
 			//Alternate mode calculations.
 			if (ItemDrops < 0) {LootAmount = -ItemDrops;} 
 			
@@ -339,9 +354,20 @@ mixin class BoxActorMixin
 				ItemDropping.AppendFormat("%s", "_Forced");
 			}
 			
-			for (int DropAmount = 0; DropAmount < LootAmount; ++DropAmount)	{A_BoxSpawnLoot(ItemDropping, 0);}
+			//Health Dropper.
+			for (int DropAmount = 0; DropAmount < LootAmount; ++DropAmount)	
+			{
+				if ((random(1, foodrandom) == 1) && (FoodMult > 0)) {A_BoxSpawnLoot(ItemDropping, 0);}
+			}
 
-			if ((target) && (ItemDrops >= 0)) {A_BoxSpawnLoot("BoxFakeAmmoDrop", 0);}
+			//Ammo Dropper.
+			if ((target) && (ItemDrops >= 0)) 
+			{
+				for (int i = 0; i < AmmoMult; ++i)
+				{
+					if ((random(1, ammorandom) == 1) && (AmmoMult > 0)) {A_BoxSpawnLoot("BoxFakeAmmoDrop", 0);}
+				}
+			}
 		}		
 	}
 
@@ -351,11 +377,19 @@ mixin class BoxActorMixin
 		//replaces ammo for missing weapons with glowstick ammo
 		//for use during stuff like boss fights
 		
+		cvar ammocvar = cvar.FindCVAR('box_ammochance');
+		int multnum[5] = {-1, 1, 2, 3, 0};
+		int ammomult = multnum[ammocvar.GetInt()];
+		int ammorandom = 1;
+		if (AmmoMult == -1) {AmmoMult = 1; ammorandom = 2;}
+		
+		int TrueItemDrops = ItemDrops * AmmoMult;
+		
 		if (invoker)
 		{
 			string LootName = "BoxFakeAmmoDropForced";
 			if (ExtraDrop) {LootName = "BoxFakeAmmoDrop";}
-			for (int CDrop = 0; CDrop < ItemDrops; ++CDrop)
+			for (int CDrop = 0; CDrop < TrueItemDrops; ++CDrop)
 			{
 				A_BoxSpawnLoot(LootName, 0);
 			}

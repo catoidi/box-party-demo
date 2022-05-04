@@ -503,7 +503,7 @@ class BoxPartyStatusBar : BaseStatusBar
 		
 		//death message
 		cvar tutorialcvar = cvar.FindCVAR('box_tutorial');
-		int halfscreen = (Screen.GetWidth() / defaultScale.X) / 2;
+		double halfscreen = (Screen.GetWidth() / defaultScale.X) / 2;
 		string dedmsg1 = Stringtable.Localize("$YOUDED");
 		string dedmsg2 = Stringtable.Localize("$YOUDED2");
 		int dedmsg1_size = dedmsg1.Length() * 8;
