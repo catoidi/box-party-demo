@@ -124,6 +124,18 @@ CLASS BoxPlayerBase : PlayerPawn
 		}
 	}
 	
+	override void Travelled()
+	{
+		Super.Travelled();
+		
+		cvar glowstart = cvar.findcvar('box_glowstart');
+		if (glowstart.GetBool() == true) 
+		{
+			ClearInventory();
+			TakeInventory("Glowstick", 1);
+		}
+	}
+	
 	override void PostBeginPlay (void)
 	{
 		Super.PostBeginPlay();
