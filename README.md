@@ -33,8 +33,6 @@ I've tried my best to make Box Party modding friendly, however it is far from pe
 
   -A lot of the behind-the-scenes code for Box Party is subject to change, so be aware that any potential mods you create that are more in depth than just like a level or a hat or a character may end up breaking when Box Party receives an update.
 
-  -Multiplayer is not functional as of this moment. Desyncs are rampant. I'm hoping to fix this at some point soon.
-
 Box Party has a few unique mechanics that should (hopefully) take minimal effort to add new content for, like the loot and hat systems.
 
 I will (eventually) be working on a Github Wiki to try to document these mechanics to the best of my ability.
