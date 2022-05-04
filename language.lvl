@@ -44,6 +44,7 @@ NOENEMIES4 = "the boxes have returned to party once more.";
 NICETRY = "haha nice try";
 MODIFIERSON = " Modifiers Enabled";
 MODIFIERON = " Modifier Enabled";
+SCOREDRAIN = " Score Drain";
 
 /////////////////////////////////
 ////////////Dialogue/////////////
