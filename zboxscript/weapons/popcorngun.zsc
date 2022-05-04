@@ -12,7 +12,7 @@ CLASS PopcornGunAmmo : Ammo //200
 		Inventory.Amount 20;
 		Inventory.MaxAmount 80;
 		Inventory.Icon "POPGZ0";
-		Ammo.BackpackAmount 10;
+		Ammo.BackpackAmount 0;
 		Ammo.BackpackMaxAmount 120;
 		+CASTSPRITESHADOW;
 		+COUNTITEM;

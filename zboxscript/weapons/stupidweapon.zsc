@@ -83,7 +83,7 @@ Class StupidPistolClip : Ammo
 		Inventory.Amount 16;
 		Inventory.MaxAmount 64;
 		Inventory.Icon "PISTG0";
-		Ammo.BackpackAmount 16;
+		Ammo.BackpackAmount 0;
 		Ammo.BackpackMaxAmount 96;
 		+CASTSPRITESHADOW;
 		//$Category "Box Party/Very Bad Items"

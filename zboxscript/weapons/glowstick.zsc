@@ -142,7 +142,7 @@ CLASS GlowstickAmmo : Ammo //20021
 		Inventory.Amount 1;
 		Inventory.MaxAmount 4;
 		Inventory.Icon "GLOWA0";
-		Ammo.BackpackAmount 1;
+		Ammo.BackpackAmount 0;
 		Ammo.BackpackMaxAmount 8;
 		+CASTSPRITESHADOW;
 		+COUNTITEM;

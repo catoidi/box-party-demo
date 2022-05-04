@@ -15,7 +15,7 @@ CLASS PartyShottyAmmo : Ammo //20008
 		Inventory.Amount 4;
 		Inventory.MaxAmount 16;
 		Inventory.Icon "SHOTY0";
-		Ammo.BackpackAmount 2;
+		Ammo.BackpackAmount 0;
 		Ammo.BackpackMaxAmount 24;
 		+CASTSPRITESHADOW;
 		+COUNTITEM;

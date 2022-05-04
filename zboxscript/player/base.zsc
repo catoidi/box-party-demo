@@ -134,6 +134,17 @@ CLASS BoxPlayerBase : PlayerPawn
 			ClearInventory();
 			TakeInventory("Glowstick", 1);
 		}
+
+		DoubleAmmoCheck();
+	}
+
+	void DoubleAmmoCheck()
+	{
+		cvar moreammo = cvar.findcvar('box_doubleammo');
+		if ((moreammo.GetBool() == true) && (CountInv("Backpack") == 0))
+		{
+			GiveInventory("Backpack", 1);
+		}
 	}
 	
 	override void PostBeginPlay (void)
@@ -145,6 +156,7 @@ CLASS BoxPlayerBase : PlayerPawn
 			return;
 		}
 		CheckInvalidHat();
+		DoubleAmmoCheck();
 	}
 	
 	override void Tick (void)

@@ -13,7 +13,7 @@ CLASS LaserPointerAmmo : Ammo //20019
 		Inventory.Amount 10;
 		Inventory.MaxAmount 40;
 		Inventory.Icon "LAZRD0";
-		Ammo.BackpackAmount 10;
+		Ammo.BackpackAmount 0;
 		Ammo.BackpackMaxAmount 60;
 		+CASTSPRITESHADOW;
 		+COUNTITEM;
