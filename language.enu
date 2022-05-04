@@ -206,6 +206,7 @@ BOX_VALUE_INFIGHT_OFF = "No Infighting";
 BOX_VALUE_DEFAULT = "\cfDefault";
 BOX_VALUE_INFIGHT_TOTAL = "Total Infighting";
 BOX_VALUE_SCOREFADE = "Fade Over Time";
+BOX_VALUE_x1_DEFAULT = "x1 \cf[Default]";
 
 //NashHPBar Menu
 //same as the default BoxHPBar files, but with references to Nash specifically removed.
