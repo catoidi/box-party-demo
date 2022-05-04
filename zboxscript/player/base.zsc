@@ -199,7 +199,7 @@ CLASS BoxPlayerBase : PlayerPawn
 		++scoretimer;
 		if (scoretimer >= 5)
 		{
-			if (CountInv("MurderCount")) {Score -= CountInv("ScoreRemover");}
+			if ((CountInv("MurderCount")) && (player.cheats | CF_TOTALLYFROZEN)) {Score -= CountInv("ScoreRemover");}
 			scoretimer = 0;
 		}
 		++scoreupdate;

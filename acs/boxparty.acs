@@ -253,6 +253,7 @@ script "exitscreen" (void)
 	Thing_Move(7505, 7605, true);
 	Thing_Move(7506, 7606, true);
 	Thing_Move(7507, 7607, true);
+	SetPlayerProperty(1, 1, PROP_TOTALLYFROZEN);
 	//fade to black
 	SetFont("BLACK_50");
 	SetHudSize(1, 1, false);
@@ -408,6 +409,7 @@ script "exitscreen" (void)
 	Delay(35);
 	HudMessageBold(d:1; HUDMSG_PLAIN, -123456787, CR_PURPLE, 160.0, 170.0, 1.0);
 	Delay(35);
+	SetPlayerProperty(1, 0, PROP_TOTALLYFROZEN);
 	ACS_NamedExecuteAlways("exitnow", 0, 0, 0, 0);
 }
 
