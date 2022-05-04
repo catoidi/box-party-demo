@@ -136,6 +136,7 @@ CLASS BoxPlayerBase : PlayerPawn
 		}
 
 		DoubleAmmoCheck();
+		ScorePenalty();
 	}
 
 	void DoubleAmmoCheck()
@@ -145,6 +146,25 @@ CLASS BoxPlayerBase : PlayerPawn
 		{
 			GiveInventory("Backpack", 1);
 		}
+	}
+
+	void ScorePenalty()
+	{
+		TakeInventory("ScoreRemover", 99999);
+		cvar hpmult = cvar.findcvar('box_foodhp');
+		cvar dmgmult = cvar.findcvar('box_fooddamage');
+		cvar glowstart = cvar.findcvar('box_glowstart');
+		cvar doubleammo = cvar.findcvar('box_doubleammo');
+		cvar hpdrop = cvar.findcvar('box_foodchance');
+		cvar ammodrop = cvar.findcvar('box_ammochance');
+
+		if (hpmult.GetInt() == 0) {GiveInventory("ScoreRemover", 1);}
+		if (dmgmult.GetInt() == 0) {GiveInventory("ScoreRemover", 3);}
+		if (doubleammo.GetBool() == true) {GiveInventory("ScoreRemover", 3);}
+		if (hpdrop.GetInt() == 2) {GiveInventory("ScoreRemover", 2);}
+		else if (hpdrop.GetInt() == 3) {GiveInventory("ScoreRemover", 4);}
+		if (ammodrop.GetInt() >= 2) {GiveInventory("ScoreRemover", 2);}
+		else if (ammodrop.GetInt() == 3) {GiveInventory("ScoreRemover", 4);}
 	}
 	
 	override void PostBeginPlay (void)
@@ -157,8 +177,12 @@ CLASS BoxPlayerBase : PlayerPawn
 		}
 		CheckInvalidHat();
 		DoubleAmmoCheck();
+		ScorePenalty();
 	}
 	
+	int scoretimer;
+	int scoreupdate;
+
 	override void Tick (void)
 	{
 		Super.Tick();
@@ -170,6 +194,19 @@ CLASS BoxPlayerBase : PlayerPawn
 		else if (CountInv("LootHPNum") > LooterNum)
 		{
 			TakeInventory("LootHPNum", LooterNum - CountInv("LootHPNum"));
+		}
+
+		++scoretimer;
+		if (scoretimer >= 5)
+		{
+			if (CountInv("MurderCount")) {Score -= CountInv("ScoreRemover");}
+			scoretimer = 0;
+		}
+		++scoreupdate;
+		if (scoreupdate >= 175)
+		{
+			ScorePenalty();
+			scoreupdate = 0;
 		}
 	}
 }

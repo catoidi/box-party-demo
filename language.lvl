@@ -59,6 +59,12 @@ TXT_PARTY00_SIGN_3 = "In Medium, you take normal damage, enemies have 10% less h
 TXT_PARTY00_SIGN_4 = "Hard is like Medium, but you take 50% more damage, and enemies have full health.";
 TXT_PARTY00_SIGN_5 = "The Guide Book will give you the rundown of Box Party's game mechanics and stuff. Either press (F1) or pick the 'READ THIS!' option in the main menu to read it.";
 TXT_PARTY00_SIGN_6 = "Go through the 'Options' portal if you're looking to have more granular control over the difficulty for Box Party. Not recommended for first time players, though.";
+TXT_ENEMYHP = "\ctEnemy Health:\n\cjMultiplies all food health.";
+TXT_FOODDMG = "\ctEnemy Damage:\n\cjMakes all foods have weaker/stronger attacks.";
+TXT_HPDROP = "\ctHP Drops:\n\cjFoods will drop less/more health items.";
+TXT_AMMODROP = "\ctAmmo Drops:\n\cjLess/More ammo can drop from enemies.";
+TXT_GLOWSTART = "\ctGlowstick Start:\n\cjRemoves all weapons upon entering new level.";
+TXT_DOUBLEAMMO = "\ctMore Max Ammo:\n\cjAllows you to carry more ammo at once.";
 
 /////////////////////////////////LEVEL 1
 CUBE = "\ctCube";

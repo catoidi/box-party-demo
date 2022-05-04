@@ -8,3 +8,12 @@ class BoxQuestReward : ScoreItem
 		-COUNTITEM;
 	}
 }
+
+class ScoreRemover : Inventory
+{
+	//player class checks for the amount of this item, and slowly decreases score based on that amount.
+	Default
+	{
+		Inventory.MaxAmount 100;
+	}
+}
