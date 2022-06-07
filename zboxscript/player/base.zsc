@@ -115,7 +115,7 @@ CLASS BoxPlayerBase : PlayerPawn
 		for (int i = 0; i < BOXHAT_size; i++)
 		{
 			currentstring = BOXHAT_sprite[i].Left(6);
-			if (spawnstring == currentstring) {validhat = true;}
+			if ((spawnstring == currentstring) || (spawnstring == "TNT1A0")) {validhat = true;}
 		}
 		
 		if (validhat != true)

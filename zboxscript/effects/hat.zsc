@@ -49,6 +49,7 @@ CLASS BoxHat : Actor abstract
 		+NOBLOCKMAP;
 		+NOINTERACTION;
 		+SPRITEANGLE;
+		+MASTERNOSEE;
 	}
 	
 	abstract bool DoColor();
@@ -170,15 +171,11 @@ CLASS BoxHatPlayer : BoxHat
 		
 		if (master)
 		{
-			if (master.player) //this isn't working for some reason.
-			{
-				if (players[consoleplayer].camera == players[consoleplayer].mo && !(master.player.cheats & CF_CHASECAM) && (GetCvar("box_hat_pov") == false))
-				{bInvisible = true;} else{bInvisible = false;}
-			}
 			if (master.health <= 0)
 			{
 				bInvisible = true;
 			}
+			else {bInvisible = master.bInvisible;}
 		}
 		else {Destroy();}
 	}
@@ -186,7 +183,7 @@ CLASS BoxHatPlayer : BoxHat
 	States
 	{
 		Spawn:
-			HATA A 10;
+			TNT1 A 5;
 			Goto Looper;
 		Looper:
 			#### # 0 A_JumpIf(GetCVAR("box_hat") == 0, "SpawnHide");
