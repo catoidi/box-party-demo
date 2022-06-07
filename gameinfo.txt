@@ -1,6 +1,6 @@
 IWAD = "boxparty.ipk3"
 STARTUPTITLE = "Box Party v1.4"
 STARTUPCOLORS = "FFFFFF", "000000"
-//DiscordAppID = "953268710821466172"
-//SteamAppID = "1727350"
+DiscordAppID = "953268710821466172"
+SteamAppID = "1727350"
 //this is only run when Box Party is loaded as a mod, which should never be done in an actual release environment.
