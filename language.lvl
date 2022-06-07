@@ -290,6 +290,7 @@ AREBEINGWATCHED = "are being watched...";
 WAVE1BYPASS = "Wave 1 Bypassed...";
 WAVE2BYPASS = "Wave 2 Bypassed...";
 WAVE3BYPASS = "Wave 3 Bypassed...\nSequence Complete.";
+SECRETBOSS = "SECRET BOSS";
 THINBOX = "\ccNarrow Box";
 DJBOX = "\cvDJ BOX";
 BACKUPBOX = "\ccBackup Singer Box";
