@@ -4,29 +4,31 @@ LISTMENU "MainMenu"
 {
 	Size "Clean"
 	//the 'size' line is to ensure all menu elements are visible.
-	LineSpacing 24
+	LineSpacing 26
 	Font "BigUpper", "Gray"
 	StaticPatchCentered 160, -4, "BOXDEMO"
+	Selector "M_SKULL1", -30, 0
 	Position 58, 80
 	PatchItem "M_NGAME",	"n",	"PlayerclassMenu"
-	Position 70, 104
+	Position 70, 106
 	PatchItem "M_OPTION",	"o",	"OptionsMenu"
-	Position 82, 128
+	Position 82, 132
 	PatchItem "M_RDTHIS",   "r",    "ReadThisMenu"
-	Position 94, 152
+	Position 94, 158
 	PatchItem "M_LOADG",	"l",	"LoadGameMenu"
-	Position 106, 180
+	Position 106, 188
 	PatchItem "M_SAVEG",	"s",	"SaveGameMenu"
-	Position 118, 204
+	Position 118, 214
 	PatchItem "M_QUITG",	"q",	"QuitMenu"
+	AnimatedTransition
 }
 
 LISTMENU "MainMenuTextOnly"
 {
-	Size "Clean"
+	//Size "Clean"
 	//the 'size' line is to ensure all menu elements are visible.
-	LineSpacing 24
-	Font "BigUpper", "Gray"
+	//LineSpacing 24
+	//Font "BigUpper", "Gray"
 	StaticPatchCentered 160, 0, "BOXDEMO"
 	Position 64, 108
 	TextItem "$MNU_NEWGAME",   "n", "PlayerclassMenu"
@@ -38,14 +40,38 @@ LISTMENU "MainMenuTextOnly"
 	TextItem "$MNU_SAVEGAME",  "s", "SaveGameMenu"
 	//Position 100, 192
 	TextItem "$MNU_QUITGAME",  "q", "QuitMenu"
+	AnimatedTransition
 }
 
-AddListMenu "PlayerclassMenu"
+ListMenu "BoxOptionsMenu"
 {
-	Size "Clean"
-	//when 'optclean' was on, the player portraits were getting cropped.
+	
 }
 
+ListMenu "PlayerclassMenu"
+{
+	NetgameMessage "$NEWGAME"
+	StaticTextCentered 160, -40, "$MNU_CHOOSECLASS", "Purple"
+	Font "BIGFONT", "White"
+	Position 48, 0
+	PlayerDisplay 220, 0, "20 00 00", "80 00 40"
+	MouseWindow 0, 220
+	AnimatedTransition
+	Size "Clean"
+	LineSpacing 13
+	//when 'optclean' was on, the player portraits were getting cropped.
+	//this menu gets autofilled by mapinfo.
+}
+
+AddListMenu "EpisodeMenu"
+{
+	AnimatedTransition
+	//this menu gets autofilled by mapinfo.
+}
+
+////////////////////////////////////////////////////////
+//This is where all the original GZDOOM menu stuff goes.
+////////////////////////////////////////////////////////
 AddOptionMenu "OptionsMenu" before "CustomizeControls"
 {
 	StaticText "$NO_SUPPORT", "Brick"

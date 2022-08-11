@@ -164,6 +164,7 @@ BOX_TUTORIAL = "Show Tutorials";
 BOX_LEVELNAME = "Show Level Names";
 HIGHSCORE = "Level High Scores";
 NOMUSICYET = "Sorry, there's no music in Box Party yet.";
+MNU_CHOOSECLASS = "Choose your Box:";
 
 //BoxGameplay Menu
 BOX_TITLE_GAMEPLAY = "Advanced Box Party Options";
