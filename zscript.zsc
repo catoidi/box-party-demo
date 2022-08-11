@@ -146,6 +146,9 @@ version "4.7"
 #include "zboxscript/NashHPBar/NashHPBarPlugin/NashHPBarPlugin.zc"
 #include "zboxscript/NashHPBar/NashHPBarHandler/NashHPBarHandler.zc"
 
+//nashmenu
+#include "zboxscript/NashMenu/nash_menu.zsc"
+
 //stupid achievements
 #include "zboxscript/achievements/StupidAchievements.zs"
 #include "zboxscript/achievements/hatunlocks.zsc"

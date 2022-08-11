@@ -1,5 +1,12 @@
 //menudef.txt
 
+//Main Menu and Option Menu replacers for Box Party.
+//Essentially a simpler simple menu.
+//I'll be honest, I've got my grievances with the default GZDOOM menus.
+//But ZForms currently doesn't support keyboard/gamepad inputs,
+//and Selaco's "CockUI" isn't released to the public yet,
+//so consider this a "temporary" workaround.
+
 LISTMENU "MainMenu"
 {
 	Size "Clean"
@@ -11,7 +18,7 @@ LISTMENU "MainMenu"
 	Position 58, 80
 	PatchItem "M_NGAME",	"n",	"PlayerclassMenu"
 	Position 70, 106
-	PatchItem "M_OPTION",	"o",	"OptionsMenu"
+	PatchItem "M_OPTION",	"o",	"BoxOptionsMenu"
 	Position 82, 132
 	PatchItem "M_RDTHIS",   "r",    "ReadThisMenu"
 	Position 94, 158
@@ -33,7 +40,7 @@ LISTMENU "MainMenuTextOnly"
 	Position 64, 108
 	TextItem "$MNU_NEWGAME",   "n", "PlayerclassMenu"
 	//Position -20, 152
-	TextItem "$MNU_OPTIONS",   "o", "OptionsMenu"
+	TextItem "$MNU_OPTIONS",   "o", "BoxOptionsMenu"
 	//Position 220, 128
 	TextItem "$MNU_LOADGAME",  "l", "LoadGameMenu"
 	//Position 220, 160
@@ -45,7 +52,17 @@ LISTMENU "MainMenuTextOnly"
 
 ListMenu "BoxOptionsMenu"
 {
-	
+	StaticTextCentered 48, 12, "Options", "Cyan"
+	Font "BIGFONT", "White"
+	Position 64, 40
+	TextItem "Controls", "c", "BoxControls"
+	TextItem "Customization", "c", "BoxCustomization"
+	TextItem "Gameplay", "g", "BoxGameplay"
+	TextItem "Graphics", "g", "BoxGraphics"
+	TextItem "Audio", "a", "BoxAudio"
+	TextItem "Misc", "m", "BoxMisc"
+	AnimatedTransition
+	Size "Clean"
 }
 
 ListMenu "PlayerclassMenu"
@@ -54,7 +71,7 @@ ListMenu "PlayerclassMenu"
 	StaticTextCentered 160, -40, "$MNU_CHOOSECLASS", "Purple"
 	Font "BIGFONT", "White"
 	Position 48, 0
-	PlayerDisplay 220, 0, "20 00 00", "80 00 40"
+	PlayerDisplay 220, 0, "20 00 00", "100 100 50"
 	MouseWindow 0, 220
 	AnimatedTransition
 	Size "Clean"
@@ -66,7 +83,31 @@ ListMenu "PlayerclassMenu"
 AddListMenu "EpisodeMenu"
 {
 	AnimatedTransition
+	Size "Clean"
+	Font "BIGFONT", "White"
 	//this menu gets autofilled by mapinfo.
+}
+
+OptionMenu "BoxPlayerMenu"
+{
+	//copy/pasted from gzdoom.pk3.
+	Title "$MNU_PLAYERSETUP"
+	PlayerNameField "$PLYRMNU_NAME"
+	//PlayerTeamItem "$PLYRMNU_TEAM", "PlayerTeam"
+	PlayerColorItem "$PLYRMNU_PLAYERCOLOR", "PlayerColors"
+	PlayerColorSlider "$PLYRMNU_RED", 0
+	PlayerColorSlider "$PLYRMNU_GREEN", 1
+	PlayerColorSlider "$PLYRMNU_BLUE", 2
+	PlayerClassItem "$PLYRMNU_PLAYERCLASS", "PlayerClass"
+	//PlayerSkinItem "$PLYRMNU_PLAYERSKIN", "PlayerSkin"
+	PlayerGenderItem "$PLYRMNU_PLAYERGENDER", "Gender"
+	//AutoaimSlider "$PLYRMNU_AUTOAIM"
+	//Option "$PLYRMNU_VERTSPREAD", vertspread, "OnOff"
+	PlayerSwitchOnPickupItem "$PLYRMNU_SWITCHONPICKUP", "OffOn"
+	Option "$PLYRMNU_ALWAYSRUN", cl_run, "OnOff"
+	//StaticText " "
+	//Submenu "$BOX_HAT_MENU", "boxparty_hatmenu"
+	Class "NewPlayerMenu"
 }
 
 ////////////////////////////////////////////////////////
