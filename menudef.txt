@@ -7,6 +7,9 @@
 //and Selaco's "CockUI" isn't released to the public yet,
 //so consider this a "temporary" workaround.
 
+//this file contains the main menus, anything new game related, and the new options menu.
+//it also contains a bunch of option values because why not.
+
 LISTMENU "MainMenu"
 {
 	Size "Clean"
@@ -52,15 +55,16 @@ LISTMENU "MainMenuTextOnly"
 
 ListMenu "BoxOptionsMenu"
 {
-	StaticTextCentered 48, 12, "Options", "Cyan"
+	StaticTextCentered 48, 12, "$Options", "Cyan"
 	Font "BIGFONT", "White"
 	Position 64, 40
-	TextItem "Controls", "c", "BoxControls"
-	TextItem "Customization", "c", "BoxPlayerMenu"
-	TextItem "Gameplay", "g", "BoxGameplay"
-	TextItem "Graphics", "g", "BoxGraphics"
-	TextItem "Audio", "a", "BoxAudio"
-	TextItem "Misc", "m", "BoxMisc"
+	TextItem "$Controls", "c", "BoxControls"
+	TextItem "$Customization", "c", "BoxPlayerMenu"
+	TextItem "$Gameplay", "g", "BoxGameplay"
+	TextItem "$Graphics", "g", "BoxGraphics"
+	TextItem "$Video", "v", "BoxVideo"
+	TextItem "$Sound", "a", "SoundOptionsSimple"
+	TextItem "$Misc", "m", "BoxMisc"
 	AnimatedTransition
 	Size "Clean"
 }
@@ -68,10 +72,10 @@ ListMenu "BoxOptionsMenu"
 ListMenu "PlayerclassMenu"
 {
 	NetgameMessage "$NEWGAME"
-	StaticTextCentered 160, -40, "$MNU_CHOOSECLASS", "Purple"
+	StaticTextCentered 160, 0, "$MNU_CHOOSECLASS", "Purple"
 	Font "BIGFONT", "White"
-	Position 48, 0
-	PlayerDisplay 220, 0, "20 00 00", "100 100 50"
+	Position 48, 20
+	PlayerDisplay 220, 20, "20 00 00", "100 100 50"
 	MouseWindow 0, 220
 	AnimatedTransition
 	Size "Clean"
@@ -80,112 +84,42 @@ ListMenu "PlayerclassMenu"
 	//this menu gets autofilled by mapinfo.
 }
 
-AddListMenu "EpisodeMenu"
+//just some option values.
+OptionValue "onbydefault"
 {
-	AnimatedTransition
-	Size "Clean"
-	Font "BIGFONT", "White"
-	//this menu gets autofilled by mapinfo.
+	0, "$BOX_VALUE_NOTHANKS"
+	1, "$BOX_VALUE_ON_DEFAULT"
 }
 
-OptionMenu "BoxPlayerMenu"
+OptionValue "offbydefault"
 {
-	//copy/pasted from gzdoom.pk3.
-	Title "$MNU_PLAYERSETUP"
-	PlayerNameField "$PLYRMNU_NAME"
-	//PlayerTeamItem "$PLYRMNU_TEAM", "PlayerTeam"
-	PlayerColorItem "$PLYRMNU_PLAYERCOLOR", "PlayerColors"
-	PlayerColorSlider "$PLYRMNU_RED", 0
-	PlayerColorSlider "$PLYRMNU_GREEN", 1
-	PlayerColorSlider "$PLYRMNU_BLUE", 2
-	PlayerClassItem "$PLYRMNU_PLAYERCLASS", "PlayerClass"
-	//PlayerSkinItem "$PLYRMNU_PLAYERSKIN", "PlayerSkin"
-	PlayerGenderItem "$PLYRMNU_PLAYERGENDER", "Gender"
-	//AutoaimSlider "$PLYRMNU_AUTOAIM"
-	//Option "$PLYRMNU_VERTSPREAD", vertspread, "OnOff"
-	PlayerSwitchOnPickupItem "$PLYRMNU_SWITCHONPICKUP", "OffOn"
-	Option "$PLYRMNU_ALWAYSRUN", cl_run, "OnOff"
-	//StaticText " "
-	//Submenu "$BOX_HAT_MENU", "boxparty_hatmenu"
-	Class "NewPlayerMenu"
+	0, "$BOX_VALUE_OFF_DEFAULT"
+	1, "$BOX_VALUE_ON"
 }
 
-////////////////////////////////////////////////////////
-//This is where all the original GZDOOM menu stuff goes.
-////////////////////////////////////////////////////////
-AddOptionMenu "OptionsMenu" before "CustomizeControls"
+OptionValue "scorevalue"
 {
-	StaticText "$NO_SUPPORT", "Brick"
-	StaticText " "
+	0, "$BOX_VALUE_OFF"
+	1, "$BOX_VALUE_ON_DEFAULT"
+	2, "$BOX_VALUE_SCOREFADE"
 }
 
-AddOptionMenu "OptionsMenu" before "GameplayOptions"
+OptionValue "03mult"
 {
-	Submenu "$BOX_HAT_MENU", 			"boxparty_hatmenu"
-	SubMenu "$BOX_SUBMENU_OPTIONS",		"BoxGameplay"
+	0, "0.5x"
+	1, "$BOX_VALUE_x1_DEFAULT"
+	2, "2x"
+	3, "3x"
 }
 
-AddOptionMenu "OptionsMenuSimple" after "NewPlayerMenu"
+OptionValue "03mult2"
 {
-	Submenu "$BOX_HAT_MENU", 			"boxparty_hatmenu"
+	0, "0.5x"
+	1, "$BOX_VALUE_x1_DEFAULT"
+	2, "2x"
+	3, "3x"
+	4, "$BOX_VALUE_NOTHANKS"
 }
 
-AddOptionMenu "OptionsMenuSimple" before "SoundOptionsSimple"
-{
-	Submenu "$BOX_HUDOPTIONS",			"BoxHudOptions"
-}
-
-AddOptionMenu "OptionsMenu" before "reset2defaults"
-{
-	StaticText "$HAT_RESET_WARN", "Red"
-}
-
-AddOptionMenu "OptionsMenuSimple" before "reset2defaults"
-{
-	StaticText "$HAT_RESET_WARN", "Red"
-}
-
-AddOptionMenu "NewPlayerMenu"
-{
-	StaticText " "
-	Submenu "$BOX_HAT_MENU", "boxparty_hatmenu"
-	StaticText " "
-	StaticText " "
-	StaticText "$NO_AUTOAIM", "Brick"
-}
-
-AddOptionMenu "ScalingOptionsSimple" after "uiscale"
-{
-	ScaleSlider "$SCALEMNU_HUD", 				"hud_scale", -1.0, 8.0, 1.0, "$SCALEMNU_USEUI", "$SCALEMNU_USEFS"
-}
-AddOptionMenu "ScalingOptionsSimple" after "screenblocks"
-{
-	StaticText "$SIZE_IS_ELEVEN", "Brick"
-}
-
-AddOptionMenu "VideoOptions" after "fov"
-{
-	StaticText " "
-	Slider "$BOX_MAXGIBS", "sv_corpsequeuesize", 100, 5000, 100, 0
-}
-
-AddOptionMenu "VideoOptionsSimple" before "r_drawfuzz"
-{
-	Submenu "$DSPLYMNU_GLOPT", 			"BoxHardware"
-	StaticText " "
-	Option "$DSPLYMNU_SPRITESHADOW",	"r_actorspriteshadow",	"onbydefault"
-}
-
-AddOptionMenu "VideoOptionsSimple" after "fov"
-{
-	StaticText " "
-	Slider "$BOX_MAXGIBS", "sv_corpsequeuesize", 100, 5000, 100, 0
-}
-
-AddOptionMenu "SoundOptionsSimple"
-{
-	StaticText " "
-	StaticText "$NOMUSICYET", "Brick"
-}
 
 //the menudef file has been split into multiple files for the different submenus to make changing a certain menu quicker.

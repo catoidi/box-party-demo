@@ -3,3 +3,5 @@ bind h openhatmenu
 bind q boxability
 bind c togglequest
 bind l zc_top
+unbind -
+unbind =
