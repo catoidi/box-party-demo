@@ -56,7 +56,7 @@ ListMenu "BoxOptionsMenu"
 	Font "BIGFONT", "White"
 	Position 64, 40
 	TextItem "Controls", "c", "BoxControls"
-	TextItem "Customization", "c", "BoxCustomization"
+	TextItem "Customization", "c", "BoxPlayerMenu"
 	TextItem "Gameplay", "g", "BoxGameplay"
 	TextItem "Graphics", "g", "BoxGraphics"
 	TextItem "Audio", "a", "BoxAudio"

@@ -10,6 +10,9 @@ version "4.7"
 //lazy points should also load first
 #include "zboxscript/lazypoints/include.zs"
 
+//ok maybe this can load first as well fine
+#include "zboxscript/libtooltipmenu/TooltipOptionMenu.zsc"
+
 #include "zboxscript/mixin.zsc"
 #include "zboxscript/parent.zsc"
 #include "zboxscript/boxhandler.zsc"
@@ -145,9 +148,6 @@ version "4.7"
 #include "zboxscript/NashHPBar/NashHPBarOptionMenu/NashHPBarOptionMenu.zc"
 #include "zboxscript/NashHPBar/NashHPBarPlugin/NashHPBarPlugin.zc"
 #include "zboxscript/NashHPBar/NashHPBarHandler/NashHPBarHandler.zc"
-
-//nashmenu
-#include "zboxscript/NashMenu/nash_menu.zsc"
 
 //stupid achievements
 #include "zboxscript/achievements/StupidAchievements.zs"
