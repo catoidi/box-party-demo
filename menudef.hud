@@ -44,16 +44,23 @@ OptionValue "NashHPBarStyle"
 
 OptionMenu "NashHPBarOptionMenu"
 {
-	Class "NashHPBarOptionMenu"
+	class "TF_TooltipOptionMenu"
+	TooltipAppearance "", "gold", "TFTTBG"
+	TooltipGeometry 0.0, 0.5, 0.25, -1, -1, 1.01
+	//Class "NashHPBarOptionMenu"
 	Title "$NASHHPBARMNU_TITLE"
-	Position -32
+	//Position -32
 
 	StaticText ""
 
-	NashHPBarOption "$NASHHPBARMNU_ENABLE", "$NASHHPBARMNU_HELPTEXT_ENABLE", "nashhpbar_enable", "OnOff"
-	NashHPBarOption "$NASHHPBARMNU_BOSSONLY", "$NASHHPBARMNU_HELPTEXT_BOSSONLY", "nashhpbar_bossonly", "OnOff"
-	NashHPBarOption "$NASHHPBARMNU_EXHAUST", "$NASHHPBARMNU_HELPTEXT_EXHAUST", "nashhpbar_exhaust", "OnOff"
-	NashHPBarOption "$NASHHPBARMNU_STYLE", "$NASHHPBARMNU_HELPTEXT_STYLE", "nashhpbar_style", "NashHPBarStyle"
+	Option "$NASHHPBARMNU_ENABLE", "nashhpbar_enable", "OnOff"
+	Tooltip "$NASHHPBARMNU_HELPTEXT_ENABLE"
+	Option "$NASHHPBARMNU_BOSSONLY", "nashhpbar_bossonly", "OnOff"
+	Tooltip "$NASHHPBARMNU_HELPTEXT_BOSSONLY"
+	Option "$NASHHPBARMNU_EXHAUST", "nashhpbar_exhaust", "OnOff"
+	Tooltip "$NASHHPBARMNU_HELPTEXT_EXHAUST"
+	Option "$NASHHPBARMNU_STYLE", "nashhpbar_style", "NashHPBarStyle"
+	Tooltip "$NASHHPBARMNU_HELPTEXT_STYLE"
 }
 
 ////////////////////////////////////////////////////////////////////////////////
