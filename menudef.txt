@@ -59,7 +59,7 @@ ListMenu "BoxOptionsMenu"
 	Font "BIGFONT", "White"
 	Position 64, 40
 	TextItem "$Controls", "c", "BoxControls"
-	TextItem "$Customization", "c", "BoxPlayerMenu"
+	TextItem "$OPTMNU_PLAYER", "p", "BoxPlayerMenu"
 	TextItem "$HUD", "h", "BoxHUDOptions"
 	TextItem "$Gameplay", "g", "BoxGameplay"
 	TextItem "$Graphics", "g", "BoxGraphics"

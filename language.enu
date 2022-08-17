@@ -167,6 +167,8 @@ NOMUSICYET = "Sorry, there's no music in Box Party yet.";
 MNU_CHOOSECLASS = "Choose your Box:";
 HUDMNU_UISCALE = "UI Scale";
 SCALEMNU_HUD = "HUD Scale";
+BOXGRAPHICS = "Graphics Options";
+BOXVIDEO = "Video Options";
 
 //BoxGameplay Menu
 BOX_TITLE_GAMEPLAY = "Box Party Gameplay Options";

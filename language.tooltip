@@ -22,6 +22,19 @@ tooltip_hudshake = "* Controls intensity of HUD shake caused by taking damage.\n
 tooltip_tutorial = "* Will occasionally pop up during gameplay to tell you how to use certain controls.\n* Be sure to also check out the Guidebook by pressing \c[pink]F1 \c[grey]while ingame.";
 tooltip_levelname = "* Makes the name of the level appear on screen upon entering said level.";
 
+//graphics options
+tooltip_filter = "* Change this value if you like making all the pixel art blurry.\n\c[gold]* Default value is \c[pink]'None (trilinear)'\c[grey].";
+tooltip_anistropy = "* This value shouldn't have much influence on the game's look or performance.\n\c[gold]* Default value is \c[pink]'8x'\c[grey].";
+tooltip_wipe = "* Changes how the screen fades from one level to another.\n* Set to \c[pink]'None' \c[grey]if you want instant level transitions.\n\c[gold]* Default value is \c[pink]'Crossfade'\c[grey].";
+tooltip_gamma = "* Try changing these settings if the game is too dark or too bright.\n\c[gold]* Gamma defaults to \c[pink]'1.15'\c[grey].\n\c[gold]* Brightness defaults to \c[pink]'1.00'\c[grey].";
+tooltip_contrast = "* Try changing these settings if the game's colors don't look correct.\n\c[gold]* Contrast/Saturation defaults to \c[pink]'1.00'\c[grey].";
+tooltip_fov = "\c[gold]* Default value is \c[pink]'90'\c[gold].";
+
+//video options
+tooltip_backend = "\c[brick]* YMMV (Your Mileage May Vary)\n\c[grey]* OpenGL is the most stable backend. Vulkan typically runs faster, but can have some bugs.\n* OpenGL ES is best for lower end PCs, but does not support any Hardware related options.\n\c[gold]* Default backend is \c[pink]'OpenGL'\c[gold].";
+tooltip_scalemode = "* Controls the internal resolution of the game.\n* 'Normal' will simply match the resolution of the game window, or the resolution of your monitor if the game is in fullscreen.\n\c[gold]* Default value is \c[pink]'Normal'\c[gold].";
+tooltip_scalefactor = "* Multiplies the internal resolution of the game.\n* Setting to values below 1.00 can help boost performance.\n* Setting to values above 1.00 will improve the image quality substantially, but will also massively decrease performance.\n* Values above 1.00 can act as a replacement for Antialiasing.\n\c[gold]* Defaults to \c[pink]'1.00'\c[gold].";
+
 //nashhpbar tooltips
 NASHHPBARMNU_HELPTEXT_ENABLE = "* Enables Enemy HP bar.\n* Will only appear when looking directly at the enemy.";
 NASHHPBARMNU_HELPTEXT_BOSSONLY = "* Only shows HP bar for Bosses (and Players).\n* For the players out there who don't want to see the health bar constantly.";

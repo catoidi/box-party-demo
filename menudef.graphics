@@ -3,26 +3,39 @@
 OptionMenu "BoxGraphics"
 {
 	//combination of Display, Hardware, and Post Processing options.
+	class "TF_TooltipOptionMenu"
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
 	Title "$BoxGraphics"
 
 	Option "$GLTEXMNU_TEXFILTER",		gl_texture_filter,				"FilterModes"
+	Tooltip "$tooltip_filter"
 	Option "$GLTEXMNU_ANISOTROPIC",		gl_texture_filter_anisotropic,	"Anisotropy"
+	Tooltip "$tooltip_anistropy"
 	StaticText " "
 	Option "$DSPLYMNU_WIPETYPE",				"wipetype", "Wipes"
+	Tooltip "$tooltip_wipe"
 	StaticText " "
 	Slider "$DSPLYMNU_GAMMA",					"vid_gamma",					0.75, 3.0, 0.05, 2
 	Slider "$DSPLYMNU_BRIGHTNESS",				"vid_brightness",				-0.8,0.8, 0.05,2
+	Tooltip "$tooltip_gamma"
 	Slider "$DSPLYMNU_CONTRAST",				"vid_contrast",	   				0.1, 3.0, 0.1
 	Slider "$DSPLYMNU_SATURATION",				"vid_saturation",  				-3.0, 3.0, 0.25, 2
+	Tooltip "$tooltip_contrast"
 	StaticText " "
 	Slider "$DSPLYMNU_FOV",						"fov",							75.0, 120.0, 0.1, 1
+	Tooltip "$tooltip_fov"
 }
 
 OptionMenu "BoxVideo"
 {
+	class "TF_TooltipOptionMenu"
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
 	Title "$BoxVideo"
 	
 	Option "$VIDMNU_PREFERBACKEND",		"vid_preferbackend", "PreferBackend"
+	Tooltip "$tooltip_backend"
 	Option "$VIDMNU_FULLSCREEN",		"vid_fullscreen", "YesNo"
 	IfOption(Mac)
 	{
@@ -32,8 +45,11 @@ OptionMenu "BoxVideo"
 	Option "$DSPLYMNU_VSYNC",					"vid_vsync", "OnOff"
 	Option "$VIDMNU_MAXFPS",					"vid_maxfps", "MaxFps"
 	StaticText " "
+	Tooltip ""
 	Option "$VIDMNU_SCALEMODE",			"vid_scalemode", "ScaleModes"
+	Tooltip "$tooltip_scalemode"
 	Slider "$VIDMNU_SCALEFACTOR",		"vid_scalefactor", 0.25, 2.0, 0.25, 2
+	Tooltip "$tooltip_scalefactor"
 }
 
 //these are the old hardware/postprocessing menus.
