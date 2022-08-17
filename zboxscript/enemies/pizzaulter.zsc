@@ -37,8 +37,19 @@ CLASS Pizzaulter : BoxMonster //20016
 	
 	action void A_PizzaAttack (void)
 	{
-		A_SpawnProjectile("PepperoniBullet", random(30, 34), random(-4, 4), random(-6, 6), 0, random(-6, 6));
+		int rnum = roll;
+		while (rnum < 0)
+		{
+			rnum += 360;
+		}
+		while (rnum > 360)
+		{
+			rnum -= 360;
+		}
+		console.printf("%d", rnum);
+		A_SpawnProjectile("PepperoniBullet", (30 + (rnum/90)), (-4 + (rnum/45)), (-9 + (rnum/20)), 0, (-6 + (rnum/30)));
 		A_SetRoll(roll - 40);
+		
 	}
 	
 	States
@@ -58,7 +69,9 @@ CLASS Pizzaulter : BoxMonster //20016
 			Loop;
 		Missile:
 			PIZZ G 10 Slow A_FaceTarget;
+			#### # 0 A_AttachLightDef("hatered", "GLOWRED");
 			PIZZ GGGGGG 1 BRIGHT A_PizzaAttack();
+			#### # 0 A_RemoveLight("hatered");
 			PIZZ G 20;
 			PIZZ G 0 A_Jump(96, "Chill");
 			goto See;
@@ -238,7 +251,7 @@ CLASS PepperoniBullet : BoxActor
 		Radius 4;
 		Height 8;
 		Speed 10;
-		Scale 1.25;
+		Scale 1.5;
 		DamageFunction (random(3, 5));
 		DamageType "Pizza";
 		Projectile;
@@ -246,6 +259,7 @@ CLASS PepperoniBullet : BoxActor
 		+BLOODLESSIMPACT;
 		+INTERPOLATEANGLES;
 		+ROLLSPRITE;
+		+ROLLCENTER;
 		+SPRITEANGLE;
 		+FORCEXYBILLBOARD;
 	}
