@@ -28,7 +28,7 @@ OptionMenu "BoxGameplay" protected
 	Tooltip "$tooltip_badcvar"
 	Option "$BOX_OPTION_HIDELOCKHAT",	"box_hat_hidelock",		"offbydefault"
 	Tooltip "$tooltip_hidelockhat"
-	SafeCommand "$BOX_OPTION_RESETHAT", "pukename RESETALLHATS"
+	SafeCommand "$BOX_OPTION_RESETHAT", "box_hat_reset2default"
 	Tooltip "$tooltip_resethat"
 	StaticText " "
 	StaticText " "
