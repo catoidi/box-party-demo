@@ -60,6 +60,7 @@ ListMenu "BoxOptionsMenu"
 	Position 64, 40
 	TextItem "$Controls", "c", "BoxControls"
 	TextItem "$Customization", "c", "BoxPlayerMenu"
+	TextItem "$HUD", "h", "BoxHUDOptions"
 	TextItem "$Gameplay", "g", "BoxGameplay"
 	TextItem "$Graphics", "g", "BoxGraphics"
 	TextItem "$Video", "v", "BoxVideo"
