@@ -165,9 +165,11 @@ BOX_LEVELNAME = "Show Level Names";
 HIGHSCORE = "Level High Scores";
 NOMUSICYET = "Sorry, there's no music in Box Party yet.";
 MNU_CHOOSECLASS = "Choose your Box:";
+HUDMNU_UISCALE = "UI Scale";
+SCALEMNU_HUD = "HUD Scale";
 
 //BoxGameplay Menu
-BOX_TITLE_GAMEPLAY = "Advanced Box Party Options";
+BOX_TITLE_GAMEPLAY = "Box Party Gameplay Options";
 BOX_INFO_GAMEPLAY = "\cvIt is recommended you playthrough the game at least";
 BOX_INFO_GAMEPLAY2 = "\cvone time before changing anything here.";
 BOX_OPTION_RESETHP = "Reset HP on Level Start";
@@ -214,13 +216,9 @@ BOX_VALUE_x1_DEFAULT = "x1 \cf[Default]";
 OPTMNU_NASHHPBAR = "Customize HP Bar";
 NASHHPBARMNU_TITLE = "HP Bar Options";
 NASHHPBARMNU_ENABLE = "Enable";
-NASHHPBARMNU_HELPTEXT_ENABLE = "Enables HP bar.";
 NASHHPBARMNU_BOSSONLY = "Boss Only";
-NASHHPBARMNU_HELPTEXT_BOSSONLY = "Only shows HP bar for Bosses (and Players).";
 NASHHPBARMNU_STYLE = "Style";
-NASHHPBARMNU_HELPTEXT_STYLE = "Changes the appearance of the HP bar.";
 NASHHPBARMNU_EXHAUST = "Show Exhaustion";
-NASHHPBARMNU_HELPTEXT_EXHAUST = "Toggles Exhaust Bar for Bosses.";
 
 //Stupid Achievements
 // Default values //////////////////////////////////////////////////////////////

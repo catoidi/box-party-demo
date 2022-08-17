@@ -4,12 +4,17 @@ OptionMenu "BoxHudOptions" protected
 {
 	class "TF_TooltipOptionMenu"
 	TooltipAppearance "", "grey", "TFTTBG"
-	TooltipGeometry 0.0, 0.5, 0.25, -1, -1, 0.8
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
 	Title "$BOX_HUDOPTIONS"
 	Submenu "$OPTMNU_NASHHPBAR", 	"NashHPBarOptionMenu"
 	Submenu "$BOX_MENU_TITLE", 		"box_AchieveOptions"
 	StaticText ""
 	Tooltip ""
+	//ScaleSlider "$HUDMNU_UISCALE",				"uiscale", 0.0, 8.0, 1.0, "$SCALEMNU_ADAPT"
+	//Tooltip "$tooltip_uiscale"
+	ScaleSlider "$SCALEMNU_HUD", 				"hud_scale", -1.0, 8.0, 1.0, "$SCALEMNU_USEUI", "$SCALEMNU_USEFS"
+	Tooltip "$tooltip_hudscale"
+	StaticText ""
 	Option "$BOX_LEVELTIME",		"box_leveltime",	"onbydefault"
 	Tooltip "$tooltip_leveltime"
 	Option "$BOX_SHOWSCORE",		"box_showscore",	"scorevalue"
@@ -55,8 +60,8 @@ OptionValue "NashHPBarStyle"
 OptionMenu "NashHPBarOptionMenu"
 {
 	class "TF_TooltipOptionMenu"
-	TooltipAppearance "", "gold", "TFTTBG"
-	TooltipGeometry 0.0, 0.5, 0.25, -1, -1, 1.01
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
 	//Class "NashHPBarOptionMenu"
 	Title "$NASHHPBARMNU_TITLE"
 	//Position -32
@@ -78,6 +83,9 @@ OptionMenu "NashHPBarOptionMenu"
 ////////////////////////////////////////////////////////////////////////////////
 OptionMenu box_AchieveOptions
 {
+  class "TF_TooltipOptionMenu"
+  TooltipAppearance "", "grey", "TFTTBG"
+  TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
   Title "$BOX_MENU_TITLE"
 
   StaticText "$BOX_POPUP_SUBTITLE", "Gold"
@@ -91,7 +99,9 @@ OptionMenu box_AchieveOptions
   Option "$BOX_ANIMATION" , box_animation_type,      box_AnimationValues
 
   StaticText ""
+  Tooltip ""
   Command "$BOX_TEST", box_test
+  Tooltip "$tooltip_testpopup"
 
   //StaticText ""
   //SafeCommand "$BOX_CLEAR", box_clear_achievements

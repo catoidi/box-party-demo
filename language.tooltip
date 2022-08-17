@@ -1,10 +1,32 @@
 [enu default]
 //menu tooltips.
 
+//gameplay options
+tooltip_foodhp = "* Multiplies how much HP all enemies start with.\n* Selecting 'x0.5' will cause \c[red]score drain\c[grey].";
+tooltip_fooddmg = "* Multiplies how much damage the player will take from attacks.\n* Selecting 'x0.5' will cause \c[red]score drain\c[grey].";
+tooltip_glowstart = "* When enabled, you will lose every weapon except for the glowstick at the start of every level.";
+tooltip_2ammo = "* When enabled, increases the max capacity for all ammo types by 50%.\n* Glowstick ammo is increased by 100% instead.\n* Enabling this will cause \c[red]score drain\c[grey].";
+tooltip_hpchance = "* Multiplies how many health/armor drops you gain from defeating enemies.\n* Values above 'x1' will cause \c[red]score drain\c[grey].\n* Can also just be disabled entirely.";
+tooltip_ammochance = "* Multiplies how many ammo drops you gain from defeating enemies.\n* Values above 'x1' will cause \c[red]score drain\c[grey].\n* Can also just be disabled entirely.";
+tooltip_badcvar = "* Warns you if you've enabled certain settings that can interfere with Box Party.\n* Turn this off if you're a big nerd who knows what they are doing.";
+tooltip_hidelockhat = "* Hides all hats in the hat menu that are currently locked.\n* This is not recommended, as clicking locked hats is the only way to learn how to unlock them.";
+tooltip_resethat = "\c[brick]* A one way ticket to permanently losing all of your hat progress.";
+
 //hud options
+tooltip_uiscale = "* Controls the size of certain UI elements, like text popups or the console.\n\c[gold]* Default is \c[pink]'Adapt to screen size'\c[gold].";
+tooltip_hudscale = "* Controls the size of 'almost' all HUD elements.\n\c[gold]* Default is \c[pink]'Scale to fullscreen'\c[gold].";
 tooltip_leveltime = "* Tracks time spent in current level.\n* This might be of assistance in unlocking certain hats...";
 tooltip_showscore = "* You gain 1 point for each point of damage dealt to enemies.\n* You gain \c[pink]bonus points \c[grey]for defeating many enemies at once.\n* Harder difficulties will earn you more points.\n\c[grey]* You can also gain points from \c[pink]completing quests \c[grey]or \c[cyan]finding secrets.";
 tooltip_reserve = "* Adds small icons that display \c[pink]ammo counts \c[grey]for all of your weapons.\n* The reserve ammo icons will turn \c[red]red \c[grey]when the ammo is fully depleted.";
 tooltip_hudshake = "* Controls intensity of HUD shake caused by taking damage.\n* Taking big damage causes more shake.\n* Turn this off if you find it annoying or hard to read the HUD.\n\c[gold]* Default value is \c[pink]'2'\c[gold].";
 tooltip_tutorial = "* Will occasionally pop up during gameplay to tell you how to use certain controls.\n* Be sure to also check out the Guidebook by pressing \c[pink]F1 \c[grey]while ingame.";
 tooltip_levelname = "* Makes the name of the level appear on screen upon entering said level.";
+
+//nashhpbar tooltips
+NASHHPBARMNU_HELPTEXT_ENABLE = "* Enables Enemy HP bar.\n* Will only appear when looking directly at the enemy.";
+NASHHPBARMNU_HELPTEXT_BOSSONLY = "* Only shows HP bar for Bosses (and Players).\n* For the players out there who don't want to see the health bar constantly.";
+NASHHPBARMNU_HELPTEXT_STYLE = "* Changes the appearance of the HP bar.\n* 'Box' is the default look, matching the art style for Box Party.\n* 'Simple' is the original look of the HP Bar.";
+NASHHPBARMNU_HELPTEXT_EXHAUST = "* Toggles Exhaust Bar for Bosses.\n* When the Exhaust Bar is full, the boss will enter a tired state and drop health/ammo on the ground.\n* The boss will also drop water particles when close to reaching tired state.";
+
+//achievement tooltips
+tooltip_testpopup = "* Activate this while ingame, then close the options menu to see how it looks.";

@@ -3,8 +3,8 @@
 OptionMenu "BoxControls"
 {
 	class "TF_TooltipOptionMenu"
-	TooltipAppearance "", "gold", "TFTTBG"
-	TooltipGeometry 0.0, 0.5, 0.25, -1, -1, -1
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
 	Title "$CNTRLMNU_TITLE"
 
 	Submenu    "$CNTRLMNU_ACTION"      , "BoxActionControlsMenu"
