@@ -23,17 +23,37 @@ tooltip_tutorial = "* Will occasionally pop up during gameplay to tell you how t
 tooltip_levelname = "* Makes the name of the level appear on screen upon entering said level.";
 
 //graphics options
+tooltip_hardware = "\c[gold]* Change these options first if you're having performance issues!\n\c[grey]* Also, if you're running in 'OpenGL ES' mode, none of these options will work.";
 tooltip_filter = "* Change this value if you like making all the pixel art blurry.\n\c[gold]* Default value is \c[pink]'None (trilinear)'\c[grey].";
 tooltip_anistropy = "* This value shouldn't have much influence on the game's look or performance.\n\c[gold]* Default value is \c[pink]'8x'\c[grey].";
+tooltip_maxgibs = "* Controls how many enemy gibs will stay on the ground before dissappearing.\n* Enemy gibs will also fade out over time on their own, regardless of this value.\n* Set this to a lower value if multiple enemy deaths causes FPS drops.\n\c[gold]* Default value is \c[pink]'1000'\c[grey].";
 tooltip_wipe = "* Changes how the screen fades from one level to another.\n* Set to \c[pink]'None' \c[grey]if you want instant level transitions.\n\c[gold]* Default value is \c[pink]'Crossfade'\c[grey].";
 tooltip_gamma = "* Try changing these settings if the game is too dark or too bright.\n\c[gold]* Gamma defaults to \c[pink]'1.15'\c[grey].\n\c[gold]* Brightness defaults to \c[pink]'1.00'\c[grey].";
 tooltip_contrast = "* Try changing these settings if the game's colors don't look correct.\n\c[gold]* Contrast/Saturation defaults to \c[pink]'1.00'\c[grey].";
 tooltip_fov = "\c[gold]* Default value is \c[pink]'90'\c[gold].";
 
+//hardware options
+tooltip_performance = "\c[brick]* This setting has a large impact on performance.";
+tooltip_bloom = "* Makes bright objects have a 'glow' effect.\n* I personally don't recommend disabling this one.";
+tooltip_ssao = "* Creates a fake shadow effect at the edges of floors and walls.\n\c[gold]* Default value is \c[pink]'Low'\c[gold].";
+tooltip_fxaa = "* A performance-friendly antialiasing method.\n* May cause game world to be too blurry/smooth.\n\c[gold]* Disabled by default.";
+tooltip_multisample = "* A more accurate antialiasing method, but comes with a larger performance hit than FXAA.\n\c[gold]* Disabled by default.";
+tooltip_dither = "* Smooths out the transitions between similar colors in order to reduce color banding.";
+tooltip_lightmode = "* Controls how the light levels for sectors in the level are calculated.\n\c[gold]* Default value is \c[pink]'Dark'\c[gold].";
+tooltip_spritecamera = "* When disabled, all sprites will face the same direction the player camera is facing.\n* When enabled, all sprites will instead face towards the camera.\n\c[gold]* Disabled by default.";
+tooltip_precision = "* While set to 'Speed', can boost performance at the cost of white pixels sometimes appearing on the edges of walls or floors.\n* Setting this to 'Quality' should get rid of these white pixels, at the cost of performance.\n\c[gold]* Default value is \c[pink]'Speed'\c[gold].";
+tooltip_blur = "* Blurs the player camera while inside a menu screen.\n* Might make menu text more legible.";
+
 //video options
-tooltip_backend = "\c[brick]* YMMV (Your Mileage May Vary)\n\c[grey]* OpenGL is the most stable backend. Vulkan typically runs faster, but can have some bugs.\n* OpenGL ES is best for lower end PCs, but does not support any Hardware related options.\n\c[gold]* Default backend is \c[pink]'OpenGL'\c[gold].";
+tooltip_backend = "\c[brick]* YMMV (Your Mileage May Vary)\n\c[grey]* OpenGL is the most stable backend.\n* Vulkan typically runs faster, but can have some bugs.\n* OpenGL ES is best for lower end PCs, but does not support any Hardware related options.\n\c[red]* SoftPoly is unsupported.\n\c[gold]* Default backend is \c[pink]'OpenGL'\c[gold].";
 tooltip_scalemode = "* Controls the internal resolution of the game.\n* 'Normal' will simply match the resolution of the game window, or the resolution of your monitor if the game is in fullscreen.\n\c[gold]* Default value is \c[pink]'Normal'\c[gold].";
 tooltip_scalefactor = "* Multiplies the internal resolution of the game.\n* Setting to values below 1.00 can help boost performance.\n* Setting to values above 1.00 will improve the image quality substantially, but will also massively decrease performance.\n* Values above 1.00 can act as a replacement for Antialiasing.\n\c[gold]* Defaults to \c[pink]'1.00'\c[gold].";
+
+//misc options
+tooltip_autosaves = "* By default, the game will autosave upon entering a new level or at key moments during the levels.\n* Setting this to 'Scripts Only' will disable autosaves from level transitions.\n\c[gold]* Default value is \c[pink]'Always'\c[gold].";
+tooltip_language = "\c[brick]* WARNING: Box Party currently only supports English.\n\c[grey]* Support for non-English languages is limited.";
+tooltip_discord = "* Toggles Discord Rich Presence integration.\n* Turn this off if you don't want the world to know you're playing Box Party.";
+tooltip_gzdoommenu = "\c[brick]* This is where you can find the original GZDOOM menus.\n\c[grey]* If you think an important option is missing from these menus, please let me know.";
 
 //nashhpbar tooltips
 NASHHPBARMNU_HELPTEXT_ENABLE = "* Enables Enemy HP bar.\n* Will only appear when looking directly at the enemy.";

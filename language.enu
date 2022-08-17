@@ -147,8 +147,6 @@ BOX_FISH = "You have successfully caught a fish.";
 BOX_OPTIONS = "Box Options";
 BOX_OPTIONS_INFO = "options related to Box Party.";
 GZDOOM_OPTIONS = "GZDOOM Options";
-GZDOOM_OPTIONS_INFO = "engine related options.";
-GZDOOM_OPTIONS_INFO2 = "careful not to break anything.";
 NO_SUPPORT = "Not all options are supported in Box Party.";
 NO_AUTOAIM = "Autoaim and Skins are not supported in Box Party.";
 SIZE_IS_ELEVEN = "Recommended Screen Size is 11.";
@@ -169,6 +167,7 @@ HUDMNU_UISCALE = "UI Scale";
 SCALEMNU_HUD = "HUD Scale";
 BOXGRAPHICS = "Graphics Options";
 BOXVIDEO = "Video Options";
+DISCORDRPC = "Discord Rich Presence";
 
 //BoxGameplay Menu
 BOX_TITLE_GAMEPLAY = "Box Party Gameplay Options";
@@ -193,6 +192,10 @@ BOX_OPTION_SKY = "Simpler Skyboxes";
 BOX_OPTION_RESERVE = "Show Reserve Ammo";
 BOX_OPTION_HUD = "HUD Shake Effect";
 BOX_MAXGIBS = "Maximum Gibs";
+
+//BoxControls Menu
+CNTRLMNU_OPEN_BOXOPTIONS = "Open Box Options Menu";
+CNTRLMNU_OPEN_BOXDISPLAY = "Open Box Video Menu";
 
 //Option Values
 BOX_VALUE_ALL = "All of em \cf[Default]";
