@@ -2,22 +2,34 @@
 
 OptionMenu "BoxGameplay" protected
 {
+	class "TF_TooltipOptionMenu"
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
 	Title "$BOX_TITLE_GAMEPLAY"
 	StaticText "$BOX_INFO_GAMEPLAY"
 	StaticText "$BOX_INFO_GAMEPLAY2"
 	StaticText " "
 	ScrollTop 3
 	Option "$BOX_OPTION_FOODHP",			"box_foodhp",			"03mult"
+	Tooltip "$tooltip_foodhp"
 	Option "$BOX_OPTION_FOODDAMAGE",		"box_fooddamage",		"03mult"
+	Tooltip "$tooltip_fooddmg"
 	Option "$BOX_OPTION_GLOWSTART",			"box_glowstart",		"offbydefault"
+	Tooltip "$tooltip_glowstart"
 	Option "$BOX_OPTION_DOUBLEAMMO",		"box_doubleammo",		"offbydefault"
+	Tooltip "$tooltip_2ammo"
 	Option "$BOX_OPTION_FOODCHANCE",		"box_foodchance",		"03mult2"
+	Tooltip "$tooltip_hpchance"
 	Option "$BOX_OPTION_AMMOCHANCE",		"box_ammochance",		"03mult2"
+	Tooltip "$tooltip_ammochance"
 	StaticText " "
 	//Option "$BOX_OPTION_RESETHP", 		"box_resethp",		"onbydefault"
 	Option "$BOX_OPTION_BADCVAR", 		"box_checkbadcvar", 	"onbydefault"
+	Tooltip "$tooltip_badcvar"
 	Option "$BOX_OPTION_HIDELOCKHAT",	"box_hat_hidelock",		"offbydefault"
-	SafeCommand "$BOX_OPTION_RESETHAT", "pukename RESETALLHATS"
+	Tooltip "$tooltip_hidelockhat"
+	SafeCommand "$BOX_OPTION_RESETHAT", "box_hat_reset2default"
+	Tooltip "$tooltip_resethat"
 	StaticText " "
 	StaticText " "
 	StaticText " "
@@ -77,4 +89,5 @@ OptionMenu "BoxGameplay" protected
 	StaticText " "
 	StaticText " "
 	Slider "$FUN",	"box_fun",	1, 100, 1, 0		
+	Tooltip "$FUN"
 }

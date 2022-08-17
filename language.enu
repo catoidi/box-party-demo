@@ -147,8 +147,6 @@ BOX_FISH = "You have successfully caught a fish.";
 BOX_OPTIONS = "Box Options";
 BOX_OPTIONS_INFO = "options related to Box Party.";
 GZDOOM_OPTIONS = "GZDOOM Options";
-GZDOOM_OPTIONS_INFO = "engine related options.";
-GZDOOM_OPTIONS_INFO2 = "careful not to break anything.";
 NO_SUPPORT = "Not all options are supported in Box Party.";
 NO_AUTOAIM = "Autoaim and Skins are not supported in Box Party.";
 SIZE_IS_ELEVEN = "Recommended Screen Size is 11.";
@@ -164,9 +162,15 @@ BOX_TUTORIAL = "Show Tutorials";
 BOX_LEVELNAME = "Show Level Names";
 HIGHSCORE = "Level High Scores";
 NOMUSICYET = "Sorry, there's no music in Box Party yet.";
+MNU_CHOOSECLASS = "Choose your Box:";
+HUDMNU_UISCALE = "UI Scale";
+SCALEMNU_HUD = "HUD Scale";
+BOXGRAPHICS = "Graphics Options";
+BOXVIDEO = "Video Options";
+DISCORDRPC = "Discord Rich Presence";
 
 //BoxGameplay Menu
-BOX_TITLE_GAMEPLAY = "Advanced Box Party Options";
+BOX_TITLE_GAMEPLAY = "Box Party Gameplay Options";
 BOX_INFO_GAMEPLAY = "\cvIt is recommended you playthrough the game at least";
 BOX_INFO_GAMEPLAY2 = "\cvone time before changing anything here.";
 BOX_OPTION_RESETHP = "Reset HP on Level Start";
@@ -188,6 +192,10 @@ BOX_OPTION_SKY = "Simpler Skyboxes";
 BOX_OPTION_RESERVE = "Show Reserve Ammo";
 BOX_OPTION_HUD = "HUD Shake Effect";
 BOX_MAXGIBS = "Maximum Gibs";
+
+//BoxControls Menu
+CNTRLMNU_OPEN_BOXOPTIONS = "Open Box Options Menu";
+CNTRLMNU_OPEN_BOXDISPLAY = "Open Box Video Menu";
 
 //Option Values
 BOX_VALUE_ALL = "All of em \cf[Default]";
@@ -213,13 +221,9 @@ BOX_VALUE_x1_DEFAULT = "x1 \cf[Default]";
 OPTMNU_NASHHPBAR = "Customize HP Bar";
 NASHHPBARMNU_TITLE = "HP Bar Options";
 NASHHPBARMNU_ENABLE = "Enable";
-NASHHPBARMNU_HELPTEXT_ENABLE = "Enables HP bar.";
 NASHHPBARMNU_BOSSONLY = "Boss Only";
-NASHHPBARMNU_HELPTEXT_BOSSONLY = "Only shows HP bar for Bosses (and Players).";
 NASHHPBARMNU_STYLE = "Style";
-NASHHPBARMNU_HELPTEXT_STYLE = "Changes the appearance of the HP bar.";
 NASHHPBARMNU_EXHAUST = "Show Exhaustion";
-NASHHPBARMNU_HELPTEXT_EXHAUST = "Toggles Exhaust Bar for Bosses.";
 
 //Stupid Achievements
 // Default values //////////////////////////////////////////////////////////////

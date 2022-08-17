@@ -6,6 +6,8 @@ Alias togglequest "pukename showquestmenu"
 Alias box_clear_achievements "box_achievements \"\""
 Alias box_test "netevent box_test"
 
+Alias box_hat_reset2default "netevent ResetHats"
+
 AddKeySection "Box Party" "box_party"
 //AddMenuKey    "Glass Dash Ability" "boxability"
 AddMenuKey    "Show Side Quests" "togglequest"

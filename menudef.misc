@@ -1,0 +1,24 @@
+//menudef.misc
+
+OptionMenu "BoxMisc"
+{
+	class "TF_TooltipOptionMenu"
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
+	Title "$MISCMNU_TITLE"
+	//Option "$MISCMNU_QUERYIWAD",				"queryiwad", "OnOff"
+	//Option "$MISCMNU_NOCHEATS",					"nocheats", "OnOff"
+	//Option "$MISCMNU_ALLCHEATS",				"allcheats", "OnOff"
+	Option "$MISCMNU_ENABLEAUTOSAVES",			"disableautosave", "Autosave"
+	Tooltip "$tooltip_autosaves"
+	//Option "$MISCMNU_DEHLOAD",					"dehload", "dehopt"
+	//Option "$MISCMNU_ENABLESCRIPTSCREENSHOTS",	"enablescriptscreenshot", "OnOff"
+	Option "$OPTMNU_LANGUAGE",					"language", "LanguageOptions"
+	Tooltip "$tooltip_language"
+	Option "$DISCORDRPC",						"i_discordrpc", "OnByDefault"
+	Tooltip "$tooltip_discord"
+	StaticText ""
+	SubMenu "$GZDOOM_OPTIONS",					"OptionsMenu"
+	Tooltip "$tooltip_gzdoommenu"
+	StaticText ""
+}

@@ -1,5 +1,104 @@
 //menudef.graphics
 
+OptionMenu "BoxGraphics"
+{
+	//combination of Display, Hardware, and Post Processing options.
+	class "TF_TooltipOptionMenu"
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
+	Title "$BoxGraphics"
+
+	Submenu "$DSPLYMNU_GLOPT", 			"BoxHardwareAgain"
+	Tooltip "$tooltip_hardware"
+	StaticText ""
+	Option "$GLTEXMNU_TEXFILTER",		gl_texture_filter,				"FilterModes"
+	Tooltip "$tooltip_filter"
+	Option "$GLTEXMNU_ANISOTROPIC",		gl_texture_filter_anisotropic,	"Anisotropy"
+	Tooltip "$tooltip_anistropy"
+	StaticText " "
+	Slider "$BOX_MAXGIBS", "sv_corpsequeuesize", 100, 5000, 100, 0
+	Tooltip "$tooltip_maxgibs"
+	StaticText " "
+	Option "$DSPLYMNU_WIPETYPE",				"wipetype", "Wipes"
+	Tooltip "$tooltip_wipe"
+	StaticText " "
+	Slider "$DSPLYMNU_GAMMA",					"vid_gamma",					0.75, 3.0, 0.05, 2
+	Slider "$DSPLYMNU_BRIGHTNESS",				"vid_brightness",				-0.8,0.8, 0.05,2
+	Tooltip "$tooltip_gamma"
+	Slider "$DSPLYMNU_CONTRAST",				"vid_contrast",	   				0.1, 3.0, 0.1
+	Slider "$DSPLYMNU_SATURATION",				"vid_saturation",  				-3.0, 3.0, 0.25, 2
+	Tooltip "$tooltip_contrast"
+	StaticText " "
+	Slider "$DSPLYMNU_FOV",						"fov",							75.0, 120.0, 0.1, 1
+	Tooltip "$tooltip_fov"
+}
+
+OptionMenu "BoxVideo"
+{
+	class "TF_TooltipOptionMenu"
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
+	Title "$BoxVideo"
+	
+	Option "$VIDMNU_PREFERBACKEND",		"vid_preferbackend", "PreferBackend"
+	Tooltip "$tooltip_backend"
+	Option "$VIDMNU_FULLSCREEN",		"vid_fullscreen", "YesNo"
+	IfOption(Mac)
+	{
+		Option "$VIDMNU_HIDPI",			"vid_hidpi", "YesNo"
+	}
+	StaticText " "
+	Option "$DSPLYMNU_VSYNC",					"vid_vsync", "OnOff"
+	Option "$VIDMNU_MAXFPS",					"vid_maxfps", "MaxFps"
+	StaticText " "
+	Tooltip ""
+	Option "$VIDMNU_SCALEMODE",			"vid_scalemode", "ScaleModes"
+	Tooltip "$tooltip_scalemode"
+	Slider "$VIDMNU_SCALEFACTOR",		"vid_scalefactor", 0.25, 2.0, 0.25, 2
+	Tooltip "$tooltip_scalefactor"
+}
+
+OptionMenu "BoxHardwareAgain"
+{
+	class "TF_TooltipOptionMenu"
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
+	//it's like BoxHardware but even more dumbed down.
+	Title "$GLMNU_TITLE"
+	//Submenu "$GLPREFMNU_VRMODE",				"VR3DMenu"
+	StaticText "$GLMNU_POSTPROCESS", "Gold"
+	Option "$GLPREFMNU_BLOOM",		 			gl_bloom,						"OnByDefault"
+	Tooltip "$tooltip_bloom"
+	Tooltip "$tooltip_performance"
+	//Option "$GLPREFMNU_LENS",		 			gl_lens,						"OnOff"
+	Option "$GLPREFMNU_SSAO",		 			gl_ssao,						"SSAOModes"
+	Tooltip "$tooltip_ssao"
+	Tooltip "$tooltip_performance"
+	Option "$GLPREFMNU_FXAA",		 			gl_fxaa,						"FXAAQuality"
+	Tooltip "$tooltip_fxaa"
+	Option "$GLPREFMNU_MULTISAMPLE", 			gl_multisample,					"Multisample"
+	Tooltip "$tooltip_multisample"
+	Tooltip "$tooltip_performance"
+	Option "$GLPREFMNU_DITHER",		 			gl_dither_bpc,					"DitherModes"
+	Tooltip "$tooltip_dither"
+	StaticText " "
+	StaticText "$Rendering", "Gold"
+	Option "$GLPREFMNU_SECLIGHTMODE",			gl_lightmode,					"LightingModes"
+	Tooltip "$tooltip_lightmode"
+	//Option "$GLPREFMNU_FOGMODE",				gl_fogmode,						"FogMode"
+	//Option "$GLPREFMNU_SPRCLIP",				gl_spriteclip,					"SpriteclipModes"
+	//Option "$GLPREFMNU_SPRBLEND",				gl_sprite_blend,				"OnOff"
+	//Option "$GLPREFMNU_SPRBILLBOARD",			gl_billboard_mode,				"BillboardModes"
+	Option "$GLPREFMNU_SPRBILLFACECAMERA",		gl_billboard_faces_camera,		"OnOff"
+	Tooltip "$tooltip_spritecamera"
+	Option "$GLPREFMNU_RENDERQUALITY",			gl_seamless,					"Precision"
+	Tooltip "$tooltip_precision"
+	StaticText " "
+	Slider "$GLPREFMNU_MENUBLUR",				gl_menu_blur, 0, 5.0, 0.5, 2
+	Tooltip "$tooltip_blur"
+}
+
+//these are the old hardware/postprocessing menus.
 OptionMenu "BoxHardware" protected
 {
 	Title "$GLMNU_TITLE"

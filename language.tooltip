@@ -1,0 +1,65 @@
+[enu default]
+//menu tooltips.
+
+//gameplay options
+tooltip_foodhp = "* Multiplies how much HP all enemies start with.\n* Selecting 'x0.5' will cause \c[red]score drain\c[grey].";
+tooltip_fooddmg = "* Multiplies how much damage the player will take from attacks.\n* Selecting 'x0.5' will cause \c[red]score drain\c[grey].";
+tooltip_glowstart = "* When enabled, you will lose every weapon except for the glowstick at the start of every level.";
+tooltip_2ammo = "* When enabled, increases the max capacity for all ammo types by 50%.\n* Glowstick ammo is increased by 100% instead.\n* Enabling this will cause \c[red]score drain\c[grey].";
+tooltip_hpchance = "* Multiplies how many health/armor drops you gain from defeating enemies.\n* Values above 'x1' will cause \c[red]score drain\c[grey].\n* Can also just be disabled entirely.";
+tooltip_ammochance = "* Multiplies how many ammo drops you gain from defeating enemies.\n* Values above 'x1' will cause \c[red]score drain\c[grey].\n* Can also just be disabled entirely.";
+tooltip_badcvar = "* Warns you if you've enabled certain settings that can interfere with Box Party.\n* Turn this off if you're a big nerd who knows what they are doing.";
+tooltip_hidelockhat = "* Hides all hats in the hat menu that are currently locked.\n* This is not recommended, as clicking locked hats is the only way to learn how to unlock them.";
+tooltip_resethat = "\c[brick]* A one way ticket to permanently losing all of your hat progress.";
+
+//hud options
+tooltip_uiscale = "* Controls the size of certain UI elements, like text popups or the console.\n\c[gold]* Default is \c[pink]'Adapt to screen size'\c[gold].";
+tooltip_hudscale = "* Controls the size of 'almost' all HUD elements.\n\c[gold]* Default is \c[pink]'Scale to fullscreen'\c[gold].";
+tooltip_leveltime = "* Tracks time spent in current level.\n* This might be of assistance in unlocking certain hats...";
+tooltip_showscore = "* You gain 1 point for each point of damage dealt to enemies.\n* You gain \c[pink]bonus points \c[grey]for defeating many enemies at once.\n* Harder difficulties will earn you more points.\n\c[grey]* You can also gain points from \c[pink]completing quests \c[grey]or \c[cyan]finding secrets.";
+tooltip_reserve = "* Adds small icons that display \c[pink]ammo counts \c[grey]for all of your weapons.\n* The reserve ammo icons will turn \c[red]red \c[grey]when the ammo is fully depleted.";
+tooltip_hudshake = "* Controls intensity of HUD shake caused by taking damage.\n* Taking big damage causes more shake.\n* Turn this off if you find it annoying or hard to read the HUD.\n\c[gold]* Default value is \c[pink]'2'\c[gold].";
+tooltip_tutorial = "* Will occasionally pop up during gameplay to tell you how to use certain controls.\n* Be sure to also check out the Guidebook by pressing \c[pink]F1 \c[grey]while ingame.";
+tooltip_levelname = "* Makes the name of the level appear on screen upon entering said level.";
+
+//graphics options
+tooltip_hardware = "\c[gold]* Change these options first if you're having performance issues!\n\c[grey]* Also, if you're running in 'OpenGL ES' mode, none of these options will work.";
+tooltip_filter = "* Change this value if you like making all the pixel art blurry.\n\c[gold]* Default value is \c[pink]'None (trilinear)'\c[grey].";
+tooltip_anistropy = "* This value shouldn't have much influence on the game's look or performance.\n\c[gold]* Default value is \c[pink]'8x'\c[grey].";
+tooltip_maxgibs = "* Controls how many enemy gibs will stay on the ground before dissappearing.\n* Enemy gibs will also fade out over time on their own, regardless of this value.\n* Set this to a lower value if multiple enemy deaths causes FPS drops.\n\c[gold]* Default value is \c[pink]'1000'\c[grey].";
+tooltip_wipe = "* Changes how the screen fades from one level to another.\n* Set to \c[pink]'None' \c[grey]if you want instant level transitions.\n\c[gold]* Default value is \c[pink]'Crossfade'\c[grey].";
+tooltip_gamma = "* Try changing these settings if the game is too dark or too bright.\n\c[gold]* Gamma defaults to \c[pink]'1.15'\c[grey].\n\c[gold]* Brightness defaults to \c[pink]'1.00'\c[grey].";
+tooltip_contrast = "* Try changing these settings if the game's colors don't look correct.\n\c[gold]* Contrast/Saturation defaults to \c[pink]'1.00'\c[grey].";
+tooltip_fov = "\c[gold]* Default value is \c[pink]'90'\c[gold].";
+
+//hardware options
+tooltip_performance = "\c[brick]* This setting has a large impact on performance.";
+tooltip_bloom = "* Makes bright objects have a 'glow' effect.\n* I personally don't recommend disabling this one.";
+tooltip_ssao = "* Creates a fake shadow effect at the edges of floors and walls.\n\c[gold]* Default value is \c[pink]'Low'\c[gold].";
+tooltip_fxaa = "* A performance-friendly antialiasing method.\n* May cause game world to be too blurry/smooth.\n\c[gold]* Disabled by default.";
+tooltip_multisample = "* A more accurate antialiasing method, but comes with a larger performance hit than FXAA.\n\c[gold]* Disabled by default.";
+tooltip_dither = "* Smooths out the transitions between similar colors in order to reduce color banding.";
+tooltip_lightmode = "* Controls how the light levels for sectors in the level are calculated.\n\c[gold]* Default value is \c[pink]'Dark'\c[gold].";
+tooltip_spritecamera = "* When disabled, all sprites will face the same direction the player camera is facing.\n* When enabled, all sprites will instead face towards the camera.\n\c[gold]* Disabled by default.";
+tooltip_precision = "* While set to 'Speed', can boost performance at the cost of white pixels sometimes appearing on the edges of walls or floors.\n* Setting this to 'Quality' should get rid of these white pixels, at the cost of performance.\n\c[gold]* Default value is \c[pink]'Speed'\c[gold].";
+tooltip_blur = "* Blurs the player camera while inside a menu screen.\n* Might make menu text more legible.";
+
+//video options
+tooltip_backend = "\c[brick]* YMMV (Your Mileage May Vary)\n\c[grey]* OpenGL is the most stable backend.\n* Vulkan typically runs faster, but can have some bugs.\n* OpenGL ES is best for lower end PCs, but does not support any Hardware related options.\n\c[red]* SoftPoly is unsupported.\n\c[gold]* Default backend is \c[pink]'OpenGL'\c[gold].";
+tooltip_scalemode = "* Controls the internal resolution of the game.\n* 'Normal' will simply match the resolution of the game window, or the resolution of your monitor if the game is in fullscreen.\n\c[gold]* Default value is \c[pink]'Normal'\c[gold].";
+tooltip_scalefactor = "* Multiplies the internal resolution of the game.\n* Setting to values below 1.00 can help boost performance.\n* Setting to values above 1.00 will improve the image quality substantially, but will also massively decrease performance.\n* Values above 1.00 can act as a replacement for Antialiasing.\n\c[gold]* Defaults to \c[pink]'1.00'\c[gold].";
+
+//misc options
+tooltip_autosaves = "* By default, the game will autosave upon entering a new level or at key moments during the levels.\n* Setting this to 'Scripts Only' will disable autosaves from level transitions.\n\c[gold]* Default value is \c[pink]'Always'\c[gold].";
+tooltip_language = "\c[brick]* WARNING: Box Party currently only supports English.\n\c[grey]* Support for non-English languages is limited.";
+tooltip_discord = "* Toggles Discord Rich Presence integration.\n* Turn this off if you don't want the world to know you're playing Box Party.";
+tooltip_gzdoommenu = "\c[brick]* This is where you can find the original GZDOOM menus.\n\c[grey]* If you think an important option is missing from these menus, please let me know.";
+
+//nashhpbar tooltips
+NASHHPBARMNU_HELPTEXT_ENABLE = "* Enables Enemy HP bar.\n* Will only appear when looking directly at the enemy.";
+NASHHPBARMNU_HELPTEXT_BOSSONLY = "* Only shows HP bar for Bosses (and Players).\n* For the players out there who don't want to see the health bar constantly.";
+NASHHPBARMNU_HELPTEXT_STYLE = "* Changes the appearance of the HP bar.\n* 'Box' is the default look, matching the art style for Box Party.\n* 'Simple' is the original look of the HP Bar.";
+NASHHPBARMNU_HELPTEXT_EXHAUST = "* Toggles Exhaust Bar for Bosses.\n* When the Exhaust Bar is full, the boss will enter a tired state and drop health/ammo on the ground.\n* The boss will also drop water particles when close to reaching tired state.";
+
+//achievement tooltips
+tooltip_testpopup = "* Activate this while ingame, then close the options menu to see how it looks.";

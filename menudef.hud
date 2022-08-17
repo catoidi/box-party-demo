@@ -2,17 +2,32 @@
 
 OptionMenu "BoxHudOptions" protected
 {
+	class "TF_TooltipOptionMenu"
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
 	Title "$BOX_HUDOPTIONS"
 	Submenu "$OPTMNU_NASHHPBAR", 	"NashHPBarOptionMenu"
 	Submenu "$BOX_MENU_TITLE", 		"box_AchieveOptions"
 	StaticText ""
+	Tooltip ""
+	//ScaleSlider "$HUDMNU_UISCALE",				"uiscale", 0.0, 8.0, 1.0, "$SCALEMNU_ADAPT"
+	//Tooltip "$tooltip_uiscale"
+	ScaleSlider "$SCALEMNU_HUD", 				"hud_scale", -1.0, 8.0, 1.0, "$SCALEMNU_USEUI", "$SCALEMNU_USEFS"
+	Tooltip "$tooltip_hudscale"
+	StaticText ""
 	Option "$BOX_LEVELTIME",		"box_leveltime",	"onbydefault"
+	Tooltip "$tooltip_leveltime"
 	Option "$BOX_SHOWSCORE",		"box_showscore",	"scorevalue"
+	Tooltip "$tooltip_showscore"
 	Option "$BOX_OPTION_RESERVE",	"box_reserve",		"onbydefault"
+	Tooltip "$tooltip_reserve"
 	Slider "$BOX_OPTION_HUD",		"box_hudshake",		0, 5, 1, 0	
+	Tooltip "$tooltip_hudshake"
 	StaticText ""
 	Option "$BOX_TUTORIAL",			"box_tutorial",		"onbydefault"
+	Tooltip "$tooltip_tutorial"
 	Option "$BOX_LEVELNAME",		"box_levelname",	"onbydefault"
+	Tooltip "$tooltip_levelname"
 	StaticText ""
 	Option "$HUDMNU_CROSSHAIRON",	"crosshairon", 		"OnOff"
 	Option "$HUDMNU_CROSSHAIR",		"crosshair",		"Crosshairs"
@@ -31,4 +46,95 @@ AddOptionMenu "HUDOptions" after "FontOptions"
 	StaticText ""
 	Option "$BOX_TUTORIAL",			"box_tutorial",		"onbydefault"
 	Option "$BOX_LEVELNAME",		"box_levelname",	"onbydefault"
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//NashHPBar Menu////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+OptionValue "NashHPBarStyle"
+{
+	0, "Simple"
+	1, "Box"
+}
+
+OptionMenu "NashHPBarOptionMenu"
+{
+	class "TF_TooltipOptionMenu"
+	TooltipAppearance "", "grey", "TFTTBG"
+	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
+	//Class "NashHPBarOptionMenu"
+	Title "$NASHHPBARMNU_TITLE"
+	//Position -32
+
+	StaticText ""
+
+	Option "$NASHHPBARMNU_ENABLE", "nashhpbar_enable", "OnOff"
+	Tooltip "$NASHHPBARMNU_HELPTEXT_ENABLE"
+	Option "$NASHHPBARMNU_BOSSONLY", "nashhpbar_bossonly", "OnOff"
+	Tooltip "$NASHHPBARMNU_HELPTEXT_BOSSONLY"
+	Option "$NASHHPBARMNU_EXHAUST", "nashhpbar_exhaust", "OnOff"
+	Tooltip "$NASHHPBARMNU_HELPTEXT_EXHAUST"
+	Option "$NASHHPBARMNU_STYLE", "nashhpbar_style", "NashHPBarStyle"
+	Tooltip "$NASHHPBARMNU_HELPTEXT_STYLE"
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//Achievement Popups Menu///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+OptionMenu box_AchieveOptions
+{
+  class "TF_TooltipOptionMenu"
+  TooltipAppearance "", "grey", "TFTTBG"
+  TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
+  Title "$BOX_MENU_TITLE"
+
+  StaticText "$BOX_POPUP_SUBTITLE", "Gold"
+  //Submenu "$BOX_UNLOCKED", box_UnlockedAchievements
+  //Submenu "$BOX_LOCKED"  , box_LockedAchievements
+
+  StaticText ""
+  Option "$BOX_NOTIFY"    , box_notification_enabled, OnOff
+  Option "$BOX_HORIZONTAL", box_horizontal_position, box_HorizontalPositionValues
+  Option "$BOX_VERTICAL"  , box_vertical_position,   box_VerticalPositionValues
+  Option "$BOX_ANIMATION" , box_animation_type,      box_AnimationValues
+
+  StaticText ""
+  Tooltip ""
+  Command "$BOX_TEST", box_test
+  Tooltip "$tooltip_testpopup"
+
+  //StaticText ""
+  //SafeCommand "$BOX_CLEAR", box_clear_achievements
+}
+
+OptionMenu box_LockedAchievements
+{
+  Class "box_LockedAchievements"
+  Title "$BOX_LOCKED_TITLE"
+}
+
+OptionMenu box_UnlockedAchievements
+{
+  Class "box_UnlockedAchievements"
+  Title "$BOX_UNLOCKED_TITLE"
+}
+
+OptionValue box_HorizontalPositionValues
+{
+  0, "$BOX_LEFT"
+  1, "$BOX_RIGHT"
+}
+
+OptionValue box_VerticalPositionValues
+{
+  0, "$BOX_TOP"
+  1, "$BOX_BOTTOM"
+}
+
+OptionValue box_AnimationValues
+{
+  0, "$BOX_SLIDE_VERTICAL"
+  1, "$BOX_SLIDE_HORIZONTAL"
+  2, "$BOX_FADE_IN_OUT"
+  3, "$BOX_DISABLED"
 }

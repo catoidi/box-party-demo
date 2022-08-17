@@ -1,0 +1,9 @@
+Pink
+{
+	#1f101f #f078f0
+Console:
+	#000000 #7f407f     0 127
+	#ff80ff #fffeff   128 256
+Flat:
+	#dd6fdd
+}
