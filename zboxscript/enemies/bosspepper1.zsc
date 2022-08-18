@@ -45,17 +45,23 @@ CLASS BossPepper1 : BoxMonster
 	{
 		if (invoker)
 		{
-			if (Amount == 0) {invoker.Exhaustion = 0;} //reset exhaust if amount is 0
+			if (Amount == 0) {invoker.Exhaustion = 100 + invoker.ExhaustMeter;} //reset exhaust if amount is 0
 			else
 			{
-				invoker.Exhaustion += Amount; //add exhaustion
-				if (invoker.Exhaustion >= 100 + invoker.ExhaustMeter) //melon = exhausted
+				invoker.Exhaustion -= Amount; //add exhaustion
+				if (invoker.Exhaustion <= 0) //melon = exhausted
 				{
 					invoker.ExhaustMeter += 25; //harder to get exhausted now
 					SetStateLabel("Exhausted"); //switch to exhaust state
 				}
 			}
 		}
+	}
+	
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		self.Exhaustion = 100 + self.ExhaustMeter;
 	}
 	
 	action void A_BossPepper1Charge (bool EvilMode = false)
@@ -123,8 +129,8 @@ CLASS BossPepper1 : BoxMonster
 			if (SweatTimer < 16) {++SweatTimer;}
 			else if (self.Health > 1)
 			{
-				if (exhaustinv >= (ActualExhaustMeter - 25)) {A_BoxStars("BossSweat", 3);}
-				else if (exhaustinv >= (ActualExhaustMeter - 50)) {A_BoxStars("BossSweat", 1);}
+				if (exhaustinv >= 25) {A_BoxStars("BossSweat", 3);}
+				else if (exhaustinv >= 50) {A_BoxStars("BossSweat", 1);}
 				SweatTimer = 0;
 			}
 		}
