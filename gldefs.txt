@@ -110,15 +110,6 @@ pointlight GLOWGREEN
 	attenuate 1
 }
 
-//this one specific light is for red onion armor
-pointlight GLOWGREENSMALL
-{
-	color 0.0 1.0 0.0
-	size 8
-	offset 0 4 0
-	attenuate 1
-}
-
 //this one is used for the in-hand glowstick.
 pointlight GLOWGREENBIG
 {
@@ -133,6 +124,14 @@ pointlight GLOWBLUE
     color 0.0 0.0 1.0
     size 20
     offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWBLUEBIG
+{
+    color 0.0 0.0 0.4
+    size 100
+    offset 0 32 0
 	attenuate 1
 }
 
@@ -152,6 +151,14 @@ pointlight GLOWREDBIG
 	attenuate 1
 }
 
+pointlight GLOWREDBIG2 //lmao
+{
+    color 0.4 0.0 0.0
+    size 100
+    offset 0 32 0
+	attenuate 1
+}
+
 pointlight GLOWREDGIANT
 {
 	color 1.0 0.0 0.0
@@ -168,11 +175,27 @@ pointlight GLOWYELLOW
 	attenuate 1
 }
 
+pointlight GLOWYELLOWBIG
+{
+    color 0.4 0.4 0.0
+    size 100
+    offset 0 32 0
+	attenuate 1
+}
+
 pointlight GLOWPINK
 {
     color 1.0 0.0 1.0
     size 20
     offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWPINKBIG
+{
+    color 0.4 0.0 0.4
+    size 100
+    offset 0 32 0
 	attenuate 1
 }
 
@@ -192,6 +215,14 @@ pointlight GLOWAQUABIG
 	attenuate 1
 }
 
+pointlight GLOWAQUABIG2 //lmao
+{
+    color 0.0 0.4 0.4
+    size 100
+    offset 0 32 0
+	attenuate 1
+}
+
 pointlight GLOWAQUASMALL
 {
 	color 0.0 1.0 1.0
@@ -205,6 +236,14 @@ pointlight GLOWWHITE
     color 1.0 1.0 1.0
     size 20
     offset 0 4 0
+	attenuate 1
+}
+
+pointlight GLOWWHITEBIG
+{
+    color 0.4 0.4 0.4
+    size 100
+    offset 0 32 0
 	attenuate 1
 }
 
@@ -229,17 +268,6 @@ object GlowstickAmmoDrop {frame LOOTG {light GLOWYELLOW} frame LOOTH {light GLOW
 object LaserPointer {frame LAZRE {light GLOWWHITE}}
 object PartyShotty {frame SHOTZ {light GLOWWHITE}}
 object PopcornGun {frame POPGM {light GLOWWHITE}}
-
-object GlowstickThrow
-{
-	frame GLOWD { light GLOWGREEN }
-	frame GLOWE { light GLOWBLUE }
-	frame GLOWF { light GLOWRED }
-	frame GLOWG { light GLOWYELLOW }
-	frame GLOWH { light GLOWPINK }
-	frame GLOWI { light GLOWAQUA }
-	frame GLOWJ { light GLOWWHITE }
-}
 
 object Glowstick {frame GLOWA { light GLOWGREEN }}
 
