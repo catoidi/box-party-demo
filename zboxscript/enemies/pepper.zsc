@@ -225,11 +225,24 @@ class PepperBullet : OnionBullet
 		Speed 16;
 		+BLOODSPLATTER;
 	}
+	
+	int parttimer;
+	
+	action void PepBulling (void)
+	{
+		A_BoxBulletTrail();
+		++invoker.parttimer;
+		if (invoker.parttimer >= 4)
+		{
+			A_BoxParticle2("ff eb 00", 1, 16, 70, POffset: 4.0, POffsetZ: 4.0, PSpeed: -1.0, PBright: true);
+			invoker.parttimer = 0;
+		}
+	}
 
 	States
 	{
 		Spawn:
-            PEPR PQ 4 BRIGHT A_BoxParticle2("ff eb 00", 1, 16, 70, POffset: 4.0, POffsetZ: 4.0, PSpeed: -1.0, PBright: true);
+            PEPR PPPPQQQQ 1 BRIGHT PepBulling();
             Loop;
 		Death.Sky:
 		Death:

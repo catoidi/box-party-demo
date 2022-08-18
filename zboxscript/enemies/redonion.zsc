@@ -128,7 +128,7 @@ CLASS RedOnionTurret : OnionTurret
 			ONI1 E 10 A_FaceTarget;
 			ONI1 F 1 A_BoxScream;
 			ONI1 F 9 {
-				A_SpawnItemEX("SafeBoomSmall", random(-2, 2), random(-2, 2), random(26, 38), random(-2, 2), random(-2, 2), random(-2, 2));
+				A_SpawnItemEX("SafeSplashSmall", random(-2, 2), random(-2, 2), random(26, 38), random(-2, 2), random(-2, 2), random(-2, 2));
 				A_SpawnItemEx("RedOnionChunk", random(-6, 6), random(-6, 6), random(26, 38), random(-12, 12), random(-12, 12), random(0, 12), random(0, 359), 0, 64);
 				A_SpawnItemEx("RedOnionChunk", random(-6, 6), random(-6, 6), random(26, 38), random(-12, 12), random(-12, 12), random(0, 12), random(0, 359), 0, 64);
 				A_SpawnItemEx("RedOnionChunk", random(-6, 6), random(-6, 6), random(26, 38), random(-12, 12), random(-12, 12), random(0, 12), random(0, 359), 0, 128);

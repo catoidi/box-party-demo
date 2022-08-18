@@ -45,6 +45,11 @@ mixin class BoxActorMixin
 		else {return false;}
 	}
 	
+	action void A_BoxBulletTrail (void)
+	{
+		A_SpawnItemEX("BulletTrail", -1, 0, 0, 0, 0, 0, 0, SXF_SETMASTER | SXF_TRANSFERTRANSLATION | SXF_NOCHECKPOSITION | SXF_TRANSFERSCALE | SXF_TRANSFERALPHA | SXF_TRANSFERRENDERSTYLE | SXF_TRANSFERSPRITEFRAME | SXF_TRANSFERROLL);
+	}
+	
 	action void A_BoxFade (float FadeNum = 0.1)
 	{
 		//name's a little misleading, actor does not start fading until FakeFade reaches 0.75 or higher.

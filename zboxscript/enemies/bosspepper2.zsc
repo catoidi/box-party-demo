@@ -27,6 +27,7 @@ CLASS BossPepper2 : BoxMonster
 		BoxMonster.CanBurn false;
 		+BOSS;
 		+NOBLOODDECALS;
+		+FLOORCLIP;
 		+NOINFIGHTING;
 		+DONTRIP;
 		//$Category "Box Party/Enemies/"
@@ -412,6 +413,7 @@ CLASS BossPepper2Bullet : OnionBullet
 			{
 				A_SetRoll(roll - 8);
 				if (random(1, 2) == 2) {A_BoxParticle("ff eb 00", 1, 16, 70, PSpeed: 4.0, PBright: true);}
+				A_BoxBulletTrail();
 			}
 			Loop;
 		SpeenRight:
@@ -419,6 +421,7 @@ CLASS BossPepper2Bullet : OnionBullet
 			{
 				A_SetRoll(roll + 8);
 				if (random(1, 2) == 2) {A_BoxParticle("ff eb 00", 1, 16, 70, PSpeed: 4.0, PBright: true);}
+				A_BoxBulletTrail();
 			}
 			Loop;
 		Death.Sky:

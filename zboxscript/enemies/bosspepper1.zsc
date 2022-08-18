@@ -17,7 +17,7 @@ CLASS BossPepper1 : BoxMonster
 		DamageFactor "Pepper", 0.0;
 		DamageFactor "Melee", 2.0;
 		DamageFactor "PartyShot", 1.25;
-		BloodType "BigPepper1Chunk";
+		BloodType "BigPepper1Blood";
 		Species "Pepper";
 		Tag "* BELL *";
 		Obituary "$BOX_DIE_BIGPEPPER1";
@@ -26,7 +26,6 @@ CLASS BossPepper1 : BoxMonster
 		+BOSS;
         +NOBLOODDECALS;
 		+FLOORCLIP;
-		+NOBLOODDECALS;
 		+NOINFIGHTING;
 		+DONTRIP;
 		//$Category "Box Party/Enemies/"
