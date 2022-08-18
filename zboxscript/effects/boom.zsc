@@ -305,6 +305,19 @@ CLASS GIANTBOOM : SafeBoom
 	}
 }
 
+CLASS GIANTSPLASH : GIANTBOOM
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			#### # 0 A_BoxParticle("00 ef ff", 16, 32, 40, PSpeed: 8.0);
+			BOOM H 0 BRIGHT A_StartSound("effects/boxboom", 0, CHANF_OVERLAP, 0.5);
+			BOOM HHHHH 0 BRIGHT A_SpawnItemEX("GiantSplashExtra", frandom(-16, 16), frandom(-16, 16), frandom(-16, 16), frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), 0, SXF_NOCHECKPOSITION);
+			Goto Expander;
+	}
+}
+
 CLASS GiantBoomExtra : GIANTBOOM
 {
 	Default
@@ -324,6 +337,17 @@ CLASS GiantBoomExtra : GIANTBOOM
 			#### # 1 BRIGHT A_FadeOut(0.025);
 			#### # 0 BRIGHT A_BoxScale(0.05);
 			Loop;
+	}
+}
+
+CLASS GiantSplashExtra : GIANTSPLASH
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			BOOM H 0 BRIGHT;
+			Goto Expander;
 	}
 }
 

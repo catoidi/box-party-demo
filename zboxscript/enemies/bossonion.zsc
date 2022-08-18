@@ -321,8 +321,8 @@ CLASS BossOnion : OnionTurret
 			ONI2 M 0 A_RemoveLight("Shocking");
 			ONI2 M 0 A_FaceTarget;
 			ONI2 M 0 A_BoxScream;
-			ONI2 MMMMMMMM 10 A_SpawnItemEX("SafeBoom", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
-			ONI2 N 0 A_SpawnItemEX("GIANTBOOM", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
+			ONI2 MMMMMMMM 10 A_SpawnItemEX("SafeSplash", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
+			ONI2 N 0 A_SpawnItemEX("GIANTSPLASH", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
 			#### # 0 A_SpawnItemEX("BigOnionGib1", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
 			#### # 0 A_SpawnItemEX("BigOnionGib2", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
 			#### # 0 A_SpawnItemEX("BigOnionGib3", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
@@ -333,7 +333,7 @@ CLASS BossOnion : OnionTurret
 			ONI2 # 30 A_BoxScaleXY(0.1, -0.1);
 			ONI2 # 30 A_BoxScaleXY(0.05, -0.05);
 			ONI2 # 30 A_BoxScaleXY(0.05, -0.05);
-			ONI2 O 0 A_SpawnItemEX("GIANTBOOM", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
+			ONI2 O 0 A_SpawnItemEX("GIANTSPLASH", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
 			#### # 0 A_SpawnItemEX("BigOnionGib4", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
 			#### # 0 A_SpawnItemEX("BigOnionGib5", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
 			#### # 0 A_SpawnItemEX("BigOnionGib6", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
@@ -344,7 +344,7 @@ CLASS BossOnion : OnionTurret
 			ONI2 # 30 A_BoxScaleXY(0.1, -0.1);
 			ONI2 # 30 A_BoxScaleXY(0.05, -0.05);
 			ONI2 # 30 A_BoxScaleXY(0.05, -0.05);
-			ONI2 P 0 A_SpawnItemEX("GIANTBOOM", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
+			ONI2 P 0 A_SpawnItemEX("GIANTSPLASH", random(-64, 64), random(-64, 64), random(32, 96), random(-2, 2), random(-2, 2), random(-2, 2));
 			#### # 0 A_SpawnItemEX("BigOnionGib7", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
 			#### # 0 A_SpawnItemEX("BigOnionGib8", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
 			#### # 0 A_SpawnItemEX("BigOnionGib9", random(-64, 64), random(-64, 64), random(32, 96), random(-16, 16), random(-16, 16), random(2, 8));
