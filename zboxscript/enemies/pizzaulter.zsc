@@ -46,7 +46,6 @@ CLASS Pizzaulter : BoxMonster //20016
 		{
 			rnum -= 360;
 		}
-		console.printf("%d", rnum);
 		A_SpawnProjectile("PepperoniBullet", (30 + (rnum/90)), (-4 + (rnum/45)), (-9 + (rnum/20)), 0, (-6 + (rnum/30)));
 		A_SetRoll(roll - 40);
 		
