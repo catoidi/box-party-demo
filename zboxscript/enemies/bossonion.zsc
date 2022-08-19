@@ -1,12 +1,14 @@
 //zboxscript/enemies/bossonion.zsc
 
-CLASS BossOnion : OnionTurret
+CLASS BossOnion : BoxBoss
 {
 	Default
 	{
+		Speed 0;
 		Health 7000;
 		Radius 96;
 		Height 180;
+		Mass 0x7FFFFFFF; //immovable object
 		PainChance 1;
 		PainChance "Melee", 192;
 		PainChance "Lightning", 48;
@@ -15,22 +17,28 @@ CLASS BossOnion : OnionTurret
 		DamageFactor "Melee", 2.5;
 		DamageFactor "PartyShot", 1.15;
 		DamageFactor "Prism", 2.0;
+		DamageFactor "Lemon", 0.0;
+		MinMissileChance 1;
+		Species "Onion";
 		BloodType "BigOnionBlood";
 		Tag "* Geoff *";
 		Obituary "$BOX_DIE_BIGONION";
+		BoxMonster.CanSwim false;
+		-PUSHABLE;
+		+MISSILEMORE;
+		+MISSILEEVENMORE;
+		+MOVEWITHSECTOR;
+		+NOINFIGHTING;
+		+NOBLOODDECALS;
+		+DONTHARMSPECIES;
 		+BOSS;
 		//$Category "Box Party/Enemies/"
 		//$Title "Onion (BOSS)"
 		//$Color 4
+		
 	}
 	
-	bool isAngery;
-	bool flashyTime;
 	string currentBullet;
-	int startingHealth;
-	int Exhaustion;
-	int ExhaustMeter;
-	int SweatTimer;
 	
 	action void A_BigOnionAttack1 (int Angled, int Offseted)
 	{
@@ -47,83 +55,12 @@ CLASS BossOnion : OnionTurret
 		A_QuakeEX(3, 3, 3, 10, 0, 1280, 0);
 	}
 	
-	action void A_BoxExhaust (int Amount)
+	override void AngerManagement()
 	{
-		if (invoker)
-		{
-			if (Amount == 0) {invoker.Exhaustion = 100 + invoker.ExhaustMeter;} //reset exhaust if amount is 0
-			else
-			{
-				invoker.Exhaustion -= Amount; //add exhaustion
-				if (invoker.Exhaustion <= 0) //melon = exhausted
-				{
-					invoker.ExhaustMeter += 25; //harder to get exhausted now
-					SetStateLabel("Exhausted"); //switch to exhaust state
-				}
-			}
-		}
-	}
-	
-	override void PostBeginPlay()
-	{
-		Super.PostBeginPlay();
-		self.Exhaustion = 100 + self.ExhaustMeter;
-	}
-
-	override void Tick(void)
-	{
-		Super.Tick();
+		Super.AngerManagement();
 		
-		if (self)
-		{
-			if (startingHealth == 0) {startingHealth = self.Health;}
-		
-			if (isAngery == false) 
-			{
-				currentBullet = "BigOnionBullet";
-				A_RemoveLight("flashyred");
-			}
-			else 
-			{
-				currentBullet = "BigOnionBullet2";
-				if (random(0, 15) == 15) {A_SpawnItemEX("PlateSpawnerSpark", frandom(-32, 32), frandom(-32, 32), frandom(0, 64), frandom(-12, 12), frandom(-12, 12), frandom(0, 8), 0, SXF_NOCHECKPOSITION);}
-			}
-			
-			if ((isAngery == true) && (flashyTime == false))
-			{
-				for (int countey = 1; countey < 16; countey++)
-				{
-					A_SpawnItemEX("PlateSpawnerSpark", frandom(-32, 32), frandom(-32, 32), frandom(0, 64), frandom(-12, 12), frandom(-12, 12), frandom(0, 8), 0, SXF_NOCHECKPOSITION);
-				}
-				A_AttachLightDef("flashyred", "GLOWREDGIANT");
-				flashyTime = true;
-				A_QuakeEX(4, 4, 4, 35, 0, 1280, 0);
-				//bBRIGHT = true;
-			}
-			
-			if ((self.Health <= (startingHealth / 2)) && (self.Health > 0)) {isAngery = true;}
-			else {isAngery = false;}
-			
-			//this is fucking awful
-			int exhaustinv = CountInv("ExhaustionChecker");
-			int exhaustmaxinv = CountInv("ExhaustionCheckerMax");
-			int ActualExhaustMeter = ExhaustMeter + 100;
-			
-			if (exhaustinv < Exhaustion) {GiveInventory("ExhaustionChecker", Exhaustion - exhaustinv);}
-			else if (exhaustinv > Exhaustion) {TakeInventory("ExhaustionChecker", Exhaustion - exhaustinv);}
-			
-			if (exhaustmaxinv < ActualExhaustMeter) {GiveInventory("ExhaustionCheckerMax", ActualExhaustMeter - exhaustmaxinv);}
-			else if (exhaustmaxinv > ActualExhaustMeter) {TakeInventory("ExhaustionCheckerMax", ActualExhaustMeter - exhaustmaxinv);}
-			//im sorry to anyone who sees this code
-			
-			if (SweatTimer < 16) {++SweatTimer;}
-			else if (self.Health > 1)
-			{
-				if (exhaustinv <= 25) {A_BoxStars("BossSweat", 3);}
-				else if (exhaustinv <= 50) {A_BoxStars("BossSweat", 1);}
-				SweatTimer = 0;
-			}
-		}
+		if (isAngery == false) {currentBullet = "BigOnionBullet";}
+		else {currentBullet = "BigOnionBullet2";}
 	}
 
 	States

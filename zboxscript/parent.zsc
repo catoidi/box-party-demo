@@ -196,7 +196,7 @@ CLASS BoxBoss : BoxMonster abstract
 		self.Exhaustion = 100 + self.ExhaustMeter;
 	}
 	
-	void AngerManagement()
+	virtual void AngerManagement()
 	{
 		if (startingHealth == 0) {startingHealth = self.Health;}
 	
@@ -224,7 +224,7 @@ CLASS BoxBoss : BoxMonster abstract
 		else {isAngery = false;}
 	}
 	
-	void ExhaustBar()
+	virtual void ExhaustBar()
 	{
 		//this is fucking awful
 		int exhaustinv = CountInv("ExhaustionChecker");
@@ -241,7 +241,7 @@ CLASS BoxBoss : BoxMonster abstract
 		BossSweater(exhaustinv);
 	}
 	
-	void BossSweater(int exhaustinv)
+	virtual void BossSweater(int exhaustinv)
 	{
 		if (SweatTimer < 16) {++SweatTimer;}
 		else if (self.Health > 1)
