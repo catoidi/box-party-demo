@@ -34,6 +34,7 @@ class NashHPBarHandler : EventHandler
 {
 	transient ui CVar cvEnableHPBar;
 	transient ui CVar cvBossOnly;
+	transient ui CVar cvBossFade;
 	transient ui CVar cvStyle;
 	transient ui CVar cvExhaust;
 	transient ui Actor prevAimTarget;
@@ -105,6 +106,9 @@ class NashHPBarHandler : EventHandler
 		
 		if (!cvBossOnly) cvBossOnly = CVar.GetCVar("nashhpbar_bossonly", players[consoleplayer]);
 		if (!cvBossOnly) ThrowAbortException("Cannot cache CVar \"nashhpbar_bossonly\"!");
+		
+		if (!cvBossFade) cvBossFade = CVar.GetCVar("nashhpbar_bossfade", players[consoleplayer]);
+		if (!cvBossFade) ThrowAbortException("Cannot cache CVar \"nashhpbar_bossonly\"!");
 		
 		if (!cvStyle) cvStyle = CVar.GetCVar("nashhpbar_style", players[consoleplayer]);
 		if (!cvStyle) ThrowAbortException("Cannot cache CVar \"nashhpbar_style\"!");
@@ -187,6 +191,11 @@ class NashHPBarHandler : EventHandler
 		if (plugin.currentAimTarget && CPlayer.playerstate == PST_LIVE)
 		{
 			prevAimTarget = plugin.currentAimTarget;
+			healthBarAlpha = 1.0;
+		}
+		else if (cvBossFade && cvBossFade.GetBool() && prevAimTarget && prevAimTarget.bBoss)
+		{
+			//don't fade away health bar for bosses if boss fade cvar is enabled.
 			healthBarAlpha = 1.0;
 		}
 		else

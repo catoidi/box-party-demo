@@ -58,6 +58,7 @@ tooltip_gzdoommenu = "\c[brick]* This is where you can find the original GZDOOM 
 //nashhpbar tooltips
 NASHHPBARMNU_HELPTEXT_ENABLE = "* Enables Enemy HP bar.\n* Will only appear when looking directly at the enemy.";
 NASHHPBARMNU_HELPTEXT_BOSSONLY = "* Only shows HP bar for Bosses (and Players).\n* For the players out there who don't want to see the health bar constantly.";
+NASHHPBARMNU_HELPTEXT_BOSSFADE = "* Prevents the HP Bar from fading away if your current target is a Boss.\n* Disable this if you find this behavior annoying.";
 NASHHPBARMNU_HELPTEXT_STYLE = "* Changes the appearance of the HP bar.\n* 'Box' is the default look, matching the art style for Box Party.\n* 'Simple' is the original look of the HP Bar.";
 NASHHPBARMNU_HELPTEXT_EXHAUST = "* Toggles Exhaust Bar for Bosses.\n* When the Exhaust Bar is full, the boss will enter a tired state and drop health/ammo on the ground.\n* The boss will also drop water particles when close to reaching tired state.";
 

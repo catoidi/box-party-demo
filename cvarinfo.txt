@@ -121,6 +121,7 @@ user cheat int box_hat_egg = 0; //unlocks cracked egg hat when at 30 or above.
 //nashhpbar
 user bool nashhpbar_enable = true;
 user bool nashhpbar_bossonly = false;
+user bool nashhpbar_bossfade = false;
 user int nashhpbar_style = 1;
 user bool nashhpbar_exhaust = true;
 
