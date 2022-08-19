@@ -399,6 +399,7 @@ CLASS BigOnionBullet : OnionBullet
 CLASS BigOnionBullet2 : BigOnionBullet
 {
 	int DoTinyBullets;
+	string ExplosionType;
 
 	States
 	{
@@ -414,10 +415,12 @@ CLASS BigOnionBullet2 : BigOnionBullet
 					frame = 0;
 					self.Alpha = 1.0;
 					self.Speed = 24;
+					ExplosionType = "DangerBoomOnion";
 				}
 				else 
 				{
 					A_AttachLightDef("Spitter", "GLOWAQUA");
+					ExplosionType = "DangerSplashOnion";
 				}
 			}
 			#### # 0 A_Jump(256, "SpeenLeft", "SpeenRight");
@@ -437,7 +440,7 @@ CLASS BigOnionBullet2 : BigOnionBullet
 				if (invoker.DoTinyBullets == 3) {A_BoxParticle("b3 09 01", 3, 20, 50, PSpeed: 6.0, PBright: true);}
 				else {A_BoxParticle("00 ef ff", 3, 20, 50, PSpeed: 6.0, PBright: true);}
 			}
-			TNT1 A 1 A_SpawnItemEx("DangerSplashOnion", 0, 0, 0, 0, 0, 0);
+			TNT1 A 1 A_SpawnItemEx(ExplosionType, 0, 0, 0, 0, 0, 0);
 			Stop;
 		Dummy:
 			ONI2 J 0;
@@ -496,6 +499,21 @@ CLASS DangerSplashOnion : SafeSplash
 			BOOM E 0 BRIGHT A_StartSound("effects/boxboom", 0, CHANF_OVERLAP, 0.5);
 			BOOM EEE 0 BRIGHT A_SpawnItemEX("SafeSplashExtra", frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), 0, SXF_NOCHECKPOSITION);
 			BOOM E 0 BRIGHT A_SpawnItemEX("SplashText", frandom(-4, 4), frandom(-4, 4), frandom(0, 8), frandom(-4, 4), frandom(-4, 4), frandom(0, 4), 0, SXF_NOCHECKPOSITION, 224);
+			Goto Expander;
+	}
+}
+
+CLASS DangerBoomOnion : DangerSplashOnion
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
+			BOOM A 0 BRIGHT A_AttachLightDef("Boomer", "BIGBOOM");
+			BOOM A 0 BRIGHT A_Explode(10, 48);
+			BOOM A 0 BRIGHT A_StartSound("effects/boxboom", 0, CHANF_OVERLAP, 0.5);
+			BOOM AAA 0 BRIGHT A_SpawnItemEX("SafeBoomExtra", frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), 0, SXF_NOCHECKPOSITION);
+			BOOM A 0 BRIGHT A_SpawnItemEX("BoomText", frandom(-4, 4), frandom(-4, 4), frandom(0, 8), frandom(-4, 4), frandom(-4, 4), frandom(0, 4), 0, SXF_NOCHECKPOSITION, 224);
 			Goto Expander;
 	}
 }
