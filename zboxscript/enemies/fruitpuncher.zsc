@@ -359,18 +359,3 @@ CLASS FruitGib_RightLeg : FruitGib
 			Goto SpeenRight;
 	}
 }
-
-CLASS FruitPuncher_Tiny : FruitPuncher
-{
-	Default 
-	{
-		Health 20;
-		Radius 8;
-		Height 20;
-		Speed 5;
-		Scale 0.5;
-		DamageMultiply 0.25;
-		Tag "Fruit Slapper";
-		//$Title "Melon (Tiny)"
-	}
-}

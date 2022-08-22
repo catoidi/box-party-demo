@@ -1,0 +1,31 @@
+//zboxscript/enemies/variants.zsc
+
+//slightly different versions of already existing enemies.
+
+//teeny tiny fruit puncher, used in levels 2 and 3.
+CLASS FruitPuncher_Tiny : FruitPuncher
+{
+	Default 
+	{
+		Health 20;
+		Radius 8;
+		Height 20;
+		Speed 5;
+		Scale 0.5;
+		DamageMultiply 0.25;
+		Tag "Fruit Slapper";
+		//$Title "Melon (Tiny)"
+	}
+}
+
+//only visible in reflections. used in level 3.
+CLASS FruitPuncher_Mirror : FruitPuncher
+{
+	mixin BoxInvisibleActor;
+
+	Default
+	{
+		Tag "Fruit Puncher (Invisible)";
+		//$Title "Melon (Invisible)"
+	}
+}

@@ -76,11 +76,14 @@ version "4.7"
 #include "zboxscript/enemies/redonion.zsc"
 #include "zboxscript/enemies/lemon.zsc"
 #include "zboxscript/enemies/hammer.zsc"
-#include "zboxscript/enemies/bossonion.zsc"
 #include "zboxscript/enemies/pepper.zsc"
+#include "zboxscript/enemies/variants.zsc"
+
+//boss enemies
 #include "zboxscript/enemies/bossmelon.zsc"
 #include "zboxscript/enemies/bosspepper1.zsc"
 #include "zboxscript/enemies/bosspepper2.zsc"
+#include "zboxscript/enemies/bossonion.zsc"
 
 //key items
 #include "zboxscript/key items/key.zsc"

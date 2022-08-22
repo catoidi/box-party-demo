@@ -110,6 +110,7 @@ DoomEdNums
 	20104 = Fish
 	20105 = WoodBarrier
 	20106 = FruitPuncher_Tiny
+	20107 = FruitPuncher_Mirror
 	
 	//keys
 	20901 = WhiteKey

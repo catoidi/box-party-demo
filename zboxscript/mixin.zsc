@@ -401,3 +401,19 @@ mixin class BoxActorMixin
 		}
 	}
 }
+
+mixin class BoxInvisibleActor
+{
+	//for enemies that should only be visible in reflections.
+	Default
+	{
+		+ONLYVISIBLEINMIRRORS;
+	}
+	
+	//remove invisibility on death.
+	override void Die(Actor source, Actor inflictor, int dmgflags, Name MeansOfDeath)
+	{
+		bONLYVISIBLEINMIRRORS = false;
+		Super.Die(source, inflictor, dmgflags, MeansOfDeath);
+	}
+}
