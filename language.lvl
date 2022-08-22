@@ -361,7 +361,7 @@ QUEST_LVL2_3 = "\ct#3: ???";
 QUEST_LVL2_3A = "\ct#3: ENTER THE FRIDGE OF DEATH.";
 //lvl 3
 QUEST_LVL3_1 = "\cv#1: Catch a fish.";
-QUEST_LVL3_2 = "\cv#2: Complete the flooded maze.";
+QUEST_LVL3_2 = "\cv#2: Clear the mirror room.";
 QUEST_LVL3_3 = "\ct#3: ???";
 QUEST_LVL3_3A = "\ct#3: Defeat the secret boss.";
 
