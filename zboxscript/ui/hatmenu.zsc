@@ -88,6 +88,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 			array<string> splitline;
 			cheatcheck = cvar.FindCVAR("box_hat_cheat");
 			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			if (currentline.Left(7) == "CVAR = ") {continue;}
 			
 			if (currentline.Left(6) == "Hat = ")
 			{
@@ -130,6 +131,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 			array<string> fixedline;
 			array<string> splitline;
 			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			if (currentline.Left(7) == "CVAR = ") {continue;}
 			
 			if (currentline.Left(9) == "Secret = ")
 			{

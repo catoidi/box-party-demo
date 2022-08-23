@@ -58,4 +58,9 @@ Secret = HAT_SECRET_16, box_hat_secret_16, HATAE6.png, HATSECRET16.png;
 Secret = HAT_SECRET_17, box_hat_secret_17, HATAE7.png, HATSECRET17.png;
 Secret = HAT_SECRET_18, box_hat_secret_18, HATAF1.png, HATSECRET18.png;
 Secret = HAT_SECRET_19, box_hat_secret_19, HATAF2.png, HATSECRET19.png;
+>>Extra Hat CVARs:
+>>Simply a list of CVARs that should be reset if hats are reset to default values.
+CVAR = box_hat_lucky;
+CVAR = box_hat_glowstick;
+CVAR = box_achievements;
 >>END OF FILE
