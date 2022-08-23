@@ -30,10 +30,10 @@ Hat = HAT_SELECT_05, HAT_LOCKED_05, box_hat_unlock_05, HATAA5.png, HATBUTTONE.pn
 Hat = HAT_SELECT_07, HAT_LOCKED_07, box_hat_unlock_07, HATAA7.png, HATBUTTONG.png, HATLOCK.png;
 Hat = HAT_SELECT_10, HAT_LOCKED_10, box_hat_unlock_10, HATAAA.png, HATBUTTONJ.png, HATLOCK.png;
 Hat = HAT_SELECT_11, HAT_LOCKED_11, box_hat_unlock_11, HATAAB.png, HATBUTTONK.png, HATLOCK.png;
-Hat = HAT_SELECT_12, HAT_LOCKED_12, box_hat_unlock_12, HATAAC.png, HATBUTTONL.png, HATLOCKA.png;
+Hat = HAT_SELECT_12, HAT_LOCKED_12, box_hat_unlock_12, HATAAC.png, HATBUTTONL.png, HATLOCK.png;
 Hat = HAT_SELECT_13, HAT_LOCKED_13, box_hat_unlock_13, HATAAD.png, HATBUTTONM.png, HATLOCK.png;
 Hat = HAT_SELECT_14, HAT_LOCKED_14, box_hat_unlock_14, HATAAE.png, HATBUTTONN.png, HATLOCK.png;
-Hat = HAT_SELECT_15, HAT_LOCKED_15, box_hat_unlock_15, HATAAF.png, HATBUTTONO.png, HATLOCKA.png;
+Hat = HAT_SELECT_15, HAT_LOCKED_15, box_hat_unlock_15, HATAAF.png, HATBUTTONO.png, HATLOCKB.png;
 >>Page 2:
 Hat = HAT_SELECT_16, HAT_LOCKED_16, box_hat_unlock_16, HATAB1.png, HATBUTTON2A.png, HATLOCK2.png;
 >>rest of the hats are in full version :)

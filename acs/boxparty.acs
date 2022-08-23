@@ -546,6 +546,34 @@ script "RemoveFishingRod" (void)
 	TakeInventory("FishingRod", 1);
 }
 
+script "hatpage1check" ENTER
+{
+	int hats = 0;
+	if (!GetCVAR("box_hat_unlock_15"))
+	{
+		if (GetCVAR("box_hat_unlock_02")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_03")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_04")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_05")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_06")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_07")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_08")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_09")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_10")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_11")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_12")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_13")) {hats += 1;}
+		if (GetCVAR("box_hat_unlock_14")) {hats += 1;}
+		if (hats == 13)
+		{
+			box_gethat("box_hat_unlock_15", "box_unlockhat_15");
+		}
+	
+		Delay(70);
+		Restart;
+	}
+}
+
 function void DOptionCheck (void)
 {
 	int modifiers;
