@@ -1,5 +1,5 @@
 //zscript.zsc
-version "4.7"
+version "4.8"
 
 //to avoid potential conflicts with any mods that use zscript,
 //i renamed the zscript folder to zboxscript.
