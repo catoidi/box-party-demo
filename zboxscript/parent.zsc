@@ -101,9 +101,18 @@ CLASS BoxMonster : BoxActor abstract
 		{
 			if ((damagetype == "Fire") || (damagetype == "Pepper")) {BurnAmount += 3;}
 		}
-		else if ((damagetype == "Lightning") && (BurnAmount > 0))
+		else if (damagetype == "Lightning")
 		{
-			int bigdamage = damage * 2;
+			int bigdamage = damage;
+			
+			if (BurnAmount > 0)
+			{
+				bigdamage *= 2;
+			}
+			if (waterlevel >= 1)
+			{
+				bigdamage *= 1.25;
+			}
 			
 			return bigdamage;
 		}
@@ -148,6 +157,8 @@ CLASS BoxMonster : BoxActor abstract
 				BurnAmount -= 1;
 				if (BurnAmount > 15) {BurnAmount = 15;}
 			}
+			
+			if (waterlevel >= 1) {BurnAmount -= 1;}
 		}
 		else {A_RemoveLight("imonfire");}
 	}
