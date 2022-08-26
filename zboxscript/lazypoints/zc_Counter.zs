@@ -105,7 +105,7 @@ class zc_Counter
   private int            _oldSecretCount;
   private zc_TimerBonus  _timerBonus;
   private zc_HealthBonus _healthBonus;
-  private cvar 			 hpcvar;
+  transient cvar 		 hpcvar;
   private int			 hpint;
 
 } // class zc_Counter
