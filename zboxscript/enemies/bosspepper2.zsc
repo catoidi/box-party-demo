@@ -38,7 +38,7 @@ CLASS BossPepper2 : BoxBoss
 	bool YouKilledMyBrother;
 	override void Tick()
 	{
-		if (YouKilledMyBrother == true) {IsAngery = true;}
+		if ((YouKilledMyBrother == true) && (self.Health > 0)) {IsAngery = true;}
 		Super.Tick();
 	}
 	
