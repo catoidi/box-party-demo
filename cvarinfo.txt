@@ -23,12 +23,12 @@ server bool box_tutorial = true; //show tutorial messages
 server bool box_levelname = true; //display level names at start of level
 
 //difficulty control
-server int box_foodhp = 1; //enemy health multiplier
-server int box_fooddamage = 1; //enemy damage multiplier
-server int box_foodchance = 1; //control chance of enemies dropping health
-server int box_ammochance = 1; //control chance of enemies dropping ammo
-server bool box_doubleammo = false; //toggle giving the player more maximum ammo
-server bool box_glowstart = false; //lose all your weapons except glowstick every level
+server cheat int box_foodhp = 1; //enemy health multiplier
+server cheat int box_fooddamage = 1; //enemy damage multiplier
+server cheat int box_foodchance = 1; //control chance of enemies dropping health
+server cheat int box_ammochance = 1; //control chance of enemies dropping ammo
+server cheat bool box_doubleammo = false; //toggle giving the player more maximum ammo
+server cheat bool box_glowstart = false; //lose all your weapons except glowstick every level
 
 //hat unlocks
 user bool box_hat_color = false;

@@ -183,6 +183,7 @@ BOX_OPTION_FOODCHANCE = "Enemy Health Drops";
 BOX_OPTION_AMMOCHANCE = "Enemy Ammo Drops";
 BOX_OPTION_GLOWSTART = "Glowstick Only Start";
 BOX_OPTION_DOUBLEAMMO = "More Max Ammo";
+GAMEPLAYCHEATS = "You can change these in the difficulty select level.";
 
 //BoxGraphics Menu
 BOX_TITLE_GRAPHICS = "Graphics Options";
