@@ -28,6 +28,7 @@ class zc_Counter
     _timerBonus     = timerBonus;
     _healthBonus    = healthBonus;
 	hpcvar = cvar.FindCVAR("box_foodhp");
+	if (hpcvar) {hpint = hpcvar.GetInt();}
 
     return self;
   }
@@ -42,11 +43,8 @@ class zc_Counter
 
     if (damaged && damaged.bIsMonster && isMe(inflictor))
     {
-	  if (hpcvar)
-	  {
-		if (hpcvar.GetInt() == 2) {damage *= 0.55;}
-		else if (hpcvar.GetInt() == 3) {damage *= 0.4;}
-	  }
+	  if (hpint == 2) {damage *= 0.55;}
+	  else if (hpint == 3) {damage *= 0.4;}
       addPoints(damage);
     }
   }
@@ -108,5 +106,6 @@ class zc_Counter
   private zc_TimerBonus  _timerBonus;
   private zc_HealthBonus _healthBonus;
   private cvar 			 hpcvar;
+  private int			 hpint;
 
 } // class zc_Counter
