@@ -2,8 +2,70 @@
 
 extend class BoxHandler
 {
+	static const string alphabet[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "]"}; //all characters you can use sprite frames for, excluding \.
+	static const string rotations[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G"}; 
+	
 	void PaintController(WorldEvent e)
-	{
+	{	
+		string fullpainting;
+		string paintsprite;
+		string paintframe;
+		string paintrotation;
+	
+		//Choosing a Painting...
+		int painttries = 0;
+		while (painttries < 32) //cap attempts to 32 tries.
+		{
+			int paintnum = random(0, (PaintNames.Size() - 1));
+			fullpainting = PaintNames[paintnum]; //go ahead and define selected painting to the string, just in case this thing fails 32 times in a row.
+			if (random(0, PaintChance[paintnum]) == 0) {painttries = 32;} //if Painting's random chance lands on 0, go ahead and choose this painting.
+			else {++painttries;} //otherwise, try again.
+		}
+		paintsprite = fullpainting.Mid(0, 4);
+		paintframe = fullpainting.Mid(4, 1);
+		paintrotation = fullpainting.Mid(5, 1);
 		
+		//Setting the painting's sprite...
+		e.Thing.sprite = e.Thing.GetSpriteIndex(paintsprite);
+		
+		//Setting the painting's frame...
+		for (int i = 0; i < alphabet.Size(); i++) 
+		{
+			if (paintframe == alphabet[i]) {e.Thing.frame = i;}
+		}
+		
+		//Setting the painting's rotation...
+		for (int i = 0; i < rotations.Size(); i++) 
+		{			
+			if (paintrotation == rotations[i]) 
+			{
+				switch (i)
+				{
+					case 0: e.Thing.SpriteAngle = 180; break;
+					case 1: e.Thing.SpriteAngle = 180; break;
+					case 2: e.Thing.SpriteAngle = 225; break;
+					case 3: e.Thing.SpriteAngle = 270; break;
+					case 4: e.Thing.SpriteAngle = 315; break;
+					case 5: e.Thing.SpriteAngle = 0; break;
+					case 6: e.Thing.SpriteAngle = 45; break;
+					case 7: e.Thing.SpriteAngle = 90; break;
+					case 8: e.Thing.SpriteAngle = 135; break;
+					case 9: e.Thing.SpriteAngle = 202.5; break;
+					case 10: e.Thing.SpriteAngle = 247.5; break;
+					case 11: e.Thing.SpriteAngle = 292.5; break;
+					case 12: e.Thing.SpriteAngle = 337.5; break;
+					case 13: e.Thing.SpriteAngle = 22.5; break;
+					case 14: e.Thing.SpriteAngle = 67.5; break;
+					case 15: e.Thing.SpriteAngle = 112.5; break;
+					case 16: e.Thing.SpriteAngle = 157.5; break;
+				}
+			}
+		}
+		
+		//Setting the painting's size...
+		double currentscale = 1.0;
+		for (int i = 0; i < PaintScale.Size(); i++) {if (fullpainting == PaintNames[i]) {currentscale = PaintScale[i];}}
+		e.Thing.Scale.X *= currentscale;
+		e.Thing.Scale.Y *= currentscale;
 	}
 }

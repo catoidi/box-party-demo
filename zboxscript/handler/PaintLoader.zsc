@@ -4,6 +4,63 @@ extend class BoxHandler
 {
 	void PaintLoader(WorldEvent e)
 	{
+		//ensure there is nothing inside these arrays before proceeding.
+		PaintLines.Clear();
+		PaintNames.Clear();
+		PaintChance.Clear();
+		PaintScale.Clear();
 		
+		int DropMode = 0; //if 1, add to player list. if 2, add to ammo list.
+		
+		int ThisLump = Wads.FindLump("BOXPAINT", 0, Wads.ANYNAMESPACE);
+		int NextLump = Wads.FindLump("BOXPAINT", ThisLump + 1, Wads.ANYNAMESPACE);
+		
+		while (ThisLump != -1)
+		{
+			Wads.ReadLump(ThisLump).Split(PaintLines, "\n", TOK_SKIPEMPTY);
+			ThisLump = NextLump;
+			NextLump = Wads.FindLump("BOXPAINT", ThisLump + 1, 1);
+		}
+		
+		for (int i = 0; i < PaintLines.Size(); i++)
+		{
+			string currentline = PaintLines[i];
+			int currentlength = currentline.Length();
+			array<string> fixedline;
+			array<string> splitline;
+			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			if (currentline == "") {continue;} //skip line if it is empty
+			
+			if (currentline.Left(11) == "Painting = ")
+			{
+				currentline = currentline.Mid(11, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				let PaintCap = splitline[1].MakeLower();
+				if ((PaintCap == level.MapName) || (PaintCap == "*")) //run this code if 2nd argument is "*" or the name of the current level.
+				{
+					let PaintPriority = splitline[3].ToInt(10);
+					if (PaintPriority > 64) {PaintPriority = 64;} //cap priority to 64.
+					for (int j = 0; j < PaintPriority; j++) //run this code multiple times based on the number from 4th argument.
+					{
+						PaintNames.Push(splitline[0]); //the full sprite name of the Painting.
+						let PaintInt = splitline[2].ToInt(10);
+						PaintChance.Push(PaintInt); //the chance of this specific Painting not being chosen.
+						let PaintDouble = splitline[4].ToDouble();
+						PaintScale.Push(PaintDouble); //the scale of the Painting.
+						//double realchance = (100.0 / (PaintInt + 1.0));
+						//console.printf("\ctName = '%s', \coSize = '%.2f', \ckChance = %.2f%%.", splitline[0], PaintDouble, realchance);
+					}
+				}
+			}
+			else
+			{
+				console.printf("\cgBOXPAINT ERROR - LINE #%d SHOULD NOT BE HERE:\n'%s'", i, currentline);
+			}
+		}
+		//console.printf("'%d' paintings loaded.", PaintNames.Size());
+		//console.printf("current level is '%s'.", level.MapName);
 	}
 }

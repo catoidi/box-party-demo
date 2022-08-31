@@ -1,0 +1,73 @@
+>>This is a comment. Any line starting with ">>" will be ignored by Box Party.
+>>Simply follow these instructions if you wish to add custom paintings to Box Party.
+>>All new paintings start with the line "Painting = ".
+>>The first argument is the sprite name of the painting.
+>>The second argument is the name of the level the painting will spawn in.
+>>Use "*" as the second argument if you wish the painting to spawn in every level.
+>>The third argument is the rarity of the painting. 0 is almost guaranteed to spawn. Higher numbers mean more rare.
+>>The fourth argument is the priority of the painting. This multiplies the chance of this painting being picked. Minimum is 1.
+>>The fifth arguement is the scale of the painting. Supports decimals. Default is 1.
+>>You can add the same painting multiple times if you want it to appear in a few specific levels.
+>>
+>>These paintings will spawn in every level.
+Painting = PANTA1, party01, 0, 1, 1;
+>>Painting = PANTA2, *, 0, 1, 1;
+Painting = PANTA3, *, 0, 1, 1;
+Painting = PANTA4, party03, 0, 1, 1;
+Painting = PANTA5, party02, 0, 1, 1;
+Painting = PANTA6, *, 0, 1, 1;
+Painting = PANTA7, *, 0, 1, 1;
+Painting = PANTA8, *, 0, 1, 1;
+Painting = PANTA9, *, 0, 1, 1;
+Painting = PANTAA, party02, 0, 1, 1;
+>>These are 3x more likely to appear than one of the above paintings.
+Painting = PANTAB, party01, 0, 3, 1;
+Painting = PANTAC, party01, 0, 3, 1;
+Painting = PANTAD, party02, 0, 3, 1;
+Painting = PANTAE, party02, 0, 3, 1;
+Painting = PANTAF, party03, 0, 3, 1;
+Painting = PANTAG, party03, 0, 3, 1;
+>>the cat paintings
+Painting = PANTB1, *, 63, 1, 1;
+Painting = PANTB2, party01, 63, 1, 1;
+Painting = PANTB3, party01, 63, 1, 1;
+Painting = PANTB4, party02, 63, 1, 1;
+Painting = PANTB5, party02, 63, 1, 1;
+Painting = PANTB6, party03, 63, 1, 1;
+Painting = PANTB7, party03, 63, 1, 1;
+>>the 'quirky' paintings
+Painting = PANTC1, party02, 255, 1, 1;
+Painting = PANTC2, party01, 255, 1, 1;
+Painting = PANTC3, *, 255, 1, 1;
+Painting = PANTC4, party01, 255, 1, 1;
+Painting = PANTC5, *, 255, 1, 1;
+Painting = PANTC6, *, 255, 1, 1;
+Painting = PANTC7, party03, 255, 1, 1;
+Painting = PANTC8, party03, 255, 1, 1;
+Painting = PANTC9, *, 255, 1, 1;
+Painting = PANTCA, *, 255, 1, 1;
+>>rare level specific paintings
+Painting = PANTCB, party02, 31, 1, 1;
+>>pride paintings
+Painting = PANTD1, *, 1, 1, 1;
+Painting = PANTD2, *, 1, 1, 1;
+>>big paintings
+Painting = PANBA1, *, 99, 1, 0.5;
+Painting = PANBA2, *, 199, 1, 0.5;
+Painting = PANBA3, *, 199, 1, 0.5;
+Painting = PANBA4, *, 99, 1, 0.5;
+Painting = PANBA5, *, 199, 1, 0.5;
+Painting = PANBA6, *, 99, 1, 0.5;
+Painting = PANBA7, *, 199, 1, 0.5;
+Painting = PANBA8, *, 199, 1, 0.5;
+Painting = PANBA9, *, 199, 1, 0.5;
+Painting = PANBAA, *, 199, 1, 0.5;
+Painting = PANBAB, *, 99, 1, 0.5;
+Painting = PANBAC, *, 199, 1, 0.5;
+Painting = PANBAD, *, 199, 1, 0.5;
+>>fanart
+Painting = PANBAE, *, 3, 1, 0.5;
+Painting = PANBB1, *, 15, 1, 0.25;
+Painting = PANBB2, *, 15, 1, 0.25;
+Painting = PANBB3, *, 15, 1, 0.25;
+Painting = PANBB4, *, 15, 1, 0.25;

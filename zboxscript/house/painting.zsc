@@ -39,7 +39,6 @@ CLASS Painting : BoxActor
 		}
 	}
 	
-	
 	States
 	{
 		Spawn:
@@ -50,31 +49,10 @@ CLASS Painting : BoxActor
 					SetStateLabel("Pride");
 				}
 			}
-			PANT Z 0 A_Jump(32, "Rare", "Rare", "Pride");
-			PANT Z 0 A_Jump(2, "BigPainting");
-			PANT A 0 DoPaintingRotation(random(1, 16)); //common paintings
-			Goto Looper;
-		Rare:
-			PANT Z 1;
-			PANT B 0 A_Jump(16, "MoreRare");
-			PANT B 0 DoPaintingRotation(random(1, 7)); //cats
-			Goto Looper;
-		MoreRare:
-			PANT Z 1;
-			PANT C 0 DoPaintingRotation(random(1, 10)); //spooky
 			Goto Looper;
 		Pride:
 			PANT Z 1;
 			PANT D 0 DoPaintingRotation(random(1, 2));
-			Goto Looper;
-		BigPainting:
-			PANT Z 1 A_BoxScale(-0.5);
-			PANT Z 0 A_Jump(64, "BigPainting2");
-			PANB A 0 DoPaintingRotation(random(1, 14));
-			Goto Looper;
-		BigPainting2:
-			PANT Z 1 A_BoxScale(-0.25);
-			PANB B 0 DoPaintingRotation(random(1, 4));
 			Goto Looper;
 		Looper:
 			#### # 5
@@ -83,5 +61,34 @@ CLASS Painting : BoxActor
 				else {A_FadeTo(1.0, 0.35, FTF_CLAMP);}
 			}
 			Loop;
+		//this state is loaded into memory, but not used by any functions.
+		DummyState: //gotta define these frames within any actor's state or the game will crash if ZScript tries to load it.
+			PANA A 1;
+			PANB A 1; //big paintings.
+			PANC A 1;
+			PAND A 1;
+			PANE A 1;
+			PANF A 1;
+			PANG A 1;
+			PANH A 1;
+			PANI A 1;
+			PANJ A 1;
+			PANK A 1;
+			PANL A 1;
+			PANM A 1;
+			PANN A 1;
+			PANO A 1;
+			PANP A 1;
+			PANQ A 1;
+			PANR A 1;
+			PANS A 1;
+			PANT A 1; //most paintings go here.
+			PANU A 1;
+			PANV A 1;
+			PANW A 1;
+			PANX A 1;
+			PANY A 1;
+			PANZ A 1;
+			Stop;
 	}
 }

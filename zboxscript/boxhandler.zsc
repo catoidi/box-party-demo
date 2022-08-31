@@ -14,6 +14,11 @@ class BoxHandler : EventHandler
 	
 	Array<String> HatLines;
 	Array<String> HatCVARs;
+	
+	Array<String> PaintLines;
+	Array<String> PaintNames;
+	Array<Int> PaintChance;
+	Array<Double> PaintScale;
 
 	override void WorldLoaded(WorldEvent e)
 	{
