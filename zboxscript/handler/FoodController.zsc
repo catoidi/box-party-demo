@@ -1,0 +1,27 @@
+//zboxscript/handler/foodcontroller.zsc
+
+extend class BoxHandler
+{
+	void FoodController(WorldEvent e)
+	{
+		cvar foodhp = cvar.FindCVAR('box_foodhp');
+		cvar fooddmg = cvar.FindCVAR('box_fooddamage');
+		double multnum[4] = {0.5, 1.0, 2.0, 3.0};
+		double hpmult = multnum[foodhp.GetInt()];
+		double dmgmult = multnum[fooddmg.GetInt()];
+		
+		if (hpmult != 1.0)
+		{
+			//i am aware that these numbers get truncated. i do not plan to fix it right now.
+			int starthp = e.Thing.Health * hpmult;
+			if (starthp < 1) {starthp = 1;}
+			e.Thing.Health = starthp;
+			e.Thing.StartHealth = starthp  / G_SkillPropertyFloat(SKILLP_MonsterHealth);
+		}
+		if (dmgmult != 1.0)
+		{
+			double startdmg = e.Thing.DamageMultiply * dmgmult;
+			e.Thing.DamageMultiply = startdmg;
+		}
+	}
+}

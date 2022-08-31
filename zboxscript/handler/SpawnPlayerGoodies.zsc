@@ -1,0 +1,15 @@
+//zboxscript/handler/spawnplayergoodies.zsc
+
+extend class BoxHandler
+{
+	void SpawnPlayerGoodies(PlayerPawn p)
+	{
+		//Spawns a shadow and hat actor for every player in the game.
+		if (p) 
+		{
+			p.A_SpawnItemEX("BoxShadow", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER);
+			p.A_SpawnItemEX("BoxHatPlayer", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER | SXF_TRANSFERTRANSLATION);
+			p.A_SpawnItemEX("BoxHatPlayer2", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER);
+		}
+	}
+}

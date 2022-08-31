@@ -1,0 +1,45 @@
+//zboxscript/handler/healthdropper.zsc
+
+extend class BoxHandler
+{
+	void HealthDropper(WorldEvent e)
+	{
+		for (int i = 0; i < PlayerNames.Size(); ++i)
+		{
+			actor badguy = e.Thing.target;
+			string badguyname = badguy.GetClassName();
+			badguyname = badguyname.MakeLower();
+			string forname = PlayerNames[i];
+			forname = forname.MakeLower();
+			if (badguyname != forname)
+			{
+				continue;
+			}
+			else
+			{
+				string lootstring = e.Thing.GetClassName();
+				int lootlength = lootstring.Length();
+				string loottype;
+				if (lootstring.Mid(lootlength - 7, lootlength) == "_Forced") 
+				{
+					lootstring.Replace("_Forced", "Health");
+					loottype = ""; //don't ask.
+				}
+				else 
+				{loottype = PlayerDrops[i];}
+				
+				//it is implied that anything inheriting from "BoxLootDropper" has a name starting with "BoxLooter_".
+				lootstring = lootstring.Mid(10, lootlength);
+				
+				string realdrop = string.Format("%s%s", lootstring, loottype);
+				//int reallength = realdrop.Length();
+				//realdrop.Truncate(reallength - 1);
+				
+				//console.printf("'%s'", realdrop);
+				//use this if drops are not working for some reason.
+				
+				e.Thing.A_SpawnItemEX(realdrop, 0, 0, 0, e.Thing.Vel.X, e.Thing.Vel.Y, e.Thing.Vel.Z, random(0, 359), SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS);
+			}
+		}
+	}
+}

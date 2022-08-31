@@ -1,0 +1,95 @@
+//zboxscript/handler/resetallhats.zsc
+
+extend class BoxHandler
+{
+	void ResetAllHats(void)
+	{
+		int ThisLump = Wads.FindLump("BOXHAT", 0, Wads.ANYNAMESPACE);
+		int NextLump = Wads.FindLump("BOXHAT", ThisLump + 1, Wads.ANYNAMESPACE);
+		
+		while (ThisLump != -1)
+		{
+			Wads.ReadLump(ThisLump).Split(HatLines, "\n", TOK_SKIPEMPTY);
+			ThisLump = NextLump;
+			NextLump = Wads.FindLump("BOXHAT", ThisLump + 1, 1);
+		}
+		
+		//make a list of all currently loaded Hat CVARs.
+		for (int i = 0; i < HatLines.Size(); i++)
+		{
+			string currentline = HatLines[i];
+			int currentlength = currentline.Length();
+			array<string> fixedline;
+			array<string> splitline;
+			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			
+			if (currentline.Left(6) == "Hat = ")
+			{
+				currentlength += -1;
+				currentline = currentline.Mid(6, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				cvar cvarcheck = cvar.FindCVAR(splitline[2]);
+				
+				if (cvarcheck) {HatCVARs.Push(splitline[2]);}
+			}
+		}
+		
+		//don't forget the secret hats!
+		for (int i = 0; i < HatLines.Size(); i++)
+		{
+			string currentline = HatLines[i];
+			int currentlength = currentline.Length();
+			array<string> fixedline;
+			array<string> splitline;
+			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			
+			if (currentline.Left(9) == "Secret = ")
+			{
+				currentlength += -1;
+				currentline = currentline.Mid(9, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				cvar secretcheck = cvar.FindCVAR(splitline[1]);
+				
+				if (secretcheck) {HatCVARs.Push(splitline[1]);}
+			}
+		}
+		
+		//and lastly, the CVARs in BOXHAT that are specified to be reset upon issuing this command.
+		for (int i = 0; i < HatLines.Size(); i++)
+		{
+			string currentline = HatLines[i];
+			int currentlength = currentline.Length();
+			array<string> fixedline;
+			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			
+			if (currentline.Left(7) == "CVAR = ")
+			{
+				currentlength += -1;
+				currentline = currentline.Mid(7, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				cvar resetcheck = cvar.FindCVAR(fixedline[0]);
+				
+				if (resetcheck) {HatCVARs.Push(fixedline[0]);}
+			}
+		}
+		
+		//it's time to reset the hats.
+		for (int i = 0; i < HatCVARs.Size(); i++)
+		{
+			cvar CurrentCVAR = cvar.FindCVAR(HatCVARs[i]);
+			if (CurrentCVAR)
+			{
+				CurrentCVAR.ResetToDefault();
+			}
+		}
+		
+		console.printf("%s", "all ur hats are gone now bye bye");
+	}
+}

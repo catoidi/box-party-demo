@@ -1,6 +1,8 @@
 class BoxHandler : EventHandler
 {
 	//WARNING: my code sucks LMAO
+	
+	//also i moved a bunch of the functions to separate files because this file was getting too large for my liking.
 
 	Array<String> LumpLines;
 	Array<String> PlayerNames;
@@ -15,92 +17,8 @@ class BoxHandler : EventHandler
 
 	override void WorldLoaded(WorldEvent e)
 	{
-		BoxLootLoader(e);
-	}
-	
-	void BoxLootLoader(WorldEvent e)
-	{
-		//create a list of players and weapons, with their associated loot drops.
-		//will also look for custom players and weapons and add them to the system as well.
-		
-		//ensure there is nothing inside these arrays before proceeding.
-		LumpLines.Clear();
-		PlayerNames.Clear();
-		PlayerDrops.Clear();
-		DropAmmo.Clear();
-		WeaponNames.Clear();
-		WeaponDrops.Clear();
-		MinimumAmmo.Clear();
-		
-		int DropMode = 0; //if 1, add to player list. if 2, add to ammo list.
-		
-		int ThisLump = Wads.FindLump("BOXLOOT", 0, Wads.ANYNAMESPACE);
-		int NextLump = Wads.FindLump("BOXLOOT", ThisLump + 1, Wads.ANYNAMESPACE);
-		
-		while (ThisLump != -1)
-		{
-			Wads.ReadLump(ThisLump).Split(LumpLines, "\n", TOK_SKIPEMPTY);
-			ThisLump = NextLump;
-			NextLump = Wads.FindLump("BOXLOOT", ThisLump + 1, 1);
-		}
-		
-		for (int i = 0; i < LumpLines.Size(); i++)
-		{
-			string currentline = LumpLines[i];
-			int currentlength = currentline.Length();
-			array<string> fixedline;
-			array<string> splitline;
-			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
-			
-			if (currentline.Left(9) == "Player = ")
-			{
-				currentline = currentline.Mid(9, currentlength);
-				
-				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
-				fixedline[0].Split(splitline, ", ");
-				
-				PlayerNames.Push(splitline[0]);
-				PlayerDrops.Push(splitline[1]);
-			}
-			else if (currentline.Left(9) == "Weapon = ")
-			{
-				currentline = currentline.Mid(9, currentlength);
-				
-				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
-				fixedline[0].Split(splitline, ", ");
-				
-				DropAmmo.Push(splitline[0]);
-				WeaponNames.Push(splitline[1]);
-				WeaponDrops.Push(splitline[2]);
-				if (splitline.Size() == 4)
-				{
-					MinimumAmmo.Push(splitline[3].ToInt(10));
-				}
-				else {MinimumAmmo.Push(0);}
-			}
-			else
-			{
-				console.printf("\cgERROR - THIS LINE SHOULD NOT BE HERE:\n%s", currentline);
-			}
-		}
-		
-		cvar logger = cvar.FindCVAR("box_lootlog");
-		
-		if (logger.GetBool() == true)
-		{
-			console.printf("%s", "\cvplayers:");
-			for (int i = 0; i < PlayerNames.Size(); i++) {console.printf("%s", PlayerNames[i]);}
-			console.printf("%s", "\cvloot:");
-			for (int i = 0; i < PlayerDrops.Size(); i++) {console.printf("%s", PlayerDrops[i]);}
-			console.printf("%s", "\cvweapons:");
-			for (int i = 0; i < WeaponNames.Size(); i++) {console.printf("%s", WeaponNames[i]);}
-			console.printf("%s", "\cvammo:");
-			for (int i = 0; i < WeaponDrops.Size(); i++) {console.printf("%s", WeaponDrops[i]);}
-			console.printf("%s", "\cvminimum:");
-			for (int i = 0; i < MinimumAmmo.Size(); i++) {console.printf("%d", MinimumAmmo[i]);}
-			console.printf("%s", "\cvok to drop:");
-			for (int i = 0; i < DropAmmo.Size(); i++) {console.printf("%s", DropAmmo[i]);}
-		}
+		BoxLootLoader(e); //moved to */handler/BoxLootLoader.zsc
+		PaintLoader(e); //moved to */handler/PaintLoader.zsc
 	}
 	
 	override void WorldThingSpawned(WorldEvent e)
@@ -109,154 +27,24 @@ class BoxHandler : EventHandler
 		{
 			if ((e.Thing.target != null) && (e.Thing.target is "PlayerPawn"))
 			{
-				if (e.Thing is "BoxLootDropper") {HealthDropper(e);}
-				else if (e.Thing is "BoxFakeAmmoDrop") {AmmoDropper(e);}
+				if (e.Thing is "BoxLootDropper") {HealthDropper(e);} //moved to */handler/HealthDropper.zsc
+				else if (e.Thing is "BoxFakeAmmoDrop") {AmmoDropper(e);} //moved to */handler/AmmoDropper.zsc
 			}
 			else if (e.Thing is "BoxMonster")
 			{
-				FoodController(e);
+				FoodController(e); //moved to */handler/FoodController.zsc
 			}
-		}
-	}
-	
-	void HealthDropper(WorldEvent e)
-	{
-		for (int i = 0; i < PlayerNames.Size(); ++i)
-		{
-			actor badguy = e.Thing.target;
-			string badguyname = badguy.GetClassName();
-			badguyname = badguyname.MakeLower();
-			string forname = PlayerNames[i];
-			forname = forname.MakeLower();
-			if (badguyname != forname)
+			else if (e.Thing.GetClassName() == "Painting")
 			{
-				continue;
+				PaintController(e); //moved to */handler/PaintController.zsc
 			}
-			else
-			{
-				string lootstring = e.Thing.GetClassName();
-				int lootlength = lootstring.Length();
-				string loottype;
-				if (lootstring.Mid(lootlength - 7, lootlength) == "_Forced") 
-				{
-					lootstring.Replace("_Forced", "Health");
-					loottype = ""; //don't ask.
-				}
-				else 
-				{loottype = PlayerDrops[i];}
-				
-				//it is implied that anything inheriting from "BoxLootDropper" has a name starting with "BoxLooter_".
-				lootstring = lootstring.Mid(10, lootlength);
-				
-				string realdrop = string.Format("%s%s", lootstring, loottype);
-				//int reallength = realdrop.Length();
-				//realdrop.Truncate(reallength - 1);
-				
-				//console.printf("'%s'", realdrop);
-				//use this if drops are not working for some reason.
-				
-				e.Thing.A_SpawnItemEX(realdrop, 0, 0, 0, e.Thing.Vel.X, e.Thing.Vel.Y, e.Thing.Vel.Z, random(0, 359), SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS);
-			}
-		}
-	}
-	
-	void AmmoDropper(WorldEvent e)
-	{
-		Array<String> EquippedNames;
-		Array<String> EquippedDrops;
-		Array<String> NoAmmoWeapons;
-		Array<String> EquippedBan;
-		actor weaponguy = e.Thing.target;
-		int slotcounter = 0;
-		int currentammo;
-		bool candropammo = true;
-	
-		for (int i = 0; i < WeaponNames.Size(); ++i)
-		{
-			if (weaponguy.CountInv(WeaponNames[i]) == 0) {continue;}
-			else
-			{
-				EquippedNames.Push(WeaponNames[i]);
-				EquippedDrops.Push(WeaponDrops[i]);
-				EquippedBan.Push(DropAmmo[i]);
-				string usethis = EquippedDrops[slotcounter];
-				usethis.Replace(" ", ""); //not sure why, but a space gets added to the end of some lines. this removes em.
-				currentammo = e.Thing.CountInv(usethis, AAPTR_TARGET);
-				
-				if ((currentammo <= MinimumAmmo[slotcounter]) || (e.Thing is "BoxFakeAmmoDropForced")) 
-				{
-					NoAmmoWeapons.Push(EquippedNames[slotcounter]);
-				}
-				else {candropammo = false;}
-				slotcounter += 1;
-			}
-		}
-		if ((candropammo == true) && (NoAmmoWeapons.Size() != 0))
-		{
-			//console.printf("%s", "\cqdropping ammo...");
-			for (int i = 0; i < NoAmmoWeapons.Size(); ++i)
-			{
-				if (EquippedBan[i] == "false") {NoAmmoWeapons.Delete(i);}
-			}
-			
-			int weaponsize = NoAmmoWeapons.Size();
-			int randomnum = random(0, weaponsize -1);
-			string randomweapon = NoAmmoWeapons[randomnum];
-			bool hasspawned = false;
-			for (int i = 0; i < EquippedNames.Size(); ++i)
-			{
-				if ((randomweapon != EquippedNames[i]) || (hasspawned == true)) {continue;}
-				else
-				{
-					string usethis = EquippedDrops[i];
-					string usethisdrop = string.Format("%sDrop", usethis);
-					//console.printf("'%s' has been dropped.", usethisdrop);
-					e.Thing.A_SpawnItemEX(usethisdrop, 0, 0, 0, e.Thing.Vel.X, e.Thing.Vel.Y, e.Thing.Vel.Z, random(0, 359), SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS);
-					hasspawned = true;
-				}
-			}
-		}
-		//else {console.printf("%s", "\cgCANT DROP AMMO!!!");}
-	}
-	
-	void FoodController(WorldEvent e)
-	{
-		cvar foodhp = cvar.FindCVAR('box_foodhp');
-		cvar fooddmg = cvar.FindCVAR('box_fooddamage');
-		double multnum[4] = {0.5, 1.0, 2.0, 3.0};
-		double hpmult = multnum[foodhp.GetInt()];
-		double dmgmult = multnum[fooddmg.GetInt()];
-		
-		if (hpmult != 1.0)
-		{
-			//i am aware that these numbers get truncated. i do not plan to fix it right now.
-			int starthp = e.Thing.Health * hpmult;
-			if (starthp < 1) {starthp = 1;}
-			e.Thing.Health = starthp;
-			e.Thing.StartHealth = starthp  / G_SkillPropertyFloat(SKILLP_MonsterHealth);
-		}
-		if (dmgmult != 1.0)
-		{
-			double startdmg = e.Thing.DamageMultiply * dmgmult;
-			e.Thing.DamageMultiply = startdmg;
-		}
-	}
-	
-	void SpawnPlayerGoodies(PlayerPawn p)
-	{
-		//Spawns a shadow and hat actor for every player in the game.
-		if (p) 
-		{
-			p.A_SpawnItemEX("BoxShadow", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER);
-			p.A_SpawnItemEX("BoxHatPlayer", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER | SXF_TRANSFERTRANSLATION);
-			p.A_SpawnItemEX("BoxHatPlayer2", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER);
 		}
 	}
 
 	override void PlayerEntered(PlayerEvent e)
 	{
 		let p = players[e.PlayerNumber].mo;
-		if (p) SpawnPlayerGoodies(p);
+		if (p) SpawnPlayerGoodies(p); //moved to */handler/SpawnPlayerGoodies.zsc
 	}
 	
 	override void WorldThingDied(WorldEvent e)
@@ -283,98 +71,7 @@ class BoxHandler : EventHandler
 	{
 		if (event.name == "ResetHats")
 		{
-			ResetAllHats();
+			ResetAllHats(); //moved to */handler/ResetAllHats.zsc
 		}
-	}
-	
-	void ResetAllHats(void)
-	{
-		int ThisLump = Wads.FindLump("BOXHAT", 0, Wads.ANYNAMESPACE);
-		int NextLump = Wads.FindLump("BOXHAT", ThisLump + 1, Wads.ANYNAMESPACE);
-		
-		while (ThisLump != -1)
-		{
-			Wads.ReadLump(ThisLump).Split(HatLines, "\n", TOK_SKIPEMPTY);
-			ThisLump = NextLump;
-			NextLump = Wads.FindLump("BOXHAT", ThisLump + 1, 1);
-		}
-		
-		//make a list of all currently loaded Hat CVARs.
-		for (int i = 0; i < HatLines.Size(); i++)
-		{
-			string currentline = HatLines[i];
-			int currentlength = currentline.Length();
-			array<string> fixedline;
-			array<string> splitline;
-			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
-			
-			if (currentline.Left(6) == "Hat = ")
-			{
-				currentlength += -1;
-				currentline = currentline.Mid(6, currentlength);
-				
-				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
-				fixedline[0].Split(splitline, ", ");
-				
-				cvar cvarcheck = cvar.FindCVAR(splitline[2]);
-				
-				if (cvarcheck) {HatCVARs.Push(splitline[2]);}
-			}
-		}
-		
-		//don't forget the secret hats!
-		for (int i = 0; i < HatLines.Size(); i++)
-		{
-			string currentline = HatLines[i];
-			int currentlength = currentline.Length();
-			array<string> fixedline;
-			array<string> splitline;
-			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
-			
-			if (currentline.Left(9) == "Secret = ")
-			{
-				currentlength += -1;
-				currentline = currentline.Mid(9, currentlength);
-				
-				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
-				fixedline[0].Split(splitline, ", ");
-				
-				cvar secretcheck = cvar.FindCVAR(splitline[1]);
-				
-				if (secretcheck) {HatCVARs.Push(splitline[1]);}
-			}
-		}
-		
-		//and lastly, the CVARs in BOXHAT that are specified to be reset upon issuing this command.
-		for (int i = 0; i < HatLines.Size(); i++)
-		{
-			string currentline = HatLines[i];
-			int currentlength = currentline.Length();
-			array<string> fixedline;
-			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
-			
-			if (currentline.Left(7) == "CVAR = ")
-			{
-				currentlength += -1;
-				currentline = currentline.Mid(7, currentlength);
-				
-				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
-				cvar resetcheck = cvar.FindCVAR(fixedline[0]);
-				
-				if (resetcheck) {HatCVARs.Push(fixedline[0]);}
-			}
-		}
-		
-		//it's time to reset the hats.
-		for (int i = 0; i < HatCVARs.Size(); i++)
-		{
-			cvar CurrentCVAR = cvar.FindCVAR(HatCVARs[i]);
-			if (CurrentCVAR)
-			{
-				CurrentCVAR.ResetToDefault();
-			}
-		}
-		
-		console.printf("%s", "all ur hats are gone now bye bye");
 	}
 }

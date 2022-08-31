@@ -1,0 +1,63 @@
+//zboxscript/handler/ammodropper.zsc
+
+extend class BoxHandler
+{
+	void AmmoDropper(WorldEvent e)
+	{
+		Array<String> EquippedNames;
+		Array<String> EquippedDrops;
+		Array<String> NoAmmoWeapons;
+		Array<String> EquippedBan;
+		actor weaponguy = e.Thing.target;
+		int slotcounter = 0;
+		int currentammo;
+		bool candropammo = true;
+	
+		for (int i = 0; i < WeaponNames.Size(); ++i)
+		{
+			if (weaponguy.CountInv(WeaponNames[i]) == 0) {continue;}
+			else
+			{
+				EquippedNames.Push(WeaponNames[i]);
+				EquippedDrops.Push(WeaponDrops[i]);
+				EquippedBan.Push(DropAmmo[i]);
+				string usethis = EquippedDrops[slotcounter];
+				usethis.Replace(" ", ""); //not sure why, but a space gets added to the end of some lines. this removes em.
+				currentammo = e.Thing.CountInv(usethis, AAPTR_TARGET);
+				
+				if ((currentammo <= MinimumAmmo[slotcounter]) || (e.Thing is "BoxFakeAmmoDropForced")) 
+				{
+					NoAmmoWeapons.Push(EquippedNames[slotcounter]);
+				}
+				else {candropammo = false;}
+				slotcounter += 1;
+			}
+		}
+		if ((candropammo == true) && (NoAmmoWeapons.Size() != 0))
+		{
+			//console.printf("%s", "\cqdropping ammo...");
+			for (int i = 0; i < NoAmmoWeapons.Size(); ++i)
+			{
+				if (EquippedBan[i] == "false") {NoAmmoWeapons.Delete(i);}
+			}
+			
+			int weaponsize = NoAmmoWeapons.Size();
+			int randomnum = random(0, weaponsize -1);
+			string randomweapon = NoAmmoWeapons[randomnum];
+			bool hasspawned = false;
+			for (int i = 0; i < EquippedNames.Size(); ++i)
+			{
+				if ((randomweapon != EquippedNames[i]) || (hasspawned == true)) {continue;}
+				else
+				{
+					string usethis = EquippedDrops[i];
+					string usethisdrop = string.Format("%sDrop", usethis);
+					//console.printf("'%s' has been dropped.", usethisdrop);
+					e.Thing.A_SpawnItemEX(usethisdrop, 0, 0, 0, e.Thing.Vel.X, e.Thing.Vel.Y, e.Thing.Vel.Z, random(0, 359), SXF_NOCHECKPOSITION | SXF_TRANSFERPOINTERS);
+					hasspawned = true;
+				}
+			}
+		}
+		//else {console.printf("%s", "\cgCANT DROP AMMO!!!");}
+	}
+}

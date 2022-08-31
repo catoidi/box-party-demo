@@ -1,0 +1,89 @@
+//zboxscript/handler/boxlootloader.zsc
+
+extend class BoxHandler
+{
+	void BoxLootLoader(WorldEvent e)
+	{
+		//create a list of players and weapons, with their associated loot drops.
+		//will also look for custom players and weapons and add them to the system as well.
+		
+		//ensure there is nothing inside these arrays before proceeding.
+		LumpLines.Clear();
+		PlayerNames.Clear();
+		PlayerDrops.Clear();
+		DropAmmo.Clear();
+		WeaponNames.Clear();
+		WeaponDrops.Clear();
+		MinimumAmmo.Clear();
+		
+		int DropMode = 0; //if 1, add to player list. if 2, add to ammo list.
+		
+		int ThisLump = Wads.FindLump("BOXLOOT", 0, Wads.ANYNAMESPACE);
+		int NextLump = Wads.FindLump("BOXLOOT", ThisLump + 1, Wads.ANYNAMESPACE);
+		
+		while (ThisLump != -1)
+		{
+			Wads.ReadLump(ThisLump).Split(LumpLines, "\n", TOK_SKIPEMPTY);
+			ThisLump = NextLump;
+			NextLump = Wads.FindLump("BOXLOOT", ThisLump + 1, 1);
+		}
+		
+		for (int i = 0; i < LumpLines.Size(); i++)
+		{
+			string currentline = LumpLines[i];
+			int currentlength = currentline.Length();
+			array<string> fixedline;
+			array<string> splitline;
+			if (currentline.Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			
+			if (currentline.Left(9) == "Player = ")
+			{
+				currentline = currentline.Mid(9, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				PlayerNames.Push(splitline[0]);
+				PlayerDrops.Push(splitline[1]);
+			}
+			else if (currentline.Left(9) == "Weapon = ")
+			{
+				currentline = currentline.Mid(9, currentlength);
+				
+				currentline.Split(fixedline, ";"); //this fixes that strange space that appears at the end of each line.
+				fixedline[0].Split(splitline, ", ");
+				
+				DropAmmo.Push(splitline[0]);
+				WeaponNames.Push(splitline[1]);
+				WeaponDrops.Push(splitline[2]);
+				if (splitline.Size() == 4)
+				{
+					MinimumAmmo.Push(splitline[3].ToInt(10));
+				}
+				else {MinimumAmmo.Push(0);}
+			}
+			else
+			{
+				console.printf("\cgERROR - THIS LINE SHOULD NOT BE HERE:\n%s", currentline);
+			}
+		}
+		
+		cvar logger = cvar.FindCVAR("box_lootlog");
+		
+		if (logger.GetBool() == true)
+		{
+			console.printf("%s", "\cvplayers:");
+			for (int i = 0; i < PlayerNames.Size(); i++) {console.printf("%s", PlayerNames[i]);}
+			console.printf("%s", "\cvloot:");
+			for (int i = 0; i < PlayerDrops.Size(); i++) {console.printf("%s", PlayerDrops[i]);}
+			console.printf("%s", "\cvweapons:");
+			for (int i = 0; i < WeaponNames.Size(); i++) {console.printf("%s", WeaponNames[i]);}
+			console.printf("%s", "\cvammo:");
+			for (int i = 0; i < WeaponDrops.Size(); i++) {console.printf("%s", WeaponDrops[i]);}
+			console.printf("%s", "\cvminimum:");
+			for (int i = 0; i < MinimumAmmo.Size(); i++) {console.printf("%d", MinimumAmmo[i]);}
+			console.printf("%s", "\cvok to drop:");
+			for (int i = 0; i < DropAmmo.Size(); i++) {console.printf("%s", DropAmmo[i]);}
+		}
+	}
+}

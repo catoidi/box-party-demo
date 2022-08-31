@@ -1,0 +1,9 @@
+//zboxscript/handler/paintcontroller.zsc
+
+extend class BoxHandler
+{
+	void PaintController(WorldEvent e)
+	{
+		
+	}
+}

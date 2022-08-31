@@ -19,6 +19,16 @@ version "4.8"
 #include "zboxscript/hathandler.zsc"
 //make sure this is always ran first, as other files inherit from this one.
 
+//handler
+#include "zboxscript/handler/BoxLootLoader.zsc"
+#include "zboxscript/handler/PaintLoader.zsc"
+#include "zboxscript/handler/HealthDropper.zsc"
+#include "zboxscript/handler/AmmoDropper.zsc"
+#include "zboxscript/handler/FoodController.zsc"
+#include "zboxscript/handler/PaintController.zsc"
+#include "zboxscript/handler/SpawnPlayerGoodies.zsc"
+#include "zboxscript/handler/ResetAllHats.zsc"
+
 //player
 #include "zboxscript/player/token.zsc"
 #include "zboxscript/player/base.zsc"
