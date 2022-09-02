@@ -78,3 +78,9 @@ Painting = PANBB1, *, 15, 1, 0.25;
 Painting = PANBB2, party03, 15, 1, 0.25;
 Painting = PANBB3, party02, 15, 1, 0.25;
 Painting = PANBB4, party01, 15, 1, 0.25;
+>>party advertisements
+Painting = PANBB5, party01, 15, 1, 0.5;
+Painting = PANBB6, party01, 47, 1, 0.5;
+Painting = PANBB6, party02, 15, 1, 0.5;
+Painting = PANBB7, party02, 47, 1, 0.5;
+Painting = PANBB7, party03, 15, 1, 0.5;
