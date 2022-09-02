@@ -2,7 +2,7 @@
 
 //box npc that does nothing but stand around.
 
-CLASS NPCBox : Actor //20006
+CLASS NPCBox : BoxActor //20006
 {
 	Default
 	{

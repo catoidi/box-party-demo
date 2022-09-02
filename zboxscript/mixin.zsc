@@ -129,59 +129,46 @@ mixin class BoxActorMixin
 		}
 	}
 
-	action void A_BoxScale (double ScaleAmount, bool IsMultiply = false)
+	action void A_BoxScale (double ScaleAmount, bool IsMultiply = false, bool DoSize = false)
 	{
-		if (invoker)
-		{
-			if (IsMultiply == false)
-			{
-				//dont ask.
-				invoker.Scale.X += ScaleAmount;
-				invoker.Scale.Y += ScaleAmount;
-				invoker.BoxScale_AmountX += ScaleAmount;
-				invoker.BoxScale_AmountY += ScaleAmount;
-			}
-			else
-			{
-				invoker.Scale.X = invoker.Scale.X * ScaleAmount;
-				invoker.Scale.Y = invoker.Scale.Y * ScaleAmount;
-				invoker.BoxScale_AmountX = invoker.BoxScale_AmountX * ScaleAmount;
-				invoker.BoxScale_AmountY = invoker.BoxScale_AmountY * ScaleAmount;
-			}
-		}
+		//read below.
+		A_BoxScaleXY(ScaleAmount, ScaleAmount, IsMultiply, DoSize);
 	}
 
-	action void A_BoxScaleXY (double ScaleAmountX, double ScaleAmountY, bool IsMultiply = false)
+	action void A_BoxScaleXY (double ScaleAmountX, double ScaleAmountY, bool IsMultiply = false, bool DoSize = false)
 	{
 		if (invoker)
 		{
 			if (IsMultiply == false)
 			{
-				//read above.
+				//don't ask.
 				invoker.Scale.X += ScaleAmountX;
 				invoker.Scale.Y += ScaleAmountY;
-				invoker.BoxScale_AmountX += ScaleAmountX;
-				invoker.BoxScale_AmountY += ScaleAmountY;
 			}
 			else
 			{
 				invoker.Scale.X = invoker.Scale.X * ScaleAmountX;
 				invoker.Scale.Y = invoker.Scale.Y * ScaleAmountY;
-				invoker.BoxScale_AmountX = invoker.BoxScale_AmountX * ScaleAmountX;
-				invoker.BoxScale_AmountY = invoker.BoxScale_AmountY * ScaleAmountY;
+			}
+			
+			if (DoSize == true)
+			{
+				double r = invoker.Scale.X * invoker.default.Radius;
+				double h = invoker.Scale.Y * invoker.default.Height;
+				invoker.A_SetSize(r, h);
 			}
 		}
 	}
 	
-	action void A_ResetScale (void)
+	action void A_ResetScale (bool DoSize = false)
 	{
 		if (invoker)
 		{
 			//read above.
-			invoker.Scale.X += -invoker.BoxScale_AmountX;
-			invoker.Scale.Y += -invoker.BoxScale_AmountY;
-			invoker.BoxScale_AmountX = 0.0;
-			invoker.BoxScale_AmountY = 0.0;
+			invoker.Scale.X = invoker.default.Scale.X;
+			invoker.Scale.Y = invoker.default.Scale.Y;
+			
+			if (DoSize == true) {invoker.A_SetSize(invoker.default.Radius, invoker.default.Height);}
 		}
 	}
 	
@@ -399,6 +386,13 @@ mixin class BoxActorMixin
 				A_BoxSpawnLoot(LootName, 0);
 			}
 		}
+	}
+	
+	override void BeginPlay(void)
+	{
+		Super.BeginPlay();
+		
+		A_BoxScale(0, false, true); //match actor's hitbox to scale set via map editor.
 	}
 }
 

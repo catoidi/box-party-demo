@@ -61,7 +61,7 @@ CLASS BoxHat : Actor abstract
 		
 		if (master)
 		{
-			let ZSpotA = master.Pos.Z + (master.Height * master.Scale.Y * 1.10);
+			let ZSpotA = master.Pos.Z + (master.default.Height * master.Scale.Y * 1.10);
 			let ZSpotB = self.Pos.Z;
 			
 			if (ZSpotB <= ZSpotA) {NewZSpot = ZSpotA;}
