@@ -21,9 +21,16 @@ class zc_MapScoreItem : ScoreItem
 
 // public: /////////////////////////////////////////////////////////////////////
 
-  zc_MapScoreItem init(int n)
+  zc_MapScoreItem init(int n, actor spawner)
   {
     amount = n;
+	if (spawner)
+	{
+		int r = spawner.radius;
+		int h = spawner.height;
+		A_SetSize(r, h);
+		angle = spawner.angle;
+	}
 
     return self;
   }

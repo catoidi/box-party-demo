@@ -31,11 +31,11 @@ class zc_Spawner
   {
     if (thing && thing.bCountItem)
     {
-      zc_MapScoreItem(Actor.Spawn("zc_MapScoreItem", thing.pos)).init(5);
+      zc_MapScoreItem(Actor.Spawn("zc_MapScoreItem", thing.pos)).init(5, thing);
     }
     else if (thing is "Key")
     {
-      zc_MapScoreItem(Actor.Spawn("zc_MapScoreItem", thing.pos)).init(500);
+      zc_MapScoreItem(Actor.Spawn("zc_MapScoreItem", thing.pos)).init(500, thing);
     }
   }
 
