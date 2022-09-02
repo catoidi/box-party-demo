@@ -40,6 +40,14 @@ Hat = HAT_SELECT_16, HAT_LOCKED_16, box_hat_unlock_16, HATAB1.png, HATBUTTON2A.p
 >>Yes, I know these hats are out of order. I messed up during the process of coding the hats and I'm just gonna leave it like this.
 >>Secret Hats:
 >>Hidden by default. These hats only appear in the hat menu upon unlocking them.
+>>these are found in levels:
+Secret = HAT_SECRET_14, box_hat_secret_14, HATAE4.png, HATSECRET14.png;
+Secret = HAT_SECRET_15, box_hat_secret_15, HATAE5.png, HATSECRET15.png;
+Secret = HAT_SECRET_16, box_hat_secret_16, HATAE6.png, HATSECRET16.png;
+Secret = HAT_SECRET_17, box_hat_secret_17, HATAE7.png, HATSECRET17.png;
+Secret = HAT_SECRET_18, box_hat_secret_18, HATAF1.png, HATSECRET18.png;
+Secret = HAT_SECRET_19, box_hat_secret_19, HATAF2.png, HATSECRET19.png;
+>>these are monthly hats:
 Secret = HAT_SECRET_01, box_hat_secret_01, HATAE2.png, HATSECRET01.png;
 Secret = HAT_SECRET_02, box_hat_secret_02, HATAE8.png, HATSECRET02.png;
 Secret = HAT_SECRET_03, box_hat_secret_03, HATAE9.png, HATSECRET03.png;
@@ -52,12 +60,10 @@ Secret = HAT_SECRET_09, box_hat_secret_09, HATAEF.png, HATSECRET09.png;
 Secret = HAT_SECRET_10, box_hat_secret_10, HATAEG.png, HATSECRET10.png;
 Secret = HAT_SECRET_13, box_hat_secret_13, HATAE3.png, HATSECRET13.png;
 Secret = HAT_SECRET_12, box_hat_secret_12, HATAE1.png, HATSECRET12.png;
-Secret = HAT_SECRET_14, box_hat_secret_14, HATAE4.png, HATSECRET14.png;
-Secret = HAT_SECRET_15, box_hat_secret_15, HATAE5.png, HATSECRET15.png;
-Secret = HAT_SECRET_16, box_hat_secret_16, HATAE6.png, HATSECRET16.png;
-Secret = HAT_SECRET_17, box_hat_secret_17, HATAE7.png, HATSECRET17.png;
-Secret = HAT_SECRET_18, box_hat_secret_18, HATAF1.png, HATSECRET18.png;
-Secret = HAT_SECRET_19, box_hat_secret_19, HATAF2.png, HATSECRET19.png;
+>>these are player name hats:
+Secret = HAT_SECRET_20, box_hat_secret_20, HATAF3.png, HATSECRET20.png;
+Secret = HAT_SECRET_21, box_hat_secret_21, HATAF4.png, HATSECRET21.png;
+Secret = HAT_SECRET_22, box_hat_secret_22, HATAF5.png, HATSECRET22.png;
 >>Extra Hat CVARs:
 >>Simply a list of CVARs that should be reset if hats are reset to default values.
 CVAR = box_hat_lucky;

@@ -35,6 +35,7 @@ class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 			{
 				//link.aLabel.text = Stringtable.Localize("$HAT_UNLOCK_16");
 				link.aLabel.setText(string.Format("%s %s", Stringtable.Localize("$BOX_TITLE"), Stringtable.Localize("$HAT_UNLOCK_16")));
+				console.printf("\cd%s %s", stringtable.localize("$BOX_TITLE"), stringtable.localize("$HAT_UNLOCK_16"));
 				link.aLabel.settextColor(Font.CR_GREEN);
 				hatunlocked.SetBool(true);
 				let newbuttonimage = link.ButtonImage1;

@@ -46,6 +46,8 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 	int lockedhats;
 	int unlockfail;
 	
+	string unlockmessage;
+	
 	boxparty_ZF_BoxImage ColorOnOff;
 	cvar ColorCVAR;
 	
@@ -546,20 +548,15 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		colorButton.Pack (mainFrame);
 	}
 	
-	override void Init (Menu parent)
+	virtual void doUnlockText (string unlocked)
 	{
-		Vector2 baseRes = (320, 200);
-		hatPage = 1;
+		//use when doing something in the hat menu that would unlock a new hat on the fly.
+		unlockmessage = unlocked;
+		console.printf("\cd%s %s", stringtable.localize("$BOX_TITLE"), stringtable.localize(unlocked));
+	}
 	
-		Super.Init(parent);
-		SetBaseResolution(baseRes);
-		smallFont = OptionFont(); //keep font consistent with other menus
-		background = boxparty_ZF_Image.Create((0, 0), baseRes, "graphics/hat/HATBACK.png", boxparty_ZF_Image.AlignType_TopLeft);
-		background.Pack(mainFrame);
-		
-		handler = new('boxparty_ZF_HatMenuHandler');
-		handler.link = self;
-		
+	virtual void checkNameTimeHats (void)
+	{
 		//time based hats
 		//1 hat for each month.
 		string timemonthstring, timedaystring;
@@ -576,63 +573,128 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		cvar ishalloween = cvar.FindCVAR("box_hat_secret_10");
 		cvar isbirthday = cvar.FindCVAR("box_hat_secret_13");
 		cvar isxmas = cvar.FindCVAR("box_hat_secret_12");
-		string unlockmessage = "sorrynothing";
+		unlockmessage = "sorrynothing";
 		
 		timemonthstring = SystemTime.Format("%m", SystemTime.Now());
 		
-		timemonth = timemonthstring.ToInt(10);
+		timemonth = timemonthstring.ToInt(10); //can be overwritten by playername, see below.
 		
+		//player name based hats
+		//it's like that one achievement in cookie clicker
+		//also i gotta make sure this code runs before the next part cuz it also interacts with the time based hats.
+		string playername;
+		cvar playername_cvar = cvar.FindCVAR("Name");
+		cvar name_idiot = cvar.FindCVAR("box_hat_secret_20");
+		cvar name_helmet = cvar.FindCVAR("box_hat_secret_21");
+		cvar name_sad = cvar.FindCVAR("box_hat_secret_22");
+		
+		if (playername_cvar) {playername = playername_cvar.GetString();}
+		if (playername != "Partygoer") //no need to run this code if the player hasn't changed their name.
+		{
+			playername = playername.MakeLower(); //capitalisation doesn't matter.
+			//this is the part where i slap down a wall of else-if's, because i am good at coding.
+			if ((playername == "dumb") || (playername == "idiot") || (playername == "stupid"))
+			{
+				if (name_idiot.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_20");}
+				name_idiot.SetBool(true);
+			}
+			if (playername == "idkfa")
+			{
+				if (name_helmet.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_21");}
+				name_helmet.SetBool(true);
+			}
+			if (playername == ":(")
+			{
+				if (name_sad.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_22");}
+				name_sad.SetBool(true);
+			}
+			//an extra way to unlock monthly hats.
+			//it turns out you can make your player name very long.
+			//most of these are phrases that most people won't ever think to name themselves ingame.
+			//add this to the list of new features that zero players will ever discover...
+			else if (playername == "did somebody say boom") {timemonth = 1;}
+			else if (playername == "have a heart") {timemonth = 2;}
+			else if (playername == "transportation") {timemonth = 3;}
+			else if (playername == "breadbox party") {timemonth = 4;}
+			else if (playername == "tacocatacocatacocat") {timemonth = 5;}
+			else if (playername == "all boxes are gender neutral unless proven otherwise") {timemonth = 6;}
+			else if (playername == "hello i'd like to order 1 burger please") {timemonth = 7;}
+			else if (playername == "unroastable") {timemonth = 8;}
+			else if (playername == "start screaming") {timemonth = 9;}
+			else if (playername == "if you think candy corn sucks, you're objectively wrong") {timemonth = 10;}
+			else if (playername == "let them eat cake") {timemonth = 11;}
+			else if (playername == "happy holidays") {timemonth = 12;}
+		}
+		
+		//okay, back to time based hats...
 		switch (timemonth)
 		{
 			case 1:
-				if (isnewyear.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_01";}
+				if (isnewyear.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_01");}
 				isnewyear.SetBool(true);
 				break;
 			case 2:
-				if (isvalentine.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_02";}
+				if (isvalentine.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_02");}
 				isvalentine.SetBool(true);
 				break;
 			case 3:
-				if (istrans.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_03";}
+				if (istrans.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_03");}
 				istrans.SetBool(true);
 				break;
 			case 4:
-				if (isbread.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_04";}
+				if (isbread.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_04");}
 				isbread.SetBool(true);
 				break;
 			case 5:
-				if (ismay5.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_05";}
+				if (ismay5.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_05");}
 				ismay5.SetBool(true);
 				break;
 			case 6:
-				if (ispride.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_06";}
+				if (ispride.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_06");}
 				ispride.SetBool(true);
 				break;
 			case 7:
-				if (isburger.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_07";}
+				if (isburger.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_07");}
 				isburger.SetBool(true);
 				break;
 			case 8:
-				if (ismarshmallow.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_08";}
+				if (ismarshmallow.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_08");}
 				ismarshmallow.SetBool(true);
 				break;
 			case 9:
-				if (isicecream.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_09";}
+				if (isicecream.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_09");}
 				isicecream.SetBool(true);
 				break;
 			case 10:
-				if (ishalloween.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_10";}
+				if (ishalloween.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_10");}
 				ishalloween.SetBool(true);
 				break;
 			case 11:
-				if (isbirthday.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_13";}
+				if (isbirthday.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_13");}
 				isbirthday.SetBool(true);
 				break;
 			case 12:
-				if (isxmas.GetBool() == false) {unlockmessage = "$HAT_SECRETUNLOCK_12";}
+				if (isxmas.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_12");}
 				isxmas.SetBool(true);
 				break;
 		}
+	}
+	
+	override void Init (Menu parent)
+	{
+		Vector2 baseRes = (320, 200);
+		hatPage = 1;
+	
+		Super.Init(parent);
+		SetBaseResolution(baseRes);
+		smallFont = OptionFont(); //keep font consistent with other menus
+		background = boxparty_ZF_Image.Create((0, 0), baseRes, "graphics/hat/HATBACK.png", boxparty_ZF_Image.AlignType_TopLeft);
+		background.Pack(mainFrame);
+		
+		handler = new('boxparty_ZF_HatMenuHandler');
+		handler.link = self;
+		
+		checkNameTimeHats();
 		
 		LoadHatWad();
 		
