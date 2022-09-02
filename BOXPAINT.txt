@@ -9,9 +9,9 @@
 >>The fifth arguement is the scale of the painting. Supports decimals. Default is 1.
 >>You can add the same painting multiple times if you want it to appear in a few specific levels.
 >>
->>These paintings will spawn in every level.
+>>These paintings are almost guaranteed to spawn.
 Painting = PANTA1, party01, 0, 1, 1;
->>Painting = PANTA2, *, 0, 1, 1;
+Painting = PANTA2, party04, 0, 1, 1;
 Painting = PANTA3, *, 0, 1, 1;
 Painting = PANTA4, party03, 0, 1, 1;
 Painting = PANTA5, party02, 0, 1, 1;
@@ -48,6 +48,13 @@ Painting = PANTC9, *, 255, 1, 1;
 Painting = PANTCA, *, 255, 1, 1;
 >>rare level specific paintings
 Painting = PANTCB, party02, 31, 1, 1;
+>>secret hat hints
+Painting = PANTCC, party01, 99, 1, 1;
+Painting = PANTCD, party01, 99, 1, 1;
+Painting = PANTCE, party02, 99, 1, 1;
+Painting = PANTCF, party02, 99, 1, 1;
+Painting = PANTCG, party03, 99, 1, 1;
+Painting = PANTE1, party03, 99, 1, 1;
 >>pride paintings
 Painting = PANTD1, *, 1, 1, 1;
 Painting = PANTD2, *, 1, 1, 1;
@@ -66,8 +73,8 @@ Painting = PANBAB, *, 99, 1, 0.5;
 Painting = PANBAC, *, 199, 1, 0.5;
 Painting = PANBAD, *, 199, 1, 0.5;
 >>fanart
-Painting = PANBAE, *, 3, 1, 0.5;
+Painting = PANBAE, party03, 3, 1, 0.5;
 Painting = PANBB1, *, 15, 1, 0.25;
-Painting = PANBB2, *, 15, 1, 0.25;
-Painting = PANBB3, *, 15, 1, 0.25;
-Painting = PANBB4, *, 15, 1, 0.25;
+Painting = PANBB2, party03, 15, 1, 0.25;
+Painting = PANBB3, party02, 15, 1, 0.25;
+Painting = PANBB4, party01, 15, 1, 0.25;
