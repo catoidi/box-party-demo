@@ -22,7 +22,7 @@ CLASS BossPepper2 : BoxBoss
 		BloodType "BigPepper2Blood";
 		Species "Pepper";
 		Tag "* GHOST *";
-		Obituary "$BOX_DIE_BIGMELON";
+		Obituary "$BOX_DIE_BIGPEPPER2";
 		MinMissileChance 500;
 		BoxMonster.CanBurn false;
 		+BOSS;
@@ -325,6 +325,7 @@ CLASS BossPepper2Bullet : OnionBullet
 		+BLOODSPLATTER;
 		-BLOODLESSIMPACT;
 		//+MTHRUSPECIES;
+		Obituary "$BOX_DIE_BIGPEPPER2";
 	}
 
 	States

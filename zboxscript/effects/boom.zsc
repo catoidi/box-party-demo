@@ -356,6 +356,7 @@ CLASS DangerBoom : SafeBoom
 	Default
 	{
 		DamageType "Boom";
+		Obituary "$BOX_DIE_EXPLODE";
 	}
 
 	States
@@ -458,6 +459,7 @@ CLASS DangerBoomSmall : SafeBoomSmall
 	Default
 	{
 		DamageType "Boom";
+		Obituary "$BOX_DIE_EXPLODE";
 	}
 
 	States

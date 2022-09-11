@@ -220,6 +220,7 @@ CLASS BossPepper1Bullet : BoxActor
 		+BLOODSPLATTER;
 		+FORCEXYBILLBOARD;
 		//+MTHRUSPECIES;
+		Obituary "$BOX_DIE_BIGPEPPER1";
 	}
 
 	States

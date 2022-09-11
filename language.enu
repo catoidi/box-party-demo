@@ -45,6 +45,10 @@ BOX_DIE_LEMON = "%o wasn't a fan of sour candy.";
 BOX_DIE_PEPPER = "%o got too spicy to handle.";
 BOX_DIE_PRISM = "%o was ult-ed by a Prism Shard.";
 BOX_DIE_STUPID = "%o was super murdered by the actual real pistol.";
+BOX_DIE_EXPLODE = "%o went kaboom.";
+BOX_DIE_BIGMELON = "%o was super turbo punched.";
+BOX_DIE_BIGPEPPER1 = "%o couldn't handle the heat.";
+BOX_DIE_BIGPEPPER2 = "%o wasn't good enough at dodging.";
 
 /////////////////////////////////
 ////////Actor Tags///////////////

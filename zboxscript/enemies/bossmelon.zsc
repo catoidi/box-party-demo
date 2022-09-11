@@ -275,6 +275,7 @@ CLASS BossMelonBullet : OnionBullet
 		+BRIGHT;
 		+BLOODSPLATTER;
 		-BLOODLESSIMPACT;
+		Obituary "$BOX_DIE_BIGMELON";
 	}
 
 	States
@@ -302,7 +303,7 @@ CLASS BossMelonBullet : OnionBullet
 
 CLASS DangerBoomMelon : DangerBoom
 {
-	Default {DamageType "Melon";}
+	Default {DamageType "Melon"; Obituary "$BOX_DIE_BIGMELON";}
 }
 
 CLASS FireTrail : BoxActor
