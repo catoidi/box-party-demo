@@ -61,7 +61,9 @@ CLASS BoxHat : Actor abstract
 		
 		if (master)
 		{
-			let ZSpotA = master.Pos.Z + (master.default.Height * master.Scale.Y * 1.10);
+			let ZSpotScale = master.Scale.Y * 1.10;
+			if ((master is "PlayerPawn") && (master.player.crouching == -1)) {ZSpotScale *= 0.5;}
+			let ZSpotA = master.Pos.Z + (master.default.Height * ZSpotScale);
 			let ZSpotB = self.Pos.Z;
 			
 			if (ZSpotB <= ZSpotA) {NewZSpot = ZSpotA;}
