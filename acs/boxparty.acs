@@ -575,6 +575,21 @@ script "hatpage1check" ENTER
 	}
 }
 
+script "pacifismcheck" (void)
+{
+	int murdercount;
+	for (int p = 7500; p < 7508; p++)
+	{
+		if (PlayerInGame(p - 7500))
+		{
+			murdercount += CheckActorInventory(p, "MurderCount");
+		}
+	}
+	
+	if (murdercount > 0) {SetResultValue(false);}
+	else {SetResultValue(true);}
+}
+
 function void DOptionCheck (void)
 {
 	int modifiers;

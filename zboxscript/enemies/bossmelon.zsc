@@ -32,6 +32,30 @@ CLASS BossMelon : BoxBoss
 		//$Color 4
 	}
 	
+	int pacified;
+	
+	action void A_BossPacifism(void)
+	{
+		if ((ACS_NamedExecuteWithResult("pacifismcheck") == true) && (invoker.Health == GetMaxHealth(true)))
+		{
+			invoker.pacified += 1;
+			if (invoker.pacified == 1)
+			{
+				invoker.startingHealth *= 2; //forces boss to enter rage mode prematurely.
+				invoker.Exhaustion = 300;
+				invoker.ExhaustMeter = 200;
+			}
+			else if (random(0, (3 - invoker.pacified)) == 0)
+			{
+				invoker.startingHealth = 1; //remove anger
+				bSOLID = false;
+				bSHOOTABLE = false;
+				bINVULNERABLE = true;
+				SetStateLabel("Friendly");
+			}
+		}
+	}
+	
 	States
 	{
 		Spawn:
@@ -205,6 +229,7 @@ CLASS BossMelon : BoxBoss
 			BMEL YY 8 A_BoxScaleXY(0.015, -0.015); //breathe in, breathe out
 			BMEL A 0 {bNOPAIN = false;}
 			BMEL A 0 A_BoxExhaust(0);
+			BMEL A 0 A_BossPacifism();
 			Goto See;
 		Death.Melee:
 		Death:
@@ -252,6 +277,21 @@ CLASS BossMelon : BoxBoss
 			#### # 30 A_BoxScaleXY(0.05, -0.05);
 			#### # 0 A_BoxScaleXY(0.2, -0.2);
 			#### O -1;
+			Stop;
+		Friendly:
+			BME1 A 0 A_ResetScale();
+			BME1 A 0 A_StartSound("effects/quest2", attenuation: ATTN_NONE);
+			BME1 A 35;
+			BME1 A 0 {bNOGRAVITY = true;}
+			BME1 AAAAAAAAAAAAAAAAAAAAAAAA 1 {ThrustThingZ(0, 12, 0, 0); A_FadeOut(0.04);}
+			TNT1 A -1
+			{
+				A_RemoveLight("Shocking");
+				A_NoBlocking();
+				bBOSS = false; //stop tracking boss hp bar
+				bINVISIBLE = true;
+				ACS_NamedExecuteAlways("bossdieded", 0, 1, 0, 0);
+			}
 			Stop;
 		//Prism Effect Start
 		Pain.Prism:

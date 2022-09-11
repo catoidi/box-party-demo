@@ -91,6 +91,7 @@ $volume effects/lsplash 0.1
 effects/tnt tnt
 $volume effects/tnt 1.0
 effects/quest quest
+effects/quest2 quest2
 effects/jumppad jumppad
 
 //Traps
