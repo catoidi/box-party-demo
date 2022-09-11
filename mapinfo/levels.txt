@@ -34,7 +34,7 @@ Episode "party00"
 
 Cluster 1 //yeah basically just every level in main story should be in this
 {
-	flat = "$WATER"
+	flat = "$WATERA"
 	exittext = lookup, "BOX_ENDTEXT"
 }
 
