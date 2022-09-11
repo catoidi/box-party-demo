@@ -28,13 +28,13 @@ Painting = PANTAE, party02, 0, 3, 1;
 Painting = PANTAF, party03, 0, 3, 1;
 Painting = PANTAG, party03, 0, 3, 1;
 >>the cat paintings
-Painting = PANTB1, *, 63, 1, 1;
-Painting = PANTB2, party01, 63, 1, 1;
-Painting = PANTB3, party01, 63, 1, 1;
-Painting = PANTB4, party02, 63, 1, 1;
-Painting = PANTB5, party02, 63, 1, 1;
-Painting = PANTB6, party03, 63, 1, 1;
-Painting = PANTB7, party03, 63, 1, 1;
+Painting = PANTB1, *, 31, 1, 1;
+Painting = PANTB2, party03, 31, 1, 1;
+Painting = PANTB3, *, 31, 1, 1;
+Painting = PANTB4, *, 31, 1, 1;
+Painting = PANTB5, party01, 31, 1, 1;
+Painting = PANTB6, *, 31, 1, 1;
+Painting = PANTB7, party02, 31, 1, 1;
 >>the 'quirky' paintings
 Painting = PANTC1, party02, 255, 1, 1;
 Painting = PANTC2, party01, 255, 1, 1;
@@ -47,7 +47,11 @@ Painting = PANTC8, party03, 255, 1, 1;
 Painting = PANTC9, *, 255, 1, 1;
 Painting = PANTCA, *, 255, 1, 1;
 >>rare level specific paintings
-Painting = PANTCB, party02, 31, 1, 1;
+Painting = PANTCB, party02, 9, 1, 1;
+Painting = PANTE2, party01, 9, 1, 1;
+Painting = PANTE3, party03, 9, 1, 1;
+Painting = PANTE4, party02, 9, 1, 1;
+Painting = PANTE5, party01, 9, 1, 1;
 >>secret hat hints
 Painting = PANTCC, party01, 99, 1, 1;
 Painting = PANTCD, party01, 99, 1, 1;
