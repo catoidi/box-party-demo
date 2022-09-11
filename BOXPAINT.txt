@@ -101,3 +101,5 @@ Painting = PANBB6, party01, 15, 1, 0.5;
 Painting = PANBB6, party02, 2, 1, 0.5;
 Painting = PANBB7, party02, 15, 1, 0.5;
 Painting = PANBB7, party03, 2, 1, 0.5;
+>>lets add the default sprite as a rare painting as well, why not
+Painting = PANTZ0, *, 49, 1, 1;
