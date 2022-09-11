@@ -21,6 +21,7 @@ graphics:
 	-'simple' hp bar graphics were created by Nash Muhandes
 	-'PANABE.png' was created by awesometems
 	-'PANBB1.png', 'PANBB2.png', 'PANBB3.png', and 'PANBB4.png' were created by "Piss".
+	-'PANBBF.png' was made using a stock photo from "Brian van den Heuvel".
 
 audio:
 	-retro sound effects generated using: sfxr
