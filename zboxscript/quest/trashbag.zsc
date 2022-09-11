@@ -10,6 +10,7 @@ CLASS TrashBag : Inventory
 		Height 32;
 		Radius 16;
 		Inventory.PickupMessage "$YOUGOTTRASH";
+		Inventory.InterHubAmount 0; //you can no longer carry trash with you across levels. im sorry.
 		+INVENTORY.ALWAYSPICKUP;
 		//$Category "Box Party/Quest/"
 	}
