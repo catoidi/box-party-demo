@@ -63,6 +63,8 @@ Painting = PANTE1, party03, 29, 1, 1;
 >>pride paintings
 Painting = PANTD1, *, 1, 1, 1;
 Painting = PANTD2, *, 1, 1, 1;
+Painting = PANTD3, *, 15, 1, 1;
+Painting = PANTD4, *, 15, 1, 1;
 >>big paintings
 Painting = PANBA1, *, 5, 1, 0.5;
 Painting = PANBA6, *, 5, 1, 0.5;
