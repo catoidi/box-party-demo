@@ -498,6 +498,7 @@ SCRIPT "BoxJumpPad" (int jumpamount)
 		int z = GetActorZ(0);
 		SpawnForced("BoxSlam", x, y, z);
 		ThrustThingZ(0, jumpamount, false, true);
+		PlaySound(0, "effects/jumppad", 0, 0.35);
 	}
 }
 

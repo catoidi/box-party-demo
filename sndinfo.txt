@@ -66,6 +66,7 @@ enemies/whiffA whiffA
 enemies/whiff2A whiff2A
 enemies/pwooshA pwooshA
 enemies/slamA slamA
+enemies/rage rage
 
 
 wilhelm wilhelm
@@ -90,6 +91,7 @@ $volume effects/lsplash 0.1
 effects/tnt tnt
 $volume effects/tnt 1.0
 effects/quest quest
+effects/jumppad jumppad
 
 //Traps
 traps/piebomb piebomb

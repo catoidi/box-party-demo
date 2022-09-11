@@ -229,6 +229,7 @@ CLASS BoxBoss : BoxMonster abstract
 			A_AttachLightDef("flashyred", "GLOWREDGIANT");
 			flashyTime = true;
 			A_QuakeEX(4, 4, 4, 35, 0, 1280, 0);
+			A_StartSound("enemies/rage", 0, volume: 0.75, attenuation: ATTN_NONE);
 		}
 		
 		if ((self.Health <= (startingHealth / 2)) && (self.Health > 0)) {isAngery = true;}
