@@ -22,7 +22,7 @@ server noarchive int box_fun = 0; //controls certain RNG-related events. number 
 server bool box_tutorial = true; //show tutorial messages
 server bool box_levelname = true; //display level names at start of level
 server noarchive bool nopacifism = false; //disables pacifism mechanics.
-server noarchive bool demomode = true;
+server noarchive bool demomode = true; //mainly used for controlling what happens at the end of level 3.
 
 //difficulty control
 server cheat int box_foodhp = 1; //enemy health multiplier

@@ -26,6 +26,7 @@ version "4.8"
 #include "zboxscript/handler/AmmoDropper.zsc"
 #include "zboxscript/handler/FoodController.zsc"
 #include "zboxscript/handler/PaintController.zsc"
+#include "zboxscript/handler/BoxDestroyer.zsc"
 #include "zboxscript/handler/SpawnPlayerGoodies.zsc"
 #include "zboxscript/handler/ResetAllHats.zsc"
 

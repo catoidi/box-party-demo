@@ -19,6 +19,8 @@ class BoxHandler : EventHandler
 	Array<String> PaintNames;
 	Array<Int> PaintChance;
 	Array<Double> PaintScale;
+	
+	int murdernum;
 
 	override void WorldLoaded(WorldEvent e)
 	{
@@ -30,6 +32,8 @@ class BoxHandler : EventHandler
 	{
 		if (e.Thing != null)
 		{
+			string classname = e.Thing.GetClassName();
+		
 			if ((e.Thing.target != null) && (e.Thing.target is "PlayerPawn"))
 			{
 				if (e.Thing is "BoxLootDropper") {HealthDropper(e);} //moved to */handler/HealthDropper.zsc
@@ -39,9 +43,13 @@ class BoxHandler : EventHandler
 			{
 				FoodController(e); //moved to */handler/FoodController.zsc
 			}
-			else if (e.Thing.GetClassName() == "Painting")
+			else if (classname == "Painting")
 			{
 				PaintController(e); //moved to */handler/PaintController.zsc
+			}
+			else if (classname.Left(10) == "TalkingBox")
+			{
+				BoxDestroyer(e);
 			}
 		}
 	}
@@ -50,12 +58,6 @@ class BoxHandler : EventHandler
 	{
 		let p = players[e.PlayerNumber].mo;
 		if (p) SpawnPlayerGoodies(p); //moved to */handler/SpawnPlayerGoodies.zsc
-	}
-	
-	override void PlayerSpawned(PlayerEvent e)
-	{
-		let p = players[e.PlayerNumber].mo;
-		if (p) p.GiveInventory("LevelCount", 1);
 	}
 	
 	override void WorldThingDied(WorldEvent e)
@@ -68,6 +70,7 @@ class BoxHandler : EventHandler
 				{
 					e.Thing.target.GiveInventory("MurderCount", 1);
 					e.Thing.target.ACS_NamedExecuteAlways("glowcounter", 0, 0, 0, 0);
+					++murdernum;
 				}
 				if (e.Thing is "Egg")
 				{

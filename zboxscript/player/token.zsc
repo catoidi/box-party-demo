@@ -53,7 +53,6 @@ CLASS AllEnemiesCleared : BoxGenericToken //given to players when all monsters a
 	Default {-Inventory.UNCLEARABLE;}
 }
 
-CLASS LevelCount : BoxGenericToken {}
 CLASS MurderCount : BoxGenericToken {Default {Inventory.MaxAmount 999999;}}
 CLASS EggMurderCount : MurderCount {}
 CLASS GiveBirthdayHat : BoxGenericToken {}

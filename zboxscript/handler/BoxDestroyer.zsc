@@ -1,0 +1,18 @@
+extend class BoxHandler
+{
+	virtual void BoxDestroyer(WorldEvent e)
+	{
+		string currentlevel = level.MapName;
+		currentlevel.MakeLower();
+		cvar yesmurder = cvar.FindCVAR("nopacifism"); 
+	
+		if ((murdernum == 0) && (yesmurder.GetBool() == false))
+		{
+			if (currentlevel == "party02") {if (random(0, 4) == 0) {e.Thing.Destroy();}} //rip bozo
+			else if (currentlevel == "party03") {if (random(0, 4) <= 1) {e.Thing.Destroy();}} //rip bozo
+			else if (currentlevel == "party04") {if (random(0, 4) <= 2) {e.Thing.Destroy();}} //rip bozo
+			else if (currentlevel == "party05") {if (random(0, 4) <= 3) {e.Thing.Destroy();}} //rip bozo
+			else if (currentlevel == "party06") {e.Thing.Destroy();} //rip bozo
+		}
+	}
+}
