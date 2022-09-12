@@ -50,7 +50,11 @@ CLASS ExhaustionCheckerMax : ExhaustionChecker {} //any actor with this will cau
 
 CLASS AllEnemiesCleared : BoxGenericToken //given to players when all monsters are killed, removed in the next level.
 {
-	Default {-Inventory.UNCLEARABLE;}
+	Default 
+	{
+		Inventory.InterHubAmount 0;
+		-Inventory.UNCLEARABLE;
+	}
 }
 
 CLASS MurderCount : BoxGenericToken {Default {Inventory.MaxAmount 999999;}}

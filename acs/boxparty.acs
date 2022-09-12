@@ -49,8 +49,6 @@ SCRIPT "playerscript" ENTER
 	//Log(d:ActivatorTID());
 	//player 1 is 7500, player 8 is 7507.
 	
-	TakeInventory("AllEnemiesCleared", 9999); //flag used for level scripts. needs to be reset upon leaving.
-	
 	switch (PlayerNumber())
 	{
 		case 0: bscore1 = GetActorProperty(7500, APROP_Score); break;
