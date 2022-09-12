@@ -52,6 +52,12 @@ class BoxHandler : EventHandler
 		if (p) SpawnPlayerGoodies(p); //moved to */handler/SpawnPlayerGoodies.zsc
 	}
 	
+	override void PlayerSpawned(PlayerEvent e)
+	{
+		let p = players[e.PlayerNumber].mo;
+		if (p) p.GiveInventory("LevelCount", 1);
+	}
+	
 	override void WorldThingDied(WorldEvent e)
 	{
 		if (e.Thing.target != null) 

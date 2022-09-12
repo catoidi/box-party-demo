@@ -200,7 +200,21 @@ CLASS BossPepper2 : BoxBoss
 			PEP2 PP 8 A_BoxScaleXY(0.015, -0.015); //breathe in, breathe out
 			PEP2 A 0 {bNOPAIN = false;}
 			PEP2 A 0 A_BoxExhaust(0);
+			PEP1 A 0 A_BossPacifism();
 			Goto See;	
+		Friendly:
+			PEP2 A 0 
+			{
+				A_ResetScale();
+				A_StartSound("effects/quest2", attenuation: ATTN_NONE);
+				A_RemoveLight("Shocking");
+				A_NoBlocking();
+				bBOSS = false; //stop tracking boss hp bar
+				ACS_NamedExecuteAlways("ENTERRAGEMODE", 0, 1, 0, 0);
+			}
+			PEP2 OO 8 A_BoxScaleXY(-0.015, 0.015);
+			PEP2 PP 8 A_BoxScaleXY(0.015, -0.015);
+			Goto Friendly+1;
 	}
 }
 

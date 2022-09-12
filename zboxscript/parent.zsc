@@ -183,6 +183,29 @@ CLASS BoxBoss : BoxMonster abstract
 	int Exhaustion;
 	int ExhaustMeter;
 	int SweatTimer;
+	int pacified;
+	
+	action void A_BossPacifism(void)
+	{
+		if ((ACS_NamedExecuteWithResult("pacifismcheck") == true) && (invoker.Health == GetMaxHealth(true)))
+		{
+			invoker.pacified += 1;
+			if (invoker.pacified == 1)
+			{
+				invoker.startingHealth *= 2; //forces boss to enter rage mode prematurely.
+				invoker.Exhaustion = 300;
+				invoker.ExhaustMeter = 200;
+			}
+			else if (random(0, (3 - invoker.pacified)) == 0)
+			{
+				invoker.startingHealth = 1; //remove anger
+				bSOLID = false;
+				bSHOOTABLE = false;
+				bINVULNERABLE = true;
+				SetStateLabel("Friendly");
+			}
+		}
+	}
 	
 	action void A_BoxExhaust (int Amount)
 	{

@@ -256,7 +256,21 @@ CLASS BossOnion : BoxBoss
 			ONI2 LL 8 A_BoxScaleXY(0.015, -0.015); //breathe in, breathe out
 			ONI2 A 0 {bNOPAIN = false;}
 			ONI2 C 0 A_BoxExhaust(0);
-			Goto See;
+			ONI2 A 0 A_BossPacifism();
+			Goto See;	
+		Friendly:
+			ONI2 A 0 
+			{
+				A_ResetScale();
+				A_StartSound("effects/quest2", attenuation: ATTN_NONE);
+				A_RemoveLight("Shocking");
+				A_NoBlocking();
+				bBOSS = false; //stop tracking boss hp bar
+				ACS_NamedExecuteAlways("timetoleave", 0, 1, 0, 0);
+			}
+			ONI2 KK 8 A_BoxScaleXY(-0.015, 0.015);
+			ONI2 LL 8 A_BoxScaleXY(0.015, -0.015);
+			Goto Friendly+1;
 		Death.Melee:
 		Death.Massacre:
 		Death:

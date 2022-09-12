@@ -415,6 +415,14 @@ script "exitscreen" (void)
 
 script "exitnow" (void) {Exit_Normal(0);}
 
+script "beatthedemo" (void)
+{
+	if (GetCVAR("demomode") == true)
+	{
+		ACS_NamedExecuteAlways("beatthegame", 0, 0, 0, 0);
+	}
+}
+
 script "beatthegame" (void)
 {
 	//gives necessary unlocks for when you beat the story/demo as a specific character.
@@ -587,6 +595,7 @@ script "pacifismcheck" (void)
 	}
 	
 	if (murdercount > 0) {SetResultValue(false);}
+	else if (GetCVAR("nopacifism") == true) {SetResultValue(false);}
 	else {SetResultValue(true);}
 }
 
