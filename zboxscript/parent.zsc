@@ -120,6 +120,12 @@ CLASS BoxMonster : BoxActor abstract
 		return damage;
 	}
 	
+	override void Die (Actor source, Actor inflictor, int dmgflags, Name MeansOfDeath)
+	{
+		A_RemoveLight("friendlylight");
+		Super.Die(source, inflictor, dmgflags, MeansOfDeath);
+	}
+	
 	override void Tick (void)
 	{
 		Super.Tick();

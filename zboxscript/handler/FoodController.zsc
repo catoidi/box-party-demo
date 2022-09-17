@@ -23,5 +23,27 @@ extend class BoxHandler
 			double startdmg = e.Thing.DamageMultiply * dmgmult;
 			e.Thing.DamageMultiply = startdmg;
 		}
+		
+		//pacifism
+		string currentlevel = level.MapName;
+		currentlevel.MakeLower();
+		cvar yesmurder = cvar.FindCVAR("nopacifism"); 
+	
+		if ((murdernum == 0) && (yesmurder.GetBool() == false))
+		{
+			bool dontattack = false;
+			if (currentlevel == "party03") {if (random(1, 20) <= 1) {dontattack = true;}} //traitor
+			else if (currentlevel == "party04") {if (random(1, 20) <= 2) {dontattack = true;}} //traitor
+			else if (currentlevel == "party05") {if (random(1, 20) <= 3) {dontattack = true;}} //traitor
+			else if (currentlevel == "party06") {if (random(1, 20) <= 4) {dontattack = true;}} //traitor
+			
+			if (dontattack == true)
+			{
+				e.Thing.bFRIGHTENED = true;
+				e.Thing.bNEVERFAST = true;
+				e.Thing.MaxTargetRange = 0;
+				e.Thing.A_AttachLightDef("friendlylight", "GLOWGREEN");
+			}
+		}
 	}
 }
