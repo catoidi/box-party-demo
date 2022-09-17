@@ -42,6 +42,8 @@ extend class BoxHandler
 				e.Thing.bFRIGHTENED = true;
 				e.Thing.bNEVERFAST = true;
 				e.Thing.MaxTargetRange = 0;
+				e.Thing.MeleeThreshold = 32768;
+				e.Thing.MinMissileChance = 10000;
 				e.Thing.A_AttachLightDef("friendlylight", "GLOWGREEN");
 			}
 		}

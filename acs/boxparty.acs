@@ -581,6 +581,14 @@ script "hatpage1check" ENTER
 	}
 }
 
+script "pacifistitem" ENTER
+{
+	if (ACS_NamedExecuteAlways("pacifismcheck", 0, 0, 0, 0) == false)
+	{
+		GiveActorInventory(0, "PacifistCheck", 1); //NPC's will check this item if they have pacifist dialogue. If the player is NOT pacifist, this will make the NPC show normal dialogue.
+	}
+}
+
 script "pacifismcheck" (void)
 {
 	int murdercount;

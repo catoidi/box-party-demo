@@ -59,6 +59,16 @@ CLASS AllEnemiesCleared : BoxGenericToken //given to players when all monsters a
 
 CLASS MurderCount : BoxGenericToken {Default {Inventory.MaxAmount 999999;}}
 CLASS EggMurderCount : MurderCount {}
+CLASS PacifistCheck : BoxGenericToken
+{
+	//NPC's will check for this to see if pacifist dialouge should be used.
+	//Note: This is only added once at the beginning of the level, and is then removed at the start of the next one.
+	Default 
+	{
+		Inventory.InterHubAmount 0;
+		-Inventory.UNCLEARABLE;
+	}
+}
 CLASS GiveBirthdayHat : BoxGenericToken {}
 CLASS GivenTrash : BoxCustomToken 
 {
