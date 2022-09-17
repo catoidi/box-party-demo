@@ -14,8 +14,8 @@ CLASS Ball : BoxActor
 		BounceFactor 0.75;
 		WallBounceFactor 0.9;
 		PushFactor 0.85;
-		DamageFunction (16);
-		DamageType "Melee";
+		//DamageFunction (16);
+		//DamageType "Melee";
 		+SOLID;
 		+SHOOTABLE;
 		+PUSHABLE;
