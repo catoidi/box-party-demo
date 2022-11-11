@@ -158,7 +158,8 @@ CLASS LaserPointerBullet : BoxActor
 			TNT1 A 1 BRIGHT A_SetRoll(random(0, 359));
 		Zoomin:
 			LAZR C 2 BRIGHT;
-			LAZR C 1 BRIGHT A_SpawnItemEx("LaserPointerBulletTrail", 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
+			//LAZR C 1 BRIGHT A_SpawnItemEx("LaserPointerBulletTrail", 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
+			LAZR C 1 BRIGHT A_SpawnParticleEX("White", TexMan.CheckForTexture("LAZRC0"), 0, SPF_FULLBRIGHT | SPF_ROLL | SPF_RELATIVE, 10, 12.0, random(0, 359), 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1), 0, 0, 0, 0.25, 0, -1.2, random(0, 359));
 			Loop;
 		XDeath:
 		Crash:
@@ -170,7 +171,7 @@ CLASS LaserPointerBullet : BoxActor
 				A_BoxScale(0.3);
 				A_FadeOut(0.2);
 			}
-			LAZR CCCCCC 0 BRIGHT A_SpawnItemEx("LaserPointerBulletCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359));
+			LAZR CCCCCC 0 BRIGHT A_SpawnParticleEX("White", TexMan.CheckForTexture("LAZRC0"), 0, SPF_FULLBRIGHT | SPF_ROLL | SPF_RELATIVE, 10, 6.0, random(0, 359), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), 0, 0, 0, 1.0, -1, 0, random(0, 359));
 			LAZR CCCC 1 BRIGHT
 			{
 				A_BoxScale(0.3);
@@ -196,7 +197,8 @@ CLASS LaserPointerBullet2 : LaserPointerBullet
 			TNT1 A 1 BRIGHT A_SetRoll(random(0, 359));
 		Zoomin:
 			LAZR J 3 BRIGHT;
-			LAZR ## 0 BRIGHT A_SpawnItemEx("LaserPointerBulletTrail2", 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
+			//LAZR ## 0 BRIGHT A_SpawnItemEx("LaserPointerBulletTrail2", 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
+			LAZR ## 0 BRIGHT A_SpawnParticleEX("White", TexMan.CheckForTexture("LAZRJ0"), 0, SPF_FULLBRIGHT | SPF_ROLL | SPF_RELATIVE, 10, 24.0, random(0, 359), 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1), 0, 0, 0, 0.25, 0, -2.4, random(0, 359));
 			Loop;
 		XDeath:
 		Crash:
@@ -211,84 +213,12 @@ CLASS LaserPointerBullet2 : LaserPointerBullet
 			}
 			LAZR # 1 BRIGHT A_Explode(48, 40);
 			LAZR # 0 BRIGHT A_QuakeEX(1, 1, 1, 35, 0, 60);
-			LAZR ############ 0 BRIGHT A_SpawnItemEx("LaserPointerBulletCrumb2", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359));
+			LAZR ############ 0 BRIGHT A_SpawnParticleEX("White", TexMan.CheckForTexture("LAZRJ0"), 0, SPF_FULLBRIGHT | SPF_ROLL | SPF_RELATIVE, 20, 12.0, random(0, 359), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), 0, 0, 0, 1.0, -1, 0, random(0, 359));
 			LAZR ######## 1 BRIGHT
 			{
 				A_BoxScale(0.35);
 				A_FadeOut(0.1);
 			}
-			Stop;
-	}
-}
-
-CLASS LaserPointerBulletCrumb : BoxCrumb
-{
-	Default
-	{
-		Gravity 0;
-	}
-	
-	States
-	{
-		Spawn:
-			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
-			Goto Death;
-		Death:
-			LAZR C 1 BRIGHT A_FadeOut(0.1);
-			Loop;
-	}
-}
-
-CLASS LaserPointerBulletCrumb2 : LaserPointerBulletCrumb
-{
-	States
-	{
-		Spawn:
-			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
-			Goto Death;
-		Death:
-			LAZR J 1 BRIGHT A_FadeOut(0.05);
-			Loop;
-	}
-}
-
-CLASS LaserPointerBulletTrail : BoxActor
-{
-	Default
-	{
-		Mass 0;
-		Gravity 0;
-		Radius 0;
-		Height 0;
-		RenderStyle "Translucent";
-		Alpha 0.25;
-		
-		+INTERPOLATEANGLES;
-		+ROLLSPRITE;
-		+SPRITEANGLE;
-		+FORCEXYBILLBOARD;
-	}
-	
-	States
-	{
-		Spawn:
-			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
-			Goto Death;
-		Death:
-			LAZR CCCCCCCCCC 1 BRIGHT A_BoxScale(-0.1);
-			Stop;
-	}
-}
-
-CLASS LaserPointerBulletTrail2: LaserPointerBulletTrail
-{
-	States
-	{
-		Spawn:
-			TNT1 A 0 NoDelay A_SetRoll(random(0, 359));
-			Goto Death;
-		Death:
-			LAZR JJJJJJJJJJJJJJJJJJJJ 1 BRIGHT A_BoxScale(-0.05);
 			Stop;
 	}
 }
