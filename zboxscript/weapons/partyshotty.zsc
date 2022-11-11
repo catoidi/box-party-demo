@@ -210,6 +210,11 @@ CLASS PartyShottyBullet : BoxActor
 		BoxStartRoll();
 	}
 	
+	action void FakeShottyCrumb()
+	{
+		A_SpawnParticleEX("White", TexMan.CheckForTexture("SHOTX0"), 0, SPF_ROLL, 24, 4.0, random(0, 359), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 3), 0, 0, -1, 1, 0, -0.16, random(0, 359), 3 - (6 * (random(0, 1))));
+	}
+	
 	States
 	{
 		Spawn:
@@ -231,8 +236,11 @@ CLASS PartyShottyBullet : BoxActor
 		Death:
 			TNT1 A 1 {
 				A_SpawnItemEx("ProjectileSmoke", 0, 0, 0, 0, 0, 0);
-				A_BoxParticle("7b 49 2b", 3);
-				A_SpawnItemEx("PartyShottyBulletCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359), 0, 128);
+				//A_BoxParticle("7b 49 2b", 3);
+				FakeShottyCrumb();
+				FakeShottyCrumb();
+				FakeShottyCrumb();
+				A_SpawnItemEx("PartyShottyBulletCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359), 0, 192);
 			}
 			Stop;
 	}

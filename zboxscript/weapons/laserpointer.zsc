@@ -158,7 +158,6 @@ CLASS LaserPointerBullet : BoxActor
 			TNT1 A 1 BRIGHT A_SetRoll(random(0, 359));
 		Zoomin:
 			LAZR C 2 BRIGHT;
-			//LAZR C 1 BRIGHT A_SpawnItemEx("LaserPointerBulletTrail", 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
 			LAZR C 1 BRIGHT A_SpawnParticleEX("White", TexMan.CheckForTexture("LAZRC0"), 0, SPF_FULLBRIGHT | SPF_ROLL | SPF_RELATIVE, 10, 12.0, random(0, 359), 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1), 0, 0, 0, 0.25, 0, -1.2, random(0, 359));
 			Loop;
 		XDeath:
@@ -197,7 +196,6 @@ CLASS LaserPointerBullet2 : LaserPointerBullet
 			TNT1 A 1 BRIGHT A_SetRoll(random(0, 359));
 		Zoomin:
 			LAZR J 3 BRIGHT;
-			//LAZR ## 0 BRIGHT A_SpawnItemEx("LaserPointerBulletTrail2", 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
 			LAZR ## 0 BRIGHT A_SpawnParticleEX("White", TexMan.CheckForTexture("LAZRJ0"), 0, SPF_FULLBRIGHT | SPF_ROLL | SPF_RELATIVE, 10, 24.0, random(0, 359), 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1), 0, 0, 0, 0.25, 0, -2.4, random(0, 359));
 			Loop;
 		XDeath:

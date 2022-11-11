@@ -72,20 +72,56 @@ mixin class BoxActorMixin
 	action void A_BoxParticle (string PColor = "ff ff ff", int PAmount = 1, int PSize = 5, int PTime = 16, float POffset = 0.0, float PSpeed = 4.0, bool PBright = false)
 	{
 		//simplifies making particle effects for stuff.
+		
+		int pflags = 0;
+		if (PBright == true) {pflags = SPF_FULLBRIGHT;}
 	
 		for (int PTimer = 0; PTimer < PAmount; ++PTimer)
 		{
-			A_SpawnParticle(PColor, 0, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
+			A_SpawnParticle(PColor, pflags, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
 		}
 	}
 	
 	action void A_BoxParticle2 (string PColor = "ff ff ff", int PAmount = 1, int PSize = 5, int PTime = 16, float POffset = 0.0, float POffsetZ = 0.0, float PSpeed = 4.0, bool PBright = false)
 	{
 		//like a_boxparticle, but the particle only goes up/down. (speed is somewhat random.)
+		
+		int pflags = 0;
+		if (PBright == true) {pflags = SPF_FULLBRIGHT;}
 	
 		for (int PTimer = 0; PTimer < PAmount; ++PTimer)
 		{
-			A_SpawnParticle(PColor, 0, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), POffsetZ, 0, 0, frandom((PSpeed * 0.8), (PSpeed * 1.2)), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
+			A_SpawnParticle(PColor, pflags, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), POffsetZ, 0, 0, frandom((PSpeed * 0.8), (PSpeed * 1.2)), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime));
+		}
+	}
+	
+	action void A_BoxParticleEX (string PexSprite, int PAmount = 1, int PSize = 5, int PTime = 16, float POffset = 0.0, float PSpeed = 4.0, bool PBright = false, bool PRotate = true)
+	{
+		//behaves exactly like a_boxparticle, but uses a textured particle instead.
+		
+		int pflags = SPF_ROLL;
+		if (PBright == true) {pflags = SPF_ROLL | SPF_FULLBRIGHT;}
+	
+		for (int PTimer = 0; PTimer < PAmount; ++PTimer)
+		{
+			int PRoll = 0;
+			if (PRotate == true) {PRoll = random(0, 359);} 
+			A_SpawnParticleEX("White", TexMan.CheckForTexture(PexSprite), pflags, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-POffset, POffset), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), frandom(-PSpeed, PSpeed), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime), PRoll);
+		}
+	}
+	
+	action void A_BoxParticleEX2 (string PexSprite, int PAmount = 1, int PSize = 5, int PTime = 16, float POffset = 0.0, float POffsetZ = 0.0, float PSpeed = 4.0, bool PBright = false, bool PRotate = true)
+	{
+		//it's just like a_boxparticle2, but uses a textured particle instead.
+		
+		int pflags = SPF_ROLL;
+		if (PBright == true) {pflags = SPF_ROLL | SPF_FULLBRIGHT;}
+	
+		for (int PTimer = 0; PTimer < PAmount; ++PTimer)
+		{
+			int PRoll = 0;
+			if (PRotate == true) {PRoll = random(0, 359);} 
+			A_SpawnParticleEX("White", TexMan.CheckForTexture(PexSprite), pflags, PTime, PSize, 0, frandom(-POffset, POffset), frandom(-POffset, POffset), POffsetZ, 0, 0, frandom((PSpeed * 0.8), (PSpeed * 1.2)), 0, 0, 0, 1.0, -1, -(1.0 * PSize / PTime), PRoll);
 		}
 	}
 	
