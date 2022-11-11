@@ -1,15 +1,16 @@
+/// A button which toggles on and off when it is clicked.
+///
+/// This element uses the event [`ZF_Handler.toggleButtonChanged`].
+///
+/// Also see the documentation for [`ZF_ButtonBase`] as a lot of button things are documented
+/// there.
 class boxparty_ZF_ToggleButton : boxparty_ZF_ButtonBase {
-	protected bool on;
-
-	protected bool hover;
-	protected bool click;
-
-	void config(
+	private void config(
 		string text = "",
 		boxparty_ZF_BoxTextures inactive = NULL, boxparty_ZF_BoxTextures hover = NULL,
 		boxparty_ZF_BoxTextures click = NULL, boxparty_ZF_BoxTextures disabled = NULL,
 		Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
-		AlignType alignment = AlignType_Center, boxparty_ZF_Handler cmdHandler = NULL, string command = ""
+		AlignType alignment = AlignType_Center, boxparty_ZF_Handler cmdHandler = NULL, Name command = ''
 	) {
 		setFont(fnt);
 		setText(text);
@@ -23,11 +24,26 @@ class boxparty_ZF_ToggleButton : boxparty_ZF_ButtonBase {
 		self.command = command;
 	}
 
+	/// Returns a newly created toggle button element.
+	///
+	/// The position used is relative to whatever the element is packed into later.
+	/// 
+	/// The [`ZF_BoxTextures`] arguments correspond to the button's states described in
+	/// [`ButtonState`]. The text on the button will be aligned to `alignment`.
+	///
+	/// `textColor` takes on values from [`Font.EColorRange`], which cannot be named as a type due
+	/// to current ZScript limitations.
+	///
+	/// If `fnt` is `NULL`, then `smallfont` is used instead.
+	///
+	/// `cmdHandler` and `command` determine where the button's events are sent
+	/// to. [`ZF_Handler.toggleButtonChanged`] is sent whenever the user clicks
+	/// on the toggle button, changing its state.
 	static boxparty_ZF_ToggleButton create(
 		Vector2 pos, Vector2 size, string text = "",
 		boxparty_ZF_BoxTextures inactive = NULL, boxparty_ZF_BoxTextures hover = NULL, boxparty_ZF_BoxTextures click = NULL,
 		boxparty_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
-		AlignType alignment = AlignType_Center, boxparty_ZF_Handler cmdHandler = NULL, string command = ""
+		AlignType alignment = AlignType_Center, boxparty_ZF_Handler cmdHandler = NULL, Name command = ''
 	) {
 		let ret = new('boxparty_ZF_ToggleButton');
 
@@ -36,6 +52,15 @@ class boxparty_ZF_ToggleButton : boxparty_ZF_ButtonBase {
 
 		return ret;
 	}
+
+	private bool on;
+	/// Returns `true` if the toggle button is on, `false` if off.
+	bool isOn() { return self.on; }
+	/// Sets the on/off state of the toggle button.
+	void setOn(bool on) { self.on = on; }
+
+	private bool hover;
+	private bool click;
 
 	override bool handleMousePosition(bool mouseBlock, Vector2 mousePos) {
 		if (isEnabled()) {

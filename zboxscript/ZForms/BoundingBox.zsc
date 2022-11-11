@@ -1,8 +1,11 @@
-/// Bounding box class for positioning items.
+/// An axis-aligned bounding box class, used for representing the positions and sizes of elements.
 struct boxparty_ZF_AABB {
+	/// The position of the top-left corner of this AABB.
 	Vector2 pos;
+	/// The size of the AABB, with `x` meaning right and `y` meaning down.
 	Vector2 size;
 
+	/// Returns `true` if the given `point` is contained inside this bounding box.
 	bool pointCollides(Vector2 point) {
 		if (point.x > pos.x && point.x < pos.x + size.x &&
 			point.y > pos.y && point.y < pos.y + size.y   ) {
@@ -11,6 +14,9 @@ struct boxparty_ZF_AABB {
 		return false;
 	}
 
+	/// Sets `ret` to be equal to the rectangle consisting of all points in both `self` and `other`.
+	///
+	/// If there is no intersection, the returned rectangle has [`pos`] and [`size`] equal to `(0, 0)`.
 	void rectOfIntersection(boxparty_ZF_AABB ret, boxparty_ZF_AABB other) {
 		double left = max(pos.x, other.pos.x);
 		double right = min(pos.x + size.x, other.pos.x + other.size.x);
@@ -24,6 +30,7 @@ struct boxparty_ZF_AABB {
 		}
 	}
 
+	/// ?doc: hidden
 	enum OutCode {
 		OUT_Inside = 0,
 		OUT_Left   = 1 << 0,
@@ -32,7 +39,7 @@ struct boxparty_ZF_AABB {
 		OUT_Top    = 1 << 3
 	}
 	
-	OutCode computeOutcode(Vector2 point) {
+	private OutCode computeOutcode(Vector2 point) {
 		let min = pos;
 		let max = pos + size;
 
@@ -54,7 +61,11 @@ struct boxparty_ZF_AABB {
 		return code;
 	}
 	
-	/// Clips a line to this AABB.
+	/// Clips a line to this `AABB`'s boundaries, with the line being represented by its endpoints.
+	///
+	/// Returns `false` in the first return if the line is entirely outside the rectangle.
+	/// Otherwise, returns `true` in the first return, and the two `Vector2` returns are the
+	/// endpoints of the clipped line.
 	bool, Vector2, Vector2 cohenSutherlandClip(Vector2 point0, Vector2 point1) {
 		let min = pos;
 		let max = pos + size;

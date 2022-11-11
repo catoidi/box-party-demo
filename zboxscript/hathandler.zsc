@@ -2,17 +2,18 @@ class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 {
 	boxparty_HatMenu link;
 	
-	override void buttonClickCommand (boxparty_ZF_Button caller, string command)
+	override void buttonClickCommand (boxparty_ZF_Button caller, Name command)
     {
 		cvar hatsetting = cvar.FindCVAR('box_hat_current');
 		cvar hatcheatmode = cvar.FindCVAR('box_hat_cheat');
 		cvar hatunlocked;
 		int labelnum;
 		int pagenum = link.hatPage;
+		string commandstring = command;
 	
-        if (command.Left(5) == "DoHat")
+        if (commandstring.Left(5) == "DoHat")
         {
-			let comnumber = command.Mid(5, 6);
+			let comnumber = commandstring.Mid(5, 6);
 			labelnum = comnumber.ToInt(10);
 			if (labelnum != 0) {labelnum += ((pagenum - 1) * 15);}
 			string unlockstring;
@@ -60,7 +61,7 @@ class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 						case 15: newbuttonimage = link.ButtonImage15; break;
 					}
 				}
-				newbuttonimage.Config(boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/hat/HATBUTTON2A.png", true));
+				newbuttonimage.setBoxTex(boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/hat/HATBUTTON2A.png", true));
 				link.updateUnlockLabel();
 			}
 			else if ((hatcheatmode.GetBool() == false) && (hatunlocked.GetBool() == false)) 
@@ -79,19 +80,19 @@ class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 				link.updateLabel(true, languagehat);
 			}
 		}
-		else if (command == "GoLeft")
+		else if (commandstring == "GoLeft")
 		{
 			int updatenum = link.hatPage;
 			if (updatenum > 1) {updatenum += -1;}
 			link.updatePage(updatenum);
 		}
-		else if (command == "GoRight")
+		else if (commandstring == "GoRight")
 		{
 			int updatenum = link.hatPage;
 			if (updatenum < link.maxPage) {updatenum += 1;}
 			link.updatePage(updatenum);
 		}
-		else if (command == "ChangeColor")
+		else if (commandstring == "ChangeColor")
 		{
 			cvar getColorCVAR = cvar.FindCVAR('box_hat_color');
 			string languagehat;

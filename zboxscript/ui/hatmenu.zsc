@@ -284,7 +284,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				if ((ischeat.GetBool() == false) && (grabhatcvar.GetBool() == false)) {gettex = texlock;}
 
 				let newtex = boxparty_ZF_BoxTextures.CreateSingleTexture(gettex, true);
-				NewImage.Config(newtex);
+				NewImage.setBoxTex(newtex);
 				HatPage = PageNum;
 			}
 		}
@@ -535,7 +535,8 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		if (ColorOnOff) 
 		{
 			ColorOnOff.Unpack();
-			ColorOnOff.Config(boxTexture, (1.0, 1.0));
+			ColorOnOff.setBoxTex(boxTexture);
+			ColorOnOff.setBoxScale((1.0, 1.0));
 		}
 		else 
 		{

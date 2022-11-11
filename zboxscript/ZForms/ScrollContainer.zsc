@@ -1,14 +1,7 @@
+/// An element which adds a scrollbar to any other element, defaulting to a
+/// [frame](ZF_Frame).
 class boxparty_ZF_ScrollContainer : boxparty_ZF_ElementContainer {
-	protected boxparty_ZF_Element scrollArea;
-	boxparty_ZF_Element getScrollArea() { return scrollArea; }
-	protected boxparty_ZF_Scrollbar bar;
-
-	protected double scrollWidth;
-	protected double scrollAreaHeight;
-	protected double scrollNotchJump;
-	protected double contentBarGap;
-
-	void config(
+	private void config(
 		double scrollWidth, double scrollAreaHeight, double scrollNotchJump,
 		boxparty_ZF_BoxTextures scrollBarNormal, boxparty_ZF_BoxTextures scrollBarHover = NULL,
 		boxparty_ZF_BoxTextures scrollBarClick = NULL, boxparty_ZF_BoxTextures scrollBg = NULL,
@@ -26,6 +19,26 @@ class boxparty_ZF_ScrollContainer : boxparty_ZF_ElementContainer {
 		self.alpha = 1.0;
 	}
 
+	/// Returns a newly created scroll container element.
+	///
+	/// The position used is relative to whatever the element is packed into
+	/// later.
+	///
+	/// If `scrollArea` is `NULL`, then a frame will be wrapped around - this
+	/// is often what is wanted, therefore it's the default. Otherwise, the
+	/// passed in element will be used.
+	///
+	/// The returned element will have a vertical scrollbar with width
+	/// `scrollWidth`, with the wrapped element taking up the rest of the
+	/// space, with a gap of `contentBarGap` being added between the two. The
+	/// element itself is `scrollAreaHeight` pixels tall, but this is hidden by
+	/// the scrollable nature. When the user uses the scroll wheel, the element
+	/// will move by `scrollNotchJump` pixels.
+	///
+	/// The scrollbar will have background `scrollBg`. When unhovered and
+	/// unclicked, the handle will be drawn using `scrollBarNormal`. When
+	/// unclicked but hovered, the handle will be drawn using `scrollBarHover`.
+	/// When clicked, the handle will be drawn using `scrollBarClick`.
 	static boxparty_ZF_ScrollContainer create(
 		Vector2 pos, Vector2 size,
 		double scrollWidth, double scrollAreaHeight, double scrollNotchJump,
@@ -53,6 +66,17 @@ class boxparty_ZF_ScrollContainer : boxparty_ZF_ElementContainer {
 
 		return ret;
 	}
+
+	private boxparty_ZF_Element scrollArea;
+	/// Returns the wrapped scroll area element so that it can be read from or
+	/// modified.
+	boxparty_ZF_Element getScrollArea() { return scrollArea; }
+	private boxparty_ZF_Scrollbar bar;
+
+	private double scrollWidth;
+	private double scrollAreaHeight;
+	private double scrollNotchJump;
+	private double contentBarGap;
 
 	override bool onNavEvent(boxparty_ZF_NavEventType type, bool fromController) {
 		if (isFocused() && isEnabled()) {

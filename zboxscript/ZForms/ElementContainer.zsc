@@ -1,4 +1,17 @@
+/// An overridable element for containing other elements.
+///
+/// This shouldn't ever exist on its own - the point of it is to be derived from. For a user-facing
+/// element that contains elements, see [`ZF_Frame`].
+///
+/// This handles drawing each element, calling their tickers, etc.
 class boxparty_ZF_ElementContainer : boxparty_ZF_Element {
+	/// The elements that belong to this element container.
+	///
+	/// Elements later in the array are drawn on top of earlier ones.
+	///
+	/// Note that some care must be taken when adding to this - you must set the pushed element's
+	/// [`master`](ZF_Element.master) pointer to be equal to the element container that contains
+	/// it.
 	protected Array<boxparty_ZF_Element> elements;
 
 	override bool handleBack() {
@@ -19,7 +32,23 @@ class boxparty_ZF_ElementContainer : boxparty_ZF_Element {
 		}
 	}
 
-	void drawerInternal(bool top) {
+	private void drawFocusIndicator(boxparty_ZF_ElementTreeGlobal globalStore) {
+		if (globalStore.focusIndicator == NULL) return;
+
+		boxparty_ZF_AABB beforeClip;
+		getClipAABB(beforeClip);
+		Screen.clearClipRect();
+
+		globalStore.focusIndicator.master = globalStore.mainFrame;
+		globalStore.focusIndicator.globalStore = globalStore;
+		globalStore.focusIndicator.drawer();
+		globalStore.focusIndicator.master = NULL;
+		globalStore.focusIndicator.globalStore = NULL;
+
+		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
+	}
+
+	private void drawerInternal(bool top) {
 		if (hidden) { return; }
 
 		// stuff in the frame shouldn't draw outside the frame
@@ -61,6 +90,12 @@ class boxparty_ZF_ElementContainer : boxparty_ZF_Element {
 			}
 		}
 		return mouseBlock;
+	}
+
+	private bool mousePosAndBlock(bool mouseBlock, Vector2 mousePos) {
+		let res = handleMousePosition(mouseBlock, mousePos);
+		if (res) return true;
+		return blocksMouse(mousePos);
 	}
 
 	override bool handleMousePosition(bool mouseBlock, Vector2 mousePos) {

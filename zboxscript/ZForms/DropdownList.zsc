@@ -1,66 +1,20 @@
+/// A simple wrapper class around a string array, which represents the item
+/// choices in a [dropdown list](ZF_DropdownList).
 class boxparty_ZF_DropdownItems {
+	/// The items, of which one item in the array corresponds to one shown
+	/// choice.
 	Array<string> items;
 }
 
+/// An element that allows the user to choose from a number of strings by
+/// drawing a list when clicked on.
+///
+/// This element uses the event [`ZF_Handler.dropdownChanged`].
 class boxparty_ZF_DropdownList : boxparty_ZF_Element {
-	protected boxparty_ZF_DropdownItems items;
-	boxparty_ZF_DropdownItems getItems() { return self.items; }
-	void setItems(boxparty_ZF_DropdownItems items) { self.items = items; }
-
-	protected int textColor;
-	int getTextColor() { return self.textColor; }
-	void setTextColor(int textColor) { self.textColor = textColor; }
-
-	protected Font fnt;
-	Font getFont() { return self.fnt; }
-	void setFont(Font fnt) {
-		if (fnt == NULL) {
-			self.fnt = smallfont;
-		}
-		else {
-			self.fnt = fnt;
-		}
-	}
-
-	protected double textScale;
-	double getTextScale() { return self.textScale; }
-	void setTextScale(double textScale) { self.textScale = textScale; }
-
-	protected int selection;
-	int getSelection() { return self.selection; }
-
-	protected boxparty_ZF_Frame bindingFrame;
-	boxparty_ZF_Frame getBindingFrame() { return self.bindingFrame; }
-	void setBindingFrame(boxparty_ZF_Frame bindingFrame) { self.bindingFrame = bindingFrame; }
-
-	protected boxparty_ZF_BoxTextures boxBg;
-	boxparty_ZF_BoxTextures getBoxBgTexture() { return self.boxBg; }
-	void setBoxBgTexture(boxparty_ZF_BoxTextures boxBg) { self.boxBg = boxBg; }
-	protected boxparty_ZF_BoxDrawer boxBgDrawer;
-
-	protected boxparty_ZF_BoxTextures listBg;
-	boxparty_ZF_BoxTextures getListBgTexture() { return self.listBg; }
-	void setListBgTexture(boxparty_ZF_BoxTextures listBg) { self.listBg = listBg; }
-	protected boxparty_ZF_BoxDrawer listBgDrawer;
-
-	protected boxparty_ZF_BoxTextures highlightBg;
-	boxparty_ZF_BoxTextures getHighlightBgTexture() { return self.highlightBg; }
-	void setHighlightBgTexture(boxparty_ZF_BoxTextures highlightBg) { self.highlightBg = highlightBg; }
-	protected boxparty_ZF_BoxDrawer highlightBgDrawer;
-
-	protected string dropTex;
-	string getDropTex() { return self.dropTex; }
-	void setDropTex(string dropTex) { self.dropTex = dropTex; }
-
-	protected bool clicking;
-	protected bool active;
-	protected int hover;
-	protected bool lastKey;
-
-	void config(
+	private void config(
 		boxparty_ZF_DropdownItems items, Font fnt = NULL, double textScale = 1.0, int textColor = Font.CR_WHITE,
 		boxparty_ZF_BoxTextures boxBg = NULL, boxparty_ZF_BoxTextures listBg = NULL, boxparty_ZF_BoxTextures highlightBg = NULL,
-		string dropTex = "", int defaultSelection = -1, boxparty_ZF_Handler cmdHandler = NULL, string command = "",
+		string dropTex = "", int defaultSelection = -1, boxparty_ZF_Handler cmdHandler = NULL, Name command = '',
 		boxparty_ZF_Frame bindingFrame = NULL
 	) {
 		setFont(fnt);
@@ -79,11 +33,44 @@ class boxparty_ZF_DropdownList : boxparty_ZF_Element {
 		self.selection = defaultSelection;
 	}
 
+	/// Returns a newly-created dropdown list element.
+	///
+	/// The position used is relative to whatever the element is packed into
+	/// later.
+	///
+	/// The items that will be drawn when the dropdown list is clicked on is
+	/// stored in `items`, and is simply a wrapper around an `Array<String>`,
+	/// where each entry represents one choice. `defaultSelection` controls
+	/// which index is initially chosen from this list, where `-1` indicates
+	/// nothing is initially chosen.
+	///
+	/// The `boxBg` box textures are used to draw the part that is clicked on
+	/// to open the list, with `dropTex` being used as an icon to show that the
+	/// element is a dropdown list - a downwards pointing arrow is a commonly
+	/// used graphic for this purpose.
+	///
+	/// The `listBg` box textures are used to draw the dropdown when it is
+	/// active, and `highlightBg` is drawn to indicate which option is
+	/// currently being hovered.
+	///
+	/// `textColor` takes on values from [`Font.EColorRange`], which cannot be
+	/// named as a type due to current ZScript limitations.
+	///
+	/// If `fnt` is `NULL`, then `smallfont` is used instead.
+	///
+	/// `bindingFrame` controls the frame which the dropdown list will stay
+	/// inside of. If a dropdown list cannot fit inside of the `bindingFrame`
+	/// by going downwards, it will instead go upwards. If `bindingFrame ==
+	/// NULL`, then the entire screen is effectively used as a binding frame.
+	///
+	/// `cmdHandler` and `command` determine where the button's events are sent
+	/// to. [`ZF_Handler.dropdownChanged`] is sent whenever the user changes
+	/// the dropdown choice.
 	static boxparty_ZF_DropdownList create(
 		Vector2 pos, Vector2 size,
 		boxparty_ZF_DropdownItems items, Font fnt = NULL, double textScale = 1.0, int textColor = Font.CR_WHITE,
 		boxparty_ZF_BoxTextures boxBg = NULL, boxparty_ZF_BoxTextures listBg = NULL, boxparty_ZF_BoxTextures highlightBg = NULL,
-		string dropTex = "", int defaultSelection = -1, boxparty_ZF_Handler cmdHandler = NULL, string command = "",
+		string dropTex = "", int defaultSelection = -1, boxparty_ZF_Handler cmdHandler = NULL, Name command = '',
 		boxparty_ZF_Frame bindingFrame = NULL
 	) {
 		let ret = new("boxparty_ZF_DropdownList");
@@ -97,7 +84,103 @@ class boxparty_ZF_DropdownList : boxparty_ZF_Element {
 		return ret;
 	}
 
-	void dropdownAABB(boxparty_ZF_AABB screenBox) {
+	private boxparty_ZF_DropdownItems items;
+	/// Returns the dropdown items list that this element uses.
+	boxparty_ZF_DropdownItems getItems() { return self.items; }
+	/// Sets the dropdown items list that this element uses.
+	void setItems(boxparty_ZF_DropdownItems items) { self.items = items; }
+
+	private int textColor;
+	/// Returns the dropdown list's text's color.
+	///
+	/// This is really a [`Font.EColorRange`], but ZScript currently is a bit limited here.
+	int getTextColor() { return self.textColor; }
+	/// Sets the dropdown list's text's color.
+	///
+	/// This is really a [`Font.EColorRange`], but ZScript currently is a bit limited here.
+	void setTextColor(int textColor) { self.textColor = textColor; }
+
+	private Font fnt;
+	/// Returns the font this dropdown list will use for drawing its text.
+	Font getFont() { return self.fnt; }
+	/// Sets the font this dropdown list will use for drawing its text.
+	///
+	/// If this is `NULL`, then `smallfont` is used instead.
+	void setFont(Font fnt) {
+		if (fnt == NULL) {
+			self.fnt = smallfont;
+		}
+		else {
+			self.fnt = fnt;
+		}
+	}
+
+	private double textScale;
+	/// Returns the scaling factor for the drawn text.
+	double getTextScale() { return self.textScale; }
+	/// Sets the scaling factor for the drawn text.
+	void setTextScale(double textScale) { self.textScale = textScale; }
+
+	private int selection;
+	/// Returns the index of the choosen item from the array in
+	/// [`getItems`]`()`, or `-1` if nothing has been chosen yet.
+	int getSelection() { return self.selection; }
+
+	private boxparty_ZF_Frame bindingFrame;
+	/// Returns the frame that binds this dropdown list.
+	/// 
+	/// If a dropdown list cannot fit inside of the `bindingFrame` by going
+	/// downwards, it will instead go upwards. If `bindingFrame == NULL`, then
+	/// the entire screen is effectively used as a binding frame.
+	boxparty_ZF_Frame getBindingFrame() { return self.bindingFrame; }
+	/// Sets the frame that binds this dropdown list.
+	/// 
+	/// If a dropdown list cannot fit inside of the `bindingFrame` by going
+	/// downwards, it will instead go upwards. If `bindingFrame == NULL`, then
+	/// the entire screen is effectively used as a binding frame.
+	void setBindingFrame(boxparty_ZF_Frame bindingFrame) { self.bindingFrame = bindingFrame; }
+
+	private boxparty_ZF_BoxTextures boxBg;
+	/// Returns the box textures used for drawing the part of the element that
+	/// is clicked on to drop down the list.
+	boxparty_ZF_BoxTextures getBoxBgTexture() { return self.boxBg; }
+	/// Sets the box textures used for drawing the part of the element that is
+	/// clicked on to drop down the list.
+	void setBoxBgTexture(boxparty_ZF_BoxTextures boxBg) { self.boxBg = boxBg; }
+	private boxparty_ZF_BoxDrawer boxBgDrawer;
+
+	private boxparty_ZF_BoxTextures listBg;
+	/// Returns the box textures used for drawing the list part of the element
+	/// that shows up when the element is clicked.
+	boxparty_ZF_BoxTextures getListBgTexture() { return self.listBg; }
+	/// Sets the box textures used for drawing the list part of the element
+	/// that shows up when the element is clicked.
+	void setListBgTexture(boxparty_ZF_BoxTextures listBg) { self.listBg = listBg; }
+	private boxparty_ZF_BoxDrawer listBgDrawer;
+
+	private boxparty_ZF_BoxTextures highlightBg;
+	/// Returns the box textures used to draw the higlight for the current
+	/// option of the user.
+	boxparty_ZF_BoxTextures getHighlightBgTexture() { return self.highlightBg; }
+	/// Sets the box textures used to draw the higlight for the current option
+	/// of the user.
+	void setHighlightBgTexture(boxparty_ZF_BoxTextures highlightBg) { self.highlightBg = highlightBg; }
+	private boxparty_ZF_BoxDrawer highlightBgDrawer;
+
+	private string dropTex;
+	/// Returns the texture drawn to indicate that this is a dropdown list.
+	string getDropTex() { return self.dropTex; }
+	/// Sets the texture drawn indicate that this is a dropdown list.
+	///
+	/// Often a downwards facing arrow is used for this purpose.
+	void setDropTex(string dropTex) { self.dropTex = dropTex; }
+
+	private bool clicking;
+	private bool active;
+	private int hover;
+	private bool lastKey;
+
+	private void dropdownAABB(boxparty_ZF_AABB screenBox) {
 		boxparty_ZF_AABB aabb;
 		aabb.pos = (0.0, getDropdownYOff());
 		aabb.size = (box.size.x, box.size.y * items.items.size());
@@ -109,7 +192,7 @@ class boxparty_ZF_DropdownList : boxparty_ZF_Element {
 	}
 
 	override bool blocksMousePriority(Vector2 mousePos) {
-		if (dontBlockMouse) return false;
+		if (getDontBlockMouse()) return false;
 		if (!active) return false;
 		boxparty_ZF_AABB screenBox; dropdownAABB(screenBox);
 		return screenBox.pointCollides(mousePos);
@@ -142,7 +225,7 @@ class boxparty_ZF_DropdownList : boxparty_ZF_Element {
 		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
 	}
 
-	double getDropdownYOff() {
+	private double getDropdownYOff() {
 		boxparty_ZF_AABB aabb;
 		aabb.pos = (0.0, box.size.y);
 		aabb.size = (box.size.x, box.size.y * items.items.size());
@@ -212,7 +295,7 @@ class boxparty_ZF_DropdownList : boxparty_ZF_Element {
 		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
 	}
 
-	bool setSelection() {
+	private bool setSelectionFromMouse() {
 		let mousePos = getGlobalStore().mousePos;
 		boxparty_ZF_AABB dropdownBox; dropdownAABB(dropdownBox);
 		if (dropdownBox.pointCollides(mousePos) && hover != -1) {
@@ -282,7 +365,7 @@ class boxparty_ZF_DropdownList : boxparty_ZF_Element {
 			if (isEnabled()) {
 				if (active) {
 					active = false;
-					return setSelection();
+					return setSelectionFromMouse();
 				}
 				return false;
 			}
@@ -293,7 +376,7 @@ class boxparty_ZF_DropdownList : boxparty_ZF_Element {
 			boxparty_ZF_AABB screenBox; dropdownAABB(screenBox);
 			if (active && screenBox.pointCollides(mousePos)) {
 				active = false;
-				return setSelection();
+				return setSelectionFromMouse();
 			}
 		}
 		else if (ev.type == UIEvent.Type_WheelDown || ev.type == UIEvent.Type_WheelUp) {

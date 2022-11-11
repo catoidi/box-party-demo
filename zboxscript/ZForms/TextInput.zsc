@@ -1,61 +1,12 @@
+/// An element which allows the user to input their own text.
+///
+/// This element uses the events [`ZF_Handler.textInputChanged`] and
+/// [`ZF_Handler.textInputExit`].
 class boxparty_ZF_TextInput : boxparty_ZF_Element {
-	protected Font fnt;
-	Font getFont() { return self.fnt; }
-	void setFont(Font fnt) {
-		if (fnt == NULL) {
-			self.fnt = newConsoleFont;
-		}
-		else {
-			self.fnt = fnt;
-		}
-	}
-
-	protected double textScale;
-	double getTextScale() { return self.textScale; }
-	void setTextScale(double textScale) { self.textScale = textScale; }
-
-	protected int textColor;
-	int getTextColor() { return self.textColor; }
-	void setTextColor(int textColor) { self.textColor = textColor; }
-
-	protected boxparty_ZF_BoxTextures background;
-	boxparty_ZF_BoxTextures getBackgroundTexture() { return self.background; }
-	void setBackgroundTexture(boxparty_ZF_BoxTextures background) { self.background = background; }
-	protected boxparty_ZF_BoxDrawer bgDrawer;
-
-	protected string text;
-
-	protected bool clicking;
-	protected bool typing;
-
-	protected int cursor;
-	protected int selCursor;
-	protected double curOffset;
-
-	protected int blinkTimer;
-	protected bool blink;
-
-	protected Array<string> lines;
-	protected Array<int> realLineLength;
-
-	protected int cursorLine;
-	protected int cursorRelative;
-	protected bool cursorLineBeginning;
-
-	protected int selCursorLine;
-	protected int selCursorRelative;
-	protected bool selCursorLineBeginning;
-
-	protected double upDownX;
-
-	protected bool multiline;
-	protected boxparty_ZF_Scrollbar bar;
-	protected double scrollbarWidth;
-
-	void config(
+	private void config(
 		Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
 		boxparty_ZF_BoxTextures background = NULL, bool multiline = false,
-		boxparty_ZF_Handler cmdHandler = NULL, string command = "",
+		boxparty_ZF_Handler cmdHandler = NULL, Name command = '',
 		double scrollbarWidth = 0.0,
 		boxparty_ZF_BoxTextures scrollBarNormal = NULL, boxparty_ZF_BoxTextures scrollBarHover = NULL,
 		boxparty_ZF_BoxTextures scrollBarClick = NULL, boxparty_ZF_BoxTextures scrollBg = NULL
@@ -82,10 +33,38 @@ class boxparty_ZF_TextInput : boxparty_ZF_Element {
 		updateLines();
 	}
 
+	/// Returns a newly created text input element.
+	///
+	/// The position used is relative to whatever the element is packed into
+	/// later.
+	///
+	/// Text boxes can either be in single line (the default), or multi line
+	/// mode, based on the `multiline` parameter. In multi line mode, a scroll
+	/// bar can optionally be added by using the `scrollbarWidth` parameter,
+	/// where `0.0` means no scrollbar.
+	/// 
+	/// The various `scrollBar..` [`ZF_BoxTextures`] parameters control the
+	/// visuals of the scrollbar, if it exists. The scrollbar will have
+	/// background `scrollBg`. When unhovered and unclicked, the handle will be
+	/// drawn using `scrollBarNormal`. When unclicked but hovered, the handle
+	/// will be drawn using `scrollBarHover`. When clicked, the handle will be
+	/// drawn using `scrollBarClick`.
+	///
+	/// `textColor` takes on values from [`Font.EColorRange`], which cannot be
+	/// named as a type due to current ZScript limitations.
+	///
+	/// If `fnt` is `NULL`, then `smallfont` is used instead.
+	/// 
+	/// The input box will use a box textures set from `background`.
+	///
+	/// `cmdHandler` and `command` determine where the button's events are sent
+	/// to. [`ZF_Handler.textInputChanged`] is sent whenever the user changes
+	/// the text inside the input box, and [`ZF_Handler.textInputExit`] is sent
+	/// when a text input is exited by the user.
 	static boxparty_ZF_TextInput create(
 		Vector2 pos, Vector2 size, Font fnt = NULL, double textScale = 1,
 		int textColor = Font.CR_WHITE, boxparty_ZF_BoxTextures background = NULL,
-		bool multiline = false, boxparty_ZF_Handler cmdHandler = NULL, string command = "",
+		bool multiline = false, boxparty_ZF_Handler cmdHandler = NULL, Name command = '',
 		double scrollbarWidth = 0.0,
 		boxparty_ZF_BoxTextures scrollBarNormal = NULL, boxparty_ZF_BoxTextures scrollBarHover = NULL,
 		boxparty_ZF_BoxTextures scrollBarClick = NULL, boxparty_ZF_BoxTextures scrollBg = NULL
@@ -101,10 +80,81 @@ class boxparty_ZF_TextInput : boxparty_ZF_Element {
 		return ret;
 	}
 
+	private Font fnt;
+	/// Returns the font this text input will use for drawing its text.
+	Font getFont() { return self.fnt; }
+	/// Sets the font this text input will use for drawing its text.
+	///
+	/// If this is `NULL`, then `smallfont` is used instead.
+	void setFont(Font fnt) {
+		if (fnt == NULL) {
+			self.fnt = newConsoleFont;
+		}
+		else {
+			self.fnt = fnt;
+		}
+	}
+
+	private double textScale;
+	/// Returns the scaling factor for the drawn text.
+	double getTextScale() { return self.textScale; }
+	/// Sets the scaling factor for the drawn text.
+	void setTextScale(double textScale) { self.textScale = textScale; }
+
+	private int textColor;
+	/// Returns the button's text's color.
+	///
+	/// This is really a [`Font.EColorRange`], but ZScript currently is a bit limited here.
+	int getTextColor() { return self.textColor; }
+	/// Sets the button's text's color.
+	///
+	/// This is really a [`Font.EColorRange`], but ZScript currently is a bit limited here.
+	void setTextColor(int textColor) { self.textColor = textColor; }
+
+	private boxparty_ZF_BoxTextures background;
+	/// Returns the box textures used for drawing the background of the text
+	/// input.
+	boxparty_ZF_BoxTextures getBackgroundTexture() { return self.background; }
+	/// Sets the box textures used for drawing the background of the text
+	/// input.
+	void setBackgroundTexture(boxparty_ZF_BoxTextures background) { self.background = background; }
+	private boxparty_ZF_BoxDrawer bgDrawer;
+
+	private string text;
+
+	private bool clicking;
+	private bool typing;
+
+	private int cursor;
+	private int selCursor;
+	private double curOffset;
+
+	private int blinkTimer;
+	private bool blink;
+
+	private Array<string> lines;
+	private Array<int> realLineLength;
+
+	private int cursorLine;
+	private int cursorRelative;
+	private bool cursorLineBeginning;
+
+	private int selCursorLine;
+	private int selCursorRelative;
+	private bool selCursorLineBeginning;
+
+	private double upDownX;
+
+	private bool multiline;
+	private boxparty_ZF_Scrollbar bar;
+	private double scrollbarWidth;
+
+	/// Returns the text currently inside the text box.
 	string getText() {
 		return text;
 	}
 
+	/// Sets the text currently inside the text box.
 	void setText(string text) {
 		self.text = text;
 		cursor = 0;
@@ -112,14 +162,14 @@ class boxparty_ZF_TextInput : boxparty_ZF_Element {
 		updateLines();
 	}
 
-	double getXSize() {
+	private double getXSize() {
 		if (multiline) {
 			return box.size.x - scrollbarWidth;
 		}
 		return box.size.x;
 	}
 
-	bool breakingSpaceChar(int c) {
+	private bool breakingSpaceChar(int c) {
 		if (c < 0x2000) return c == 0x0020 || c == 0x1680;
 		else {
 			return
@@ -137,7 +187,7 @@ class boxparty_ZF_TextInput : boxparty_ZF_Element {
 		}
 	}
 
-	void updateLines() {
+	private void updateLines() {
 		if (!multiline) return;
 		lines.clear();
 		realLineLength.clear();
@@ -286,12 +336,12 @@ class boxparty_ZF_TextInput : boxparty_ZF_Element {
 		}
 	}
 
-	int getLowCursor() {
+	private int getLowCursor() {
 		if (selCursor == -1) return cursor;
 		return min(cursor, selCursor);
 	}
 
-	int getHighCursor() {
+	private int getHighCursor() {
 		if (selCursor == -1) return cursor;
 		return max(cursor, selCursor);
 	}
@@ -422,7 +472,7 @@ class boxparty_ZF_TextInput : boxparty_ZF_Element {
 
 	}
 
-	double, int, bool getCursorPositionFromMouse() {
+	private double, int, bool getCursorPositionFromMouse() {
 		boxparty_ZF_AABB screenBox; boxToScreen(screenBox);
 		let mousePos = getGlobalStore().mousePos;
 		let diff = mousePos - screenBox.pos;
@@ -478,11 +528,11 @@ class boxparty_ZF_TextInput : boxparty_ZF_Element {
 		return ret0, lastSubstr.length() + cursorOff, lastSubstr.length() == 0;
 	}
 
-	bool ctrlStop(int codepoint) {
+	private bool ctrlStop(int codepoint) {
 		return !((codepoint >= 0x30 && codepoint <= 0x39) || (codepoint >= 0x41 && codepoint <= 0x5A) || (codepoint >= 0x61 && codepoint <= 0x7A));
 	}
 
-	void moveCursor(int dir, bool shift, bool ctrl) {
+	private void moveCursor(int dir, bool shift, bool ctrl) {
 		if (shift && selCursor == -1) {
 			selCursor = cursor;
 		}
@@ -575,7 +625,7 @@ class boxparty_ZF_TextInput : boxparty_ZF_Element {
 		selCursor = (text.length() == 0) ? -1 : text.length();
 	}
 
-	void updateUpDownX() {
+	private void updateUpDownX() {
 		if (!multiline) return;
 		if (selCursor == -1) upDownX = fnt.stringWidth(lines[cursorLine].left(cursorRelative)) * textScale;
 		else upDownX = fnt.stringWidth(lines[selCursorLine].left(selCursorRelative)) * textScale;

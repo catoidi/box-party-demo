@@ -1,3 +1,7 @@
+/// A helper class for setting focus links between elements non annoyingly.
+///
+/// This assumes a grid layout, and as such cannot currently handle every menu
+/// possibility.
 class boxparty_ZF_FocusLinkHelper ui {
 	private Array<boxparty_ZF_Element> elements;
 	private uint width;
@@ -5,6 +9,12 @@ class boxparty_ZF_FocusLinkHelper ui {
 	private bool horzWraparound;
 	private bool vertWraparound;
 
+	/// Returns a newly created focus link helper.
+	///
+	/// The assumed grid has width `width` and height `height`. If
+	/// `horzWraparound` is set, then going right on the right edge of the grid
+	/// will go to the very left element, and vice versa. `vertWraparound`
+	/// works similarly, for the vertical edges.
 	static boxparty_ZF_FocusLinkHelper create(uint width, uint height, bool horzWraparound, bool vertWraparound) {
 		let ret = new("boxparty_ZF_FocusLinkHelper");
 
@@ -17,6 +27,10 @@ class boxparty_ZF_FocusLinkHelper ui {
 		return ret;
 	}
 
+	/// Sets the element at the given row and column to be the element `elem`.
+	///
+	/// Once all elements are added, [`setLinks`] should be called to actually
+	/// set up the focus neighbors.
 	void setElement(uint row, uint col, boxparty_ZF_Element elem) {
 		if (row >= height) throwAbortException("row >= height");
 		if (col >= width) throwAbortException("col >= width");
@@ -56,6 +70,9 @@ class boxparty_ZF_FocusLinkHelper ui {
 		elements[row * width + col].setFocusNeighbor(boxparty_ZF_NavEventType_Right, elements[row * width + newCol]);
 	}
 
+	/// Sets up the elements' focus neighbors.
+	///
+	/// This should be called after setting all elements via [`setElement`].
 	void setLinks() {
 		for (uint r = 0; r < height; r++) {
 			for (uint c = 0; c < width; c++) {

@@ -1,20 +1,34 @@
+/// Represents when in the element order the focus indicator element should be
+/// drawn.
 enum boxparty_ZF_FocusPriority {
+	/// The focus indicator will be drawn above every element, besides things drawn explicitly on
+	/// top.
 	boxparty_ZF_FocusPriority_AboveAll,
+	/// The focus indicator will be drawn immediately below the focused element.
 	boxparty_ZF_FocusPriority_JustBelowFocused,
+	/// The focus indicator will be drawn immediately above the focused element.
 	boxparty_ZF_FocusPriority_JustAboveFocused,
 }
 
-/// The base menu class for menus to inherit from.
-/// Contains a mainFrame to put items in.
+/// The class to inherit from for defining any menu that goes in the place that
+/// ZScript [`GenericMenu`]s normally go.
 class boxparty_ZF_GenericMenu : GenericMenu {
+	/// The top-level frame of the menu's element tree.
+	///
+	/// All top-level elements should be packed into this frame.
 	boxparty_ZF_Frame mainFrame;
 
+	/// The default elements that are focused when the user hasn't got anything
+	/// focused and presses a navigation button.
 	boxparty_ZF_Element focusDefaults[boxparty_ZF_NavEventType_FocusChangeCount];
 
 	private boxparty_ZF_ElementTreeGlobal globalStore;
 
+	/// Returns where the mouse position currently is in the menu.
 	Vector2 getMousePos() { return globalStore.mousePos; }
 
+	/// Sets the currently focused element to be `elem`, as if it came from the
+	/// direction `type`.
 	void setFocus(boxparty_ZF_Element elem, boxparty_ZF_NavEventType type) {
 		let old = globalStore.focus;
 		globalStore.focus = elem;
@@ -22,10 +36,20 @@ class boxparty_ZF_GenericMenu : GenericMenu {
 		changeFocusIndicator(old, globalStore.focus);
 		if (globalStore.focusIndicator != NULL) globalStore.focusIndicator.show();
 	}
+	/// Returns the element that is drawn as an indicator of what element is
+	/// focused.
 	boxparty_ZF_Element getFocusIndicator() { return globalStore.focusIndicator; }
+	/// Sets the element that is drawn as an indicator of what element is
+	/// focused.
 	void setFocusIndicator(boxparty_ZF_Element focusIndicator) { globalStore.focusIndicator = focusIndicator; }
 
+	/// Returns the focus indicator's priority.
+	///
+	/// See [`ZF_FocusPriority`].
 	boxparty_ZF_FocusPriority getFocusPriority() { return globalStore.focusPriority; }
+	/// Sets the focus indicator's priority.
+	///
+	/// See [`ZF_FocusPriority`].
 	void setFocusPriority(boxparty_ZF_FocusPriority focusPriority) { globalStore.focusPriority = focusPriority; }
 
 	override void init(Menu parent) {
@@ -42,11 +66,17 @@ class boxparty_ZF_GenericMenu : GenericMenu {
 		}
 	}
 
+	/// Sets the resolution of the virtual ZForms screen.
 	void setBaseResolution(Vector2 size) {
 		mainFrame.setBox((0, 0), size);
 		mainFrame.setBaseResolution(size);
 	}
 
+	/// Called whenever the back button is pressed, so that its behaviour can
+	/// be overridden if needed.
+	///
+	/// Normally this gives all the elements in the tree a chance to override
+	/// it, and if none of them did, it closes this menu.
 	virtual void handleBack() {
 		if (!mainFrame.handleBack()) {
 			close();
@@ -82,11 +112,41 @@ class boxparty_ZF_GenericMenu : GenericMenu {
 		mainFrame.topDrawer();
 	}
 
+	/// Called when the menu wants a focus indicator to be set up.
+	///
+	/// # Examples
+	///
+	/// ```
+	/// override void setupFocusIndicator() {
+	///     let focusBox = ZF_BoxTextures.CreateTexturePixels (
+	///         "Graphics/FocusIndicator.png",
+	///         (16, 16),
+	///         (16, 16),
+	///         true,
+	///         true
+	///     );
+	///
+	///     setFocusIndicator(ZF_BoxImage.create((0, 0), (0, 0), focusBox));
+	///     setFocusPriority(ZF_FocusPriority_JustAboveFocused);
+	/// }
+	/// ```
 	virtual void setupFocusIndicator() {}
+	/// Called when the menu wants the focus indicator to be moved to a new element.
+	/// 
+	/// This should not position the indicator - see [`positionFocusIndicator`].
 	virtual void changeFocusIndicator(boxparty_ZF_Element oldFocus, boxparty_ZF_Element newFocus) {}
+	/// Called when the focus indicator should change position or size.
+	///
+	/// # Examples
+	///
+	/// ```
+	/// override void positionFocusIndicator(Vector2 pos, Vector2 size) {
+	///     getFocusIndicator().setBox(pos, size);
+	/// }
+	/// ```
 	virtual void positionFocusIndicator(Vector2 pos, Vector2 size) {}
 
-	void fireNavigationEvent(boxparty_ZF_NavEventType type, bool fromController) {
+	private void fireNavigationEvent(boxparty_ZF_NavEventType type, bool fromController) {
 		if (type == boxparty_ZF_NavEventType_Deny) {
 			handleBack();
 		}
@@ -157,6 +217,10 @@ class boxparty_ZF_GenericMenu : GenericMenu {
 	}
 }
 
+//  this is temporarily undocumented as i haven't been updating it to the
+//  current ZForms API as much as i should have been so it doesn't work
+//  properly anyway
+/// ?doc: hidden
 class boxparty_ZF_EventHandlerMenu ui {
 	boxparty_ZF_Frame mainFrame;
 

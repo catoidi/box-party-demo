@@ -1,3 +1,14 @@
+/// A structure used for drawing box textures.
+///
+/// In GZDoom, `Shape2D`s are stored on the GPU if you don't change them for speed purposes, but
+/// ZForms presents an API that allows for on-the-fly changing of [`ZF_BoxTextures`] on elements.
+/// So a structure is needed to make sure we only reupload `Shape2D`s when completely needed, which
+/// is generally when they grow or shrink.
+///
+/// `Shape2D`s can be moved around on the screen without changing their GPU data by using
+/// `Shape2DTransform`, so this also uses that to move them around.
+///
+/// It then also handles drawing shapes when needed.
 struct boxparty_ZF_BoxDrawer ui {
 	private Shape2D shape;
 	private Shape2DTransform transform;
@@ -8,6 +19,8 @@ struct boxparty_ZF_BoxDrawer ui {
 	private boxparty_ZF_BoxTextures lastTextures;
 	private Vector2 lastScale;
 
+	/// Draws the [`ZF_BoxTextures`] in the context of `master`, changing the cached information if
+	/// necessary.
 	void draw(
 		boxparty_ZF_Element master, Vector2 pos, Vector2 size, boxparty_ZF_BoxTextures textures,
 		bool animate, Vector2 scale = (1, 1)
@@ -43,7 +56,7 @@ struct boxparty_ZF_BoxDrawer ui {
 		);
 	}
 
-	void shape2DAddQuad(
+	private void shape2DAddQuad(
 		Shape2D shape, Vector2 pos, Vector2 size, Vector2 uvPos, Vector2 uvSize, out int vertCount
 	) {
 		shape.pushVertex((pos.x         , pos.y         ));
@@ -62,11 +75,11 @@ struct boxparty_ZF_BoxDrawer ui {
 		vertCount += 4;
 	}
 
-	Vector2 scaleVec(Vector2 vec, Vector2 scale) {
+	private Vector2 scaleVec(Vector2 vec, Vector2 scale) {
 		return (vec.x * scale.x, vec.y * scale.y);
 	}
 
-	void calcTiledImage(
+	private void calcTiledImage(
 		Shape2D shape, Vector2 screenPos, Vector2 screenSize, Vector2 scaledSize,
 		Vector2 uvPos, Vector2 uvSize, out int vertCount
 	) {
@@ -105,7 +118,7 @@ struct boxparty_ZF_BoxDrawer ui {
 		}
 	}
 
-	Shape2D calc(
+	private Shape2D calc(
 		boxparty_ZF_Element master, Vector2 size, boxparty_ZF_BoxTextures textures, Vector2 scale = (1, 1)
 	) {
 		double screenScale = master.getScale();

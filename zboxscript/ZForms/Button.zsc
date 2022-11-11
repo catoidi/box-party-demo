@@ -1,12 +1,16 @@
+/// The main button element, which triggers an event whenever it is clicked.
+///
+/// This element also has a secondary mode that allows it to be held down to
+/// trigger periodic "held" events.
+///
+/// This element uses the events [`ZF_Handler.buttonClickCommand`] when in
+/// "normal" mode and [`ZF_Handler.buttonHeldCommand`] when in "held" mode.
+///
+/// Also see the documentation for [`ZF_ButtonBase`] as a lot of button things are documented
+/// there.
 class boxparty_ZF_Button : boxparty_ZF_ButtonBase {
-	protected int holdTicInterval;
-	int getHoldTicInterval() { return self.holdTicInterval; }
-	void setHoldTicInterval(int holdTicInterval) { self.holdTicInterval = holdTicInterval; }
-
-	protected int currentHoldTicsRemaining;
-
-	void config(
-		string text = "", boxparty_ZF_Handler cmdHandler = NULL, string command = "",
+	private void config(
+		string text = "", boxparty_ZF_Handler cmdHandler = NULL, Name command = '',
 		boxparty_ZF_BoxTextures inactive = NULL, boxparty_ZF_BoxTextures hover = NULL,
 		boxparty_ZF_BoxTextures click = NULL, boxparty_ZF_BoxTextures disabled = NULL,
 		Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
@@ -25,8 +29,26 @@ class boxparty_ZF_Button : boxparty_ZF_ButtonBase {
 		self.command = command;
 	}
 
+	/// Returns a newly created button element.
+	///
+	/// The position used is relative to whatever the element is packed into
+	/// later.
+	/// 
+	/// The [`ZF_BoxTextures`] arguments correspond to the button's states described in
+	/// [`ButtonState`]. The text on the button will be aligned to `alignment`.
+	///
+	/// `textColor` takes on values from [`Font.EColorRange`], which cannot be
+	/// named as a type due to current ZScript limitations.
+	///
+	/// If `fnt` is `NULL`, then `smallfont` is used instead.
+	///
+	/// `cmdHandler` and `command` determine where the button's events are sent to. If
+	/// `holdInterval` is `-1`, then [`ZF_Handler.buttonClickCommand`] is sent
+	/// on button clicks. Otherwise, if `holdInterval` is `>= 0`, then a
+	/// [`ZF_Handler.buttonHeldCommand`] is sent every `holdInterval + 1`
+	/// ticks.
 	static boxparty_ZF_Button create(
-		Vector2 pos, Vector2 size, string text = "", boxparty_ZF_Handler cmdHandler = NULL, string command = "",
+		Vector2 pos, Vector2 size, string text = "", boxparty_ZF_Handler cmdHandler = NULL, Name command = '',
 		boxparty_ZF_BoxTextures inactive = NULL, boxparty_ZF_BoxTextures hover = NULL, boxparty_ZF_BoxTextures click = NULL,
 		boxparty_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
 		int holdInterval = -1, AlignType alignment = AlignType_Center
@@ -38,6 +60,18 @@ class boxparty_ZF_Button : boxparty_ZF_ButtonBase {
 
 		return ret;
 	}
+
+	private int holdTicInterval;
+	/// Returns the amount of tics waited between held commands.
+	///
+	/// A value of `-1` means this isn't used and the button acts normally.
+	int getHoldTicInterval() { return self.holdTicInterval; }
+	/// Sets the amount of tics waited between held commands.
+	///
+	/// A value of `-1` means this isn't used and the button acts normally.
+	void setHoldTicInterval(int holdTicInterval) { self.holdTicInterval = holdTicInterval; }
+
+	private int currentHoldTicsRemaining;
 
 	override void ticker() {
 		if (!isEnabled()) {
