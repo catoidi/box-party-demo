@@ -2,7 +2,7 @@
 
 //like the campfire but with less exploding. also it's invisible.
 
-CLASS Smoker : Campfire //200
+CLASS Smoker : BoxActor //200
 {
 	Default
 	{
@@ -10,6 +10,7 @@ CLASS Smoker : Campfire //200
 		Height 4;
 		-SOLID;
 		+MOVEWITHSECTOR;
+		+NOINTERACTION;
 		//$Category "Box Party/Decor/Island/"
 		//$Title "Smoker"
 		//$Sprite "SMOKA0"
@@ -19,7 +20,7 @@ CLASS Smoker : Campfire //200
 	States
 	{
 		Spawn:
-			TNT1 A 4 BRIGHT A_SpawnItemEX("BoomSmoke", frandom(-8, 8), frandom(-8, 8), frandom(16, 24), frandom(-1, 1), frandom(-1, 1), frandom(2, 6), 0, SXF_NOCHECKPOSITION, 128);
+			TNT1 A 4 BRIGHT A_CampSmoke(4);
 			Loop;
 	}
 }

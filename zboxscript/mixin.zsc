@@ -26,6 +26,20 @@ mixin class BoxActorMixin
 		StartRoll = randompick(-8, 8);
 	}
 	
+	action void A_CampSmoke(int smokeheight = 8)
+	{
+		if (random(0, 1) == 1) 
+		{
+			int hlow = smokeheight - 8;
+			int hhigh = smokeheight;
+		
+			if (hlow < 0) {hlow = 0;}
+			if (hhigh < 4) {hhigh = 4;}
+	
+			A_SpawnParticleEX("White", TexMan.CheckForTexture("SMOKA0"), 0, SPF_ROLL, 25, 20.4, 0, frandom(-8, 8), frandom(-8, 8), frandom(hlow, hhigh), frandom(-1, 1), frandom(-1, 1), frandom(2, 6), 0, 0, 0, 0.25, 0.01, 1, random(0, 359), 6 - (12 * (random(0, 1))));
+		}
+	}
+	
 	action void A_ProjectileSmoke()
 	{
 		A_SpawnParticleEX("White", TexMan.CheckForTexture("SMOKC0"), 0, SPF_ROLL, 20, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, -1, 0.6, random(0, 359));

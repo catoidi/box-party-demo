@@ -20,7 +20,7 @@ CLASS Campfire : BoxActor //200
 		Looper:
 			CAMP AABB 4 BRIGHT 
 			{
-				A_SpawnItemEX("BoomSmoke", frandom(-8, 8), frandom(-8, 8), frandom(16, 24), frandom(-1, 1), frandom(-1, 1), frandom(2, 6), 0, SXF_NOCHECKPOSITION, 128);
+				A_CampSmoke(24);
 				A_BoxParticle2("ff 4f 00", random(0, 1), 12, 24, POffset: 16.0, POffsetZ: 8.0, PSpeed: 2.0);
 			}
 			CAMP A 0 BRIGHT A_Explode(1, 24, XF_NOTMISSILE | XF_NOSPLASH, false, 24, 0, 0, "BulletPuff", "Fire");
