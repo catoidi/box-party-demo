@@ -218,6 +218,11 @@ CLASS PopcornBullet : BoxActor
 		+EXPLODEONWATER;
 	}
 	
+	action void FakePopcornCrumb()
+	{
+		A_SpawnParticleEX("White", TexMan.CheckForTexture("POPGL0"), 0, SPF_ROLL, 22, 4.5, random(0, 359), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 3), 0, 0, -1, 1, 0, -0.2, random(0, 359), 3 - (6 * (random(0, 1))));
+	}
+	
 	States
 	{
 		Spawn:
@@ -235,9 +240,15 @@ CLASS PopcornBullet : BoxActor
 		Death.Sky:
 		Death:
 			TNT1 A 1 {
-				A_SpawnItemEx("ProjectileSmoke", 0, 0, 0, 0, 0, 0);
-				A_BoxParticle("f6 f4 d9", 3);
-				A_SpawnItemEx("PopcornBulletCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359), 0, 128);
+				//A_SpawnItemEx("ProjectileSmoke", 0, 0, 0, 0, 0, 0);
+				//A_BoxParticle("f6 f4 d9", 3);
+				A_ProjectileSmoke();
+				FakePopcornCrumb();
+				FakePopcornCrumb();
+				FakePopcornCrumb();
+				FakePopcornCrumb();
+				FakePopcornCrumb();
+				//A_SpawnItemEx("PopcornBulletCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359), 0, 128);
 			}
 			Stop;
 	}
@@ -286,29 +297,36 @@ CLASS PopcornBomb : BoxActor
 
 	int CrumbTimer;
 	int BulletAmount;
+	
+	action void FakeBombCrumb()
+	{
+		A_SpawnParticleEX("White", TexMan.CheckForTexture("POPNL0"), 0, SPF_ROLL, 50, 20, random(0, 359), random(-12, 12), random(-12, 12), random(-12, 12), random(-3, 3), random(-3, 3), random(-2, 5), 0, 0, -0.33, 1, 0, -0.1, random(0, 359), 6 - (12 * (random(0, 1))));
+	}
+	
+	action void FakeBombTrail()
+	{
+		A_SpawnParticleEX("White", TexMan.CheckForTexture("POPNL0"), 0, SPF_ROLL, 50, 20, 0, frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), 0, 0, 0, 0, 0, -0.33, 1, 0, -0.1, random(0, 359), 6 - (12 * (random(0, 1))));
+	}
 
 	States
 	{
 		Spawn:
 			TNT1 A 0 NoDelay {
 				A_SetRoll(random(0, 359));
-				CrumbTimer = 0;
 			}
 			POPN K 1 A_Jump(128, "SpeenLeft");
 		SpeenRight:
 			"####" "#" 1 {
 				A_SetRoll(roll - 8);
-				if (CrumbTimer > 32) {CrumbTimer = 28;}
-				A_SpawnItemEx("PopcornBombCrumb", frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), 0, 0, 0, 0, SXF_ABSOLUTEVELOCITY, (224 - CrumbTimer));
-				if (CrumbTimer < 32) {CrumbTimer += 4;}
+				if (random(1, 256) > 220) {A_SpawnItemEx("PopcornBombCrumb", frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), 0, 0, 0, 0, SXF_ABSOLUTEVELOCITY, 224);}
+				else if (random(0, 3) == 0) {FakeBombTrail();}
 			}
 			Loop;
 		SpeenLeft:
 			"####" "#" 1 {
 				A_SetRoll(roll + 8);
-				if (CrumbTimer >= 32) {CrumbTimer = 28;}
-				A_SpawnItemEx("PopcornBombCrumb", frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), 0, 0, 0, 0, SXF_ABSOLUTEVELOCITY, (224 - CrumbTimer));
-				if (CrumbTimer < 32) {CrumbTimer += 4;}
+				if (random(1, 256) > 220) {A_SpawnItemEx("PopcornBombCrumb", frandom(-4, 4), frandom(-4, 4), frandom(-4, 4), 0, 0, 0, 0, SXF_ABSOLUTEVELOCITY, 224);}
+				else if (random(0, 3) == 0) {FakeBombTrail();}
 			}
 			Loop;
 		XDeath:
@@ -325,7 +343,16 @@ CLASS PopcornBomb : BoxActor
 				}
 				A_SpawnItemEx("SafeBoomSmall", 0, 0, 0, 0, 0, 0);
 				A_Explode(12, 48);
-				A_BoxParticle("cf 5f 04", 9, 8, 24);
+				//A_BoxParticle("cf 5f 04", 9, 8, 24);
+				FakeBombCrumb();
+				FakeBombCrumb();
+				FakeBombCrumb();
+				FakeBombCrumb();
+				FakeBombCrumb();
+				FakeBombCrumb();
+				FakeBombCrumb();
+				FakeBombCrumb();
+				FakeBombCrumb();
 				A_SpawnItemEx("PopcornBombCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359));
 				A_SpawnItemEx("PopcornBombCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359));
 				A_SpawnItemEx("PopcornBombCrumb", random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 1), random(0, 359));

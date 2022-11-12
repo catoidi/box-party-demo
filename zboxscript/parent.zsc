@@ -319,13 +319,16 @@ CLASS BoxBlood : BoxActor abstract
 			TNT1 A 0 A_Jump(256, "Thirdy"); //dmg = 0-8
 			Stop;
 		Firsty:
-			TNT1 A 1 A_SpawnItemEX("ProjectilePuff", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+			//TNT1 A 1 A_SpawnItemEX("ProjectilePuff", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+			TNT1 A 1 A_ProjectilePuff();
 			Stop;
 		Secondy:
-			TNT1 A 1 A_SpawnItemEX("ProjectilePuffSmall", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+			//TNT1 A 1 A_SpawnItemEX("ProjectilePuffSmall", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+			TNT1 A 1 A_ProjectilePuff(0.5);
 			Stop;
 		Thirdy:
-			TNT1 A 1 A_SpawnItemEX("ProjectilePuffTiny", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+			//TNT1 A 1 A_SpawnItemEX("ProjectilePuffTiny", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION);
+			TNT1 A 1 A_ProjectilePuff(0.3);
 			Stop;
 	}
 }
