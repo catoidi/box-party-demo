@@ -212,7 +212,7 @@ CLASS PartyShottyBullet : BoxActor
 	
 	action void FakeShottyCrumb()
 	{
-		A_SpawnParticleEX("White", TexMan.CheckForTexture("SHOTX0"), 0, SPF_ROLL, 24, 4.0, random(0, 359), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 3), 0, 0, -1, 1, 0, -0.16, random(0, 359), 3 - (6 * (random(0, 1))));
+		A_SpawnParticleEX("White", TexMan.CheckForTexture("SHOTX0"), 0, SPF_ROLL, 24, 4.0, random(0, 359), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 2), random(-2, 3), 0, 0, -0.33, 1, 0, -0.16, random(0, 359), 3 - (6 * (random(0, 1))));
 	}
 	
 	States

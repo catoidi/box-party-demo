@@ -53,7 +53,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 	
 	boxparty_ZF_BoxImage ButtonImage, ButtonImage0, ButtonImage1, ButtonImage2, ButtonImage3, ButtonImage4, ButtonImage5, ButtonImage6, ButtonImage7, ButtonImage8, ButtonImage9, ButtonImage10, ButtonImage11, ButtonImage12, ButtonImage13, ButtonImage14, ButtonImage15;
 	
-	Array<String> BOXHAT_line, BOXHAT_name, BOXHAT_namelock, BOXHAT_cvar, BOXHAT_sprite, BOXHAT_menu, BOXHAT_locked;
+	Array<String> BOXHAT_line, BOXHAT_name, BOXHAT_namelock, BOXHAT_cvar, BOXHAT_sprite, BOXHAT_menu, BOXHAT_locked, BOXHAT_pixels, BOXHAT_scale;
 	int BOXHAT_size;
 	
 	cvar cheatcheck;
@@ -113,6 +113,14 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 						BOXHAT_sprite.Push(splitline[3]);
 						BOXHAT_menu.Push(splitline[4]);
 						BOXHAT_locked.Push(splitline[5]);
+						
+						if (splitline.Size() >= 7) 
+						{
+							BOXHAT_pixels.Push(splitline[6]);
+							if (splitline.Size() == 8) {BOXHAT_scale.Push(splitline[7]);}
+							else {BOXHAT_scale.Push("1");}
+						}
+						else {BOXHAT_pixels.Push("16x24"); BOXHAT_scale.Push("1");}
 					}
 					else
 					{
@@ -156,6 +164,14 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				
 						BOXHAT_namelock.Push("HAT_LOCKED_01"); //placeholder. you shouldn't ever see these two.
 						BOXHAT_locked.Push("HATLOCK.png");
+						
+						if (splitline.Size() >= 5) 
+						{
+							BOXHAT_pixels.Push(splitline[4]);
+							if (splitline.Size() == 6) {BOXHAT_scale.Push(splitline[5]);}
+							else {BOXHAT_scale.Push("1");}
+						}
+						else {BOXHAT_pixels.Push("16x24"); BOXHAT_scale.Push("1");}
 					}
 				}
 				else
@@ -189,11 +205,22 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 			{
 				hatname.AppendFormat("%s", BOXHAT_sprite[i]);
 				hatimage = hatname;
+				
+				if (BOXHAT_pixels[i] == "16x24") {hatSize = (16, 24);}
+				else
+				{
+					array<string> boxhat_pixelsplit;
+					BOXHAT_pixels[i].Split(boxhat_pixelsplit, "x");
+					int Xpixels = BOXHAT_pixels[0].ToInt(10);
+					int Ypixels = BOXHAT_pixels[1].ToInt(10);
+					
+					hatSize = (Xpixels, Ypixels);
+					console.printf("%s, %d, %d", BOXHAT_pixels[i], Xpixels, Ypixels);
+				}
 			}
 		}
 		
-		hatTexture = hatTexture.CreateTexturePixels(hatimage, (4, 6), (12, 18), true, true);
-		hatSize = (16, 24);
+		hatTexture = hatTexture.CreateTexturePixels(hatimage, (0, 0), (100, 100), true, true);
 		ChosenHat = boxparty_ZF_BoxImage.Create((274, 8), hatSize, hatTexture, (1.0, 1.0));
 		ChosenHat.Pack (mainFrame);
 	}
