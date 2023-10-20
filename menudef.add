@@ -21,22 +21,7 @@ AddOptionMenu "OptionsMenu" before "GameplayOptions"
 	SubMenu "$BOX_SUBMENU_OPTIONS",		"BoxGameplay"
 }
 
-AddOptionMenu "OptionsMenuSimple" after "NewPlayerMenu"
-{
-	Submenu "$BOX_HAT_MENU", 			"boxparty_hatmenu"
-}
-
-AddOptionMenu "OptionsMenuSimple" before "SoundOptionsSimple"
-{
-	Submenu "$BOX_HUDOPTIONS",			"BoxHudOptions"
-}
-
 AddOptionMenu "OptionsMenu" before "reset2defaults"
-{
-	StaticText "$HAT_RESET_WARN", "Red"
-}
-
-AddOptionMenu "OptionsMenuSimple" before "reset2defaults"
 {
 	StaticText "$HAT_RESET_WARN", "Red"
 }
@@ -50,36 +35,8 @@ AddOptionMenu "NewPlayerMenu"
 	StaticText "$NO_AUTOAIM", "Brick"
 }
 
-AddOptionMenu "ScalingOptionsSimple" after "uiscale"
-{
-	ScaleSlider "$SCALEMNU_HUD", 				"hud_scale", -1.0, 8.0, 1.0, "$SCALEMNU_USEUI", "$SCALEMNU_USEFS"
-}
-AddOptionMenu "ScalingOptionsSimple" after "screenblocks"
-{
-	StaticText "$SIZE_IS_ELEVEN", "Brick"
-}
-
 AddOptionMenu "VideoOptions" after "fov"
 {
 	StaticText " "
 	Slider "$BOX_MAXGIBS", "sv_corpsequeuesize", 100, 5000, 100, 0
-}
-
-AddOptionMenu "VideoOptionsSimple" before "r_drawfuzz"
-{
-	Submenu "$DSPLYMNU_GLOPT", 			"BoxHardware"
-	StaticText " "
-	Option "$DSPLYMNU_SPRITESHADOW",	"r_actorspriteshadow",	"onbydefault"
-}
-
-AddOptionMenu "VideoOptionsSimple" after "fov"
-{
-	StaticText " "
-	Slider "$BOX_MAXGIBS", "sv_corpsequeuesize", 100, 5000, 100, 0
-}
-
-AddOptionMenu "SoundOptionsSimple"
-{
-	StaticText " "
-	StaticText "$NOMUSICYET", "Brick"
 }
