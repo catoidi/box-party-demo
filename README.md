@@ -14,7 +14,7 @@ Box Party Demo is free and open source. This repository does not contain any con
 [Link to Box Party on itch.io.](https://catoidi.itch.io/box-party)
 
 ## Requirements:
-  -A fresh copy of the latest version of GZDOOM. (version 4.8.2 as of this writing)
+  -A fresh copy of the latest version of GZDOOM. (version 4.11.3 as of this writing)
 
 ## Installing Box Party (from Github):
   1. [Download GZDOOM, and extract the folder somewhere.](https://zdoom.org/downloads)
@@ -29,13 +29,11 @@ Box Party Demo is free and open source. This repository does not contain any con
   
 ## Disclaimers + Making Mods:
   -This is the first ever video game I've actually made. If you're going to look through Box Party's code, expect it to be ***very*** messy. :)
-I've tried my best to make Box Party modding friendly, however it is far from perfect.
+As a modder myself, I've tried my best to make Box Party modding friendly, however it is far from perfect.
 
-  -A lot of the behind-the-scenes code for Box Party is subject to change, so be aware that any potential mods you create that are more in depth than just like a level or a hat or a character may end up breaking when Box Party receives an update.
+  -Box Party's code is subject to change drastically between updates, which is something to be wary of when designing mods.
 
 Box Party has a few unique mechanics that should (hopefully) take minimal effort to add new content for, like the loot and hat systems.
 
-I will (eventually) be working on a Github Wiki to try to document these mechanics to the best of my ability.
-
-[if you wish to support Box Party, please consider donating to me at Ko-Fi.](https://ko-fi.com/idiotbitz)
+[if you wish to support my work, please consider checking out my Patreon.](https://www.patreon.com/catoidi)
   
