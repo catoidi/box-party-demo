@@ -38,6 +38,7 @@ set gl_particles_style "0"
 set sv_corpsequeuesize "1000"
 set screenblocks "11"
 set hud_scale "-1"
+set gl_lightmode "0"
 
 set am_backcolor "00 00 00"
 set am_cdwallcolor "86 86 ff"
