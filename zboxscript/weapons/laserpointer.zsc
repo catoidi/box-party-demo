@@ -69,6 +69,7 @@ CLASS LaserPointer : Weapon //20020
 		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 10;
 		Weapon.AmmoType "LaserPointerAmmo";
+		Weapon.WeaponScaleY 1.0;
 		Inventory.PickupMessage "$BOX_WEAPON_LASER";
 		Inventory.Icon "AMMOJ0";
 		Inventory.AltHUDIcon "AMMOC0";

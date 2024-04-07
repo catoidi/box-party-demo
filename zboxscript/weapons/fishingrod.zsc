@@ -33,6 +33,7 @@ CLASS FishingRod : Weapon //20010
 		Weapon.AmmoUse 1;
 		Weapon.AmmoGive 10;
 		Weapon.AmmoType "FishingRodAmmo";
+		Weapon.WeaponScaleY 1.0;
 		Inventory.Icon "AMMOV0";
 		Inventory.AltHUDIcon "AMMOW0";
 		Inventory.PickupMessage "$BOX_FISHINGROD";

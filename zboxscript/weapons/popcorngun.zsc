@@ -96,6 +96,7 @@ CLASS PopcornGun : Weapon //200
 		Weapon.AmmoGive2 0;
 		Weapon.AmmoType "PopcornGunAmmo";
 		Weapon.AmmoType2 "PopcornGunAmmo2";
+		Weapon.WeaponScaleY 1.0;
 		Inventory.PickupMessage "$BOX_WEAPON_POPCORN";
 		Inventory.Icon "AMMOL0";
 		Inventory.AltHUDIcon "AMMOE0";

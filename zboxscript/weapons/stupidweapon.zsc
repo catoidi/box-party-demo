@@ -16,6 +16,7 @@ CLASS StupidPistol : Weapon
 		Weapon.AmmoUse 2;
 		Weapon.AmmoGive 16;
 		Weapon.AmmoType "StupidPistolClip";
+		Weapon.WeaponScaleY 1.0;
 		Inventory.Icon "PISTG0";
 		Obituary "$BOX_DIE_STUPID";
 		Inventory.Pickupmessage "$BOX_WEAPON_STUPID";

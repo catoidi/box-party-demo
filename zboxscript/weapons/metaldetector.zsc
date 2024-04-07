@@ -8,6 +8,7 @@ CLASS MetalDetector : Weapon
 		Height 24;
 		Weapon.SlotNumber 0;
 		Weapon.SelectionOrder 9999;
+		Weapon.WeaponScaleY 1.0;
 		Inventory.PickupMessage "$BOX_METALDETECTOR";
 		DamageType "MetalDetector";
 		

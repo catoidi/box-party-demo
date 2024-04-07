@@ -46,6 +46,7 @@ CLASS Glowstick : Weapon //20010
 		Weapon.AmmoUse1 1;
 		Weapon.AmmoGive1 1;
 		Weapon.AmmoType1 "GlowstickAmmo";
+		Weapon.WeaponScaleY 1.0;
 		Inventory.PickupMessage "$BOX_WEAPON_GLOW";
 		Inventory.Icon "AMMOH0";
 		Inventory.AltHUDIcon "AMMOA0";
