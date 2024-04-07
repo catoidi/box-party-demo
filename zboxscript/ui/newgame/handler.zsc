@@ -93,7 +93,6 @@ Class DINewGameHandler : boxparty_ZF_Handler
 			//console.printf("%s", lvlclass);
 			if (currentskill == sklnum) 
 			{
-				if (currentskill == 1) {currentskill = 2;}
 				PlayDI(currentclass, currentlvl, currentskill);
 			} //{link.pagenum = 2;}
 			else {link.SetKeyPos(sklnum);}
@@ -191,7 +190,7 @@ Class DINewGameHandler : boxparty_ZF_Handler
 				{
 					case dimenu_key_up:
 						--link.keypos;
-						if (link.keypos < 0) {link.keypos = 1;}
+						if (link.keypos < 0) {link.keypos = 2;}
 						stayonpage = true;
 						buttonClickCommand(link.sklbuttons[link.keypos], link.sklbuttons[link.keypos].getcommand());
 						//link.UpdateKeySelect();
@@ -199,7 +198,7 @@ Class DINewGameHandler : boxparty_ZF_Handler
 						break;
 					case dimenu_key_down:
 						++link.keypos;
-						if (link.keypos > 1) {link.keypos = 0;}
+						if (link.keypos > 2) {link.keypos = 0;}
 						stayonpage = true;
 						buttonClickCommand(link.sklbuttons[link.keypos], link.sklbuttons[link.keypos].getcommand());
 						//link.UpdateKeySelect();

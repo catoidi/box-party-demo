@@ -11,20 +11,19 @@ extend class DINewGameMenu
 		DestroySkill();
 		UpdateTopLabel("choose a difficulty");
 		
-        for (int i = 0; i < 2; ++i)
+        for (int i = 0; i < 3; ++i)
         {	
 			// Create the box image's textures.
-			let boxTexture_String = "graphics/catalog/ITEMBAR_BIG.png";
-			if (i == 1) {boxTexture_String = "graphics/catalog/ITEMBAR2_BIG.png";}
-			let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), (252, 21), false, false);
+			let boxTexture_String = "graphics/newgame/ITEMBAR.png";
+			let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), (146, 21), false, false);
 			// Add a box image.
-			let boxSize = (252, 21);
+			let boxSize = (146, 21);
 			let aBoxImage = boxparty_ZF_BoxImage.Create
 			(
 				// Position
 				(
 					// Horizontal position.
-                    194,
+                    247,
                     // Calculate the vertical position.
                     // Initial offset + ((label text height + spacing) * label count)
                     80 + (21 * i)
@@ -39,8 +38,9 @@ extend class DINewGameMenu
 			sklboximages.Push(aBoxImage);
 
             // Get the player's name.
-            string labeltxt = "Easy";
-			if (i == 1) {labeltxt = "Normal";}
+            string labeltxt = "\cvBeginner";
+			if (i == 1) {labeltxt = "\cdNormal";}
+			else if (i == 2) {labeltxt = "\cgHard";}
 			
             // Add a label.
             let label = boxparty_ZF_Label.Create
@@ -77,26 +77,25 @@ extend class DINewGameMenu
             // Add the label to the labels list.
             skllabels.Push (label);
 			
-			string buttoncmd = String.Format("%s", "skill0");
-			if (i == 1) {buttoncmd = String.Format("%s", "skill1");}
+			string buttoncmd = String.Format("%s%d", "skill", i);
 			
 			// Create the button's textures.
 			let buttonIdle = boxparty_ZF_BoxTextures.CreateSingleTexture ("", true);
-			let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/catalog/ITEMBAR_HOVER_BIG.png", true);
-			let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/catalog/ITEMBAR_CLICK_BIG.png", true);
+			let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/newgame/ITEMBAR_HOVER.png", true);
+			let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/newgame/ITEMBAR_CLICK.png", true);
 			// Add a button.
 			let aButton = boxparty_ZF_Button.Create
 			(
 				// Position
 				(
 					// Horizontal position.
-                    194,
+                    247,
                     // Calculate the vertical position.
                     // Initial offset + ((label text height + spacing) * label count)
                     80 + (21 * i)
 				),
 				// Size
-				(252, 21),
+				(146, 21),
 				// Our command handler
 				cmdHandler: handler,
 				// A command string for the button
@@ -163,21 +162,5 @@ extend class DINewGameMenu
             boximage.Unpack();
             boximage.Destroy();
         }
-		
-		if (swaglevel)
-		{
-			swaglevel.Unpack();
-			swaglevel.Destroy();
-		}
-		if (explabel)
-		{
-			explabel.Unpack();
-			explabel.Destroy();
-		}
-		if (unlocklabel)
-		{
-			unlocklabel.Unpack();
-			unlocklabel.Destroy();
-		}
 	}
 }

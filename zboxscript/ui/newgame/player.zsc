@@ -28,20 +28,20 @@ extend class DINewGameMenu
 			}
 			
 			// Create the box image's textures.
-			let boxTexture_String = "graphics/catalog/ITEMBAR.png";
-			if (isLocked) {boxTexture_String = "graphics/catalog/ITEMBAR2.png";}
+			let boxTexture_String = "graphics/newgame/ITEMBAR.png";
+			if (isLocked) {boxTexture_String = "graphics/newgame/ITEMBAR2.png";}
 			let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), (144, 12), false, false);
 			// Add a box image.
-			let boxSize = (144, 17);
+			let boxSize = (146, 19);
 			let aBoxImage = boxparty_ZF_BoxImage.Create
 			(
 				// Position
 				(
 					// Horizontal position.
-                    120,
+                    160,
                     // Calculate the vertical position.
                     // Initial offset + ((label text height + spacing) * label count)
-                    102 + (17 * labelCount)
+                    102 + (18 * labelCount)
 				),
 				// Size
 				boxSize,
@@ -65,10 +65,10 @@ extend class DINewGameMenu
                 // Position.
                 (
                     // Horizontal position.
-                    126,
+                    166,
                     // Calculate the vertical position.
                     // Initial offset + ((label text height + spacing) * label count)
-                    105 + (17 * labelCount)
+                    105 + (18 * labelCount)
                 ),
                 // Size.
                 (
@@ -99,21 +99,21 @@ extend class DINewGameMenu
 			
 			// Create the button's textures.
 			let buttonIdle = boxparty_ZF_BoxTextures.CreateSingleTexture ("", true);
-			let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/catalog/ITEMBAR_HOVER.png", false);
-			let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/catalog/ITEMBAR_CLICK.png", false);
+			let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/newgame/ITEMBAR_HOVER.png", false);
+			let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/newgame/ITEMBAR_CLICK.png", false);
 			// Add a button.
 			let aButton = boxparty_ZF_Button.Create
 			(
 				// Position
 				(
 					// Horizontal position.
-                    120,
+                    160,
                     // Calculate the vertical position.
                     // Initial offset + ((label text height + spacing) * label count)
-                    102 + (17 * labelCount)
+                    102 + (18 * labelCount)
 				),
 				// Size
-				(144, 17),
+				(146, 19),
 				// Our command handler
 				cmdHandler: handler,
 				// A command string for the button

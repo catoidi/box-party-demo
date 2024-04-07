@@ -12,7 +12,7 @@ PARTY03 = "Not Invited"; //The 'lore' in this level involves you getting lured i
 ////////Scripts//////////////////
 /////////////////////////////////
 THISISEASY = "\cfParty Mode: \cnBeginner";
-THISISNORMAL = "\cfParty Mode: \cdMedium";
+THISISNORMAL = "\cfParty Mode: \cdNormal";
 THISISHARD = "\cfParty Mode: \crHard";
 LEVEL_COMPLETE = "Level Complete!";
 TOOMANYMELON = "Action Failed: Too many melons detected.";
@@ -79,9 +79,9 @@ TRASHCAN = "Trash Can";
 HI = "hi";
 RACEFAILED = "you have failed the race.";
 RACEWIN = "you have won the race !!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-TXT_RANDOMGOODBYE_1 = "ok bye";
-TXT_RANDOMGOODBYE_2 = "see ya";
-TXT_RANDOMGOODBYE_3 = "l8r";
+TXT_RANDOMGOODBYE_1 = "\ca[EXIT] \clok bye";
+TXT_RANDOMGOODBYE_2 = "\ca[EXIT] \clsee ya";
+TXT_RANDOMGOODBYE_3 = "\ca[EXIT] \cll8r";
 TXT_NAME_SECRET = "\cfSecret Box";
 TXT_NAME_WARN = "\ckWarning Box";
 TXT_NAME_ROOMMATE = "\ctRoommate Box";
