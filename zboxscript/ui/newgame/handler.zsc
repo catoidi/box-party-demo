@@ -99,8 +99,11 @@ Class DINewGameHandler : boxparty_ZF_Handler
 			{
 				PlayDI(currentclass, currentlvl, currentskill);
 			} //{link.pagenum = 2;}
-			else {link.SetKeyPos(sklnum);}
-			link.UpdatePointer((caller.GetPosX() - 16, caller.GetPosY()));
+			else 
+			{
+				link.UpdatePointer((caller.GetPosX() - 16, caller.GetPosY()));
+				link.SetKeyPos(sklnum);
+			}
 			currentskill = sklnum;
 			//link.UpdateKeySelect();
 		}
