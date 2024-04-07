@@ -8,9 +8,9 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 	
 	cvar cheatcvar;
 	
-	bool pageupdate, justkeyed;
+	bool pageupdate, justkeyed, pointered;
 	
-	int pagenum, pagenum_tick, keypos, curkey;
+	int pagenum, pagenum_tick, keypos, curkey, pointertick;
 	
 	string playername, levelname; //for finding high scores with.
 	double heartalpha;
@@ -25,7 +25,7 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 	Array<boxparty_ZF_Label> tutlabels, plrlabels, lvllabels, skllabels;
     Array<boxparty_ZF_Button> tutbuttons, plrbuttons, lvlbuttons, sklbuttons;
 	
-	boxparty_ZF_BoxImage keyboardselect;
+	boxparty_ZF_BoxImage keyboardselect, pointer;
 	
 	Array<String> filedata; //all the lines from DIGAME.
 	Array<String> playerpool, playerlock, levelpool, levellock; //all available players. does not include players that are locked.
@@ -64,6 +64,7 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 		{
 			CreatePlayerList();
 		}
+		CreatePointer();
 	}
 	
 	override void Ticker ()
@@ -92,6 +93,13 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 			{
 				heartboximages[i].SetAlpha(heartalpha);
 			}
+		}
+		
+		++pointertick;
+		if (pointertick >= 10) 
+		{
+			PointerTexture();
+			pointertick = 0;
 		}
 		
 		Super.Ticker();
@@ -480,5 +488,59 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 		}
 		
 		return returnnum;
+	}
+	
+	virtual void CreatePointer()
+	{
+		// Create the box image's textures.
+		let boxTexture_String = "graphics/M_SKULL1.png";
+		let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), (16, 16), false, false);
+		// Add a box image.
+		let boxSize = (16, 16);
+		pointer = boxparty_ZF_BoxImage.Create
+		(
+			// Position
+			(
+				// Horizontal position.
+                144,
+                // Calculate the vertical position.
+                // Initial offset + ((label text height + spacing) * label count)
+                102
+			),
+			// Size
+			boxSize,
+			// Texture
+			boxTexture
+		);
+		// Add the box image element into the main frame.
+		pointer.Pack (mainFrame);
+	}
+	
+	virtual void PointerTexture()
+	{
+		if (pointer)
+		{
+			string tex;
+			if (pointered)
+			{
+				tex = "graphics/M_SKULL1.png";
+				pointered = false;
+			}
+			else
+			{
+				tex = "graphics/M_SKULL2.png";
+				pointered = true;
+			}
+			let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(tex, (0, 0), (16, 16), false, false);
+			pointer.setboxtex(boxTexture);
+		}
+	}
+	
+	virtual void UpdatePointer(vector2 new)
+	{
+		if (pointer)
+		{
+			pointer.setPos(new);
+		}
 	}
 }

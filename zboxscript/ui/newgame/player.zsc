@@ -8,6 +8,8 @@ extend class DINewGameMenu
 		//TODO: add support for scrolling the list up and down.
 		
 		background.SetImage("graphics/NEWGAMEBACK3.png");
+		
+		UpdatePointer((144, 102));
 	
         int labelCount = 0; // We need this to calculate the position of the labels.
         for (int i = 0; i < playerpool.Size(); ++i)
@@ -58,6 +60,7 @@ extend class DINewGameMenu
 			{
 				currentplayer = String.Format("%s...", currentplayer.Left(15));
 			}
+			if (isLocked) {currentplayer = String.Format("\ca%s", currentplayer);}
 			
             // Add a label.
             let label = boxparty_ZF_Label.Create

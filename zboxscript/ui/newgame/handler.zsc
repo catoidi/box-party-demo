@@ -37,6 +37,7 @@ Class DINewGameHandler : boxparty_ZF_Handler
 			link.UpdateTopLabel(String.Format("%s", "\cgthis character is locked."), plrlocked);
 			currentclass = -1;
 			link.SetKeyPos(plrnum);
+			link.UpdatePointer((144, 102 + (18 * plrnum)));
 			//link.UpdateKeySelect();
 		}
 		else if (cmd.Left(6) == "player")
@@ -54,6 +55,7 @@ Class DINewGameHandler : boxparty_ZF_Handler
 			if (currentclass == plrnum) {link.pagenum = 1;}
 			currentclass = plrnum;
 			link.SetKeyPos(plrnum);
+			link.UpdatePointer((144, 102 + (18 * plrnum)));
 			//link.UpdateKeySelect();
 		}
 		else if (cmd.Left(11) == "lockedlevel")
@@ -66,6 +68,7 @@ Class DINewGameHandler : boxparty_ZF_Handler
 			currentlvl = -1;
 			link.SetKeyPos(lvlnum);
 			//link.UpdateKeySelect();
+			link.UpdatePointer((caller.GetPosX() - 16, caller.GetPosY() + 40));
 		}
 		else if (cmd.Left(5) == "level")
 		{
@@ -77,6 +80,7 @@ Class DINewGameHandler : boxparty_ZF_Handler
 			//console.printf("%s", lvlclass);
 			if (currentlvl == lvlnum) {link.pagenum = 2;}
 			else {link.SetKeyPos(lvlnum);}
+			link.UpdatePointer((caller.GetPosX() - 16, caller.GetPosY() + 40));
 			currentlvl = lvlnum;
 			//link.UpdateKeySelect();
 		}
@@ -96,6 +100,7 @@ Class DINewGameHandler : boxparty_ZF_Handler
 				PlayDI(currentclass, currentlvl, currentskill);
 			} //{link.pagenum = 2;}
 			else {link.SetKeyPos(sklnum);}
+			link.UpdatePointer((caller.GetPosX() - 16, caller.GetPosY()));
 			currentskill = sklnum;
 			//link.UpdateKeySelect();
 		}

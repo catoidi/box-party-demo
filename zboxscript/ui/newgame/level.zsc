@@ -191,6 +191,8 @@ extend class DINewGameMenu
             // Increment labelCount.
             labelCount++;
         }
+		
+		UpdatePointer((startpos.X - 16, startpos.Y + 40));
 	}
 	
 	virtual void DestroyLevelList()
