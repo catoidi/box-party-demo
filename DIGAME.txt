@@ -1,0 +1,24 @@
+>>It's VERY IMPORTANT that this 100% matches the players/episodes listed in the default New Game Menu, or this won't work right.
+>>#1: Command
+>>	[Add]: adds this line to the menu.
+>>	[Delete]: removes this line from the menu. (4th argument not necessary for this command.)
+>>#2: Type
+>>	[Player]: this line is referring to a player class. MUST match the order of players added in MAPINFO's "gameinfo" section.
+>>	[Level]: this line is referring to an episode. MUST match the order the episodes are added in MAPINFO.
+>>#3: Item
+>>	(tells the menu which player/level's info to display. purely cosmetic.)
+>>#4: CVAR
+>>	(if this argument is used, this option will be locked unless this CVAR (must be a bool!) is set to TRUE.)
+>>	(if "box_unlock_cheat" is enabled, these options will always be enabled.)
+>>
+>>[PLAYERS]
+Add, Player, PlayerBox;
+Add, Player, PlayerCircle, box_unlock_circle;
+Add, Player, PlayerTriangle, box_unlock_triangle;
+Add, Player, PlayerTrio, box_unlock_trio;
+Add, Player, PlayerPrism, box_unlock_prism;
+Add, Player, PlayerGlass, box_unlock_glass;
+>>
+>>[EPISODES]
+Add, Level, party01;
+Add, Level, chal00, box_unlock_challenge;

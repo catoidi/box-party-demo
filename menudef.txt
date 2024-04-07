@@ -19,7 +19,7 @@ LISTMENU "MainMenu"
 	StaticPatchCentered 160, -4, "BOXDEMO"
 	Selector "M_SKULL1", -30, 0
 	Position 58, 80
-	PatchItem "M_NGAME",	"n",	"PlayerclassMenu"
+	PatchItem "M_NGAME",	"n",	"DINewGameMenu"
 	Position 70, 106
 	PatchItem "M_OPTION",	"o",	"BoxOptionsMenu"
 	Position 82, 132
@@ -41,7 +41,7 @@ LISTMENU "MainMenuTextOnly"
 	//Font "BigUpper", "Gray"
 	StaticPatchCentered 160, 0, "BOXDEMO"
 	Position 64, 108
-	TextItem "$MNU_NEWGAME",   "n", "PlayerclassMenu"
+	TextItem "$MNU_NEWGAME",   "n", "DINewGameMenu"
 	//Position -20, 152
 	TextItem "$MNU_OPTIONS",   "o", "BoxOptionsMenu"
 	//Position 220, 128

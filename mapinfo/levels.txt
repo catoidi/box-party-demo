@@ -22,7 +22,7 @@ Map titlemap "this is the title screen for the game"
 //EPISODES
 //////////
 
-Episode "party00"
+Episode "party01"
 {
 	name = "Story Mode"
 	key = "S"

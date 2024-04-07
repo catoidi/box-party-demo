@@ -1,0 +1,165 @@
+//zscript_DI/ui/newgame/player.zsc
+
+extend class DINewGameMenu
+{
+	virtual void CreatePlayerList(void)
+	{
+		//this will a list of valid items, and create a button for each of them on the left side of the menu.
+		//TODO: add support for scrolling the list up and down.
+		
+		background.SetImage("graphics/NEWGAMEBACK3.png");
+	
+        int labelCount = 0; // We need this to calculate the position of the labels.
+        for (int i = 0; i < playerpool.Size(); ++i)
+        {
+            // If there's no space left in the screen...
+            if (labelCount > 32)
+            {
+                // Break out of the loop.
+                break;
+            }
+			
+			bool isLocked = false;
+			if (playerlock[i] != "u")
+			{
+				currentcvar = Cvar.GetCVAR(playerlock[i]);
+				if (cheatcvar.getbool() == true) {currentcvar = cheatcvar;}
+				if (currentcvar.GetBool() == false) {isLocked = true;}
+			}
+			
+			// Create the box image's textures.
+			let boxTexture_String = "graphics/catalog/ITEMBAR.png";
+			if (isLocked) {boxTexture_String = "graphics/catalog/ITEMBAR2.png";}
+			let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), (144, 12), false, false);
+			// Add a box image.
+			let boxSize = (144, 17);
+			let aBoxImage = boxparty_ZF_BoxImage.Create
+			(
+				// Position
+				(
+					// Horizontal position.
+                    120,
+                    // Calculate the vertical position.
+                    // Initial offset + ((label text height + spacing) * label count)
+                    102 + (17 * labelCount)
+				),
+				// Size
+				boxSize,
+				// Texture
+				boxTexture
+			);
+			// Add the box image element into the main frame.
+			aBoxImage.Pack (mainFrame);
+			plrboximages.Push(aBoxImage);
+
+            // Get the player's name.
+            let currentplayer = stringtable.localize(string.format("$dimenu_select_%s", playerpool[i]));
+			if (currentplayer.CodePointCount() > 16)
+			{
+				currentplayer = String.Format("%s...", currentplayer.Left(15));
+			}
+			
+            // Add a label.
+            let label = boxparty_ZF_Label.Create
+            (
+                // Position.
+                (
+                    // Horizontal position.
+                    126,
+                    // Calculate the vertical position.
+                    // Initial offset + ((label text height + spacing) * label count)
+                    105 + (17 * labelCount)
+                ),
+                // Size.
+                (
+                    // Calculate the horizontal size of the text.
+                    bigfont.StringWidth (currentplayer),
+                    // Get the font's height.
+                    bigfont.GetHeight ()
+                ),
+                // The label's text.
+                text: currentplayer,
+                // The font to use.
+                fnt: bigfont,
+                // Whether to automatically wrap the text or not.
+                wrap: false,
+                // Whether to automatically resize the element based on the text width.
+                autoSize: true,
+                // The text's colour.
+                textColor: Font.CR_WHITE
+            );
+
+            // Add the label element to the main frame.
+            label.Pack (mainFrame);
+            // Add the label to the labels list.
+            plrlabels.Push (label);
+			
+			string buttoncmd = String.Format("Player%d", i);
+			if (isLocked) {buttoncmd = String.Format("LockedPlayer%d", i);}
+			
+			// Create the button's textures.
+			let buttonIdle = boxparty_ZF_BoxTextures.CreateSingleTexture ("", true);
+			let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/catalog/ITEMBAR_HOVER.png", false);
+			let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/catalog/ITEMBAR_CLICK.png", false);
+			// Add a button.
+			let aButton = boxparty_ZF_Button.Create
+			(
+				// Position
+				(
+					// Horizontal position.
+                    120,
+                    // Calculate the vertical position.
+                    // Initial offset + ((label text height + spacing) * label count)
+                    102 + (17 * labelCount)
+				),
+				// Size
+				(144, 17),
+				// Our command handler
+				cmdHandler: handler,
+				// A command string for the button
+				command: buttoncmd,
+				// The button's textures
+				inactive: buttonIdle,
+				hover: buttonHover,
+				click: buttonClick
+			);
+			// Add the button element into the main frame.
+			aButton.Pack (mainFrame);
+			plrbuttons.Push(aButton);
+
+            // Increment labelCount.
+            labelCount++;
+        }
+		
+		UpdateTopLabel("pick ur character");
+	}
+	
+	virtual void DestroyPlayerList()
+	{
+		//delete any old array data, if it exists.
+        while (plrlabels.Size() > 0)
+        {
+            let label = plrlabels[0];
+            plrlabels.Delete(0, 1);
+
+            label.Unpack();
+            label.Destroy();
+        }
+		while (plrbuttons.Size() > 0)
+        {
+            let button = plrbuttons[0];
+            plrbuttons.Delete(0, 1);
+
+            button.Unpack();
+            button.Destroy();
+        }
+		while (plrboximages.Size() > 0)
+        {
+            let boximage = plrboximages[0];
+            plrboximages.Delete(0, 1);
+
+            boximage.Unpack();
+            boximage.Destroy();
+        }
+	}
+}

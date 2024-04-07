@@ -46,6 +46,11 @@ version "4.9"
 //ui
 #include "zboxscript/ui/hud.zsc"
 #include "zboxscript/ui/hatmenu.zsc"
+#include "zboxscript/ui/newgame/main.zsc"
+#include "zboxscript/ui/newgame/handler.zsc"
+#include "zboxscript/ui/newgame/player.zsc"
+#include "zboxscript/ui/newgame/level.zsc"
+#include "zboxscript/ui/newgame/skill.zsc"
 
 //weapons
 #include "zboxscript/weapons/partyshotty.zsc"

@@ -1,0 +1,18 @@
+[enu default]
+
+dimenu_select_playerbox = "Box";
+dimenu_select_playercircle = "Circle";
+dimenu_select_playertriangle = "Triangle";
+dimenu_select_playertrio = "Trio";
+dimenu_select_playerprism = "Prism";
+dimenu_select_playerglass = "Glass";
+
+dimenu_locked_playercircle = "\cbComplete the demo to unlock this character.";
+dimenu_locked_playertriangle = "\cbComplete the demo to unlock this character.";
+dimenu_locked_playertrio = "\cgThis character is not available in the demo.";
+dimenu_locked_playerprism = "\cgThis character is not available in the demo.";
+dimenu_locked_playerglass = "\cgThis character is not available in the demo.";
+
+dimenu_select_party01 = "Box Party Demo";
+dimenu_select_chal00 = "Challenge Mode";
+dimenu_locked_level_chal00 = "\cgThis is not available in the demo.";

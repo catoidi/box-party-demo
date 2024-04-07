@@ -1,0 +1,183 @@
+//zscript_DI/ui/newgame/skill.zsc
+//copy/pasted from tutorial.zsc :)
+
+extend class DINewGameMenu
+{
+	virtual void CreateSkill()
+	{
+		//pagenum = -1;
+		//pagenum_tick = -1;
+		
+		DestroySkill();
+		UpdateTopLabel("choose a difficulty");
+		
+        for (int i = 0; i < 2; ++i)
+        {	
+			// Create the box image's textures.
+			let boxTexture_String = "graphics/catalog/ITEMBAR_BIG.png";
+			if (i == 1) {boxTexture_String = "graphics/catalog/ITEMBAR2_BIG.png";}
+			let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), (252, 21), false, false);
+			// Add a box image.
+			let boxSize = (252, 21);
+			let aBoxImage = boxparty_ZF_BoxImage.Create
+			(
+				// Position
+				(
+					// Horizontal position.
+                    194,
+                    // Calculate the vertical position.
+                    // Initial offset + ((label text height + spacing) * label count)
+                    80 + (21 * i)
+				),
+				// Size
+				boxSize,
+				// Texture
+				boxTexture
+			);
+			// Add the box image element into the main frame.
+			aBoxImage.Pack (mainFrame);
+			sklboximages.Push(aBoxImage);
+
+            // Get the player's name.
+            string labeltxt = "Easy";
+			if (i == 1) {labeltxt = "Normal";}
+			
+            // Add a label.
+            let label = boxparty_ZF_Label.Create
+            (
+                // Position.
+                (
+                    // Horizontal position.
+                    194 + 126 - (bigFont.StringWidth(labeltxt) / 2),
+                    // Calculate the vertical position.
+                    // Initial offset + ((label text height + spacing) * label count)
+                    84 + (21 * i)
+                ),
+                // Size.
+                (
+                    // Calculate the horizontal size of the text.
+                    bigFont.StringWidth (labeltxt),
+                    // Get the font's height.
+                    bigFont.GetHeight ()
+                ),
+                // The label's text.
+                text: labeltxt,
+                // The font to use.
+                fnt: bigFont,
+                // Whether to automatically wrap the text or not.
+                wrap: false,
+                // Whether to automatically resize the element based on the text width.
+                autoSize: true,
+                // The text's colour.
+                textColor: Font.CR_WHITE
+            );
+
+            // Add the label element to the main frame.
+            label.Pack (mainFrame);
+            // Add the label to the labels list.
+            skllabels.Push (label);
+			
+			string buttoncmd = String.Format("%s", "skill0");
+			if (i == 1) {buttoncmd = String.Format("%s", "skill1");}
+			
+			// Create the button's textures.
+			let buttonIdle = boxparty_ZF_BoxTextures.CreateSingleTexture ("", true);
+			let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/catalog/ITEMBAR_HOVER_BIG.png", true);
+			let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture("graphics/catalog/ITEMBAR_CLICK_BIG.png", true);
+			// Add a button.
+			let aButton = boxparty_ZF_Button.Create
+			(
+				// Position
+				(
+					// Horizontal position.
+                    194,
+                    // Calculate the vertical position.
+                    // Initial offset + ((label text height + spacing) * label count)
+                    80 + (21 * i)
+				),
+				// Size
+				(252, 21),
+				// Our command handler
+				cmdHandler: handler,
+				// A command string for the button
+				command: buttoncmd,
+				// The button's textures
+				inactive: buttonIdle,
+				hover: buttonHover,
+				click: buttonClick
+			);
+			// Add the button element into the main frame.
+			aButton.Pack (mainFrame);
+			sklbuttons.Push(aButton);
+        }
+		
+		// Create the box image's textures.
+		let boxTexture_String = "graphics/FRED_APPROVED.png";
+		let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), (352, 176), false, false);
+		// Add a box image.
+		let boxSize = (352, 176);
+		let aBoxImage = boxparty_ZF_BoxImage.Create
+		(
+			// Position
+			(
+				// Horizontal position.
+                144,
+                // Calculate the vertical position.
+                // Initial offset + ((label text height + spacing) * label count)
+                140
+			),
+			// Size
+			boxSize,
+			// Texture
+			boxTexture
+		);
+		// Add the box image element into the main frame.
+		aBoxImage.Pack (mainFrame);
+		sklboximages.Push(aBoxImage);
+	}
+	
+	virtual void DestroySkill()
+	{
+		//delete any old array data, if it exists.
+        while (skllabels.Size() > 0)
+        {
+            let label = skllabels[0];
+            skllabels.Delete(0, 1);
+
+            label.Unpack();
+            label.Destroy();
+        }
+		while (sklbuttons.Size() > 0)
+        {
+            let button = sklbuttons[0];
+            sklbuttons.Delete(0, 1);
+
+            button.Unpack();
+            button.Destroy();
+        }
+		while (sklboximages.Size() > 0)
+        {
+            let boximage = sklboximages[0];
+            sklboximages.Delete(0, 1);
+
+            boximage.Unpack();
+            boximage.Destroy();
+        }
+		
+		if (swaglevel)
+		{
+			swaglevel.Unpack();
+			swaglevel.Destroy();
+		}
+		if (explabel)
+		{
+			explabel.Unpack();
+			explabel.Destroy();
+		}
+		if (unlocklabel)
+		{
+			unlocklabel.Unpack();
+			unlocklabel.Destroy();
+		}
+	}
+}

@@ -1,0 +1,484 @@
+//zscript_DI/ui/NewGame.zsc
+
+Class DINewGameMenu : boxparty_ZF_GenericMenu
+{
+	//copy/pasted from DI: Debt is Inevitable, for your viewing pleasure.
+
+	DINewGameHandler handler;
+	
+	cvar cheatcvar;
+	
+	bool pageupdate, justkeyed;
+	
+	int pagenum, pagenum_tick, keypos, curkey;
+	
+	string playername, levelname; //for finding high scores with.
+	double heartalpha;
+	int hearttimer;
+	
+	Font bigFont, smallFont;
+	boxparty_ZF_Image background, plrinfo;
+	string TopLabel_text, TopLabel2_text;
+	boxparty_ZF_Label TopLabel, TopLabel2, swaglevel, explabel, unlocklabel;
+	//the arrays are split up for each page to prevent the chance of data from 1 page overflowing into another.
+	Array<boxparty_ZF_BoxImage> tutboximages, plrboximages, lvlboximages, heartboximages, sklboximages;
+	Array<boxparty_ZF_Label> tutlabels, plrlabels, lvllabels, skllabels;
+    Array<boxparty_ZF_Button> tutbuttons, plrbuttons, lvlbuttons, sklbuttons;
+	
+	boxparty_ZF_BoxImage keyboardselect;
+	
+	Array<String> filedata; //all the lines from DIGAME.
+	Array<String> playerpool, playerlock, levelpool, levellock; //all available players. does not include players that are locked.
+	
+	transient cvar currentcvar;
+	
+	override void init(menu parent)
+	{
+		super.init(parent);
+		setbaseresolution((640, 400));
+		bigFont = Font.GetFont("BigFont");
+		smallFont = Font.GetFont("SmallFont");
+		
+		cheatcvar = cvar.getcvar("box_unlock_cheat");
+		
+        handler = new('DINewGameHandler');
+        handler.link = self;
+		handler.currentclass = -1;
+		handler.currentlvl = -1;
+		handler.currentskill = -1;
+		
+		keypos = -1;
+		curkey = -1;
+		
+		let plr = players[consoleplayer];
+		
+		background = boxparty_ZF_Image.Create((0, 0), (640, 400), "graphics/NEWGAMEBACK.png", imagescale: (2, 2));
+		background.Pack(mainFrame);
+		
+		plrinfo = boxparty_ZF_Image.Create((336, 116), (216, 208), "", imagescale: (2, 2));
+		plrinfo.Pack(mainFrame);
+		
+		GetDIGAMEData();
+		CreateTopLabel();
+		if (players[consoleplayer].mo != null)
+		{
+			CreatePlayerList();
+		}
+	}
+	
+	override void Ticker ()
+    {
+		if (pagenum != pagenum_tick) 
+		{
+			if (pagenum > pagenum_tick) {keypos = -1;}
+			UpdatePage(); 
+			UpdateKeySelect(true); 
+			pagenum_tick = pagenum;
+		}
+		else {UpdateKeySelect();}
+		if ((justkeyed == false) && (curkey != -1)) {curkey = -1;}
+		justkeyed = false;
+		
+		if (heartboximages.Size() > 0)
+		{
+			++hearttimer;
+			if ((hearttimer / 50) % 2 == 0) 
+			{
+				heartalpha += 0.02;
+			}
+			else {heartalpha -= 0.02;}
+			
+			for (int i = 0; i < heartboximages.Size(); ++i)
+			{
+				heartboximages[i].SetAlpha(heartalpha);
+			}
+		}
+		
+		Super.Ticker();
+	}
+	
+	virtual void UpdatePage()
+	{
+		DestroyPlayerList();
+		DestroyLevelList();
+		DestroySkill();
+		
+		plrinfo.SetImage("");
+		
+		//console.printf("%s", "page updated");
+		
+		switch(pagenum)
+		{
+			case 0: 
+				CreatePlayerList(); 
+				handler.currentclass = -1;
+				if (keypos != -1) {handler.buttonClickCommand(plrbuttons[keypos], plrbuttons[keypos].getcommand());}
+				break;
+			case 1: 
+				CreateLevelList(); 
+				handler.currentlvl = -1;
+				if (keypos != -1) {handler.buttonClickCommand(lvlbuttons[keypos], lvlbuttons[keypos].getcommand());}
+				break;
+			case 2:
+				CreateSkill(); 
+				handler.currentskill = -1;
+				if (keypos != -1) {handler.buttonClickCommand(lvlbuttons[keypos], lvlbuttons[keypos].getcommand());}
+				else {keypos = 1;}
+				break;
+		}
+		
+		//UpdateKeySelect(true);
+	}
+	
+	override void handleBack()
+	{
+		if (pagenum > 0) 
+		{
+			--pagenum;
+			keypos = -1;
+			//if (pagenum == 0) {keypos = handler.currentclass;}
+			//else if (pagenum == 1) {keypos = handler.currentlvl;}
+			let m = GetCurrentMenu();
+			MenuSound(m != null ? "menu/backup" : "menu/clear");
+		}
+		else {Super.handleBack();}
+	}
+	
+	override bool menuEvent(int mkey, bool fromcontroller)
+	{
+		if (mkey != curkey)
+		{
+			switch (mkey) 
+			{
+				case MKEY_Up: handler.doKeyPress(0); break;
+				case MKEY_Down: handler.doKeyPress(1); break;
+				case MKEY_Left: handler.doKeyPress(2); break;
+				case MKEY_Right: handler.doKeyPress(3); break;
+
+				case MKEY_PageUp: handler.doKeyPress(4); break;
+				case MKEY_PageDown: handler.doKeyPress(5); break;
+
+				case MKEY_Enter: handler.doKeyPress(6); break;
+				case MKEY_Back: handler.doKeyPress(7); break;
+			}
+			
+			curkey = mkey;
+			justkeyed = true;
+		}
+		
+		
+	
+		return super.menuEvent(mkey, fromcontroller);
+	}
+	
+	virtual void CreateTopLabel()
+	{
+		TopLabel_text = "";
+		TopLabel2_text = "";
+	
+		TopLabel = boxparty_ZF_Label.Create
+        (
+			// Position.
+			(
+                // Horizontal position.
+                320 - (bigFont.StringWidth(TopLabel_text) / 2),
+                // Calculate the vertical position.
+                // Initial offset + ((label text height + spacing) * label count)
+                40
+            ),
+            // Size.
+            (
+                // Calculate the horizontal size of the text.
+                bigFont.StringWidth (TopLabel_text),
+                // Get the font's height.
+                bigFont.GetHeight()
+            ),
+            // The label's text.
+            text: TopLabel_text,
+            // The font to use.
+            fnt: bigFont,
+            // Whether to automatically wrap the text or not.
+            wrap: false,
+            // Whether to automatically resize the element based on the text width.
+            autoSize: true,
+            // The text's colour.
+			textColor: Font.CR_WHITE
+        );
+		TopLabel.Pack (mainFrame);
+		
+		TopLabel2 = boxparty_ZF_Label.Create
+        (
+			// Position.
+			(
+                // Horizontal position.
+                320 - (smallFont.StringWidth(TopLabel2_text) / 2),
+                // Calculate the vertical position.
+                // Initial offset + ((label text height + spacing) * label count)
+                40 + bigFont.GetHeight()
+            ),
+            // Size.
+            (
+                // Calculate the horizontal size of the text.
+                smallFont.StringWidth (TopLabel2_text),
+                // Get the font's height.
+                smallFont.GetHeight()
+            ),
+            // The label's text.
+            text: TopLabel2_text,
+            // The font to use.
+            fnt: smallFont,
+            // Whether to automatically wrap the text or not.
+            wrap: false,
+            // Whether to automatically resize the element based on the text width.
+            autoSize: true,
+            // The text's colour.
+			textColor: Font.CR_WHITE
+        );
+		TopLabel2.Pack (mainFrame);
+	}
+	
+	virtual void UpdateTopLabel(string newtext, string newtext2 = "")
+	{
+		TopLabel_text = newtext;
+		TopLabel.SetBox((320 - (bigFont.StringWidth(TopLabel_text) / 2), 40), (bigFont.StringWidth (TopLabel_text), bigFont.GetHeight()));
+		TopLabel.SetText(TopLabel_text);
+		
+		TopLabel2_text = newtext2;
+		TopLabel2.SetBox((320 - (smallFont.StringWidth(TopLabel2_text) / 2), 40 + bigFont.GetHeight()), (smallFont.StringWidth (TopLabel2_text), smallFont.GetHeight()));
+		TopLabel2.SetText(TopLabel2_text);
+	}
+	
+	virtual void GetDIGAMEData()
+	{
+		//IF YOU CHANGE THIS, ALSO CHANGE IT IN THE DEATH SCREEN!!!!!!!!!!!!!!!!!!!!!
+	
+		//clear file data and item pool. in case this function gets ran multiple times. (like for example if this shop were to change item pools mid-game.)
+		filedata.Clear();
+		playerpool.Clear();
+		playerlock.Clear();
+	
+		int ThisLump = Wads.FindLump("DIGAME", 0, Wads.ANYNAMESPACE);
+		int NextLump = Wads.FindLump("DIGAME", ThisLump + 1, Wads.ANYNAMESPACE);
+		
+		while (ThisLump != -1)
+		{
+			Wads.ReadLump(ThisLump).Split(filedata, "\n", TOK_SKIPEMPTY);
+			ThisLump = NextLump;
+			NextLump = Wads.FindLump("DIGAME", ThisLump + 1, 1);
+		}
+		
+		for (int i = 0; i < filedata.Size(); i++)
+		{
+			if (filedata[i].Left(2) == ">>") {continue;} //dont bother reading the next lines of code if it's a comment (starts with ">>")
+			if (filedata[i].Length() < 3) {continue;}
+			filedata[i] = filedata[i].Left(filedata[i].IndexOf(";"));
+			
+			Array<String> currentline;
+			filedata[i] = filedata[i].MakeLower();
+			filedata[i].Split(currentline, ", ", TOK_SKIPEMPTY);
+			if (currentline[0] == "add")
+			{
+				if ((currentline[1] == "player") && (currentline[2]))
+				{
+					playerpool.Push(currentline[2]);
+					if (currentline.Size() == 4) {playerlock.Push(currentline[3]);}
+					else {playerlock.Push("u");}
+					//console.printf("%s", currentline[2]);
+				}
+				else if ((currentline[1] == "level") && (currentline[2]))
+				{
+					levelpool.Push(currentline[2]);
+					if (currentline.Size() == 4) {levellock.Push(currentline[3]);}
+					else {levellock.Push("u");}
+					//console.printf("%s", currentline[2]);
+				}
+			}
+			else if (currentline[0] == "delete")
+			{
+				console.printf("%s", "'delete' feature not implemented yet.");
+			}
+			else {console.printf("failed: %s", currentline[0]);}
+		}
+	}
+	
+	virtual int GetHighScore(name findplayer = '*', name findlevel = '*')
+	{
+		//also used in death screen (getscorebonus)
+		cvar highscores = cvar.findcvar("box_highscore");
+		string fullscores = highscores.getstring();
+		array<string> scorelines;
+		fullscores.split(scorelines, ",", TOK_SKIPEMPTY);
+		if (scorelines.size() < 1) {return 0;}
+		int currentscore;
+		bool combinescore;
+		for (int i = 0; i < scorelines.size(); ++i)
+		{
+			array<string> currentline;
+			scorelines[i].split(currentline, " ", TOK_SKIPEMPTY);
+			if (currentline.size() != 3) 
+			{
+				//something has gone terribly wrong!
+				console.printf("%s", "\caWARNING: Junk data was detected in the highscore CVAR!");
+				continue;
+			}
+			else
+			{
+				let levelfinder = currentline[1].MakeLower();
+				let playerfinder = string.format("%s", currentline[0].MakeLower());
+				if ((findplayer != "*") && (currentline[0] != findplayer)) {continue;}
+				if ((findlevel != "*") && (levelfinder != findlevel)) {continue;}
+				if (levelpool.Find(levelfinder) == levelpool.Size()) {console.printf("invalid level %s found, skipping score.", levelfinder); continue;}
+				if (playerpool.Find(playerfinder) == playerpool.Size()) {console.printf("invalid player %s found, skipping score.", playerfinder); continue;}
+				
+				if (findlevel == "*") {combinescore = true;}
+				int lsize = currentline[2].Length();
+				if (currentline[2].Left(1) == "E")
+				{
+					string newcheck = currentline[2].Mid(1, lsize - 1);
+					if (combinescore) {currentscore += newcheck.ToInt(10);}
+					else if (newcheck.ToInt(10) > currentscore) {currentscore = newcheck.ToInt(10);}
+				}
+				else 
+				{
+					string newcheck = currentline[2];
+					if (combinescore) {currentscore += newcheck.ToInt(10);}
+					else if (newcheck.ToInt(10) > currentscore) {currentscore = newcheck.ToInt(10);}
+				}
+			}
+		}
+		return currentscore;
+	}
+	
+	virtual void UpdateKeySelect(bool newpage = false)
+	{
+		//NOTE: this is causing buttons to not be clickable.
+		//maybe i should try forcing the buttons hover toggle on instead?
+	
+		string keystring;
+		vector2 keysize;
+		vector2 keyspot;
+		
+		int newkey = keypos;
+		
+		if (newkey < 0) {newkey = 0;}
+		
+		//console.printf("pagenum: %d, newkey: %d, justkeyed: %d", pagenum, newkey, justkeyed);
+	
+		if ((newpage == true) && (keyboardselect))
+		{
+			keyboardselect.Unpack();
+			keyboardselect.Pack(mainFrame);
+		}
+	
+		if (1 == 1)
+		{
+			switch(pagenum)
+			{
+				case -1:
+					keystring = "graphics/catalog/ITEMBAR_HOVER_BIG.png";
+					keysize = (252, 21);
+					if (tutboximages.Size() > 0) {keyspot = tutboximages[newkey].GetPos();}
+					break;
+				case 0:
+					keystring = "graphics/catalog/ITEMBAR_HOVER.png";
+					keysize = (144, 12);
+					if (plrboximages.Size() > 0) {keyspot = plrboximages[newkey].GetPos();}
+					break;
+				case 1:
+					keystring = "graphics/level/HOVER_ICON.png";
+					keysize = (128, 96);
+					if (lvlboximages.Size() > 0) {keyspot = lvlboximages[newkey].GetPos();}
+					break;
+				case 2:
+					keystring = "graphics/catalog/ITEMBAR_HOVER_BIG.png";
+					keysize = (252, 21);
+					if (sklboximages.Size() > 0) {keyspot = sklboximages[newkey].GetPos();}
+					break;
+			}
+			
+			let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(keystring, (0, 0), keysize, false, false);
+			if (!keyboardselect)
+			{
+				keyboardselect = boxparty_ZF_BoxImage.Create(keyspot, keysize, boxTexture);
+				keyboardselect.Pack(mainFrame);
+				keyboardselect.SetAlpha(0.8);
+			}
+			else
+			{
+				keyboardselect.SetPos(keyspot);
+				keyboardselect.SetSize(keysize);
+				keyboardselect.SetBoxTex(boxTexture);
+				keyboardselect.SetAlpha(0.8);
+			}
+			
+			switch(pagenum)
+			{
+				//this HAS to be run after the keyboardselect stuff is finished.
+				case -1:
+					if (tutbuttons.Size() > 0)
+					{
+						tutbuttons[newkey].Unpack();
+						tutbuttons[newkey].Pack(mainFrame);
+					}
+					break;
+				case 0:
+					if (plrbuttons.Size() > 0)
+					{
+						plrbuttons[newkey].Unpack();
+						plrbuttons[newkey].Pack(mainFrame);
+					}
+					break;
+				case 1:
+					if (lvlbuttons.Size() > 0)
+					{
+						lvlbuttons[newkey].Unpack();
+						lvlbuttons[newkey].Pack(mainFrame);
+					}
+					break;
+				case 2:
+					if (sklbuttons.Size() > 0)
+					{
+						sklbuttons[newkey].Unpack();
+						sklbuttons[newkey].Pack(mainFrame);
+					}
+					break;
+			}
+		}
+	}
+	
+	virtual void SetKeyPos(int newpos) {keypos = newpos;}
+	virtual int GetKeyPos() {return keypos;}
+	
+	virtual clearscope int GetUnlockNum()
+	{
+		//also used in death screen
+		int returnnum;
+		array<string> filedata;
+	
+		int ThisLump = Wads.FindLump("DIUNLOCK", 0, Wads.ANYNAMESPACE);
+		int NextLump = Wads.FindLump("DIUNLOCK", ThisLump + 1, Wads.ANYNAMESPACE);
+		
+		while (ThisLump != -1)
+		{
+			Wads.ReadLump(ThisLump).Split(filedata, "\n", TOK_SKIPEMPTY);
+			ThisLump = NextLump;
+			NextLump = Wads.FindLump("DIUNLOCK", ThisLump + 1, 1);
+		}
+		
+		for (int i = 0; i < filedata.Size(); ++i)
+		{
+			if (filedata[i].Left(2) == ">>") {continue;} //comment
+			if (filedata[i].Length() < 3) {continue;} //too small
+			int linesize = filedata[i].IndexOf(";"); //end of line
+			filedata[i] = filedata[i].Left(linesize); //only use data left of the ;
+			array<string> curline;
+			filedata[i].Split(curline, " ");
+			if ((curline.Size() < 3) || (curline.Size() > 5)) {continue;} //each valid line must contain 3 to 5 arguments.
+			
+			let unlockcvar = cvar.getcvar(curline[0]);
+			if (unlockcvar.getbool() == true) {++returnnum;}
+		}
+		
+		return returnnum;
+	}
+}

@@ -1,0 +1,232 @@
+//zscript_DI/ui/newgame/level.zsc
+
+extend class DINewGameMenu
+{
+	virtual void CreateLevelList()
+	{
+		background.SetImage("graphics/NEWGAMEBACK.png");
+		UpdateTopLabel("choose a level");
+		
+		vector2 levelsize = (128, 96);
+		vector2 levelsize2 = (132, 104);
+		vector2 startpos = (254, 78);
+		vector2 repos = (66, 0);
+		switch(levelpool.Size())
+		{
+			default: break;
+			case 4:
+			case 5:
+			case 6: startpos -= repos; break;
+			case 7:
+			case 8:
+			case 9: startpos -= repos * 2; break;
+			case 10:
+			case 11:
+			case 12: startpos -= repos * 3; break;
+		}
+		
+        int labelCount = 0; // We need this to calculate the position of the labels.
+        for (int i = 0; i < levelpool.Size(); ++i)
+        {
+            // If there's no space left in the screen...
+            if (labelCount > 12)
+            {
+                // Break out of the loop.
+                break;
+            }
+			
+			vector2 currentpos;
+			switch(i)
+			{
+				case 0: currentpos = startpos; break;
+				case 1: currentpos = startpos + (0, levelsize2.y); break;
+				case 2: currentpos = startpos + (0, (levelsize2.y * 2)); break;
+				case 3: currentpos = startpos + (levelsize2.x, 0); break;
+				case 4: currentpos = startpos + levelsize2; break;
+				case 5: currentpos = startpos + (levelsize2.x, (levelsize2.y * 2)); break;
+				case 6: currentpos = startpos + ((levelsize2.x * 2), 0); break;
+				case 7: currentpos = startpos + ((levelsize2.x * 2), levelsize2.y); break;
+				case 8: currentpos = startpos + (levelsize2 * 2); break;
+				case 9: currentpos = startpos + ((levelsize2.x * 3), 0); break;
+				case 10: currentpos = startpos + ((levelsize2.x * 3), levelsize2.y); break;
+				case 11: currentpos = startpos + ((levelsize2.x * 3), (levelsize2.y * 2)); break;
+			}
+			
+			// Create the box image's textures.
+			let boxTexture_String = string.format("graphics/newgame/level_%s.png", levelpool[i]);
+			let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), levelsize, false, false);
+			// Add a box image.
+			let boxSize = levelsize;
+			let aBoxImage = boxparty_ZF_BoxImage.Create
+			(
+				currentpos,
+				// Size
+				boxSize,
+				// Texture
+				boxTexture
+			);
+			// Add the box image element into the main frame.
+			aBoxImage.Pack (mainFrame);
+			lvlboximages.Push(aBoxImage);
+			
+			bool isLocked = false;
+			if (levellock[i] != "u")
+			{
+				currentcvar = Cvar.GetCVAR(levellock[i]);
+				if (cheatcvar.getbool() == true) {currentcvar = cheatcvar;}
+				//console.printf("%s", levellock[i]);
+				if (currentcvar.GetBool() == false) {isLocked = true;}
+			}
+			
+			if (isLocked == true)
+			{
+				// Create the box image's textures.
+				let boxTexture_String = string.format("%s", "graphics/newgame/LEVELLOCKED.png");
+				let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), levelsize, false, false);
+				// Add a box image.
+				let boxSize = levelsize;
+				let aBoxImage = boxparty_ZF_BoxImage.Create
+				(
+					currentpos,
+					// Size
+					boxSize,
+					// Texture
+					boxTexture
+				);
+				// Add the box image element into the main frame.
+				aBoxImage.Pack (mainFrame);
+				lvlboximages.Push(aBoxImage);
+			}
+			
+			//Get the level's high score for the current player.
+			int currentscore = GetHighScore(playername, levelpool[i]);
+			if (currentscore >= 10000)
+			{
+				int heartamount = 1;
+				if (currentscore >= 150000) {heartamount = 5;}
+				else if (currentscore >= 100000) {heartamount = 4;}
+				else if (currentscore >= 60000) {heartamount = 3;}
+				else if (currentscore >= 30000) {heartamount = 2;}
+				vector2 heartsize = (10, 10);
+				vector2 heartsize2 = (10 * heartamount, 10);
+				
+				// Create the box image's textures.
+				let boxTexture_String = string.format("%s", "graphics/newgame/LEVELHEART.png");
+				let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), heartsize, false, false);
+				// Add a box image.
+				let aBoxImage = boxparty_ZF_BoxImage.Create
+				(
+					currentpos + (8, 8),
+					// Size
+					heartsize2,
+					// Texture
+					boxTexture
+				);
+				// Add the box image element into the main frame.
+				aBoxImage.Pack (mainFrame);
+				heartboximages.Push(aBoxImage);
+			}
+
+            // Get the level's name.
+            string currentlevel = Stringtable.Localize(String.Format("$dimenu_select_%s", levelpool[i]));
+			
+            // Add a label.
+            let label = boxparty_ZF_Label.Create
+            (
+                // Position
+				(
+					currentpos.x + (levelsize.x / 2) - (smallfont.StringWidth (currentlevel) / 2),
+					currentpos.y + levelsize.y
+				),
+                // Size.
+                (
+                    // Calculate the horizontal size of the text.
+                    smallfont.StringWidth (currentlevel),
+                    // Get the font's height.
+                    smallFont.GetHeight ()
+                ),
+                // The label's text.
+                text: currentlevel,
+                // The font to use.
+                fnt: smallFont,
+                // Whether to automatically wrap the text or not.
+                wrap: false,
+                // Whether to automatically resize the element based on the text width.
+                autoSize: true,
+                // The text's colour.
+                textColor: Font.CR_WHITE
+            );
+
+            // Add the label element to the main frame.
+            label.Pack (mainFrame);
+            // Add the label to the labels list.
+            lvllabels.Push (label);
+			
+			string buttoncmd = String.Format("Level%d", i);
+			if (isLocked) {buttoncmd = String.Format("LockedLevel%d", i);}
+			
+			// Create the button's textures.
+			let buttonIdle = boxparty_ZF_BoxTextures.CreateSingleTexture ("", true);
+			let buttonHover = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/newgame/LEVELHOVER.png", false);
+			let buttonClick = boxparty_ZF_BoxTextures.CreateSingleTexture ("graphics/newgame/LEVELSELECT.png", false);
+			// Add a button.
+			let aButton = boxparty_ZF_Button.Create
+			(
+				currentpos,
+				// Size
+				levelsize,
+				// Our command handler
+				cmdHandler: handler,
+				// A command string for the button
+				command: buttoncmd,
+				// The button's textures
+				inactive: buttonIdle,
+				hover: buttonHover,
+				click: buttonClick
+			);
+			// Add the button element into the main frame.
+			aButton.Pack (mainFrame);
+			lvlbuttons.Push(aButton);
+
+            // Increment labelCount.
+            labelCount++;
+        }
+	}
+	
+	virtual void DestroyLevelList()
+	{
+		//delete any old array data, if it exists.
+        while (lvllabels.Size() > 0)
+        {
+            let label = lvllabels[0];
+            lvllabels.Delete(0, 1);
+
+            label.Unpack();
+            label.Destroy();
+        }
+		while (lvlbuttons.Size() > 0)
+        {
+            let button = lvlbuttons[0];
+            lvlbuttons.Delete(0, 1);
+
+            button.Unpack();
+            button.Destroy();
+        }
+		while (lvlboximages.Size() > 0)
+        {
+            let boximage = lvlboximages[0];
+            lvlboximages.Delete(0, 1);
+
+            boximage.Unpack();
+            boximage.Destroy();
+        }
+		while (heartboximages.Size() > 0)
+		{
+			let heartbox = heartboximages[0];
+			heartboximages.Delete(0, 1);
+			
+			heartbox.Unpack();
+			heartbox.Destroy();
+		}
+	}
+}
