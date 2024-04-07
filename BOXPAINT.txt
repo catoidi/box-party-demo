@@ -21,6 +21,7 @@ Painting = PANTA8, *, 0, 1, 1;
 Painting = PANTA9, *, 0, 1, 1;
 Painting = PANTAA, party02, 0, 1, 1;
 Painting = PANTE6, *, 0, 1, 1;
+Painting = PANBAF, *, 0, 1, 0.125;
 >>These are ~1.5x more likely to appear than one of the above paintings.
 Painting = PANTAB, party01, 1, 3, 1;
 Painting = PANTAC, party01, 1, 3, 1;

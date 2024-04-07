@@ -157,5 +157,6 @@ GameInfo
 		"be sure to ask your doctor if box party is right for you",
 		"be sure to use the wheel attachment to play box party",
 		"don't forget to pack your lunch",
-		"get at least 8 hours of sleep every night"
+		"get at least 8 hours of sleep every night",
+		"Wishlist 'DI: Debt is Inevitable' on Steam"
 }
