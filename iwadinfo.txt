@@ -2,7 +2,7 @@
 
 IWad 
 {
-    Name = "Box Party v1.4.1"
+    Name = "Box Party v1.5"
     Autoname = "BoxParty"
     Game = "Doom"
     Config = "BoxParty"

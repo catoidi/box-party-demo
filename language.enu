@@ -2,7 +2,7 @@
 
 [enu default]
 
-BOX_VERSION = "                           DEMO v1.4.1\n\nnow made out of 98% recycled asbestos!";
+BOX_VERSION = "                       DEMO v1.5\n\nupdated for Steam FPS Fest 2024!";
 
 //Sorry Nothing
 SORRY_NOTHING = "Sorry Nothing"; //sorry nothing
