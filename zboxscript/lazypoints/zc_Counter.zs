@@ -40,9 +40,11 @@ class zc_Counter
     {
       damage = damaged.getSpawnHealth();
     }
+	if ((damageType == "Massacre") || (damage >= 1000000)) {damage = 0;}
 
     if (damaged && damaged.bIsMonster && isMe(inflictor))
     {
+	  if (damage > damaged.getSpawnHealth() * 2) {damage = damaged.getSpawnHealth() * 2;}
 	  if (hpint == 2) {damage *= 0.55;}
 	  else if (hpint == 3) {damage *= 0.4;}
       addPoints(damage);
