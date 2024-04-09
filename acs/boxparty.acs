@@ -694,7 +694,7 @@ function void QuestProgressed (int QNum, str QMsg, bool DoReward)
 	}
 	
 	
-	if (DoReward == true) {GiveInventory("BoxQuestReward", 1500); qdone += 1;}
+	if (DoReward == true) {GiveInventory("BoxQuestReward", 3000); qdone += 1;}
 	
 	QuestUpdated(true);
 }
