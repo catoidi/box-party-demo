@@ -33,10 +33,12 @@ BOX_TUTORIAL4 = "Use your 'Dash' ability by pressing \ct(";
 BOX_TUTORIAL4A = ")\cf.";
 BOX_TUTORIAL5 = "Check your current side quests by pressing \ct(";
 BOX_TUTORIAL5A = ")\cf.";
-BOX_ENDTEXT = "Thank you for beating the Box Party Demo!!!!\n"
-			"ill release the full version sometime within the next 10 years.\n"
-			" \n"
-			":)      -catoidi";
+BOX_ENDTEXT = "With yet another boss food defeated, you feel no closer\n"
+			  "to discovering who is behind the party poopers.\n\n"
+			  "You don't have much time to dwell on this, as you've\n"
+			  "just received a call about foods gone bad at\n"
+			  "yet another party, this time in a haunted house.\n\n\n\n\n"
+			  "To be continued... in the full version of Box Party!";
 NOENEMIES1 = "all bad food has been defeated now.";
 NOENEMIES2 = "and so, the party continued...";
 NOENEMIES3 = "it is now safe to party again.";
