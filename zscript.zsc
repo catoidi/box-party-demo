@@ -167,8 +167,3 @@ version "4.9"
 #include "zboxscript/NashHPBar/NashHPBarOptionMenu/NashHPBarOptionMenu.zc"
 #include "zboxscript/NashHPBar/NashHPBarPlugin/NashHPBarPlugin.zc"
 #include "zboxscript/NashHPBar/NashHPBarHandler/NashHPBarHandler.zc"
-
-//stupid achievements
-#include "zboxscript/achievements/StupidAchievements.zs"
-#include "zboxscript/achievements/hatunlocks.zsc"
-#include "zboxscript/achievements/scriptedevents.zsc"

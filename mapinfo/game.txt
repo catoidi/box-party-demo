@@ -4,7 +4,7 @@ GameInfo
 {
 	PlayerClasses = "PlayerBox", "PlayerCircle", "PlayerTriangle"
 	//NoRandomPlayerClass = True
-	AddEventHandlers = "BoxHandler", "NashHPBarHandler", "zc_Dispatcher", "zc_StaticView", "box_achiever"
+	AddEventHandlers = "BoxHandler", "NashHPBarHandler", "zc_Dispatcher", "zc_StaticView"
 	StatusBarClass = "BoxPartyStatusBar"
 	CursorPic = "graphics/BOXCURSOR.png"
 	DontCrunchCorpses = True
@@ -31,7 +31,7 @@ GameInfo
 		"Get yourself a hat in the 'Hat Menu'!",
 		"Can you find all 60 hats in Box Party?",
 		"Some hats require you to play a specific character.",
-		"Is the HUD too big or small for ya? \nTry changing the 'Fullscreen HUD' option in 'Scaling Options'!",
+		"Is the HUD too big or small for ya? \nTry changing the 'HUD Scale' option in 'Scaling Options'!",
 		"Too much debris slowing down your partying? \nTurn down the 'Particle Effects' in 'Display Options'!",
 		"Tired of autosaves? Turn em off in 'Misc. Options'!",
 		"Check out the guide book by pressing F1!",
@@ -115,7 +115,7 @@ GameInfo
 		"TURN OFF YOUR GAME CONSOLE.",
 		"it is now safe to eject the USB disk.",
 		"do you like box party?",
-		"hey idiotbitz, when are you adding workshop support?",
+		"workshop support when?",
 		"i will not be porting Box Party to the xbox one",
 		"not as good as sliced bread",
 		"boat episode",
@@ -159,5 +159,11 @@ GameInfo
 		"be sure to use the wheel attachment to play box party",
 		"don't forget to pack your lunch",
 		"get at least 8 hours of sleep every night",
-		"Wishlist 'DI: Debt is Inevitable' on Steam"
+		"Wishlist 'DI: Debt is Inevitable' on Steam",
+		"this happened to my buddy fred once",
+		"no boxes were harmed in the making of this film",
+		"the PBOX has no games",
+		"would you rather have unlimited box but no party or unlimited party but no box",
+		"trouble in box party town",
+		"box party is inevitable"
 }
