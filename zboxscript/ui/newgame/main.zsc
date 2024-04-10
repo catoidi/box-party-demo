@@ -27,7 +27,7 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 	
 	boxparty_ZF_BoxImage keyboardselect, pointer;
 	
-	Array<String> filedata; //all the lines from DIGAME.
+	Array<String> filedata; //all the lines from BOXGAME.
 	Array<String> playerpool, playerlock, levelpool, levellock; //all available players. does not include players that are locked.
 	
 	transient cvar currentcvar;
@@ -58,7 +58,7 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 		plrinfo = boxparty_ZF_Image.Create((336, 116), (216, 208), "");
 		plrinfo.Pack(mainFrame);
 		
-		GetDIGAMEData();
+		GetBOXGAMEData();
 		CreateTopLabel();
 		if (players[consoleplayer].mo != null)
 		{
@@ -256,7 +256,7 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 		TopLabel2.SetText(TopLabel2_text);
 	}
 	
-	virtual void GetDIGAMEData()
+	virtual void GetBOXGAMEData()
 	{
 		//IF YOU CHANGE THIS, ALSO CHANGE IT IN THE DEATH SCREEN!!!!!!!!!!!!!!!!!!!!!
 	
@@ -265,14 +265,14 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 		playerpool.Clear();
 		playerlock.Clear();
 	
-		int ThisLump = Wads.FindLump("DIGAME", 0, Wads.ANYNAMESPACE);
-		int NextLump = Wads.FindLump("DIGAME", ThisLump + 1, Wads.ANYNAMESPACE);
+		int ThisLump = Wads.FindLump("BOXGAME", 0, Wads.ANYNAMESPACE);
+		int NextLump = Wads.FindLump("BOXGAME", ThisLump + 1, Wads.ANYNAMESPACE);
 		
 		while (ThisLump != -1)
 		{
 			Wads.ReadLump(ThisLump).Split(filedata, "\n", TOK_SKIPEMPTY);
 			ThisLump = NextLump;
-			NextLump = Wads.FindLump("DIGAME", ThisLump + 1, 1);
+			NextLump = Wads.FindLump("BOXGAME", ThisLump + 1, 1);
 		}
 		
 		for (int i = 0; i < filedata.Size(); i++)
@@ -306,6 +306,18 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 				console.printf("%s", "'delete' feature not implemented yet.");
 			}
 			else {console.printf("failed: %s", currentline[0]);}
+		}
+		
+		if (demomode == true)
+		{
+			playerpool.Push("PlayerTrio");
+			playerpool.Push("PlayerPrism");
+			playerpool.Push("PlayerGlass");
+			playerlock.Push("box_plr_unlock_trio");
+			playerlock.Push("box_plr_unlock_prism");
+			playerlock.Push("box_plr_unlock_glass");
+			levelpool.push("chal00");
+			levellock.push("box_lvl_unlock_challenge");
 		}
 	}
 	

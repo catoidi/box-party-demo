@@ -3,12 +3,12 @@
 //newgamemenu
 user cheat string box_highscore = "";
 server cheat bool box_unlock_cheat = false;
-server cheat bool box_unlock_circle = false;
-server cheat bool box_unlock_triangle = false;
-server cheat bool box_unlock_trio = false; //full version only
-server cheat bool box_unlock_prism = false; //full
-server cheat bool box_unlock_glass = false; //full
-server cheat bool box_unlock_challenge = false; //full
+server cheat bool box_plr_unlock_circle = false;
+server cheat bool box_plr_unlock_triangle = false;
+server cheat bool box_plr_unlock_trio = false; //full version only
+server cheat bool box_plr_unlock_prism = false; //full
+server cheat bool box_plr_unlock_glass = false; //full
+server cheat bool box_lvl_unlock_challenge = false; //full
 
 server int box_nocrumbs = 0; //controls which particles remain on ground
 server bool box_nonpcs = false;	//deletes all npcs

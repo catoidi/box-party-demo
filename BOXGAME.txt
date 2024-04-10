@@ -13,12 +13,8 @@
 >>
 >>[PLAYERS]
 Add, Player, PlayerBox;
-Add, Player, PlayerCircle, box_unlock_circle;
-Add, Player, PlayerTriangle, box_unlock_triangle;
-Add, Player, PlayerTrio, box_unlock_trio;
-Add, Player, PlayerPrism, box_unlock_prism;
-Add, Player, PlayerGlass, box_unlock_glass;
+Add, Player, PlayerCircle, box_plr_unlock_circle;
+Add, Player, PlayerTriangle, box_plr_unlock_triangle;
 >>
 >>[EPISODES]
 Add, Level, party01;
-Add, Level, chal00, box_unlock_challenge;
