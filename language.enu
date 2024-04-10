@@ -175,8 +175,10 @@ DISCORDRPC = "Discord Rich Presence";
 
 //BoxGameplay Menu
 BOX_TITLE_GAMEPLAY = "Box Party Gameplay Options";
-BOX_INFO_GAMEPLAY = "\cvIt is recommended you playthrough the game at least";
-BOX_INFO_GAMEPLAY2 = "\cvone time before changing anything here.";
+BOX_MODIFIERS = "\cfGame Modifiers:";
+BOX_INFO_GAMEPLAY = "\caYou must beat the Demo at least once";
+BOX_INFO_GAMEPLAY2 = "\cato unlock these options.";
+GAMEPLAYCHEATS = "\n\n\caChanging these options will disable score saving.";
 BOX_OPTION_RESETHP = "Reset HP on Level Start";
 BOX_OPTION_BADCVAR = "Check for 'bad' GZDoom settings";
 BOX_OPTION_HIDELOCKHAT = "Hide Locked Hats";
@@ -187,7 +189,7 @@ BOX_OPTION_FOODCHANCE = "Enemy Health Drops";
 BOX_OPTION_AMMOCHANCE = "Enemy Ammo Drops";
 BOX_OPTION_GLOWSTART = "Glowstick Only Start";
 BOX_OPTION_DOUBLEAMMO = "More Max Ammo";
-GAMEPLAYCHEATS = "You can change these in the difficulty select level.";
+BOX_TITLE_GAMEPLAY_ADVANCED = "Advanced Gameplay Options";
 
 //BoxGraphics Menu
 BOX_TITLE_GRAPHICS = "Graphics Options";

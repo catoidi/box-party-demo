@@ -34,14 +34,15 @@ server bool box_tutorial = true; //show tutorial messages
 server bool box_levelname = true; //display level names at start of level
 server noarchive bool nopacifism = false; //disables pacifism mechanics.
 server noarchive bool demomode = true; //mainly used for controlling what happens at the end of level 3.
+server cheat bool box_unlock_modifiers = false;
 
 //difficulty control
-server cheat int box_foodhp = 1; //enemy health multiplier
-server cheat int box_fooddamage = 1; //enemy damage multiplier
-server cheat int box_foodchance = 1; //control chance of enemies dropping health
-server cheat int box_ammochance = 1; //control chance of enemies dropping ammo
-server cheat bool box_doubleammo = false; //toggle giving the player more maximum ammo
-server cheat bool box_glowstart = false; //lose all your weapons except glowstick every level
+server noarchive cheat int box_foodhp = 1; //enemy health multiplier
+server noarchive cheat int box_fooddamage = 1; //enemy damage multiplier
+server noarchive cheat int box_foodchance = 1; //control chance of enemies dropping health
+server noarchive cheat int box_ammochance = 1; //control chance of enemies dropping ammo
+server noarchive cheat bool box_doubleammo = false; //toggle giving the player more maximum ammo
+server noarchive cheat bool box_glowstart = false; //lose all your weapons except glowstick every level
 
 //hat unlocks
 user bool box_hat_color = false;
