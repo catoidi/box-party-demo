@@ -1,4 +1,4 @@
-//zboxscript/handler/healthdropper.zsc
+//zboxscript/handler/boxhandler/healthdropper.zsc
 
 extend class BoxHandler
 {

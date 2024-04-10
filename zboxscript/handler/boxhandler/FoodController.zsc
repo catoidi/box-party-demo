@@ -1,4 +1,4 @@
-//zboxscript/handler/foodcontroller.zsc
+//zboxscript/handler/boxhandler/foodcontroller.zsc
 
 extend class BoxHandler
 {

@@ -1,4 +1,4 @@
-//zboxscript/handler/spawnplayergoodies.zsc
+//zboxscript/handler/boxhandler/spawnplayergoodies.zsc
 
 extend class BoxHandler
 {

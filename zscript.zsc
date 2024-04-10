@@ -1,5 +1,5 @@
 //zscript.zsc
-version "4.9"
+version "4.11.3"
 
 //to avoid potential conflicts with any mods that use zscript,
 //i renamed the zscript folder to zboxscript.
@@ -15,20 +15,20 @@ version "4.9"
 
 #include "zboxscript/mixin.zsc"
 #include "zboxscript/parent.zsc"
-#include "zboxscript/boxhandler.zsc"
-#include "zboxscript/hathandler.zsc"
 //make sure this is always ran first, as other files inherit from this one.
 
 //handler
-#include "zboxscript/handler/BoxLootLoader.zsc"
-#include "zboxscript/handler/PaintLoader.zsc"
-#include "zboxscript/handler/HealthDropper.zsc"
-#include "zboxscript/handler/AmmoDropper.zsc"
-#include "zboxscript/handler/FoodController.zsc"
-#include "zboxscript/handler/PaintController.zsc"
-#include "zboxscript/handler/BoxDestroyer.zsc"
-#include "zboxscript/handler/SpawnPlayerGoodies.zsc"
-#include "zboxscript/handler/ResetAllHats.zsc"
+#include "zboxscript/handler/boxhandler.zsc"
+#include "zboxscript/handler/boxhandler/BoxLootLoader.zsc"
+#include "zboxscript/handler/boxhandler/PaintLoader.zsc"
+#include "zboxscript/handler/boxhandler/HealthDropper.zsc"
+#include "zboxscript/handler/boxhandler/AmmoDropper.zsc"
+#include "zboxscript/handler/boxhandler/FoodController.zsc"
+#include "zboxscript/handler/boxhandler/PaintController.zsc"
+#include "zboxscript/handler/boxhandler/BoxDestroyer.zsc"
+#include "zboxscript/handler/boxhandler/SpawnPlayerGoodies.zsc"
+#include "zboxscript/handler/boxhandler/ResetAllHats.zsc"
+#include "zboxscript/handler/hathandler.zsc"
 
 //player
 #include "zboxscript/player/token.zsc"

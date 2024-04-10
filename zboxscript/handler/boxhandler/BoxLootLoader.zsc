@@ -1,4 +1,4 @@
-//zboxscript/handler/boxlootloader.zsc
+//zboxscript/handler/boxhandler/boxlootloader.zsc
 
 extend class BoxHandler
 {

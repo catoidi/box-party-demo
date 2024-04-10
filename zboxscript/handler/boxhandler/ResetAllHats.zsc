@@ -1,4 +1,4 @@
-//zboxscript/handler/resetallhats.zsc
+//zboxscript/handler/boxhandler/resetallhats.zsc
 
 extend class BoxHandler
 {

@@ -1,4 +1,4 @@
-//zboxscript/handler/paintloader.zsc
+//zboxscript/handler/boxhandler/paintloader.zsc
 
 extend class BoxHandler
 {

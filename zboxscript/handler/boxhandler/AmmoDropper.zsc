@@ -1,4 +1,4 @@
-//zboxscript/handler/ammodropper.zsc
+//zboxscript/handler/boxhandler/ammodropper.zsc
 
 extend class BoxHandler
 {
