@@ -1,0 +1,163 @@
+//fart
+
+Class BoxUnlocker : EventHandler
+{
+	//used to track a majority of the hats unlockable in Box Party / DI.
+	//also can display unlock popups for hats/players/levels.
+	
+	ui array<string> listunlocks;
+	ui bool isunlocking;
+	ui int unlocktimer[3];
+	ui double unlockalpha[3];
+	ui int fontcolor;
+	
+	array<string> filedata;
+	
+	override void UiTick(void)
+	{
+		if ((!isunlocking) && (listunlocks.Size() > 0))
+		{
+			unlocktimer[0] = 0;
+			unlocktimer[1] = 0;
+			unlocktimer[2] = 0;
+			isunlocking = true;
+		}
+		else if ((isunlocking) && (Level.IsFrozen() == false))
+		{
+			DoUnlockTimer(0);
+			DoUnlockTimer(1);
+			DoUnlockTimer(2);
+			
+			if (CheckUnlockTimer(0) && CheckUnlockTimer(1) && CheckUnlockTimer(2))
+			{
+				listunlocks.Delete(0, 3);
+				isunlocking = false;
+			}
+		}
+	}
+	
+	virtual ui void DoUnlockTimer(uint popupnum)
+	{
+		if (popupnum > 2) {ThrowAbortException("%s", "Unlock Popup Error: Tried to spawn more than 3 popups at once.");}
+		
+		if (listunlocks.Size() > popupnum)
+		{
+			++unlocktimer[popupnum];
+			if (unlocktimer[popupnum] < 7) {unlockalpha[popupnum] = unlocktimer[popupnum] / 7.0;}
+			else if (unlocktimer[popupnum] <= 150) {unlockalpha[popupnum] = 1.0;}
+			else if (unlocktimer[popupnum] <= 185) {unlockalpha[popupnum] = 1.0 - ((unlocktimer[popupnum] - 150) / 35.0);}
+		}
+	}
+	
+	virtual ui bool CheckUnlockTimer(uint popupnum)
+	{
+		if (listunlocks.Size() > popupnum) 
+		{
+			if (unlocktimer[popupnum] > 185) {return true;}
+			else {return false;}
+		}
+		else {return true;}
+	}
+	
+	override void RenderOverlay(RenderEvent e)
+	{
+		let unlockamount = listunlocks.Size();
+		if ((isunlocking) && (unlockamount > 0))
+		{
+			if (unlockamount >= 3) {UnlockPopup(e, 2);}
+			if (unlockamount >= 2) {UnlockPopup(e, 1);}
+			UnlockPopup(e, 0);
+		}
+	}
+	
+	virtual ui void UnlockPopup(RenderEvent e, uint popupnum = 0)
+	{
+		let listunlock = listunlocks[popupnum];
+		let curtimer = unlocktimer[popupnum];
+		let curalpha = unlockalpha[popupnum];
+		
+		//console.printf("%s", listunlock);
+		
+		//different modes for different unlocks
+		string unlocktxt = "NEW UNLOCK:";
+		string unlockback_string = "graphics/UNLOCKBOX1.png";
+		if (listunlock.Left(14) == "box_unlock_hat")
+		{
+			unlocktxt = "NEW HAT:";
+		}
+		if (listunlock.Left(13) == "box_unlock_lvl") 
+		{
+			unlocktxt = "NEW LEVEL:";
+			unlockback_string = "graphics/UNLOCKBOX2.png";
+		}
+		else if (listunlock.Left(13) == "box_unlock_plr") 
+		{
+			unlocktxt = "NEW CHARACTER:";
+			unlockback_string = "graphics/UNLOCKBOX3.png";
+		}
+		
+		//drawing the background texture
+		let unlockback = TexMan.CheckForTexture(unlockback_string);
+		vector2 unlocksize = TexMan.GetScaledSize(unlockback);
+		let startx = ((unlocksize.x * curalpha) - unlocksize.x) * CleanXFac;
+		let starty = Screen.GetHeight() - ((unlocksize.y * CleanYFac) * (1 + popupnum));
+		Screen.DrawTexture(unlockback, false, startx, starty,
+			DTA_CleanNoMove, true,
+			DTA_KeepRatio, true,
+			DTA_Alpha, curalpha * 0.8);
+		
+		//drawing the top text
+		if (curtimer % 24 == 0) {fontcolor = Font.CR_WHITE;}
+		else if (curtimer % 12 == 0) {fontcolor = Font.CR_YELLOW;}
+		let sfont = Font.GetFont("smallFont");
+		Screen.DrawText(sfont, fontcolor, startx + (((unlocksize.x / 2) - (sfont.StringWidth(unlocktxt) / 2)) * CleanXFac), starty, unlocktxt,
+			DTA_CleanNoMove, true,
+			DTA_KeepRatio, true,
+			DTA_Alpha, curalpha);
+			
+		//drawing the unlock graphic
+		let graphicstring = String.Format("graphics/unlocks/%s.png", listunlock); //case sensitive!
+		let realgraphic = TexMan.CheckForTexture(graphicstring);
+		vector2 graphicsize = TexMan.GetScaledSize(realgraphic);
+		double graphicmove = sin(curtimer * 10) * 0.5;
+		double xmax = ((unlocksize.x / 3.0) - 16) + graphicmove;
+		double ymax = (unlocksize.y - 20) + graphicmove;
+		//console.printf("before: %.1f, %.1f", graphicsize.x, graphicsize.y);
+		if (graphicsize.x > xmax) {graphicsize *= xmax / graphicsize.x;}
+		if (graphicsize.y > ymax) {graphicsize *= ymax / graphicsize.y;}
+		//console.printf("\cqafter: %.1f, %.1f", graphicsize.x, graphicsize.y);
+		Screen.DrawTexture(realgraphic, false, startx + ((8 + (graphicmove / 4)) * CleanXFac), starty + ((12 + (graphicmove / 4)) * CleanYFac),
+			DTA_DestWidthF, graphicsize.x * CleanXFac,
+			DTA_DestHeightF, graphicsize.y * CleanYFac,
+			DTA_KeepRatio, true,
+			DTA_Alpha, curalpha);
+				
+		//drawing the unlock name
+		let unlockname = String.Format("$BOXPOPUP_%s", listunlock);
+		unlockname = StringTable.Localize(unlockname);
+		Screen.DrawText(sfont, Font.CR_UNTRANSLATED, startx + ((graphicsize.x + 16) * CleanXFac), starty + ((unlocksize.y / 2) * CleanYFac), unlockname,
+			DTA_CleanNoMove, true,
+			DTA_KeepRatio, true,
+			DTA_Alpha, curalpha);
+	}
+	
+	override void InterfaceProcess(ConsoleEvent e)
+	{
+		if (e.Name.Left(9) == "boxunlock_")
+		{
+			let thiscvar = e.Name.Mid(9);
+			DoUnlock(thiscvar);
+		}
+	}
+	
+	ui virtual void DoUnlock(string unlockstring)
+	{
+		let unlockcvar = cvar.getcvar(unlockstring);
+	
+		if (unlockcvar && (unlockcvar.getbool() == false) && (listunlocks.Find(unlockstring) == listunlocks.Size()))
+		{
+			listunlocks.push(unlockstring);
+			unlockcvar.setbool(true);
+		}
+	}
+}

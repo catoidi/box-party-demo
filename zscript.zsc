@@ -29,6 +29,7 @@ version "4.11.3"
 #include "zboxscript/handler/boxhandler/SpawnPlayerGoodies.zsc"
 #include "zboxscript/handler/boxhandler/ResetAllHats.zsc"
 #include "zboxscript/handler/hathandler.zsc"
+#include "zboxscript/handler/unlocker.zsc"
 
 //player
 #include "zboxscript/player/token.zsc"
