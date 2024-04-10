@@ -11,8 +11,6 @@ Class BoxUnlocker : EventHandler
 	ui double unlockalpha[3];
 	ui int fontcolor;
 	
-	array<string> filedata;
-	
 	override void UiTick(void)
 	{
 		if ((!isunlocking) && (listunlocks.Size() > 0))
@@ -81,18 +79,18 @@ Class BoxUnlocker : EventHandler
 		//different modes for different unlocks
 		string unlocktxt = "NEW UNLOCK:";
 		string unlockback_string = "graphics/UNLOCKBOX1.png";
-		if (listunlock.Left(14) == "box_unlock_hat")
+		if (listunlock.Left(14) == "box_hat_unlock")
 		{
-			unlocktxt = "NEW HAT:";
+			unlocktxt = "NEW HAT UNLOCKED:";
 		}
-		if (listunlock.Left(13) == "box_unlock_lvl") 
+		if (listunlock.Left(13) == "box_lvl_unlock") 
 		{
-			unlocktxt = "NEW LEVEL:";
+			unlocktxt = "NEW LEVEL UNLOCKED:";
 			unlockback_string = "graphics/UNLOCKBOX2.png";
 		}
-		else if (listunlock.Left(13) == "box_unlock_plr") 
+		else if (listunlock.Left(13) == "box_plr_unlock") 
 		{
-			unlocktxt = "NEW CHARACTER:";
+			unlocktxt = "NEW BOX UNLOCKED:";
 			unlockback_string = "graphics/UNLOCKBOX3.png";
 		}
 		
@@ -143,8 +141,9 @@ Class BoxUnlocker : EventHandler
 	
 	override void InterfaceProcess(ConsoleEvent e)
 	{
-		if (e.Name.Left(9) == "boxunlock_")
+		if (e.Name.Left(9) == "dounlock_")
 		{
+			//Allow play-scoped functions or ACS scripts to display unlock popups.
 			let thiscvar = e.Name.Mid(9);
 			DoUnlock(thiscvar);
 		}
@@ -152,12 +151,12 @@ Class BoxUnlocker : EventHandler
 	
 	ui virtual void DoUnlock(string unlockstring)
 	{
-		let unlockcvar = cvar.getcvar(unlockstring);
-	
-		if (unlockcvar && (unlockcvar.getbool() == false) && (listunlocks.Find(unlockstring) == listunlocks.Size()))
+		//This function does not check nor update any CVARs!
+		//You need to do that check BEFORE running this!
+		//This will add a specific popup to the queue, if it isn't already in the queue.
+		if (listunlocks.Find(unlockstring) == listunlocks.Size())
 		{
 			listunlocks.push(unlockstring);
-			unlockcvar.setbool(true);
 		}
 	}
 }

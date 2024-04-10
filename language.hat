@@ -3,6 +3,24 @@
 HAT_GLOWREMAIN = " glowstick kills remain.";
 HAT_MISSING = "wait for the full version for more hats :)";
 
+//These are for the unlock popups.
+//Name is generated using the name of the hat cvar.
+BOXPOPUP_box_hat_unlock_02 = "Mini Box";
+BOXPOPUP_box_hat_unlock_03 = "Mini Circle";
+BOXPOPUP_box_hat_unlock_04 = "Mini Triangle";
+BOXPOPUP_box_hat_unlock_05 = "Pizza";
+BOXPOPUP_box_hat_unlock_06 = "Melon";
+BOXPOPUP_box_hat_unlock_07 = "Sunglasses";
+BOXPOPUP_box_hat_unlock_08 = "Cat";
+BOXPOPUP_box_hat_unlock_09 = "Birthday Hat";
+BOXPOPUP_box_hat_unlock_10 = "Box";
+BOXPOPUP_box_hat_unlock_11 = "Bow";
+BOXPOPUP_box_hat_unlock_12 = "Henry";
+BOXPOPUP_box_hat_unlock_13 = "Glowstick";
+BOXPOPUP_box_hat_unlock_14 = "Pepper";
+BOXPOPUP_box_hat_unlock_15 = "Crown\n\nALL PAGE 1 HATS UNLOCKED!!!!!!!!!!!! :)";
+BOXPOPUP_box_hat_unlock_16 = "Top Hat :)";
+
 //Hat Menu
 HAT_COLOR_ON = "Copy Player Colors: ON";
 HAT_COLOR_OFF = "Copy Player Colors: OFF";
@@ -39,22 +57,6 @@ HAT_LOCKED_13 = "LOCKED: Defeat 250 enemies with Glowstick.";
 HAT_LOCKED_14 = "LOCKED: Give Jalapeño a taste of their own medicine.";
 HAT_LOCKED_15 = "LOCKED: Unlock every other hat on Page 1.";
 HAT_LOCKED_16 = "u unlock this hat by clicking the slot so this message will never appear.";
-
-HAT_UNLOCK_02 = "Mini Box";
-HAT_UNLOCK_03 = "Mini Circle";
-HAT_UNLOCK_04 = "Mini Triangle";
-HAT_UNLOCK_05 = "Pizza";
-HAT_UNLOCK_06 = "Melon";
-HAT_UNLOCK_07 = "Sunglasses";
-HAT_UNLOCK_08 = "Cat";
-HAT_UNLOCK_09 = "Birthday Hat";
-HAT_UNLOCK_10 = "Box";
-HAT_UNLOCK_11 = "Bow";
-HAT_UNLOCK_12 = "Henry";
-HAT_UNLOCK_13 = "Glowstick";
-HAT_UNLOCK_14 = "Pepper";
-HAT_UNLOCK_15 = "Crown\n\nALL PAGE 1 HATS UNLOCKED!!!!!!!!!!!! :)";
-HAT_UNLOCK_16 = "Top Hat :)";
 
 HAT_SECRET_01 = "You have selected: BOOM!";
 HAT_SECRET_02 = "You have selected: <3";
