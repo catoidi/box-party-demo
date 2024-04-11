@@ -69,6 +69,7 @@ version "4.11.3"
 #include "zboxscript/npc/uniquebox.zsc"
 #include "zboxscript/npc/egg.zsc"
 #include "zboxscript/npc/marshmallow.zsc"
+#include "zboxscript/npc/ghostfred.zsc"
 
 //quest (anything related to side quests.)
 #include "zboxscript/quest/score.zsc" //inventory items that give score to the player.

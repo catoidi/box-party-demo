@@ -68,6 +68,18 @@ CLASS PacifistCheck : BoxGenericToken
 		Inventory.InterHubAmount 0;
 		-Inventory.UNCLEARABLE;
 	}
+	
+	Override void DoEffect()
+	{
+		Super.DoEffect();
+		if (owner)
+		{
+			if ((owner.CountInv("MurderCount") == 0) && (owner.CountInv("EarlyBirdSpecial") > 0))
+			{
+				owner.A_TakeInventory(self.GetClassName());
+			}
+		}
+	}
 }
 CLASS GiveBirthdayHat : BoxGenericToken {}
 CLASS GivenTrash : BoxCustomToken 
@@ -79,3 +91,4 @@ CLASS GivenTrash : BoxCustomToken
 			Stop;
 	}
 }
+CLASS EarlyBirdSpecial : BoxGenericToken {}

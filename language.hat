@@ -21,6 +21,11 @@ BOXPOPUP_box_hat_unlock_14 = "Pepper";
 BOXPOPUP_box_hat_unlock_15 = "Crown\n\nALL PAGE 1 HATS UNLOCKED!!!!!!!!!!!! :)";
 BOXPOPUP_box_hat_unlock_16 = "Top Hat :)";
 
+//Custom unlock popups
+BOXPOPUP_youarebeingwatched = " ";
+BOXPOPUP_TOP_youarebeingwatched = "\n\nYOU FEEL LIKE YOU'RE\nBEING WATCHED.";
+BOXPOPUP_BACK_youarebeingwatched = "graphics/UNLOCKBOX3.png";
+
 //Hat Menu
 HAT_COLOR_ON = "Copy Player Colors: ON";
 HAT_COLOR_OFF = "Copy Player Colors: OFF";

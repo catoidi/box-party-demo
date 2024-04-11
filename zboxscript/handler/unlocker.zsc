@@ -83,15 +83,24 @@ Class BoxUnlocker : EventHandler
 		{
 			unlocktxt = "NEW HAT UNLOCKED:";
 		}
-		if (listunlock.Left(13) == "box_lvl_unlock") 
+		if (listunlock.Left(14) == "box_lvl_unlock") 
 		{
 			unlocktxt = "NEW LEVEL UNLOCKED:";
 			unlockback_string = "graphics/UNLOCKBOX2.png";
 		}
-		else if (listunlock.Left(13) == "box_plr_unlock") 
+		else if (listunlock.Left(14) == "box_plr_unlock") 
 		{
 			unlocktxt = "NEW BOX UNLOCKED:";
 			unlockback_string = "graphics/UNLOCKBOX3.png";
+		}
+		else if (listunlock.Left(12) == "custompopup_")
+		{
+			let newstr = listunlock.Mid(12);
+			unlocktxt = String.Format("$BOXPOPUP_TOP_%s", newstr);
+			unlocktxt = StringTable.Localize(unlocktxt);
+			unlockback_string = String.Format("$BOXPOPUP_back_%s", newstr);
+			unlockback_string = StringTable.Localize(unlockback_string);
+			listunlock = newstr;
 		}
 		
 		//drawing the background texture
@@ -146,6 +155,10 @@ Class BoxUnlocker : EventHandler
 			//Allow play-scoped functions or ACS scripts to display unlock popups.
 			let thiscvar = e.Name.Mid(9);
 			DoUnlock(thiscvar);
+		}
+		else if (e.Name.Left(12) == "custompopup_")
+		{
+			DoUnlock(e.Name);
 		}
 	}
 	

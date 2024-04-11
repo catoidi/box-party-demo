@@ -415,6 +415,7 @@ script "beatthedemo" (void)
 {
 	if (GetCVAR("demomode") == true)
 	{
+		SetCVAR("box_unlock_modifiers", true);
 		ACS_NamedExecuteAlways("beatthegame", 0, 0, 0, 0);
 	}
 }
@@ -506,15 +507,6 @@ SCRIPT "BoxJumpPad" (int jumpamount)
 	}
 }
 
-script "watcher" (void)
-{
-	//just a fun little popup that appears in level 3 if you're fun enough.
-	if (GetCVAR("box_fun") == 1)
-	{
-		ScriptCall("box_Achiever", "achieve", "youarebeingwatched");
-	}
-}
-
 script "healplayer" (void) //simple and clean player healer. used just before boss fights.
 {
 	int maxhp = GetActorProperty(0, APROP_SpawnHealth);
@@ -581,25 +573,26 @@ script "hatpage1check" ENTER
 
 script "pacifistitem" ENTER
 {
-	if (ACS_NamedExecuteAlways("pacifismcheck", 0, 0, 0, 0) == false)
+	if (ACS_NamedExecuteWithResult("murdercheck", 0, 0, 0, 0) == true)
 	{
 		GiveActorInventory(0, "PacifistCheck", 1); //NPC's will check this item if they have pacifist dialogue. If the player is NOT pacifist, this will make the NPC show normal dialogue.
 	}
 }
 
-script "pacifismcheck" (void)
+script "murdercheck" (void)
 {
-	int murdercount;
+	int murders;
+	int earlybird;
 	for (int p = 7500; p < 7508; p++)
 	{
 		if (PlayerInGame(p - 7500))
 		{
-			murdercount += CheckActorInventory(p, "MurderCount");
+			murders += CheckActorInventory(p, "MurderCount");
+			earlybird += CheckActorInventory(p, "EarlyBirdSpecial");
 		}
 	}
 	
-	if (murdercount > 0) {SetResultValue(false);}
-	else if (GetCVAR("nopacifism") == true) {SetResultValue(false);}
+	if ((murders == 0) && (earlybird > 0)) {SetResultValue(false);}
 	else {SetResultValue(true);}
 }
 

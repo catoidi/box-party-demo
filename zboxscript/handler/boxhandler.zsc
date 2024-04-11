@@ -88,4 +88,22 @@ class BoxHandler : EventHandler
 			ResetAllHats(); //moved to */handler/ResetAllHats.zsc
 		}
 	}
+	
+	clearscope bool IsPacifist()
+	{	
+		cvar yesmurder = cvar.FindCVAR("nopacifism"); 
+		int earlybirds = 0;
+		
+		for (int i = 0; i < 8; ++i)
+		{
+			if (players[i].mo) {earlybirds += players[i].mo.CountInv("EarlyBirdSpecial");}
+		}
+		
+		if (yesmurder.GetBool() == false)
+		{
+			if ((murdernum == 0) && (earlybirds > 0)) {return true;}
+			else {return false;}
+		}
+		else {return false;}
+	}
 }
