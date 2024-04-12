@@ -7,6 +7,7 @@ GameDefaults
 {
 	//doom's default pixelratio is 1.2, making the world look 20% taller.
 	PixelRatio = 1
+	LightMode = 3
 	NoIntermission
 	sky1 = "CITYSKY3"
 	//ResetHealth

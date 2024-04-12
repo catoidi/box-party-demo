@@ -7,7 +7,6 @@ OptionMenu "BoxHudOptions" protected
 	TooltipGeometry 0.0, 0.75, 0.25, -1, -1, 0.8
 	Title "$BOX_HUDOPTIONS"
 	Submenu "$OPTMNU_NASHHPBAR", 	"NashHPBarOptionMenu"
-	Submenu "$BOX_MENU_TITLE", 		"box_AchieveOptions"
 	StaticText ""
 	Tooltip ""
 	//ScaleSlider "$HUDMNU_UISCALE",				"uiscale", 0.0, 8.0, 1.0, "$SCALEMNU_ADAPT"
@@ -37,7 +36,6 @@ AddOptionMenu "HUDOptions" after "FontOptions"
 {
 	StaticText ""
 	Submenu "$OPTMNU_NASHHPBAR", 	"NashHPBarOptionMenu"
-	Submenu "$BOX_MENU_TITLE", 		"box_AchieveOptions"
 	StaticText ""
 	Option "$BOX_LEVELTIME",		"box_leveltime",	"onbydefault"
 	Option "$BOX_SHOWSCORE",		"box_showscore",	"scorevalue"
@@ -65,8 +63,6 @@ OptionMenu "NashHPBarOptionMenu"
 	//Class "NashHPBarOptionMenu"
 	Title "$NASHHPBARMNU_TITLE"
 	//Position -32
-
-	StaticText ""
 
 	Option "$NASHHPBARMNU_ENABLE", "nashhpbar_enable", "OnByDefault"
 	Tooltip "$NASHHPBARMNU_HELPTEXT_ENABLE"
