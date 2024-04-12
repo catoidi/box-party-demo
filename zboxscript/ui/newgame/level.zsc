@@ -4,7 +4,6 @@ extend class DINewGameMenu
 {
 	virtual void CreateLevelList()
 	{
-		background.SetImage("graphics/NEWGAMEBACK.png");
 		UpdateTopLabel("choose a level");
 		
 		vector2 levelsize = (128, 96);

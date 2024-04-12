@@ -112,29 +112,40 @@ extend class DINewGameMenu
 			sklbuttons.Push(aButton);
         }
 		
-		// Create the box image's textures.
-		let boxTexture_String = "graphics/FRED_APPROVED.png";
-		let boxTexture = boxparty_ZF_BoxTextures.CreateTexturePixels(boxTexture_String, (0, 0), (352, 176), false, false);
-		// Add a box image.
-		let boxSize = (352, 176);
-		let aBoxImage = boxparty_ZF_BoxImage.Create
-		(
-			// Position
-			(
-				// Horizontal position.
-                144,
+		// Add a label.
+        skilldesc = boxparty_ZF_Label.Create
+        (
+            // Position.
+            (
+                // Horizontal position.
+                0,
                 // Calculate the vertical position.
                 // Initial offset + ((label text height + spacing) * label count)
-                140
-			),
-			// Size
-			boxSize,
-			// Texture
-			boxTexture
-		);
-		// Add the box image element into the main frame.
-		aBoxImage.Pack (mainFrame);
-		sklboximages.Push(aBoxImage);
+                200
+            ),
+            // Size.
+            (
+                // Calculate the horizontal size of the text.
+                600,
+                // Get the font's height.
+                300
+            ),
+            // The label's text.
+            text: " ",
+            // The font to use.
+            fnt: smallFont,
+			// Text alignment.
+			alignment: 2,
+            // Whether to automatically wrap the text or not.
+            wrap: false,
+            // Whether to automatically resize the element based on the text width.
+            autoSize: false,
+            // The text's colour.
+            textColor: Font.CR_WHITE
+        );
+		// Add the label element to the main frame.
+        skilldesc.Pack (mainFrame);
+		skllabels.Push(skilldesc);
 	}
 	
 	virtual void DestroySkill()

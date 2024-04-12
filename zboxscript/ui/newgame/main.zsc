@@ -19,7 +19,7 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 	Font bigFont, smallFont;
 	boxparty_ZF_Image background, plrinfo;
 	string TopLabel_text, TopLabel2_text;
-	boxparty_ZF_Label TopLabel, TopLabel2, swaglevel, explabel, unlocklabel;
+	boxparty_ZF_Label TopLabel, TopLabel2, swaglevel, explabel, unlocklabel, skilldesc;
 	//the arrays are split up for each page to prevent the chance of data from 1 page overflowing into another.
 	Array<boxparty_ZF_BoxImage> tutboximages, plrboximages, lvlboximages, heartboximages, sklboximages;
 	Array<boxparty_ZF_Label> tutlabels, plrlabels, lvllabels, skllabels;
@@ -52,7 +52,7 @@ Class DINewGameMenu : boxparty_ZF_GenericMenu
 		
 		let plr = players[consoleplayer];
 		
-		background = boxparty_ZF_Image.Create((0, 0), (640, 400), "graphics/NEWGAMEBACK.png", imagescale: (2, 2));
+		background = boxparty_ZF_Image.Create((0, 0), (640, 400), "graphics/MENUBACK.png", imagescale: (2, 2));
 		background.Pack(mainFrame);
 		
 		plrinfo = boxparty_ZF_Image.Create((336, 116), (216, 208), "");

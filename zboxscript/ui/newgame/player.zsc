@@ -7,8 +7,6 @@ extend class DINewGameMenu
 		//this will a list of valid items, and create a button for each of them on the left side of the menu.
 		//TODO: add support for scrolling the list up and down.
 		
-		background.SetImage("graphics/NEWGAMEBACK3.png");
-		
 		UpdatePointer((144, 102));
 	
         int labelCount = 0; // We need this to calculate the position of the labels.

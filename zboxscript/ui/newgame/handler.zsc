@@ -94,6 +94,9 @@ Class DINewGameHandler : boxparty_ZF_Handler
 			let sklnum = sklstr.ToInt(10);
 			string sklclass = link.skllabels[sklnum].GetText();
 			link.UpdateTopLabel(String.Format("\cnselected: %s", sklclass)); 
+			string skldesc = String.Format("$skilldesc_%d", sklnum);
+			skldesc = stringtable.localize(skldesc);
+			link.skilldesc.setText(skldesc);
 			//console.printf("%s", lvlclass);
 			if (currentskill == sklnum) 
 			{

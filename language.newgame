@@ -16,3 +16,7 @@ dimenu_locked_playerglass = "\cgThis character is not available in the demo.";
 dimenu_select_party01 = "Box Party Demo";
 dimenu_select_chal00 = "Challenge Mode";
 dimenu_locked_level_chal00 = "\cgThis is not available in the demo.";
+
+skilldesc_0 = "You have more room to make mistakes.\n\nEnemies have less health,\nhave weaker attacks,\nand attack less frequently.\n\nEnemy infighting is common.";
+skilldesc_1 = "This is the recommended difficulty\nfor your first playthrough.\n\nExpect enemies to be tough,\nand for bosses to be tougher.";
+skilldesc_2 = "Not recommended for your first playthrough.\nEnemies are both stronger and more aggressive.\n\nBe prepared to replay sections multiple times.";
