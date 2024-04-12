@@ -112,11 +112,9 @@ script "resetplayerTID" RESPAWN
 	}
 }
 
-function void box_gethat (str hatcvar, str hatachieve)
+function void box_gethat (str hatcvar)
 {
 	//hatcvar is the CVAR that the unlocked hat uses.
-	
-	//hatachieve is unused and will be removed in a future version.
 	
 	str cmd = StrParam(s:"dounlock_", s:hatcvar);
 	
@@ -167,13 +165,13 @@ SCRIPT "playerpartime" (int whatsthenum)
 			case 0: 
 				break;
 			case 1: 
-				box_gethat("box_hat_unlock_06", "box_unlockhat_06");
+				box_gethat("box_hat_unlock_06");
 				break;
 			case 2: 
-				box_gethat("box_hat_unlock_05", "box_unlockhat_05");
+				box_gethat("box_hat_unlock_05");
 				break;
 			case 3: 
-				box_gethat("box_hat_unlock_07", "box_unlockhat_07");
+				box_gethat("box_hat_unlock_07");
 				break;
 		}
 	}
@@ -429,34 +427,34 @@ script "beatthegame" (void)
 		{
 			if (CheckActorInventory(p, "PlayerBoxToken"))
 			{
-				box_gethat("box_hat_unlock_02", "box_unlockhat_02");
+				box_gethat("box_hat_unlock_02");
 			}
 			else if (CheckActorInventory(p, "PlayerCircleToken"))
 			{	
-				box_gethat("box_hat_unlock_03", "box_unlockhat_03");
+				box_gethat("box_hat_unlock_03");
 			}
 			else if (CheckActorInventory(p, "PlayerTriangleToken"))
 			{
-				box_gethat("box_hat_unlock_04", "box_unlockhat_04");
+				box_gethat("box_hat_unlock_04");
 			}
 			else if (CheckActorInventory(p, "PlayerTrioToken"))
 			{
-				box_gethat("box_hat_unlock_17", "box_unlockhat_17");
+				box_gethat("box_hat_unlock_17");
 			}
 			else if (CheckActorInventory(p, "PlayerPrismToken"))
 			{
-				box_gethat("box_hat_unlock_18", "box_unlockhat_18");
+				box_gethat("box_hat_unlock_18");
 			}
 			else if (CheckActorInventory(p, "PlayerGlassToken"))
 			{
-				box_gethat("box_hat_unlock_19", "box_unlockhat_19");
+				box_gethat("box_hat_unlock_19");
 			}
 		}
 	}
 }
 
 //this script is activated when the pepper is killed by it's own attacks.
-script "PepperUnlock" (void) {box_gethat("box_hat_unlock_14", "box_unlockhat_14");}
+script "PepperUnlock" (void) {box_gethat("box_hat_unlock_14");}
 
 //script that handles unlocking the hat you get for getting 250 glowstick kills.
 script "glowcounter" (void)
@@ -471,7 +469,7 @@ script "glowcounter" (void)
 
 		if (glowkill >= glowmax)
 		{
-			box_gethat("box_hat_unlock_13", "box_unlockhat_13");
+			box_gethat("box_hat_unlock_13");
 		}
 		else
 		{
@@ -489,7 +487,7 @@ script "eggcounter" (void)
 
 	if (eggkill >= eggmax)
 	{
-		box_gethat("box_hat_secret_16", "box_unlocksecret_16");
+		box_gethat("box_hat_secret_16");
 	}
 }
 
@@ -563,7 +561,7 @@ script "hatpage1check" ENTER
 		if (GetCVAR("box_hat_unlock_14")) {hats += 1;}
 		if (hats == 13)
 		{
-			box_gethat("box_hat_unlock_15", "box_unlockhat_15");
+			box_gethat("box_hat_unlock_15");
 		}
 	
 		Delay(70);
