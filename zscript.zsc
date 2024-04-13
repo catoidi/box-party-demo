@@ -30,6 +30,7 @@ version "4.11.3"
 #include "zboxscript/handler/boxhandler/ResetAllHats.zsc"
 #include "zboxscript/handler/hathandler.zsc"
 #include "zboxscript/handler/unlocker.zsc"
+#include "zboxscript/handler/scorehandler.zsc"
 
 //player
 #include "zboxscript/player/token.zsc"
