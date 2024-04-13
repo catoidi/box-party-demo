@@ -126,7 +126,7 @@ extend class DINewGameMenu
             // Size.
             (
                 // Calculate the horizontal size of the text.
-                600,
+                640,
                 // Get the font's height.
                 300
             ),
