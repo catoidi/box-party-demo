@@ -1,0 +1,54 @@
+//zboxscript/ui/sidequest.zsc
+
+Class SideQuestHandler : EventHandler
+{
+	//Also manages death messages.
+	
+	ui PlayerPawn plr;
+	ui bool IsDead;
+	ui uint DeathTimer;
+	ui float msgalpha;
+	
+	override void UITick()
+	{
+		super.UITick();
+		
+		plr = players[consoleplayer].mo;
+		
+		if (plr.health <= 0) {IsDead = true;}
+		else {IsDead = false;}
+		
+		if (IsDead) {++DeathTimer;}
+		else {DeathTimer = 0;}
+	}
+	
+	override void RenderOverlay(RenderEvent e)
+	{
+		if (plr && (IsDead == true))
+		{	
+			if (DeathTimer > 35)
+			{
+				string died = "$YOUDED";
+				died = stringtable.localize(died);
+				int scaley = (bigfont.GetHeight() * (CleanYFac * 1.3));
+				Screen.DrawText(bigfont, Font.CR_BRICK,
+					(Screen.GetWidth() / 2) - ((bigfont.StringWidth(died) / 2) * (CleanXFac * 1.3)),
+					(Screen.GetHeight() / 2) - (scaley / 2),
+					died,
+					DTA_ScaleX, CleanXFac * 1.3,
+					DTA_ScaleY, CleanYFac * 1.3
+				);
+				
+				string died2 = "$YOUDED2";
+				died2 = stringtable.localize(died2);
+				Screen.DrawText(smallfont, Font.CR_GREY,
+					(Screen.GetWidth() / 2) - ((smallfont.StringWidth(died2) / 2) * (CleanXFac)),
+					(Screen.GetHeight() / 2) + (scaley * 1.5),
+					died2,
+					DTA_ScaleX, CleanXFac,
+					DTA_ScaleY, CleanYFac
+				);
+			}
+		}
+	}
+}

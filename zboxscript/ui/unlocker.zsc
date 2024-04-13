@@ -1,4 +1,4 @@
-//fart
+//zboxscript/ui/unlocker.zsc
 
 Class BoxUnlocker : EventHandler
 {

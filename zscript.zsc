@@ -29,7 +29,6 @@ version "4.11.3"
 #include "zboxscript/handler/boxhandler/SpawnPlayerGoodies.zsc"
 #include "zboxscript/handler/boxhandler/ResetAllHats.zsc"
 #include "zboxscript/handler/hathandler.zsc"
-#include "zboxscript/handler/unlocker.zsc"
 #include "zboxscript/handler/scorehandler.zsc"
 
 //player
@@ -46,13 +45,15 @@ version "4.11.3"
 #include "zboxscript/loot/armor.zsc" //for triangle
 
 //ui
-#include "zboxscript/ui/hud.zsc"
-#include "zboxscript/ui/hatmenu.zsc"
 #include "zboxscript/ui/newgame/main.zsc"
 #include "zboxscript/ui/newgame/handler.zsc"
 #include "zboxscript/ui/newgame/player.zsc"
 #include "zboxscript/ui/newgame/level.zsc"
 #include "zboxscript/ui/newgame/skill.zsc"
+#include "zboxscript/ui/hud.zsc"
+#include "zboxscript/ui/hatmenu.zsc"
+#include "zboxscript/ui/sidequest.zsc"
+#include "zboxscript/ui/unlocker.zsc"
 
 //weapons
 #include "zboxscript/weapons/partyshotty.zsc"

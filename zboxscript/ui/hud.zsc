@@ -500,19 +500,6 @@ class BoxPartyStatusBar : BaseStatusBar
 		{
 			DrawInventoryBar(invbar, GlobalOffset + (-268, -40), 3, DI_ITEM_LEFT_TOP);
 		}
-		
-		//death message
-		cvar tutorialcvar = cvar.FindCVAR('box_tutorial');
-		double halfscreen = (Screen.GetWidth() / defaultScale.X) / 2;
-		string dedmsg1 = Stringtable.Localize("$YOUDED");
-		string dedmsg2 = Stringtable.Localize("$YOUDED2");
-		int dedmsg1_size = dedmsg1.Length() * 8;
-		int dedmsg2_size = dedmsg2.Length() * 4;
-		if (tutorialcvar.GetBool() == true)
-		{
-			DrawString(SmallFont, dedmsg1, GlobalOffset + (halfscreen + dedmsg1_size, 120), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_WHITE, DeathFade, scale: (2.0, 2.0));
-			DrawString(SmallFont, dedmsg2, GlobalOffset + (halfscreen + dedmsg2_size, 140), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_BRICK, DeathFade);
-		}
 	}
 	
 	void CheckPlayerClass()
