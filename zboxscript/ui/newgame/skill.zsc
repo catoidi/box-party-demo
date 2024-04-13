@@ -140,6 +140,8 @@ extend class DINewGameMenu
             wrap: false,
             // Whether to automatically resize the element based on the text width.
             autoSize: false,
+			// Text scale.
+			textScale: 1.5,
             // The text's colour.
             textColor: Font.CR_WHITE
         );

@@ -6,7 +6,6 @@
 
 class BoxPartyStatusBar : BaseStatusBar
 {
-	HUDFont NumberFont; //used for all the number stuff on the HUD.
 	HUDFont SmallFont; //default smallfont font for anything else.
 	InventoryBarState invbar;
 	
@@ -90,7 +89,8 @@ class BoxPartyStatusBar : BaseStatusBar
 		
 		//smallbox is used for health/ammo bar numbers, smallfont is for everything else
 		SmallFont = HUDFont.Create("SmallFont");
-		NumberFont = HUDFont.Create("SMALLBOX");
+		SmallFont = HUDFont.Create("SmallFont");
+		//SmallFont = HUDFont.Create("SMALLBOX");
 		
 		//set max air capacity
 		MaxOxygen = AirAmount * 35;
@@ -259,7 +259,7 @@ class BoxPartyStatusBar : BaseStatusBar
 				IsUnderwater = true;
 			}
 			OxygenNumber = OxygenLevel / 7;
-			if (OxygenNumber <= 25) {OxygenColor = Font.CR_DARKRED;} else {OxygenColor = Font.CR_DARKGRAY;}
+			if (OxygenNumber <= 25) {OxygenColor = Font.CR_DARKRED;} else {OxygenColor = Font.CR_GRAY;}
 		}
 		else {IsUnderwater = false;}
 		
@@ -334,12 +334,12 @@ class BoxPartyStatusBar : BaseStatusBar
 		{
 			DrawBar(HPBar1[CurrentPlayer], HPBar2[CurrentPlayer], BoxHealthInterpolator.GetValue(), cplayer.mo.GetMaxHealth(false), GlobalOffset + PrismOffset + (-168, -32), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
 		}
-		if (WhichClass[CurrentPlayer] != "PlayerGlassToken") {DrawString(NumberFont, FormatNumber(cplayer.health, 0), GlobalOffset + (-48, -24), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_BLACK);} //draw hp number only if player isn't glass
+		if (WhichClass[CurrentPlayer] != "PlayerGlassToken") {DrawString(SmallFont, FormatNumber(cplayer.health, 0), GlobalOffset + (-48, -24), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_GREY);} //draw hp number only if player isn't glass
 		DrawTexture(GetMugShot(1, MugShot.DISABLEOUCH|MugShot.DISABLERAMPAGE|MugShot.CUSTOM, MugShotSkin[CurrentPlayer]), GlobalOffset + (-32, -32), DI_ITEM_OFFSETS);
 		if (WhichClass[CurrentPlayer] == "PlayerTriangleToken") //add armor bar for triangle
 		{
 			DrawBar("graphics/HUDBARH.png", "graphics/HUDBARG.png", BoxArmorInterpolator.GetValue(), ArmorMax, GlobalOffset + (-142, -56), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
-			DrawString(NumberFont, FormatNumber(GetArmorAmount(), 0), GlobalOffset + (-48, -50), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_GREEN);
+			DrawString(SmallFont, FormatNumber(GetArmorAmount(), 0), GlobalOffset + (-48, -50), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_GREEN);
 			DrawImage("sprites/loot/armor/ARMOB0.png", GlobalOffset + (-24, -36), DI_ITEM_OFFSETS);
 		}
 		if (WhichClass[CurrentPlayer] == "PlayerPrismToken") //add energy bar for prism
@@ -376,7 +376,7 @@ class BoxPartyStatusBar : BaseStatusBar
 			ammo1max = CPlayer.ReadyWeapon.Ammo1.MaxAmount;
 			ammo1icon = GetIcon(cplayer.readyweapon, 0);
 			DrawBar(ammobartex, "graphics/HUDBARE.png", BoxAmmoInterpolator.GetValue(), ammo1max, GlobalOffset + ArmorOffset + (-136, -52), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
-			DrawString(NumberFont, FormatNumber(ammocount1, 1), GlobalOffset + ArmorOffset + (-48, -49), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_BLACK);
+			DrawString(SmallFont, FormatNumber(ammocount1, 1), GlobalOffset + ArmorOffset + (-48, -49), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_GREY);
 			DrawImage("graphics/AMMOZ0.png", GlobalOffset + ArmorOffset + (-32, -52), DI_ITEM_OFFSETS);
 			if (noammo1 == true) {DrawImage("graphics/AMMOX0.png", GlobalOffset + ArmorOffset + (-32, -52), DI_ITEM_OFFSETS);}
 			DrawTexture(ammo1icon, GlobalOffset + ArmorOffset + (-32, -52), DI_ITEM_OFFSETS);
@@ -388,7 +388,7 @@ class BoxPartyStatusBar : BaseStatusBar
 			ammo2max = cplayer.readyweapon.ammo2.maxamount;
 			ammo2icon = GetIcon(cplayer.readyweapon.ammo2, 0);
 			DrawBar(ammobartex, "graphics/HUDBARE.png", BoxAmmo2Interpolator.GetValue(), ammo2max, GlobalOffset + ArmorOffset + Ammo1Offset + (-136, -52), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
-			DrawString(NumberFont, FormatNumber(ammocount2, 1), GlobalOffset + ArmorOffset + Ammo1Offset + (-48, -49), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_BLACK);
+			DrawString(SmallFont, FormatNumber(ammocount2, 1), GlobalOffset + ArmorOffset + Ammo1Offset + (-48, -49), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, Font.CR_GREY);
 			DrawImage("graphics/AMMOZ0.png", GlobalOffset + ArmorOffset + Ammo1Offset + (-32, -52), DI_ITEM_OFFSETS);
 			if (noammo2 == true) {DrawImage("graphics/AMMOX0.png", GlobalOffset + ArmorOffset + Ammo1Offset + (-32, -52), DI_ITEM_OFFSETS);}
 			DrawTexture(ammo2icon, GlobalOffset + ArmorOffset + Ammo1Offset + (-32, -52), DI_ITEM_OFFSETS);
@@ -487,7 +487,7 @@ class BoxPartyStatusBar : BaseStatusBar
 		{
 			DrawBar("graphics/HUDBARJ.png", "graphics/HUDBARI.png", OxygenLevel, MaxOxygen, GlobalOffset + TimeOffset + ScoreOffset + (-142, 16), 0, SHADER_REVERSE, DI_ITEM_OFFSETS);
 			DrawImage("graphics/AIRICON.png", GlobalOffset + TimeOffset + ScoreOffset + (-32, 16), DI_ITEM_OFFSETS);
-			DrawString(NumberFont, FormatNumber(OxygenNumber), GlobalOffset + TimeOffset + ScoreOffset + (-48, 20), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, OxygenColor);
+			DrawString(SmallFont, FormatNumber(OxygenNumber), GlobalOffset + TimeOffset + ScoreOffset + (-48, 20), DI_ITEM_OFFSETS|DI_TEXT_ALIGN_RIGHT, OxygenColor);
 		}
 		
 		//inventory bar
