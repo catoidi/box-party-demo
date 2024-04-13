@@ -13,6 +13,8 @@ OptionMenu "BoxHudOptions" protected
 	//Tooltip "$tooltip_uiscale"
 	ScaleSlider "$SCALEMNU_HUD", 				"hud_scale", -1.0, 8.0, 1.0, "$SCALEMNU_USEUI", "$SCALEMNU_USEFS"
 	Tooltip "$tooltip_hudscale"
+	ScaleSlider "$SCALEMNU_MESSAGES", 			"con_scaletext", 0.0, 8.0, 1.0, "$SCALEMNU_USEUI"
+	Tooltip "$tooltip_uiscale"
 	StaticText ""
 	Option "$BOX_LEVELTIME",		"box_leveltime",	"onbydefault"
 	Tooltip "$tooltip_leveltime"
