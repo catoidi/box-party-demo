@@ -1,5 +1,0 @@
-OptionMenu zc_TopMenu
-{
-  class zc_Top
-  Title "$HIGHSCORE"
-}

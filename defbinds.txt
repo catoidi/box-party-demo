@@ -5,6 +5,7 @@ bind c togglequest
 bind l zc_top
 unbind -
 unbind =
+unbind t
 unbind f8
 bind f4 "openmenu boxoptionsmenu"
 bind f5 "openmenu boxvideo"
