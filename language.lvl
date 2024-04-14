@@ -31,7 +31,7 @@ BOX_TUTORIAL2A = ")\cf to choose your own party hat.";
 BOX_TUTORIAL3 = "Use the 'Hexagon' weapon next to enemies\nwhen you reach maximum energy.";
 BOX_TUTORIAL4 = "Use your 'Dash' ability by pressing \ct(";
 BOX_TUTORIAL4A = ")\cf.";
-BOX_TUTORIAL5 = "Check your current side quests by pressing \ct(";
+BOX_TUTORIAL5 = "Check your current side quests anytime by checking your map.\nYou can open the map by pressing \ct(";
 BOX_TUTORIAL5A = ")\cf.";
 BOX_ENDTEXT = "With yet another boss food defeated, you feel no closer\n"
 			  "to discovering who is behind the party poopers.\n\n"

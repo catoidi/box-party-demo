@@ -626,6 +626,7 @@ script "ShowSideQuests" (int QuestEnabled) net
 	//Explanation: Player calls a script named "CheckSideQuests" via keybind. This script is defined on a per-level basis.
 	//The level script will then call this script, and give it all of the variables that need to be displayed.
 	
+	Print(s:"The Side Quest UI has moved!\n\nCheck your map to view side quests now. :)");
 	if (QuestEnabled != 0)
 	{
 		//if (SideQuestChecker() == false) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}

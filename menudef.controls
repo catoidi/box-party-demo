@@ -181,12 +181,10 @@ OptionMenu "BoxOtherControlsMenu"
 
 	StaticText ""
 	Control    "$CNTRLMNU_AUTOMAP"         , "togglemap"
-	Tooltip "Shows a map of the surrounding area, which can reveal helpful information to you, like the location of side quests."
+	Tooltip "Shows a map of your surroundings, and also displays your current side quests."
 	
 	StaticText ""
 	Tooltip ""
-	Control "Show Side Quests", "togglequest"
-	Tooltip "Toggles the Side Quests menu.\n\c[grey]* There are \c[pink]3 side quests \c[grey]to complete in every story level.\n* The 3rd side quest will only be revealed after \c[pink]defeating all enemies.\n\c[grey]* Completing all side quests in a level will \c[pink]unlock a hat."
 	Control "Open Hat Menu", "openhatmenu"
 	Tooltip "Lets you equip any of the hats that you have unlocked.\n\c[grey]* Clicking on a locked hat slot will tell you how to unlock it.\n* The hats are purely cosmetic, they have no gameplay benefits.\n* Some hats are hidden until after you unlock them..."
 
