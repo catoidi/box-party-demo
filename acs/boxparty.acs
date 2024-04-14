@@ -628,14 +628,15 @@ script "ShowSideQuests" (int QuestEnabled) net
 	
 	if (QuestEnabled != 0)
 	{
-		if (SideQuestChecker() == false) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
-		else {ACS_NamedExecuteAlways("ForceHideQuests", 0, 0, 0, 0);}
+		//if (SideQuestChecker() == false) {ACS_NamedExecuteAlways("UpdateSideQuests", 0, 0, 0, 0);}
+		//else {ACS_NamedExecuteAlways("ForceHideQuests", 0, 0, 0, 0);}
 	}
 	else {Log(l:"QUEST_UNAVAILABLE");}
 }
 
 script "UpdateSideQuests" (void)
 {
+	/*
 	SetHudSize(640, 480, false);
 	int questx = 180.1;
 	int questy = 396.0;
@@ -651,11 +652,13 @@ script "UpdateSideQuests" (void)
 	HudMessage(s:"A"; HUDMSG_PLAIN, -123456770, CR_UNTRANSLATED, 164.0, 214.0, 0, 1.0);
 			
 	//togglesidequests = true;
+	*/
 	SideQuestToggler(true);
 }
 
 script "ForceHideQuests" (void)
 {
+	/*
 	HudMessage(s:""; HUDMSG_PLAIN, -123456770, CR_UNTRANSLATED, 0, 0, 1, 1.0);
 	HudMessage(s:""; HUDMSG_PLAIN, -123456771, CR_UNTRANSLATED, 0, 0, 1, 1.0);
 	HudMessage(s:""; HUDMSG_PLAIN, -123456772, CR_UNTRANSLATED, 0, 0, 1, 1.0);
@@ -663,18 +666,29 @@ script "ForceHideQuests" (void)
 	HudMessage(s:""; HUDMSG_PLAIN, -123456774, CR_UNTRANSLATED, 0, 0, 1, 1.0);
 	HudMessage(s:""; HUDMSG_PLAIN, -123456775, CR_UNTRANSLATED, 0, 0, 1, 1.0);
 	HudMessage(s:""; HUDMSG_PLAIN, -123456776, CR_UNTRANSLATED, 0, 0, 1, 1.0);
+	*/
 			
 	//togglesidequests = false;
 	SideQuestToggler(false);
 }
 
-function void QuestProgressed (int QNum, str QMsg, bool DoReward)
+script "AutoUpdateQuests" OPEN
 {
-	//quick and easy to use function to update progress for a quest.
+	//just a small little guarantee that the quests will always show up upon loading in. :)
+	Delay(1);
+	QuestNamed(0, quest1_name);
+	QuestProgressed(0, quest1_progress, false, false);
+	QuestNamed(1, quest2_name);
+	QuestProgressed(1, quest2_progress, false, false);
+	QuestNamed(2, quest3_name);
+	QuestProgressed(2, quest3_progress, false, false);
+}
+
+function void QuestProgressed (int QNum, str QMsg, bool DoReward, bool DoPopup)
+{
+	//The intended way to send Quest Progress data across all players.
 	
-	//note: quest names and progression can be updated without this function.
-	//this just automates the process for most normal quests.
-	
+	//Store progress data locally, for potential use with ACS scripts.
 	switch (QNum)
 	{
 		case 0: quest1_progress = QMsg; break;
@@ -682,10 +696,48 @@ function void QuestProgressed (int QNum, str QMsg, bool DoReward)
 		case 2: quest3_progress = QMsg; break;
 	}
 	
+	//Send progress data to Side Quest EventHandler.
+	str cmd = StrParam(s:"sidequests_progress_", s:QMsg);
+	for (int i = 0; i < 8; i++)
+	{
+		int plnum = 7500 + i;
+		if (IsTIDUsed(plnum) == true)
+		{
+			//update the side quest for all players
+			SetActivator(plnum);
+			ScriptCall("EventHandler", "SendInterfaceEvent", i, cmd, QNum);
+			//give reward if quest is completed
+			if (DoReward == true) {GiveInventory("BoxQuestReward", 3000); qdone += 1;}
+		}
+	} 
 	
-	if (DoReward == true) {GiveInventory("BoxQuestReward", 3000); qdone += 1;}
+	QuestUpdated(DoPopup);
+}
+
+function void QuestNamed(int QNum, str QName)
+{
+	//The intended way to set the names of each quest.
+
+	//Store quest name data locally.
+	switch (QNum)
+	{
+		case 0: quest1_name = QName; break;
+		case 1: quest2_name = QName; break;
+		case 2: quest3_name = QName; break;
+	}
 	
-	QuestUpdated(true);
+	//Send name data to Side Quest EventHandler.
+	str cmd = StrParam(s:"sidequests_name_", s:QName);
+	for (int i = 0; i < 8; i++)
+	{
+		int plnum = 7500 + i;
+		if (IsTIDUsed(plnum) == true)
+		{
+			//update the side quest for all players
+			SetActivator(plnum);
+			ScriptCall("EventHandler", "SendInterfaceEvent", i, cmd, QNum);
+		}
+	}
 }
 
 function void QuestUpdated (bool QuestLog)

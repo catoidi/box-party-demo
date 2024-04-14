@@ -4,51 +4,134 @@ Class SideQuestHandler : EventHandler
 {
 	//Also manages death messages.
 	
-	ui PlayerPawn plr;
+	ui BoxPlayerBase plr;
+	
 	ui bool IsDead;
 	ui uint DeathTimer;
 	ui float msgalpha;
+	
+	ui bool ShowQuest;
+	ui string QuestName[3];
+	ui string QuestProgress[3];
+	
+	override void InterfaceProcess(ConsoleEvent e)
+	{
+		//Toggle side quest ui :)
+		if (e.Name == "sidequests_show") {ShowQuest = true;}
+		else if (e.Name == "sidequests_hide") {ShowQuest = false;}
+		else if (e.Name.Left(16) == "sidequests_name_")
+		{
+			string cmd = e.Name.Mid(16);
+			QuestName[e.Args[0]] = cmd;
+		}
+		else if (e.Name.Left(20) == "sidequests_progress_")
+		{
+			string cmd = e.Name.Mid(20);
+			QuestProgress[e.Args[0]] = cmd;
+		}
+	}
 	
 	override void UITick()
 	{
 		super.UITick();
 		
-		plr = players[consoleplayer].mo;
+		plr = BoxPlayerBase(players[consoleplayer].mo);
 		
-		if (plr.health <= 0) {IsDead = true;}
-		else {IsDead = false;}
-		
-		if (IsDead) {++DeathTimer;}
-		else {DeathTimer = 0;}
+		//Determine whether or not player is dead.
+		if (plr.health <= 0) 
+		{
+			IsDead = true;
+			++DeathTimer;
+		}
+		else 
+		{
+			IsDead = false;
+			DeathTimer = 0;
+		}
 	}
 	
 	override void RenderOverlay(RenderEvent e)
 	{
-		if (plr && (IsDead == true))
-		{	
-			if (DeathTimer > 35)
-			{
-				string died = "$YOUDED";
-				died = stringtable.localize(died);
-				int scaley = (bigfont.GetHeight() * (CleanYFac * 1.3));
-				Screen.DrawText(bigfont, Font.CR_BRICK,
-					(Screen.GetWidth() / 2) - ((bigfont.StringWidth(died) / 2) * (CleanXFac * 1.3)),
-					(Screen.GetHeight() / 2) - (scaley / 2),
-					died,
-					DTA_ScaleX, CleanXFac * 1.3,
-					DTA_ScaleY, CleanYFac * 1.3
-				);
-				
-				string died2 = "$YOUDED2";
-				died2 = stringtable.localize(died2);
-				Screen.DrawText(smallfont, Font.CR_GREY,
-					(Screen.GetWidth() / 2) - ((smallfont.StringWidth(died2) / 2) * (CleanXFac)),
-					(Screen.GetHeight() / 2) + (scaley * 1.5),
-					died2,
-					DTA_ScaleX, CleanXFac,
-					DTA_ScaleY, CleanYFac
-				);
-			}
+		//Render Side Quest UI if player has automap open.
+		if (plr && (ShowQuest == true)) {RenderQuests(e);}
+	
+		//Display death message 1 second after player death.
+		if (plr && (IsDead == true) && (DeathTimer > 35)) {DeathMessage(e);}
+	}
+	
+	ui void RenderQuests(RenderEvent e)
+	{
+		int startx = Screen.GetWidth() / 2;
+		int starty = 24 * CleanYFac;
+		float sizex = CleanXFac * 2;
+		float sizey = CleanYFac * 2;
+		let questback = TexMan.CheckForTexture("graphics/QUESTBOX.png");
+		let questsize = TexMan.GetScaledSize(questback);
+		
+		//this will need to be changed if you want to move the questbox to a new location.
+		startx -= (questsize.x * sizex) / 2;
+		
+		//draw background.
+		Screen.DrawTexture(questback, false, startx, starty,
+			DTA_ScaleX, sizex,
+			DTA_ScaleY, sizey,
+			DTA_KeepRatio, true,
+			DTA_Alpha, 0.6
+		);
+		
+		string title = StringTable.Localize("$QUEST_TITLE");
+		Screen.DrawText(smallfont, Font.CR_UNTRANSLATED,
+			startx + ((questsize.x * sizex) / 2) - ((smallfont.StringWidth(title) / 2) * CleanXFac),
+			starty,
+			StringTable.Localize(title, false),
+			DTA_ScaleX, sizex / 2,
+			DTA_ScaleY, sizey / 2
+		);
+		
+		//draw quest text.
+		for (int i = 0; i < 3; ++i)
+		{
+			int listy = (16 * CleanYFac) + (((questsize.y * sizey) / 4) * i);
+		
+			Screen.DrawText(smallfont, Font.CR_UNTRANSLATED,
+				startx + (8 * CleanXFac),
+				starty + listy,
+				StringTable.Localize(QuestName[i], false),
+				DTA_ScaleX, sizex / 2,
+				DTA_ScaleY, sizey / 2
+			);
+			
+			Screen.DrawText(smallfont, Font.CR_UNTRANSLATED,
+				startx + (12 * CleanXFac),
+				starty + (8 * CleanXFac) + listy,
+				StringTable.Localize(QuestProgress[i], false),
+				DTA_ScaleX, sizex / 2,
+				DTA_ScaleY, sizey / 2
+			);
 		}
+	}
+	
+	ui void DeathMessage(RenderEvent e)
+	{
+		string died = "$YOUDED";
+		died = stringtable.localize(died);
+		int scaley = (bigfont.GetHeight() * (CleanYFac * 1.3));
+		Screen.DrawText(bigfont, Font.CR_BRICK,
+			(Screen.GetWidth() / 2) - ((bigfont.StringWidth(died) / 2) * (CleanXFac * 1.3)),
+			(Screen.GetHeight() / 2) - (scaley / 2),
+			died,
+			DTA_ScaleX, CleanXFac * 1.3,
+			DTA_ScaleY, CleanYFac * 1.3
+		);
+				
+		string died2 = "$YOUDED2";
+		died2 = stringtable.localize(died2);
+		Screen.DrawText(smallfont, Font.CR_GREY,
+			(Screen.GetWidth() / 2) - ((smallfont.StringWidth(died2) / 2) * (CleanXFac)),
+			(Screen.GetHeight() / 2) + (scaley * 1.5),
+			died2,
+			DTA_ScaleX, CleanXFac,
+			DTA_ScaleY, CleanYFac
+		);
 	}
 }

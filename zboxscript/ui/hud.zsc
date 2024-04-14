@@ -81,6 +81,8 @@ class BoxPartyStatusBar : BaseStatusBar
 	int leveltime;
 	
 	double DeathFade;
+	
+	bool showsidequest;
 
 	override void Init()
 	{
@@ -313,11 +315,22 @@ class BoxPartyStatusBar : BaseStatusBar
 		Super.DrawAutomapHUD(TicFrac);
 		
 		BeginHUD(0.5);
-		DrawBoxHUD(TicFrac);
+		DrawBoxHUD(TicFrac, true);
 	}
 	
-	void DrawBoxHUD(double TicFrac)
+	void DrawBoxHUD(double TicFrac, bool doquest = false)
 	{
+		if ((doquest == false) && (showsidequest == true)) 
+		{
+			EventHandler.SendInterfaceEvent(consoleplayer, "sidequests_hide");
+			showsidequest = false;
+		}
+		else if ((doquest == true) && (showsidequest == false)) 
+		{
+			EventHandler.SendInterfaceEvent(consoleplayer, "sidequests_show");
+			showsidequest = true;
+		}
+	
 		if (WhichClass[CurrentPlayer] == "PlayerPrismToken") {PrismOffset = (-32, 0);} //prism only
 		else {PrismOffset = (0, 0);}
 		

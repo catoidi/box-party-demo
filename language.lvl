@@ -365,6 +365,7 @@ QUEST_FAILED = "Progress: \caFailed.";
 QUEST_TEST1 = "\cv#1: Go do some stuff, i guess."; //quest descriptions can be a max of 41 characters long.
 QUEST_TEST2 = "\cv#2: While you're at it, go do this too.";
 QUEST_TEST3 = "\cv#3: Also do this, please. :)";
+QUEST_TITLE = "SIDE QUESTS:";
 //lvl 1
 QUEST_LVL1_1 = "\cv#1: Check out the party.";
 QUEST_LVL1_2 = "\cv#2: Go take out the trash.";
