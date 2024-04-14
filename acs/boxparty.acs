@@ -234,6 +234,22 @@ script "noammo" (void)
 	}
 }
 
+function void sendhighscore (str episode)
+{
+	//update high scores for each player
+	str cmd = StrParam(s:"box_highscore_", s:episode);
+	for (int i = 0; i < 8; i++)
+	{
+		int plnum = 7500 + i;
+		if (IsTIDUsed(plnum) == true)
+		{
+			//update the side quest for all players
+			SetActivator(plnum);
+			ScriptCall("EventHandler", "SendInterfaceEvent", i, cmd, GetActorProperty(0, APROP_Score));
+		}
+	} 
+}
+
 script "exitscreen" (void)
 {
 	//screen that plays when you complete a story level.

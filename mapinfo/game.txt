@@ -4,7 +4,7 @@ GameInfo
 {
 	PlayerClasses = "PlayerBox", "PlayerCircle", "PlayerTriangle"
 	//NoRandomPlayerClass = True
-	AddEventHandlers = "BoxHandler", "NashHPBarHandler", "zc_Dispatcher", "zc_StaticView", "BoxUnlocker", "SideQuestHandler"
+	AddEventHandlers = "BoxHandler", "NashHPBarHandler", "zc_Dispatcher", "zc_StaticView", "BoxUnlocker", "SideQuestHandler", "BoxScoreHandler"
 	StatusBarClass = "BoxPartyStatusBar"
 	CursorPic = "graphics/BOXCURSOR.png"
 	DontCrunchCorpses = True

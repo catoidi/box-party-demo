@@ -4,27 +4,17 @@ Class BoxScoreHandler : EventHandler
 {
 	//based off the Deathscreen from DI.
 	ui PlayerPawn plr;
-	ui bool IsDead;
-	ui float DeathFade;
-	ui int DeathTimer;
-	ui float diedmove;
-	ui int wavenum;
-	ui int msgrng;
-	ui bool unlockedscore;
-	ui bool scoredone;
-	ui int prevscore;
-	ui int finalscore; //prevent extra score from being calculated after death.
-	ui float exp1, exp2, exp3, lvl1, lvl2;
-	
-	//from newgamemenu
 	ui Array<String> filedata, playerpool, playerlock, levelpool, levellock;
 	ui bool getgamedata;
 	
 	override void InterfaceProcess(ConsoleEvent e)
 	{
-		if (e.Name == "newwave_ui")
+		if (e.Name.Left(14) == "box_highscore_")
 		{
-			wavenum = e.Args[0];
+			string ep = e.Name.Mid(14);
+			int prevscore = GetHighScore(ep);
+			
+			if (plr.score > prevscore) {UpdateHighScore(plr.score, ep);}
 		}
 	}
 
@@ -32,42 +22,14 @@ Class BoxScoreHandler : EventHandler
 	{
 		if (!getgamedata) 
 		{
-			GetDIGAMEData();
+			GetBOXGAMEData();
 			getgamedata = true;
 		}
 		
 		plr = players[consoleplayer].mo;
-		if (!plr) {return;}
-		if (plr.Health <= 0) {IsDead = true;}
-		else {IsDead = false;}
-		
-		if (IsDead == true)
-		{
-			if (msgrng == 0)
-			{
-				msgrng = random[die](0, 100);
-			}
-			
-			if (DeathFade < 1.0) {DeathFade += 0.01;}
-			//else {DeathFade2 += 0.04;}
-			++DeathTimer;
-			if ((DeathTimer > 105) && (diedmove < 4.0))
-			{
-				float newmove = 0.02 + ((4.0 - diedmove) / 35);
-				diedmove += newmove;
-			}
-			else if (diedmove > 4.0) {diedmove = 4.0;}
-			else if (diedmove < 2.0) {diedmove = 2.0;}
-		}
-		else
-		{
-			DeathFade = 0.0;
-			DeathTimer = 0;
-			diedmove = 2.0;
-		}
 	}
 	
-	ui virtual void GetDIGAMEData()
+	ui virtual void GetBOXGAMEData()
 	{
 		//copy/pasted this function from newgamemenu.
 	
@@ -76,14 +38,14 @@ Class BoxScoreHandler : EventHandler
 		playerpool.Clear();
 		playerlock.Clear();
 	
-		int ThisLump = Wads.FindLump("DIGAME", 0, Wads.ANYNAMESPACE);
-		int NextLump = Wads.FindLump("DIGAME", ThisLump + 1, Wads.ANYNAMESPACE);
+		int ThisLump = Wads.FindLump("BOXGAME", 0, Wads.ANYNAMESPACE);
+		int NextLump = Wads.FindLump("BOXGAME", ThisLump + 1, Wads.ANYNAMESPACE);
 		
 		while (ThisLump != -1)
 		{
 			Wads.ReadLump(ThisLump).Split(filedata, "\n", TOK_SKIPEMPTY);
 			ThisLump = NextLump;
-			NextLump = Wads.FindLump("DIGAME", ThisLump + 1, 1);
+			NextLump = Wads.FindLump("BOXGAME", ThisLump + 1, 1);
 		}
 		
 		for (int i = 0; i < filedata.Size(); i++)
@@ -120,10 +82,10 @@ Class BoxScoreHandler : EventHandler
 		}
 	}
 	
-	ui virtual int GetHighScore()
+	ui virtual int GetHighScore(string episode)
 	{
 		if (!plr) {return 999999999;}
-		cvar highscores = cvar.findcvar("di_highscore");
+		cvar highscores = cvar.findcvar("box_highscore");
 		string fullscores = highscores.getstring();
 		array<string> scorelines;
 		fullscores.split(scorelines, ",", TOK_SKIPEMPTY);
@@ -143,27 +105,17 @@ Class BoxScoreHandler : EventHandler
 			else
 			{
 				if (currentline[0] != playername) {continue;}
-				if (currentline[1] != Level.MapName) {continue;}
-				int lsize = currentline[2].Length();
-				if (currentline[2].Left(1) == "E")
-				{
-					string newcheck = currentline[2].Mid(1, lsize - 1);
-					if (newcheck.ToInt(10) > currentscore) {currentscore = newcheck.ToInt(10);}
-				}
-				else 
-				{
-					string newcheck = currentline[2].Mid(0);
-					if (newcheck.ToInt(10) > currentscore) {currentscore = newcheck.ToInt(10);}
-				}
+				if (currentline[1] != episode) {continue;}
+				if (currentline[2].ToInt(10) > currentscore) {currentscore = currentline[2].ToInt(10);}
 			}
 		}
 		return currentscore;
 	}
 	
-	ui virtual void UpdateHighScore(int newscore, bool iseasy)
+	ui virtual void UpdateHighScore(int newscore, string episode)
 	{
 		if (!plr) {return;}
-		cvar highscores = cvar.findcvar("di_highscore");
+		cvar highscores = cvar.findcvar("box_highscore");
 		string fullscores = highscores.getstring();
 		array<string> scorelines;
 		fullscores.split(scorelines, ",", TOK_SKIPEMPTY);
@@ -182,19 +134,15 @@ Class BoxScoreHandler : EventHandler
 			else
 			{
 				if (currentline[0] != playername) {continue;}
-				if (currentline[1] != Level.MapName) {continue;}
-				string easycheck = "";
-				if (skill == 0) {easycheck = "E";}
-				currentline[2] = string.format("%s%d", easycheck, newscore);
+				if (currentline[1] != episode) {continue;}
+				currentline[2] = string.format("%d", newscore);
 				scorelines[i] = string.format("%s %s %s", currentline[0], currentline[1], currentline[2]);
 				scoreposition = i;
 			}
 		}
 		if (scoreposition == -1)
 		{
-			string easycheck = "";
-			if (skill == 0) {easycheck = "E";}
-			string scoreinput = string.format("%s %s %s%d", playername, Level.MapName, easycheck, newscore);
+			string scoreinput = string.format("%s %s %d", playername, episode, newscore);
 			scorelines.push(scoreinput);
 		}
 		
@@ -204,185 +152,5 @@ Class BoxScoreHandler : EventHandler
 			newcvar.AppendFormat("%s,", scorelines[i]);
 		}
 		highscores.setstring(newcvar);
-	}
-	
-	ui virtual int GetScoreBonus(name findplayer = '*', name findlevel = '*')
-	{
-		//copy/pasted the gethighscore function from the newgamemenu.
-	
-		cvar highscores = cvar.findcvar("di_highscore");
-		string fullscores = highscores.getstring();
-		array<string> scorelines;
-		fullscores.split(scorelines, ",", TOK_SKIPEMPTY);
-		if (scorelines.size() < 1) {return 0;}
-		int currentscore;
-		bool combinescore;
-		for (int i = 0; i < scorelines.size(); ++i)
-		{
-			array<string> currentline;
-			scorelines[i].split(currentline, " ", TOK_SKIPEMPTY);
-			if (currentline.size() != 3) 
-			{
-				//something has gone terribly wrong!
-				console.printf("%s", "\caWARNING: Junk data was detected in the highscore CVAR!");
-				continue;
-			}
-			else
-			{
-				let levelfinder = currentline[1].MakeLower();
-				let playerfinder = string.format("%s", currentline[0].MakeLower());
-				if ((findplayer != "*") && (currentline[0] != findplayer)) {continue;}
-				if ((findlevel != "*") && (levelfinder != findlevel)) {continue;}
-				if (levelpool.Find(levelfinder) == levelpool.Size()) {console.printf("invalid level %s found, skipping score.", levelfinder); continue;}
-				if (playerpool.Find(playerfinder) == playerpool.Size()) {console.printf("invalid player %s found, skipping score.", playerfinder); continue;}
-				
-				if (findlevel == "*") {combinescore = true;}
-				int lsize = currentline[2].Length();
-				if (currentline[2].Left(1) == "E")
-				{
-					string newcheck = currentline[2].Mid(1, lsize - 1);
-					if (combinescore) {currentscore += newcheck.ToInt(10);}
-					else if (newcheck.ToInt(10) > currentscore) {currentscore = newcheck.ToInt(10);}
-				}
-				else 
-				{
-					string newcheck = currentline[2];
-					if (combinescore) {currentscore += newcheck.ToInt(10);}
-					else if (newcheck.ToInt(10) > currentscore) {currentscore = newcheck.ToInt(10);}
-				}
-			}
-		}
-		return currentscore / 1000;
-	}
-	
-	ui virtual void UpdateSwag(int newscore)
-	{
-		if (!plr) {return;}
-		cvar swaglevel = cvar.findcvar("di_swaglevel");
-		cvar experience = cvar.findcvar("di_experience");
-		int curexp = experience.getint();
-		int curlvl = swaglevel.getint();
-		
-		int newexp = newscore;
-		int bonusexp = (newscore - prevscore) * 2; //give +200% exp for high score.
-		if (bonusexp > 0) {newexp += bonusexp;}
-		
-		//insert DIUNLOCK cvar search here
-		newexp *= 1.0 + (0.01 * ((GetUnlockNum() * 2) + GetScoreBonus()));
-		
-		curexp += newexp;
-		int expmax = 5000 * (1 + curlvl);
-		int newlvl = 0;
-		while (curexp >= expmax)
-		{
-			curlvl += 1;
-			newlvl += 1;
-			curexp -= expmax;
-			expmax = 5000 * (1 + curlvl);
-		}
-		
-		exp1 = curexp;
-		exp2 = expmax;
-		exp3 = newexp;
-		lvl1 = curlvl;
-		lvl2 = newlvl;
-		//console.printf("\cnExp: %d/%d \cf(+%d)", curexp, expmax, newexp);
-		//console.printf("\ctSwag Lvl: %d", curlvl);
-		//if (newlvl == 1) {console.printf("\cfYou gained %d swag level this game.", newlvl);}
-		//else if (newlvl > 1) {console.printf("\cfYou gained %d swag levels this game.", newlvl);}
-		swaglevel.setint(curlvl);
-		experience.setint(curexp);
-	}
-	
-	virtual clearscope int GetUnlockNum()
-	{
-		int returnnum;
-		array<string> filedata;
-	
-		int ThisLump = Wads.FindLump("DIUNLOCK", 0, Wads.ANYNAMESPACE);
-		int NextLump = Wads.FindLump("DIUNLOCK", ThisLump + 1, Wads.ANYNAMESPACE);
-		
-		while (ThisLump != -1)
-		{
-			Wads.ReadLump(ThisLump).Split(filedata, "\n", TOK_SKIPEMPTY);
-			ThisLump = NextLump;
-			NextLump = Wads.FindLump("DIUNLOCK", ThisLump + 1, 1);
-		}
-		
-		for (int i = 0; i < filedata.Size(); ++i)
-		{
-			if (filedata[i].Left(2) == ">>") {continue;} //comment
-			if (filedata[i].Length() < 3) {continue;} //too small
-			int linesize = filedata[i].IndexOf(";"); //end of line
-			filedata[i] = filedata[i].Left(linesize); //only use data left of the ;
-			array<string> curline;
-			filedata[i].Split(curline, " ");
-			if ((curline.Size() < 3) || (curline.Size() > 5)) {continue;} //each valid line must contain 3 to 5 arguments.
-			
-			let unlockcvar = cvar.getcvar(curline[0]);
-			if (unlockcvar.getbool() == true) {++returnnum;}
-		}
-		
-		return returnnum;
-	}
-	
-	override void RenderOverlay(RenderEvent e)
-	{
-		if (plr && (IsDead == true))
-		{
-			string spacing = "\n\n\n";
-			let startx = Screen.GetWidth() / 3;
-			let startx2 = startx * 2;
-			let blackscreen = TexMan.CheckForTexture("textures/box/BLACK.png");
-			Screen.DrawTexture(blackscreen, false,
-				0, 0,
-				DTA_DestWidth, Screen.GetWidth(),
-				DTA_DestHeight, Screen.GetHeight(),
-				DTA_Alpha, DeathFade
-			);
-			
-			if (!scoredone)
-			{
-				prevscore = GetHighScore();
-				finalscore = plr.score;
-				if (finalscore > prevscore)
-				{
-					bool iseasy = false;
-					if (skill == 0) {iseasy = true;}
-					UpdateHighScore(finalscore, iseasy);
-				}
-				UpdateSwag(finalscore);
-				eventhandler.sendnetworkevent("swagcheck");
-				scoredone = true;
-			}
-			
-			if (DeathTimer > 35)
-			{
-				string died = "DEATH IS INEVITABLE";
-				if (plr.Score < 0) {died = "DEBT IS INEVITABLE";}
-				else switch(msgrng)
-				{
-					case 1: died = "MEMENTO MORI"; break;
-					case 2: died = "u ded lmao"; break;
-					case 3: died = "rip bozo"; break;
-					case 4: died = "better luck next time"; break;
-					case 5: died = "unlucky"; break;
-					case 6: died = "99% of players died here"; break;
-					case 7: died = "your life has expired"; break;
-				}
-				int scaley = (bigfont.GetHeight() * (CleanYFac * 1.3)) / 2;
-				Screen.DrawText(bigfont, Font.CR_BRICK,
-					(Screen.GetWidth() / 2) - ((bigfont.StringWidth(died) / 2) * (CleanXFac * 1.3)),
-					(Screen.GetHeight() / diedmove) - scaley,
-					died,
-					DTA_ScaleX, CleanXFac * 1.3,
-					DTA_ScaleY, CleanYFac * 1.3
-				);
-			}
-		}
-		else if (!IsDead)
-		{
-			scoredone = false;
-		}
 	}
 }
