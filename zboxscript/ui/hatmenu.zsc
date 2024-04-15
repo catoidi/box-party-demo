@@ -198,6 +198,7 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		hatimage = "graphics/hat/HATIDLE.png";
 		string hatname = "sprites/Hats/";
 		string hatnamesprite = hatpreview.GetString();
+		double hatScale = 1.0;
 		
 		for (int i = 0; i < BOXHAT_size; ++i)
 		{
@@ -206,22 +207,22 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 				hatname.AppendFormat("%s", BOXHAT_sprite[i]);
 				hatimage = hatname;
 				
+				hatScale = BOXHAT_scale[i].ToDouble();
 				if (BOXHAT_pixels[i] == "16x24") {hatSize = (16, 24);}
 				else
 				{
 					array<string> boxhat_pixelsplit;
 					BOXHAT_pixels[i].Split(boxhat_pixelsplit, "x");
-					int Xpixels = BOXHAT_pixels[0].ToInt(10);
-					int Ypixels = BOXHAT_pixels[1].ToInt(10);
+					int Xpixels = boxhat_pixelsplit[0].ToInt(10);
+					int Ypixels = boxhat_pixelsplit[1].ToInt(10);
 					
-					hatSize = (Xpixels, Ypixels);
-					console.printf("%s, %d, %d", BOXHAT_pixels[i], Xpixels, Ypixels);
+					hatSize = (Xpixels * hatScale, Ypixels * hatScale);
 				}
 			}
 		}
 		
 		hatTexture = hatTexture.CreateTexturePixels(hatimage, (0, 0), (100, 100), true, true);
-		ChosenHat = boxparty_ZF_BoxImage.Create((274, 8), hatSize, hatTexture, (1.0, 1.0));
+		ChosenHat = boxparty_ZF_BoxImage.Create((274, 8), hatSize, hatTexture, (hatScale, hatScale));
 		ChosenHat.Pack (mainFrame);
 	}
 

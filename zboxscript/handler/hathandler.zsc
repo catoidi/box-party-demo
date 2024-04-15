@@ -5,6 +5,7 @@ class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 	override void buttonClickCommand (boxparty_ZF_Button caller, Name command)
     {
 		cvar hatsetting = cvar.FindCVAR('box_hat_current');
+		cvar hatscale = cvar.FindCVAR('box_hat_current_scale');
 		cvar hatcheatmode = cvar.FindCVAR('box_hat_cheat');
 		cvar hatunlocked;
 		int labelnum;
@@ -73,9 +74,13 @@ class boxparty_ZF_HatMenuHandler : boxparty_ZF_Handler
 			{
 				string spritename;
 				string languagehat = "$HAT_SELECT_00";
+				double spritescale = 1.0;
 				if (labelnum == 0) {spritename = "TNT1A0";}
 				else {spritename = link.BOXHAT_sprite[labelnum - 1].Left(6); languagehat = string.Format("$%s", link.BOXHAT_name[labelnum - 1]);}
+				
+				spritescale = link.BOXHAT_scale[labelnum - 1].ToDouble();
 				hatsetting.SetString(spritename);
+				hatscale.SetFloat(spritescale);
 				link.updateHat();
 				link.updateLabel(true, languagehat);
 			}

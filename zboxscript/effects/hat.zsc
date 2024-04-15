@@ -102,6 +102,7 @@ CLASS BoxHatPlayer : BoxHat
 	string spritename;
 	string spriteframe;
 	string spriteangle;
+	float hatscale;
 	static const string alphabet[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "]"}; //all characters you can use sprite frames for, excluding \.
 	static const string rotations[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G"}; //all characters you can use for sprite rotations.
 	
@@ -110,7 +111,9 @@ CLASS BoxHatPlayer : BoxHat
 		if (master.health > 0)
 		{
 			cvar currenthat = cvar.GetCVAR("box_hat_current", master.player);
+			cvar currentscale = cvar.GetCVAR("box_hat_current_scale", master.player);
 			string fullsprite = currenthat.GetString();
+			invoker.hatscale = currentscale.GetFloat();
 			invoker.spritename = fullsprite.Left(4);
 			invoker.spriteframe = fullsprite.Mid(4, 1);
 			invoker.spriteangle = fullsprite.Mid(5, 1);
@@ -173,6 +176,8 @@ CLASS BoxHatPlayer : BoxHat
 		
 		if (master)
 		{
+			scale.x = hatscale;
+			scale.y = hatscale;
 			if (master.health <= 0)
 			{
 				bInvisible = true;

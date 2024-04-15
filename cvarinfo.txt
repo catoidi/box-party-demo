@@ -48,6 +48,7 @@ server noarchive cheat bool box_glowstart = false; //lose all your weapons excep
 user bool box_hat_color = false;
 user bool box_hat_hidelock = false; //hide all locked hats in the hat menu.
 user cheat string box_hat_current = "HATAA1"; //currently selected hat
+user cheat float box_hat_current_scale = 1.0;
 user cheat bool box_hat_cheat = false; //auto-unlock all hats
 user cheat bool box_hat_unlock_00 = true; //not used
 user cheat bool box_hat_unlock_01 = true; //top hat, unlocked by default
