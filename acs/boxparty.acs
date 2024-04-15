@@ -431,6 +431,7 @@ script "beatthedemo" (void)
 	{
 		SetCVAR("box_unlock_modifiers", true);
 		ACS_NamedExecuteAlways("beatthegame", 0, 0, 0, 0);
+		box_gethat("box_plr_unlock_triangle");
 	}
 }
 
@@ -637,6 +638,21 @@ function void DOptionCheck (void)
 		HudMessage(s: "\n\n\n\n\n\n", d:modifiers, l:codeword; HUDMSG_TYPEON, -4, CR_PURPLE, 0.5, 0.675, 2.50, 0.05, 1.0);
 		HudMessage(s: "\n\n\n\n\n\n\n\n\n-", d:scorenum, l:"SCOREDRAIN"; HUDMSG_TYPEON, -5, CR_BRICK, 0.5, 0.675, 2.50, 0.05, 1.0);
 	}
+}
+
+script "circleunlock" (void)
+{
+	int num = GetCVAR("box_circle_progress");
+	num += 1;
+	SetCVAR("box_circle_progress", num);
+	str circlemsg;
+	
+	if (num % 50 == 0)
+	{
+		circlemsg = StrParam(s:"Circle Unlock Progress: (", d:num, s:"/500)");
+		Log(s:circlemsg);
+	}
+	
 }
 
 

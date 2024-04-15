@@ -7,7 +7,7 @@ dimenu_select_playertrio = "Trio";
 dimenu_select_playerprism = "Prism";
 dimenu_select_playerglass = "Glass";
 
-dimenu_locked_playercircle = "\cbComplete the demo to unlock this character.";
+dimenu_locked_playercircle = "\cbCollect 500 health items to unlock this character.";
 dimenu_locked_playertriangle = "\cbComplete the demo to unlock this character.";
 dimenu_locked_playertrio = "\cgThis character is not available in the demo.";
 dimenu_locked_playerprism = "\cgThis character is not available in the demo.";
