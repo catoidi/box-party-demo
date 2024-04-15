@@ -595,8 +595,15 @@ script "pacifistitem" ENTER
 
 script "murdercheck" (void)
 {
+	if (IsPacifist()) {SetResultValue(false);}
+	else {SetResultValue(true);}
+}
+
+function bool IsPacifist (void)
+{
 	int murders;
 	int earlybird;
+	bool ret;
 	for (int p = 7500; p < 7508; p++)
 	{
 		if (PlayerInGame(p - 7500))
@@ -606,8 +613,10 @@ script "murdercheck" (void)
 		}
 	}
 	
-	if ((murders == 0) && (earlybird > 0)) {SetResultValue(false);}
-	else {SetResultValue(true);}
+	if ((murders == 0) && (earlybird > 0)) {ret = true;}
+	else {ret = false;}
+	
+	return ret;
 }
 
 function void DOptionCheck (void)

@@ -193,7 +193,7 @@ CLASS BoxBoss : BoxMonster abstract
 	
 	action void A_BossPacifism(void)
 	{
-		if ((ACS_NamedExecuteWithResult("pacifismcheck") == true) && (invoker.Health == GetMaxHealth(true)))
+		if ((ACS_NamedExecuteWithResult("murdercheck") == false) && (invoker.Health == GetMaxHealth(true)))
 		{
 			invoker.pacified += 1;
 			if (invoker.pacified == 1)

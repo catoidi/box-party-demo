@@ -623,17 +623,17 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 			//this is the part where i slap down a wall of else-if's, because i am good at coding.
 			if ((playername == "dumb") || (playername == "idiot") || (playername == "stupid"))
 			{
-				if (name_idiot.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_20");}
+				if (name_idiot.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_20");}
 				name_idiot.SetBool(true);
 			}
 			if (playername == "idkfa")
 			{
-				if (name_helmet.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_21");}
+				if (name_helmet.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_21");}
 				name_helmet.SetBool(true);
 			}
 			if (playername == ":(")
 			{
-				if (name_sad.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_22");}
+				if (name_sad.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_22");}
 				name_sad.SetBool(true);
 			}
 			//an extra way to unlock monthly hats.
@@ -658,51 +658,51 @@ CLASS boxparty_HatMenu : boxparty_ZF_GenericMenu
 		switch (timemonth)
 		{
 			case 1:
-				if (isnewyear.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_01");}
+				if (isnewyear.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_01");}
 				isnewyear.SetBool(true);
 				break;
 			case 2:
-				if (isvalentine.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_02");}
+				if (isvalentine.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_02");}
 				isvalentine.SetBool(true);
 				break;
 			case 3:
-				if (istrans.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_03");}
+				if (istrans.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_03");}
 				istrans.SetBool(true);
 				break;
 			case 4:
-				if (isbread.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_04");}
+				if (isbread.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_04");}
 				isbread.SetBool(true);
 				break;
 			case 5:
-				if (ismay5.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_05");}
+				if (ismay5.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_05");}
 				ismay5.SetBool(true);
 				break;
 			case 6:
-				if (ispride.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_06");}
+				if (ispride.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_06");}
 				ispride.SetBool(true);
 				break;
 			case 7:
-				if (isburger.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_07");}
+				if (isburger.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_07");}
 				isburger.SetBool(true);
 				break;
 			case 8:
-				if (ismarshmallow.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_08");}
+				if (ismarshmallow.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_08");}
 				ismarshmallow.SetBool(true);
 				break;
 			case 9:
-				if (isicecream.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_09");}
+				if (isicecream.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_09");}
 				isicecream.SetBool(true);
 				break;
 			case 10:
-				if (ishalloween.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_10");}
+				if (ishalloween.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_10");}
 				ishalloween.SetBool(true);
 				break;
 			case 11:
-				if (isbirthday.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_13");}
+				if (isbirthday.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_13");}
 				isbirthday.SetBool(true);
 				break;
 			case 12:
-				if (isxmas.GetBool() == false) {doUnlockText("$HAT_SECRETUNLOCK_12");}
+				if (isxmas.GetBool() == false) {doUnlockText("$BOXPOPUP_box_hat_secret_12");}
 				isxmas.SetBool(true);
 				break;
 		}

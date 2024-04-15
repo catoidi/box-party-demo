@@ -36,6 +36,9 @@ Hat = HAT_SELECT_14, HAT_LOCKED_14, box_hat_unlock_14, HATAAE.png, HATBUTTONN.pn
 Hat = HAT_SELECT_15, HAT_LOCKED_15, box_hat_unlock_15, HATAAF.png, HATBUTTONO.png, HATLOCKB.png;
 >>Page 2:
 Hat = HAT_SELECT_16, HAT_LOCKED_16, box_hat_unlock_16, HATAB1.png, HATBUTTON2A.png, HATLOCK2.png;
+Hat = HAT_SEELECT_19, HAT_LOCKED_19, box_hat_unlock_19, HATAB4.png, HATBUTTON2D.png, HATLOCK2.png;
+Hat = HAT_SEELECT_20, HAT_LOCKED_20, box_hat_unlock_20, HATAB5.png, HATBUTTON2E.png, HATLOCK2.png;
+Hat = HAT_SEELECT_21, HAT_LOCKED_21, box_hat_unlock_21, HATAB6.png, HATBUTTON2F.png, HATLOCK2.png;
 >>rest of the hats are in full version :)
 >>Yes, I know these hats are out of order. I messed up during the process of coding the hats and I'm just gonna leave it like this.
 >>Secret Hats:
@@ -47,6 +50,7 @@ Secret = HAT_SECRET_16, box_hat_secret_16, HATAE6.png, HATSECRET16.png;
 Secret = HAT_SECRET_17, box_hat_secret_17, HATAE7.png, HATSECRET17.png;
 Secret = HAT_SECRET_18, box_hat_secret_18, HATAF1.png, HATSECRET18.png;
 Secret = HAT_SECRET_19, box_hat_secret_19, HATAF2.png, HATSECRET19.png;
+Secret = HAT_SECRET_FRED, box_hat_secret_fred, HATAF6.png, FREDHAT.png;
 >>these are monthly hats:
 Secret = HAT_SECRET_01, box_hat_secret_01, HATAE2.png, HATSECRET01.png;
 Secret = HAT_SECRET_02, box_hat_secret_02, HATAE8.png, HATSECRET02.png;
