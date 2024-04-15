@@ -35,9 +35,15 @@ bool quest3done = false;
 
 int qdone = 0;
 
+int circleprogress = 0;
+bool circledone = false;
+
 SCRIPT "playerscript" ENTER
 {
 	SetAirControl(1.0);
+	
+	circleprogress = GetCVAR("box_circle_progress");
+	circledone = GetCVAR("box_plr_unlock_circle");
 	
 	if (GetCVAR("box_checkbadcvar") == 1) { ACS_NamedExecute("CheckBadCVar", 0, 0, 0, 0); }
 	//warns player if using a setting that can break compatibility with box party levels.
@@ -432,6 +438,7 @@ script "beatthedemo" (void)
 		SetCVAR("box_unlock_modifiers", true);
 		ACS_NamedExecuteAlways("beatthegame", 0, 0, 0, 0);
 		box_gethat("box_plr_unlock_triangle");
+		SetCVAR("box_plr_unlock_triangle", true);
 	}
 }
 
@@ -642,17 +649,24 @@ function void DOptionCheck (void)
 
 script "circleunlock" (void)
 {
-	int num = GetCVAR("box_circle_progress");
-	num += 1;
-	SetCVAR("box_circle_progress", num);
+	circleprogress += 1;
+	SetCVAR("box_circle_progress", circleprogress);
 	str circlemsg;
 	
-	if (num % 50 == 0)
+	if (circledone == false)
 	{
-		circlemsg = StrParam(s:"Circle Unlock Progress: (", d:num, s:"/500)");
-		Log(s:circlemsg);
+		if (circleprogress % 50 == 0)
+		{
+			circlemsg = StrParam(s:"Circle Unlock Progress: (", d:circleprogress, s:"/500)");
+			Log(s:circlemsg);
+		}
+		if (circleprogress >= 500)
+		{
+			box_gethat("box_plr_unlock_circle");
+			SetCVAR("box_plr_unlock_circle", true);
+			circledone = true;
+		}
 	}
-	
 }
 
 

@@ -5,6 +5,8 @@ HAT_MISSING = "wait for the full version for more hats :)";
 
 //These are for the unlock popups.
 //Name is generated using the name of the hat cvar.
+BOXPOPUP_box_plr_unlock_circle = "Circle";
+BOXPOPUP_box_plr_unlock_triangle = "Triangle";
 BOXPOPUP_box_hat_unlock_02 = "Mini Box";
 BOXPOPUP_box_hat_unlock_03 = "Mini Circle";
 BOXPOPUP_box_hat_unlock_04 = "Mini Triangle";
